@@ -4,3 +4,5 @@ testresn null $spid getres spy setthing ITEM_SPAWNPOINT $spid coordy
 testresn null $spid getres nid getnewitemid
 testresn null $spid exec scripts/spawnpointgiverpm $nid $spx $spy
 testresn null $spid echo scorepoint spawned!
+testresn null $spid getres lim sumlong $gametimemillis 10000
+testresn null $spid foreachlong bt $gametimemillis $lim 1000 scheduleevent $bt foreachclient cli setthing THING_PLAYER $cli attack_target_type ITEM_POINTGIVER

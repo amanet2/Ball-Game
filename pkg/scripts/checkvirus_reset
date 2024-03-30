@@ -1,5 +1,4 @@
 foreachclient pid setnstate $pid virus 0
 foreachclient pid setnplayer $pid decorationsprite null
-REM gives random player the virus
-REM getres rando getrandclid
-REM testresn $rando null setnstate $rando virus 1
+foreachclient pid setnplayer $pid weapon $weap_shotgun
+foreachclient pid setnplayer $pid ammo 4

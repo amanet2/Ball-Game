@@ -1,7 +1,6 @@
 import java.awt.*;
 
 public class gItem extends gThing {
-    int occupied = 0;
     String flare;
     String script;
 
@@ -46,6 +45,9 @@ public class gItem extends gThing {
         else if(sSettings.show_mapmaker_ui){
             dFonts.setFontColor(g2, "clrf_spawnpoint");
             g2.fillRect(coords[0], coords[1], dims[0], dims[1]);
+            dFonts.setFontSmall(g2);
+            g2.setColor(Color.BLACK);
+            g2.drawString(type, coords[0], coords[1] + dims[1]/2);
         }
     }
 

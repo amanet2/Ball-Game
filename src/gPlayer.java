@@ -4,10 +4,89 @@ import java.awt.geom.Rectangle2D;
 
 public class gPlayer extends gThing {
     gThing collidedPlayer = null;
+    String attackTargetType = "THING_PLAYER";
+    String attackTargetId = "null";
     String decorationSprite = "null";
     int weapon = gWeapons.none;
     long botThinkTime = 0;
     long botShootTime = 0;
+
+    public int getDistanceToThing(gThing target) {
+        int x1 = coords[0];
+        int y1 = coords[1];
+        int x2 = target.coords[0];
+        int y2 = target.coords[1];
+        return (int) Math.sqrt(Math.pow(x2-x1, 2) + Math.pow(y2-y1, 2));
+    }
+
+    public void attackClosestTargetThing() {
+        String thingType = attackTargetType;
+        if(xMain.shellLogic.serverScene.getThingMap(thingType) == null)
+            return;
+        gThing closest = null;
+        int closestDist = 1000000;
+        if(xMain.shellLogic.serverScene.getThingMap(thingType).containsKey(attackTargetId)) {
+           closest = xMain.shellLogic.serverScene.getThingMap(thingType).get(attackTargetId);
+           closestDist = getDistanceToThing(closest);
+        }
+        else {
+            for (String oid : xMain.shellLogic.serverScene.getThingMap(thingType).keySet()) {
+                if (id.equals(oid))
+                    continue;
+                gThing dst = xMain.shellLogic.serverScene.getThingMap(thingType).get(oid);
+                int dist = getDistanceToThing(dst);
+                if (dist < closestDist) {
+                    closest = dst;
+                    closestDist = dist;
+                }
+            }
+        }
+        if(closest != null) {
+            if(closest.coords[1] > coords[1]) {
+                mov0 = 0;
+                mov1 = 1;
+            }
+            else if(closest.coords[1] < coords[1]){
+                mov0 = 1;
+                mov1 = 0;
+            }
+            else {
+                mov0 = 0;
+                mov1 = 0;
+            }
+            if(closest.coords[0] > coords[0]) {
+                mov2 = 0;
+                mov3 = 1;
+            }
+            else if(closest.coords[0] < coords[0]){
+                mov2 = 1;
+                mov3 = 0;
+            }
+            else {
+                mov2 = 0;
+                mov3 = 0;
+            }
+            //point at target
+            double bdx = closest.coords[0] + closest.dims[0]/2 - coords[0] + dims[0]/2;
+            double bdy = closest.coords[1] + closest.dims[1]/2 - coords[1] + dims[1]/2;
+            double angle = Math.atan2(bdy, bdx);
+            if (angle < 0)
+                angle += 2*Math.PI;
+            angle += Math.PI/2;
+            double randomOffset = Math.random()*3;
+            if(randomOffset > 2)
+                angle -= Math.PI/8;
+            else if(randomOffset > 1)
+                angle += Math.PI/8;
+            fv = angle;
+            //attack
+            if(closestDist < sSettings.botShootRange && botShootTime < sSettings.gameTime) {
+                botShootTime = sSettings.gameTime + gWeapons.fromCode(weapon).refiredelay;
+                xMain.shellLogic.serverNetThread.addNetCmd("server", String.format("fireweapon %s %d", id, weapon));
+                xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", String.format("cl_fireweapon %s %d", id, weapon));
+            }
+        }
+    }
 
     public boolean wontClipOnMove(int dx, int dy, gScene scene) {
         for(String id : scene.getThingMap("BLOCK_COLLISION").keySet()) {
@@ -98,6 +177,22 @@ public class gPlayer extends gThing {
             }
             public String getValue() {
                 return Integer.toString(parent.weapon);
+            }
+        });
+        args.putArg(new gArg("attack_target_type", "THING_PLAYER") {
+            public void onChange() {
+                attackTargetType = value;
+            }
+            public String getValue() {
+                return attackTargetType;
+            }
+        });
+        args.putArg(new gArg("attack_target_id", "null") {
+            public void onChange() {
+                attackTargetId = value;
+            }
+            public String getValue() {
+                return attackTargetId;
             }
         });
     }

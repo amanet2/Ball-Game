@@ -6,6 +6,7 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
     final gScheduler scheduledEvents;
 
     public eGameLogicSimulation() {
+        super();
         cmdQueue = new LinkedList<>();
         scheduledEvents = new gScheduler();
     }
@@ -34,102 +35,23 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
     }
 
     private void checkGameItems() {
-        ConcurrentHashMap<String, gThing> playerMap = xMain.shellLogic.serverScene.getThingMap("THING_PLAYER");
         ConcurrentHashMap<String, gThing> itemsMap = xMain.shellLogic.serverScene.getThingMap("THING_ITEM");
-        ConcurrentHashMap<String, gThing> balldepositmap = xMain.shellLogic.serverScene.getThingMap("ITEM_BALLDEPOSIT");
-        ConcurrentHashMap<String, gThing> ballmap = xMain.shellLogic.serverScene.getThingMap("ITEM_BALL");
+        ConcurrentHashMap<String, gThing> playerMap = xMain.shellLogic.serverScene.getThingMap("THING_PLAYER");
         //TODO: fix concurrent modification by capturing a copy of the keyset and iterating over that instead
         ArrayList<String> itemKeySetCopy = new ArrayList<>(itemsMap.keySet());
-        ArrayList<String> balldepositkeysetcopy = new ArrayList<>(balldepositmap.keySet());
-        ArrayList<String> ballkeysetcopy = new ArrayList<>(ballmap.keySet());
         ArrayList<String> playerKeySetCopy = new ArrayList<>(playerMap.keySet());
         for(String iid : itemKeySetCopy) {
             gItem item = (gItem) itemsMap.get(iid);
             item.occupied = 0;
-            updateThingPosition(item, sSettings.gameTime);
             for(String pid : playerKeySetCopy) {
                 if(!playerMap.containsKey(pid))
                     continue;
                 gPlayer player = (gPlayer) playerMap.get(pid);
-                if(!item.type.equals("ITEM_BALLDEPOSIT") && player.collidesWithThing(item))
+                if(player.collidesWithThing(item))
                     item.activateItem(player);
             }
         }
-        for(String bdid : balldepositkeysetcopy) {
-            gItem bd = (gItem) balldepositmap.get(bdid);
-            for(String id : ballkeysetcopy) {
-                gItem b = (gItem) itemsMap.get(id);
-                if(bd.collidesWithThing(b)) {
-                    bd.activateItem(b);
-                }
-            }
-        }
     }
-
-    private void updateThingPosition(gThing obj, long gameTimeMillis) {
-            if(obj == null || !obj.type.equals("ITEM_BALL"))
-                return;
-            int dx = obj.coords[0] + obj.vel3 - obj.vel2;
-            int dy = obj.coords[1] + obj.vel1 - obj.vel0;
-
-            // TRACKS PLAYER
-//            gPlayer player = xMain.shellLogic.getUserPlayer();
-//            if(player != null) {
-//                if(player.coords[1] > obj.coords[1]) {
-//                    obj.mov0 = 0;
-//                    obj.mov1 = 1;
-//                }
-//                else if(player.coords[1] < obj.coords[1]){
-//                    obj.mov0 = 1;
-//                    obj.mov1 = 0;
-//                }
-//                else {
-//                    obj.mov0 = 0;
-//                    obj.mov1 = 0;
-//                }
-//                if(player.coords[0] > obj.coords[0]) {
-//                    obj.mov2 = 0;
-//                    obj.mov3 = 1;
-//                }
-//                else if(player.coords[0] < obj.coords[0]){
-//                    obj.mov2 = 1;
-//                    obj.mov3 = 0;
-//                }
-//                else {
-//                    obj.mov2 = 0;
-//                    obj.mov3 = 0;
-//                }
-//            }
-
-            if (obj.acceltick < gameTimeMillis) {
-                obj.acceltick = gameTimeMillis + obj.acceldelay;
-                //user player
-                if(obj.mov0 > 0)
-                    obj.vel0 = Math.min(sSettings.clientVelocityPlayerBase, obj.vel0 + obj.accelrate);
-                else
-                    obj.vel0 = Math.max(0, obj.vel0 - obj.decelrate);
-                if(obj.mov1 > 0)
-                    obj.vel1 = Math.min(sSettings.clientVelocityPlayerBase, obj.vel1 + obj.accelrate);
-                else
-                    obj.vel1 = Math.max(0, obj.vel1 - obj.decelrate);
-                if(obj.mov2 > 0)
-                    obj.vel2 = Math.min(sSettings.clientVelocityPlayerBase, obj.vel2 + obj.accelrate);
-                else
-                    obj.vel2 = Math.max(0, obj.vel2 - obj.decelrate);
-                if(obj.mov3 > 0)
-                    obj.vel3 = Math.min(sSettings.clientVelocityPlayerBase, obj.vel3 + obj.accelrate);
-                else
-                    obj.vel3 = Math.max(0, obj.vel3 - obj.decelrate);
-            }
-
-        if(obj.coords[0] != dx || obj.coords[1] != dy) { //want to NOT add a server command every tick here
-            if(obj.botWontClipOnMove(dx, obj.coords[1], xMain.shellLogic.serverScene))
-                obj.coords[0] = dx;
-            if(obj.botWontClipOnMove(obj.coords[0], dy, xMain.shellLogic.serverScene))
-                obj.coords[1] = dy;
-        }
-    }
-
 
     private void updateEntityPositions(long gameTimeMillis) {
         nStateMap svMap = new nStateMap(xMain.shellLogic.serverNetThread.masterStateSnapshot);
@@ -161,10 +83,9 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
                     obj.vel3 = Math.max(0, obj.vel3 - obj.decelrate);
             }
 
-            //TODO: come up with a way to get "normal vector" from surface or player being collided with
+            //TODO: come up with a way to get vector for surface or player being collided with
             // add a "collidedPlayer" arg to gThing and get velocity
-            //TODO UPDATE: Looks good, just need at-rest players to get launched by players colliding into them
-            //TODO UPDATE: looks better, but bounces are restricted to 4 basic dirs
+            //TODO UPDATE: bounces are restricted to 4 basic dirs
             if(obj.wontClipOnMove(dx, obj.coords[1], xMain.shellLogic.serverScene))
                 obj.coords[0] = dx;
             else {
@@ -205,46 +126,8 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
             //bots
             if(sSettings.botsPaused < 1 && obj.id.startsWith("bot") && obj.botThinkTime < sSettings.gameTime) {
                 obj.botThinkTime = sSettings.gameTime + sSettings.botThinkTimeDelay;
-                gPlayer player = getClosestPlayer(obj);
-                if(player != null) {
-                    if(player.coords[1] > obj.coords[1]) {
-                        obj.mov0 = 0;
-                        obj.mov1 = 1;
-                    }
-                    else if(player.coords[1] < obj.coords[1]){
-                        obj.mov0 = 1;
-                        obj.mov1 = 0;
-                    }
-                    else {
-                        obj.mov0 = 0;
-                        obj.mov1 = 0;
-                    }
-                    if(player.coords[0] > obj.coords[0]) {
-                        obj.mov2 = 0;
-                        obj.mov3 = 1;
-                    }
-                    else if(player.coords[0] < obj.coords[0]){
-                        obj.mov2 = 1;
-                        obj.mov3 = 0;
-                    }
-                    else {
-                        obj.mov2 = 0;
-                        obj.mov3 = 0;
-                    }
-                    //point at player
-                    double bdx = player.coords[0] + player.dims[0]/2 - obj.coords[0] + obj.dims[0]/2;
-                    double bdy = player.coords[1] + player.dims[1]/2 - obj.coords[1] + obj.dims[1]/2;
-                    double angle = Math.atan2(bdy, bdx);
-                    if (angle < 0)
-                        angle += 2*Math.PI;
-                    angle += Math.PI/2;
-                    double randomOffset = Math.random()*3;
-                    if(randomOffset > 2)
-                        angle -= Math.PI/8;
-                    else if(randomOffset > 1)
-                        angle += Math.PI/8;
-                    obj.fv = angle;
-                }
+                //default behavior
+                obj.attackClosestTargetThing();
             }
         }
 
@@ -262,32 +145,6 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
             e.printStackTrace();
         }
 
-    }
-
-    public gPlayer getClosestPlayer(gPlayer src) {
-        gPlayer closest = null;
-        int closestDist = 1000000;
-        for(String id : xMain.shellLogic.serverScene.getThingMap("THING_PLAYER").keySet()) {
-            if(id.equals(src.id))
-                continue;
-            gPlayer dst = (gPlayer) xMain.shellLogic.serverScene.getThingMap("THING_PLAYER").get(id);
-            int x1 = src.coords[0];
-            int y1 = src.coords[1];
-            int x2 = dst.coords[0];
-            int y2 = dst.coords[1];
-            int dist = (int) Math.sqrt(Math.pow(x2-x1, 2) + Math.pow(y2-y1, 2));
-            if(dist < closestDist) {
-                closest = dst;
-                closestDist = dist;
-            }
-        }
-        if(closestDist < sSettings.botShootRange && src.botShootTime < sSettings.gameTime) {
-            src.botShootTime = sSettings.gameTime + gWeapons.fromCode(src.weapon).refiredelay;
-            xMain.shellLogic.serverNetThread.addNetCmd("server", String.format("fireweapon %s %d", src.id, src.weapon));
-            xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", String.format("cl_fireweapon %s %d", src.id, src.weapon));
-//            xMain.shellLogic.console.ex(String.format("fireweapon %s %d", src.id, src.weapon));
-        }
-        return closest;
     }
 
     private void checkBulletSplashes() {

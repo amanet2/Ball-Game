@@ -8,40 +8,40 @@ public class dScreenMessages {
         dFonts.setFontSmall(g);
         //scale
         if(sSettings.showscale)
-            g.drawString("ZOOM:" + sSettings.zoomLevel, 0, sSettings.height / 64);
+            dFonts.drawRightJustifiedString(g, "ZOOM:" + sSettings.zoomLevel, 63*sSettings.width/64, sSettings.height/64);
         //fps
         if(sSettings.showfps)
-            g.drawString("FPS:" + sSettings.fpsReport, 0, 2*sSettings.height / 64);
+            dFonts.drawRightJustifiedString(g, "FPS:" + sSettings.fpsReport, 63*sSettings.width/64, 2*sSettings.height / 64);
         //client
         if(sSettings.showtick)
-            g.drawString("SHELL:" + sSettings.tickReport, 0, 3 * sSettings.height / 64);
+            dFonts.drawRightJustifiedString(g, "SHELL:" + sSettings.tickReport, 63*sSettings.width/64, 3 * sSettings.height / 64);
         //net
         if(sSettings.shownet) {
-            g.drawString("CLIENT_NET:" + sSettings.tickReportClient, 0, 4 * sSettings.height / 64);
-            g.drawString("SERVER_NET:" + sSettings.tickReportServer, 0, 5 * sSettings.height / 64);
-            g.drawString("SIMULATION:" + sSettings.tickReportSimulation, 0, 6 * sSettings.height / 64);
-            g.drawString("PING:" + sSettings.clientPing, 0, 7 * sSettings.height / 64);
+            dFonts.drawRightJustifiedString(g, "CLIENT_NET:" + sSettings.tickReportClient, 63*sSettings.width/64, 4 * sSettings.height / 64);
+            dFonts.drawRightJustifiedString(g, "SERVER_NET:" + sSettings.tickReportServer, 63*sSettings.width/64, 5 * sSettings.height / 64);
+            dFonts.drawRightJustifiedString(g, "SIMULATION:" + sSettings.tickReportSimulation, 63*sSettings.width/64, 6 * sSettings.height / 64);
+            dFonts.drawRightJustifiedString(g, "PING:" + sSettings.clientPing, 63*sSettings.width/64, 7 * sSettings.height / 64);
         }
         if(sSettings.showcam) {
             //camera
             String camstring = String.format("Cam: %d,%d",
-                    gCamera.coords[0], gCamera.coords[1]);
-            g.drawString(camstring,0, 8 * sSettings.height / 64);
+                    (int) gCamera.coords[0], (int) gCamera.coords[1]);
+            dFonts.drawRightJustifiedString(g, camstring,63*sSettings.width/64, 8 * sSettings.height / 64);
         }
         if(sSettings.showmouse) {
             int[] mc = uiInterface.getMouseCoordinates();
             if(sSettings.show_mapmaker_ui)
-                g.drawString(String.format("Mouse: %d,%d", uiInterface.getPlaceObjCoords()[0],
-                        uiInterface.getPlaceObjCoords()[1]),0,9*sSettings.height/64);
+                dFonts.drawRightJustifiedString(g, String.format("Mouse: %d,%d", uiInterface.getPlaceObjCoords()[0],
+                        uiInterface.getPlaceObjCoords()[1]),63*sSettings.width/64,9*sSettings.height/64);
             else
-                g.drawString(String.format("Mouse: %d,%d",eUtils.unscaleInt(mc[0]) + gCamera.coords[0],
-                        eUtils.unscaleInt(mc[1]) + gCamera.coords[1]),0,9*sSettings.height/64);
+                dFonts.drawRightJustifiedString(g, String.format("Mouse: %d,%d",eUtils.unscaleInt(mc[0]) + (int) gCamera.coords[0],
+                        eUtils.unscaleInt(mc[1]) + (int) gCamera.coords[1]),63*sSettings.width/64,9*sSettings.height/64);
         }
         if(sSettings.showplayer && xMain.shellLogic.getUserPlayer() != null) {
-            g.drawString(String.format("Player: %d,%d",
+            dFonts.drawRightJustifiedString(g, String.format("Player: %d,%d",
                     xMain.shellLogic.getUserPlayer().coords[0],
                     xMain.shellLogic.getUserPlayer().coords[1]),
-                    0,10*sSettings.height/64);
+                    63*sSettings.width/64,10*sSettings.height/64);
         }
         //ingame messages
         dFonts.setFontColor(g, "clrf_normal");
@@ -49,7 +49,7 @@ public class dScreenMessages {
             dHUD.drawHUD(g);
         //timer
         dFonts.setFontLarge(g);
-        if(!sSettings.showscore && sSettings.inplay && sSettings.clientMapLoaded) {
+        if(sSettings.inplay && sSettings.clientMapLoaded) {
             g.setColor(Color.BLACK);
             g.drawString(eUtils.getTimeString(sSettings.clientTimeLeft), sSettings.width / 128 + 2, sSettings.height / 12 + 2);
             dFonts.setFontLarge(g);

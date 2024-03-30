@@ -122,7 +122,7 @@ public class uiMenus {
                                 text = String.format("Resolution: [%dx%d]", sSettings.width, sSettings.height);
                             }
                         },
-                        new uiMenuItem(String.format("Framerate [%d]",sSettings.framerate)) {
+                        new uiMenuItem(String.format("Framerate [%d]",sSettings.rateShell)) {
                             public void doItem() {
                                 selectedMenu = MENU_FRAMERATE;
                             }
@@ -166,8 +166,8 @@ public class uiMenus {
         ) {
             public void refresh() {
                 setMenuItemTexts(new String[]{
-                        String.format("Resolution [%dx%d]",sSettings.width,sSettings.height),
-                        String.format("Framerate [%d]",sSettings.framerate),
+                        String.format("Resolution [%dx%d]", sSettings.width,sSettings.height),
+                        String.format("Framerate [%d]", sSettings.rateShell),
                         String.format("Borderless [%s]", sSettings.borderless ? "X" : "  "),
                         String.format("Animations [%s]", sSettings.vfxenableanimations ? "X" : "  "),
                         String.format("Flares [%s]", sSettings.vfxenableflares ? "X" : "  "),
@@ -356,13 +356,13 @@ public class uiMenus {
         new uiMenu(
                 "Credits",
                 new uiMenuItem[] {
-                        new uiMenuItem("Ballmaster 2021-2023"),
-                        new uiMenuItem("Programming and Design by Anthony Manetti"),
-                        new uiMenuItem("SFX by Kevin Fowler (hitrison.itch.io)"),
-                        new uiMenuItem("SFX from mixkit.io"),
-                        new uiMenuItem("VFX by Anthony Manetti"),
+                        new uiMenuItem("Ballmaster 2021-2024"),
+                        new uiMenuItem("Programming and Design by stallionusa (stallionusa.itch.io)"),
                         new uiMenuItem("VFX by drummyfish (opengameart.org)"),
-                        new uiMenuItem("VFX by Master484 (opengameart.org)")
+                        new uiMenuItem("VFX by Master484 (opengameart.org)"),
+                        new uiMenuItem("VFX by stallionusa (stallionusa.itch.io)"),
+                        new uiMenuItem("SFX by Kevin Fowler (hitrison.itch.io)"),
+                        new uiMenuItem("SFX from mixkit.io")
                 },
                 MENU_MAIN
         ),
@@ -435,7 +435,8 @@ public class uiMenus {
             items[items.length-1] = new uiMenuItem(sSettings.resolutions[i]){
                 public void doItem() {
                     String[] toks = text.split("x");
-                    xMain.shellLogic.console.ex(String.format("cl_setvar vidmode %s,%s,%d", toks[0], toks[1], sSettings.framerate));
+                    xMain.shellLogic.console.ex("cl_setvar width " + toks[0]);
+                    xMain.shellLogic.console.ex("cl_setvar height " + toks[1]);
                     menuSelection[MENU_VIDEO].items[0].refreshText();
                     selectedMenu = MENU_VIDEO;
                 }
@@ -445,19 +446,11 @@ public class uiMenus {
     }
     
     private static uiMenuItem[] getFramerateMenuItems() {
-        uiMenuItem[] items = new uiMenuItem[]{
-                new uiMenuItem("<None>") {
-                    public void doItem() {
-                        sSettings.framerate = -1;
-                        selectFramerateAfterSubmit();
-                    }
-                }
-        };
+        uiMenuItem[] items = new uiMenuItem[sSettings.framerates.length];
         for(int i = 0; i < sSettings.framerates.length; i++){
-            items = Arrays.copyOf(items,items.length+1);
-            items[items.length-1] = new uiMenuItem(Integer.toString(sSettings.framerates[i])){
+            items[i] = new uiMenuItem(Integer.toString(sSettings.framerates[i])){
                 public void doItem() {
-                    sSettings.framerate = Integer.parseInt(text);
+                    xMain.shellLogic.console.ex("cl_setvar refresh " + text);
                     selectFramerateAfterSubmit();
                 }
             };
@@ -466,9 +459,6 @@ public class uiMenus {
     }
     
     private static void selectFramerateAfterSubmit() {
-        xMain.shellLogic.clientVars.put("vidmode",
-                String.format("%d,%d,%d", sSettings.width, sSettings.height,
-                        sSettings.framerate));
         menuSelection[MENU_VIDEO].refresh();
         selectedMenu = MENU_VIDEO;
     }

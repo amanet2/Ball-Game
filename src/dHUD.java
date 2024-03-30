@@ -8,7 +8,7 @@ public class dHUD {
     static int spriteRad = sSettings.height/30;
 
     public static void drawHUD(Graphics g) {
-        if(!sSettings.IS_CLIENT || !sSettings.clientMapLoaded || sSettings.showscore)
+        if(!sSettings.IS_CLIENT || !sSettings.clientMapLoaded)
             return;
         nStateMap clStateMap = new nStateMap(xMain.shellLogic.clientNetThread.clientStateSnapshot);
         nState userState = clStateMap.get(sSettings.uuid);
@@ -28,8 +28,16 @@ public class dHUD {
                 g.fillRect(marginX + ctr*(hpbarwidth + sSettings.width/64),28 * sSettings.height/32,
                         hpbarwidth*Integer.parseInt(clState.get("hp"))/ sSettings.clientMaxHP,
                         sSettings.height/24);
-            dFonts.setFontLarge(g);
+            //name
+            dFonts.setFontNormal(g);
+            g.setColor(Color.BLACK);
+            g.drawString(clState.get("name"),
+                    marginX + ctr*(hpbarwidth + sSettings.width/64) + 3, 55*sSettings.height/64 + 3);
+            g.setColor(gColors.getColorFromName("clrp_" + clState.get("color")));
+            g.drawString(clState.get("name"),
+                    marginX + ctr*(hpbarwidth + sSettings.width/64), 55*sSettings.height/64);
             //score
+            dFonts.setFontLarge(g);
             if(clState.contains("score")) {
                 g.setColor(Color.BLACK);
                 g.drawString(clState.get("score").split(":")[1],
@@ -83,9 +91,9 @@ public class dHUD {
             h = pfd[1];
         }
         int px = eUtils.roundToNearest(eUtils.unscaleInt(mousex - window_offsetx)
-                + gCamera.coords[0] - w/2, uiEditorMenus.snapToX);
+                + (int) gCamera.coords[0] - w/2, uiEditorMenus.snapToX);
         int py = eUtils.roundToNearest(eUtils.unscaleInt(mousey - window_offsety)
-                + gCamera.coords[1] - h/2, uiEditorMenus.snapToY);
+                + (int) gCamera.coords[1] - h/2, uiEditorMenus.snapToY);
         sSettings.clientPrevX = px;
         sSettings.clientPrevY = py;
         sSettings.clientPrevW = w;
@@ -254,8 +262,17 @@ public class dHUD {
         g.fillRect(0,0,sSettings.width,sSettings.height);
         dFonts.setFontColor(g, "clrf_normal");
         dFonts.drawCenteredString(g, sSettings.clientGameModeTitle + " - " + sSettings.clientGameModeText, sSettings.width/2, 2*spriteRad);
+        g.setColor(Color.BLACK);
+        g.drawString(clStateMap.keys().size() + " players", sSettings.width/3+3,5*spriteRad+3);
+        dFonts.setFontColor(g, "clrf_normal");
         g.drawString(clStateMap.keys().size() + " players", sSettings.width/3,5*spriteRad);
+        g.setColor(Color.BLACK);
+        g.drawString("                           Wins",sSettings.width/3+3,5*spriteRad+3);
+        dFonts.setFontColor(g, "clrf_normal");
         g.drawString("                           Wins",sSettings.width/3,5*spriteRad);
+        g.setColor(Color.BLACK);
+        g.drawString("                                       Score",sSettings.width/3+3,5*spriteRad+3);
+        dFonts.setFontColor(g, "clrf_normal");
         g.drawString("                                       Score",sSettings.width/3,5*spriteRad);
         g.drawString(dividerString,
                 sSettings.width/3, 11*sSettings.height/60);
@@ -292,7 +309,7 @@ public class dHUD {
             int height = sSettings.height / 30;
             String ck = clStateMap.get(id).get("color");
             Color color = gColors.getColorFromName("clrp_" + ck);
-            dFonts.drawPlayerNameScoreboard(g, hudName, coordx, coordy, color);
+            dFonts.drawScoreBoardPlayerLine(g, hudName, coordx, coordy, color);
             g.setColor(color);
             if(isMe) {
                 Polygon myArrow = new Polygon(
@@ -300,13 +317,19 @@ public class dHUD {
                         new int[]{coordy - height, coordy - height/2, coordy},
                         3
                 );
+                myArrow.translate(3,3);
+                g.setColor(Color.BLACK);
+                g.fillPolygon(myArrow);
+                myArrow.translate(-3,-3);
                 g.setColor(color);
                 g.fillPolygon(myArrow);
             }
-            g.drawString("                           "
-                            + clStateMap.get(id).get("score").split(":")[0], sSettings.width/3, coordy);
-            g.drawString("                                       "
-                            + clStateMap.get(id).get("score").split(":")[1], sSettings.width/3, coordy);
+            dFonts.drawScoreBoardPlayerLine(g,
+                    "                           " + clStateMap.get(id).get("score").split(":")[0],
+                    sSettings.width/3, coordy, color);
+            dFonts.drawScoreBoardPlayerLine(g,
+                    "                                       " + clStateMap.get(id).get("score").split(":")[1],
+                    sSettings.width/3, coordy, color);
             dFonts.setFontColor(g, "clrf_normal");
             if(isMe)
                 isMe = false;

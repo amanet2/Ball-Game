@@ -85,7 +85,7 @@ public class xCon {
         commands.put("activatemenu", new gDoable() {
             public String doCommand(String fullCommand) {
                 if(!sSettings.inplay && !sSettings.show_mapmaker_ui) {
-                    ex("playsound sounds/tap.wav");
+                    ex("playsound sounds/bfg2.wav");
                     uiMenus.menuSelection[uiMenus.selectedMenu].items[
                             uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem].doItem();
                 }
@@ -185,45 +185,6 @@ public class xCon {
                     }
                 }
                 return "cannot bindrelease ";
-            }
-        });
-        commands.put("bounceplayers", new gDoable() {
-            public String doCommand(String fullCommand) {
-                String[] toks = fullCommand.split(" ");
-                if(toks.length >= 3) {
-                    String id1 = toks[1];
-                    String id2 = toks[2];
-                    gThing obj1  = xMain.shellLogic.serverScene.getPlayerById(id2);
-                    gThing obj2  = xMain.shellLogic.serverScene.getThingMap("ITEM_BALL").get(id1);
-                    if(obj1 != null && obj2 != null) {
-                        if(obj1.vel2 > obj1.vel3) {
-                            if(obj2.mov0 == 0 && obj2.mov1 == 0 && obj2.mov2 == 0 && obj2.mov3 == 0)
-                                obj2.vel2 = Math.max(0, obj1.vel2 - 1);
-                            obj1.vel3 = Math.max(0, obj2.vel3 + obj1.vel2/2 - obj1.vel0/2 - obj1.vel1/2); //bounce
-                            obj1.vel2 = 0;
-                        }
-                        else {
-                            if(obj2.mov0 == 0 && obj2.mov1 == 0 && obj2.mov2 == 0 && obj2.mov3 == 0)
-                                obj2.vel3 = Math.max(0, obj1.vel3 - 1);
-                            obj1.vel2 = Math.max(0, obj2.vel2 + obj1.vel3/2 - obj1.vel0/2 - obj1.vel1/2); //bounce
-                            obj1.vel3 = 0;
-                        }
-                        if(obj1.vel0 > obj1.vel1) {
-                            if(obj2.mov0 == 0 && obj2.mov1 == 0 && obj2.mov2 == 0 && obj2.mov3 == 0)
-                                obj2.vel0 = Math.max(0, obj1.vel0 - 1);
-                            obj1.vel1 = Math.max(0, obj2.vel1 + obj1.vel0/2 - obj1.vel2/2 - obj1.vel3/2); //bounce
-                            obj1.vel0 = 0;
-                        }
-                        else {
-                            if(obj2.mov0 == 0 && obj2.mov1 == 0 && obj2.mov2 == 0 && obj2.mov3 == 0)
-                                obj2.vel1 = Math.max(0, obj1.vel1 - 1);
-                            obj1.vel0 = Math.max(0, obj2.vel0 + obj1.vel1/2 - obj1.vel2/2 - obj1.vel3/2); //bounce
-                            obj1.vel1 = 0;
-                        }
-                    }
-                    return "bounced players: " + id1 + " " + id2;
-                }
-                return "usage: bounceplayer <id1> <id2>";
             }
         });
         commands.put("changemap", new gDoable() {
@@ -379,10 +340,9 @@ public class xCon {
                         //more server-side stuff
                         int dcx = player.coords[0];
                         int dcy = player.coords[1];
-                        ex("deleteplayer " + id);
                         if(shooterid.length() < 1)
                             shooterid = "null";
-                        ex("exec scripts/sv_handledestroyplayer " + id + " " + shooterid);
+                        ex("deleteplayer " + id + " " + shooterid);
                         int animInd = gAnimations.ANIM_EXPLOSION_REG;
                         String colorName = playerState.get("color");
                         if(gAnimations.colorNameToExplosionAnimMap.containsKey(colorName))
@@ -433,7 +393,10 @@ public class xCon {
                 String[] toks = fullCommand.split(" ");
                 if(toks.length > 1) {
                     String id = toks[1];
-                    ex("exec scripts/sv_handledeleteplayer " + id);
+                    String kid = "";
+                    if(toks.length > 2)
+                        kid = toks[2];
+                    ex("exec scripts/sv_handledeleteplayer " + id + " " + kid);
                     xMain.shellLogic.serverScene.getThingMap("THING_PLAYER").remove(id);
                     xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_"+fullCommand);
                 }
@@ -857,7 +820,7 @@ public class xCon {
                         if(!sSettings.IS_CLIENT) {
                             //offline mode do this
                             uiMenus.selectedMenu = uiMenus.MENU_QUIT;
-                            ex("playsound sounds/goodwork.wav");
+                            ex("playsound sounds/bfg2.wav");
                         }
                         else
                             ex("pause");
@@ -866,7 +829,7 @@ public class xCon {
                         if(gMessages.enteringMessage)
                             gMessages.cancelEnterMessage();
                         uiMenus.selectedMenu = uiMenus.menuSelection[uiMenus.selectedMenu].parentMenu;
-                        ex("playsound sounds/goodwork.wav");
+                        ex("playsound sounds/bfg2.wav");
                     }
                 }
                 return fullCommand;
@@ -940,9 +903,9 @@ public class xCon {
                                 int[] pfd = dHUD.getNewPrefabDims();
                                 int w = pfd[0];
                                 int h = pfd[1];
-                                int pfx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0]) + gCamera.coords[0] - w / 2,
+                                int pfx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0]) + (int) gCamera.coords[0] - w / 2,
                                         uiEditorMenus.snapToX);
-                                int pfy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + gCamera.coords[1] - h / 2,
+                                int pfy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + (int) gCamera.coords[1] - h / 2,
                                         uiEditorMenus.snapToY);
                                 int bid = 0;
                                 int pid = 0;
@@ -962,9 +925,9 @@ public class xCon {
                             if(uiEditorMenus.newitemname.length() > 0) {
                                 int iw = 300;
                                 int ih = 300;
-                                int ix = eUtils.roundToNearest(eUtils.unscaleInt(mc[0]) + gCamera.coords[0] - iw/2,
+                                int ix = eUtils.roundToNearest(eUtils.unscaleInt(mc[0]) + (int) gCamera.coords[0] - iw/2,
                                         uiEditorMenus.snapToX);
-                                int iy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + gCamera.coords[1] - ih/2,
+                                int iy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + (int) gCamera.coords[1] - ih/2,
                                         uiEditorMenus.snapToY);
                                 String cmd = String.format("putitem %s %d %d %d",
                                         uiEditorMenus.newitemname, xMain.shellLogic.getNewItemIdClient(), ix, iy);
@@ -1063,8 +1026,8 @@ public class xCon {
                     clip.open(AudioSystem.getAudioInputStream(eManager.getAudioFile(eManager.getPath(toks[1]))));
                     if(toks.length > 2) {
                         if(toks.length > 4) {
-                            int diffx = gCamera.coords[0] + eUtils.unscaleInt(sSettings.width)/2-Integer.parseInt(toks[3]);
-                            int diffy = gCamera.coords[1] + eUtils.unscaleInt(sSettings.height)/2-Integer.parseInt(toks[4]);
+                            int diffx = (int) gCamera.coords[0] + eUtils.unscaleInt(sSettings.width)/2-Integer.parseInt(toks[3]);
+                            int diffy = (int) gCamera.coords[1] + eUtils.unscaleInt(sSettings.height)/2-Integer.parseInt(toks[4]);
                             double absdistance = Math.sqrt(Math.pow((diffx), 2) + Math.pow((diffy), 2));
                             double distanceAdj = 1.0 - (absdistance /sfxrange);
                             if(distanceAdj < 0 )
@@ -1235,12 +1198,12 @@ public class xCon {
                 tries++;
                 if(tries > trylimit) {
                     tries = 0;
-                    return "couldn't find available ITEM_SPAWNPOINT";
+                    return "couldn't find available ITEM_PLAYERSPAWN";
                 }
-                String randomSpawnId = ex("getrandthing ITEM_SPAWNPOINT");
+                String randomSpawnId = ex("getrandthing ITEM_PLAYERSPAWN");
                 if(!randomSpawnId.equalsIgnoreCase("null")) {
-                    gThing randomSpawn = xMain.shellLogic.serverScene.getThingMap("ITEM_SPAWNPOINT").get(randomSpawnId);
-                    if(((gItem) randomSpawn).occupied > 0)
+                    gThing randomSpawn = xMain.shellLogic.serverScene.getThingMap("ITEM_PLAYERSPAWN").get(randomSpawnId);
+                    if(randomSpawn.occupied > 0)
                         ex("respawnnetplayer " + toks[1]);
                     else {
                         tries = 0;
@@ -1309,7 +1272,7 @@ public class xCon {
                 if(!sSettings.show_mapmaker_ui && !sSettings.inplay) {
                     uiMenus.menuSelection[uiMenus.selectedMenu].items[uiMenus.menuSelection[
                             uiMenus.selectedMenu].selectedItem].doItem();
-                    ex("playsound sounds/goodwork.wav");
+                    ex("playsound sounds/bfg2.wav");
                 }
                 return fullCommand;
             }
@@ -1361,9 +1324,9 @@ public class xCon {
                 String varname = args[2];
                 String varval = args[3];
                 String giveString = String.format("setthing THING_PLAYER %s %s %s", pid, varname, varval);
-                ex(giveString);
+                String res = ex(giveString);
                 xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_" + giveString);
-                return "player " + pid + " given var '" + varname + "' with value of " + varval;
+                return res;
             }
         });
         commands.put("setthing", new gDoable() {
@@ -1428,6 +1391,12 @@ public class xCon {
                 return xMain.shellLogic.clientVars.get(tk);
             }
         });
+        commands.put("cl_shake", new gDoable() {
+            public String doCommand(String fullCommand) {
+                gCamera.shake();
+                return "1";
+            }
+        });
         commands.put("cl_spawnanimation", new gDoable() {
             public String doCommand(String fullCommand) {
                 if(sSettings.vfxenableanimations) {
@@ -1479,6 +1448,12 @@ public class xCon {
                     newPlayer.color = clState.get("color");
                 newPlayer.setSpriteFromPath(eManager.getPath("animations/player_" + newPlayer.color + "/a03.png"));
                 xMain.shellLogic.clientScene.getThingMap("THING_PLAYER").put(playerId, newPlayer);
+                if (xMain.shellLogic.isUserPlayer(newPlayer)) {
+                    gCamera.snapToWorldCoords(
+                            newPlayer.coords[0] + newPlayer.dims[0] / 2,
+                            newPlayer.coords[1] + newPlayer.dims[1] / 2
+                    );
+                }
                 return "spawned player " + playerId + " at " + x + " " + y;
             }
         });
@@ -1652,13 +1627,13 @@ public class xCon {
         });
         commands.put("zoom", new gDoable() {
             public String doCommand(String fullCommand) {
-//                if(sSettings.show_mapmaker_ui)
-                    sSettings.zoomLevel = Math.min(1.5, sSettings.zoomLevel + 0.5);
+                if(sSettings.show_mapmaker_ui)
+                    sSettings.zoomLevel = Math.min(1.5, sSettings.zoomLevel + 0.25);
                 return "zoom in";
             }
             public String undoCommand(String fullCommand) {
-//                if(sSettings.show_mapmaker_ui)
-                    sSettings.zoomLevel = Math.max(0.5, sSettings.zoomLevel - 0.5);
+                if(sSettings.show_mapmaker_ui)
+                    sSettings.zoomLevel = Math.max(0.25, sSettings.zoomLevel - 0.25);
                 return "zoom out";
             }
         });

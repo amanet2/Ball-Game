@@ -1,8 +1,8 @@
 import java.awt.*;
 
 public class gBlockCube extends gBlock {
-    TexturePaint wallTexture;
-    TexturePaint topTexture;
+//    TexturePaint wallTexture;
+//    TexturePaint topTexture;
     int wallh; //for cubes
     int toph; //for cubes
 
@@ -11,8 +11,8 @@ public class gBlockCube extends gBlock {
         this.type = "BLOCK_CUBE";
         this.toph = toph;
         this.wallh = wallh;
-        this.wallTexture = xMain.shellLogic.wallTexture;
-        this.topTexture = xMain.shellLogic.topTexture;
+//        this.wallTexture = xMain.shellLogic.wallTexture;
+//        this.topTexture = xMain.shellLogic.topTexture;
     }
 
     public void draw(Graphics2D g2) {
@@ -29,7 +29,7 @@ public class gBlockCube extends gBlock {
                     coords[0], coords[1] + dims[1], dims[0], (int)(wallh*sSettings.vfxshadowfactor)
             );
         }
-        g2.setPaint(wallTexture);
+        g2.setPaint(xMain.shellLogic.wallTextures[sSettings.mapTheme]);
         g2.fillRect(coords[0], coords[1] + toph, dims[0], wallh);
         if (sSettings.vfxenableshading) {
             g2.setStroke(dFonts.thickStroke);
@@ -73,7 +73,7 @@ public class gBlockCube extends gBlock {
                 g2.drawRoundRect(coords[0], coords[1] + toph, dims[0], wallh, 5, 5);
             }
         }
-        g2.setPaint(xMain.shellLogic.topTexture);
+        g2.setPaint(xMain.shellLogic.topTextures[sSettings.mapTheme]);
         g2.fillRect(coords[0], coords[1], dims[0], toph);
         dFonts.setFontColor(g2, "clrw_topcolor");
         if(wallh > 0 && wallh < 300)

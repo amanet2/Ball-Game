@@ -63,7 +63,10 @@ public class gWeapon {
     }
 
     public void fireWeapon(gPlayer p, gScene scene) {
-        if(p != null && scene != null)
-            xMain.shellLogic.console.ex(String.format("playsound %s 0 %d %d", soundFilePath,p.coords[0],p.coords[1]));
+        if(p != null && scene != null) {
+            xMain.shellLogic.console.ex(String.format("playsound %s 0 %d %d", soundFilePath, p.coords[0], p.coords[1]));
+            if(sSettings.IS_SERVER && p.ammo-- <= 0 && p.weapon != 5) //special case for boxing gloves
+                xMain.shellLogic.console.ex(String.format("setnplayer %s weapon 0", p.id));
+        }
     }
 }

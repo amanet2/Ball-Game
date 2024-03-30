@@ -10,7 +10,7 @@ public class gThing {
     int[] dims = {0, 0};
     public String id;
     gArgSet args;
-    int acceldelay = 100;
+    int acceldelay = 32;
     int accelrate = 2;
     int decelrate = 1;
     String waypoint = "null";
@@ -27,14 +27,25 @@ public class gThing {
     int mov3 = 0;
     int src = gWeapons.none; //for getting weapon source of a bullet e.g. launcher explosion
     int dmg = 0; //bullets
+    int ammo = 0; //max ammo
     String srcId = "-1"; //bullets
+    int occupied = 0;
 
     public gThing() {
         args = new gArgSet();
         gThing parent = this;
         //args are bindings for what scripts can use
-        args.putArg(new gArg("coords", "0:0") {
+        args.putArg(new gArg("ammo", "0") {
             public void onChange() {
+                parent.ammo = Integer.parseInt(value);
+            }
+
+            public String getValue() {
+                return Integer.toString(parent.ammo);
+            }
+        });
+        args.putArg(new gArg("coords", "0:0") {
+            public void onUpdate() {
                 String[] argCoords = value.split(":");
                 parent.coords = new int[]{Integer.parseInt(argCoords[0]), Integer.parseInt(argCoords[1])};
             }
@@ -44,6 +55,11 @@ public class gThing {
             }
         });
         args.putArg(new gArg("coordx", "0") {
+            public String getValue() {
+                return Integer.toString(parent.coords[0]);
+            }
+        });
+        args.putArg(new gArg("occupied", "0") {
             public String getValue() {
                 return Integer.toString(parent.coords[0]);
             }
@@ -109,23 +125,14 @@ public class gThing {
     }
 
     public boolean coordsWithinBounds(int x, int y) {
-        return (x >= eUtils.scaleInt(coords[0] - gCamera.coords[0])
-                && x <= eUtils.scaleInt(coords[0] - gCamera.coords[0] + dims[0]))
-                && (y >= eUtils.scaleInt(coords[1] - gCamera.coords[1])
-                && y <= eUtils.scaleInt(coords[1] - gCamera.coords[1] + dims[1]));
+        return (x >= eUtils.scaleInt(coords[0] - (int) gCamera.coords[0])
+                && x <= eUtils.scaleInt(coords[0] - (int) gCamera.coords[0] + dims[0]))
+                && (y >= eUtils.scaleInt(coords[1] - (int) gCamera.coords[1])
+                && y <= eUtils.scaleInt(coords[1] - (int) gCamera.coords[1] + dims[1]));
     }
 
     public boolean collidesWithThing(gThing target) {
         return new Rectangle(target.coords[0], target.coords[1], target.dims[0], target.dims[1]).intersects(new Rectangle(coords[0], coords[1], dims[0], dims[1]));
-    }
-
-    public boolean botWontClipOnMove(int dx, int dy, gScene scene) {
-        for(String id : scene.getThingMap("BLOCK_COLLISION").keySet()) {
-            gThing coll = scene.getThingMap("BLOCK_COLLISION").get(id);
-            if(new Rectangle(dx, dy, dims[0], dims[1]).intersects(new Rectangle(coll.coords[0], coll.coords[1], coll.dims[0], coll.dims[1])))
-                return false;
-        }
-        return true;
     }
 
     public void drawRoundShadow(Graphics2D g2) {

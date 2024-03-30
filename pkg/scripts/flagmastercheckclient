@@ -1,2 +1,3 @@
 getres hasflag setnstate $flagmastercheckid flag
 testres $hasflag 1 givepoint $flagmastercheckid
+testres $hasflag 1 foreachclient cli setthing THING_PLAYER $cli attack_target_type THING_PLAYER

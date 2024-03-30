@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class eGameLogicShell extends eGameLogicAdapter {
     private long frameCounterTime = -1;
@@ -22,23 +21,19 @@ public class eGameLogicShell extends eGameLogicAdapter {
     eGameLogicSimulation serverSimulationThread;
     public eGameLogicServer serverNetThread;
     eGameLogicClient clientNetThread;
-    TexturePaint floorTexture;
-    TexturePaint wallTexture;
-    TexturePaint topTexture;
+    TexturePaint[] floorTextures;
+    TexturePaint[] wallTextures;
+    TexturePaint[] topTextures;
 
-    public eGameLogicShell() throws IOException {
+
+    public eGameLogicShell() {
+        super();
         serverVars = new gArgSet();
         clientVars = new gArgSet();
         scriptFactory = new gScriptFactory();
         displayPane = new oDisplay();
         console = new xCon();
         scheduledEvents = new gScheduler();
-        floorTexture = new TexturePaint(ImageIO.read(new File(eManager.getPath("tiles/floor.png"))),
-                new Rectangle2D.Double(0,0,1200, 1200));
-        wallTexture = new TexturePaint(ImageIO.read(new File(eManager.getPath("tiles/wall.png"))),
-                new Rectangle2D.Double(0,0, 300, 300));
-        topTexture = new TexturePaint(ImageIO.read(new File(eManager.getPath("tiles/top.png"))),
-                new Rectangle2D.Double(0,0, 300, 300));
     }
 
     private void initGameObjectsAndScenes() {
@@ -116,34 +111,31 @@ public class eGameLogicShell extends eGameLogicAdapter {
         });
         serverVars.loadFromFile(sSettings.CONFIG_FILE_LOCATION_SERVER);
         serverVars.loadFromLaunchArgs(xMain.launchArgs);
+
         //init client vars
-        clientVars.putArg(new gArg("vidmode", "1920,1080,60") {
+        clientVars.putArg(new gArg("width", "1920") {
             public void onChange() {
-                String[] vidmodetoks = value.split(",");
-                int[] sres = new int[]{
-                        Integer.parseInt(vidmodetoks[0]),
-                        Integer.parseInt(vidmodetoks[1]),
-                        Integer.parseInt(vidmodetoks[2])
-                };
-                sSettings.framerate = sres[2];
-                if(sSettings.width != sres[0] || sSettings.height != sres[1]) {
-                    sSettings.width = sres[0];
-                    sSettings.height = sres[1];
-                    //refresh fonts
-                    dFonts.fontNormal = new Font(clientVars.get("fontui"), Font.PLAIN,
-                            dFonts.size * sSettings.height / sSettings.gamescale);
-                    dFonts.fontGNormal = new Font(clientVars.get("fontui"), Font.PLAIN, dFonts.size);
-                    dFonts.fontSmall = new Font(clientVars.get("fontui"), Font.PLAIN,
-                            dFonts.size *sSettings.height/sSettings.gamescale/2);
-                    dFonts.fontConsole = new Font(dFonts.fontnameconsole, Font.PLAIN,
-                            dFonts.size *sSettings.height/sSettings.gamescale/2);
-                    dFonts.fontLarge = new Font(xMain.shellLogic.clientVars.get("fontui"), Font.PLAIN,
-                            (dFonts.size * sSettings.height / sSettings.gamescale)*2);
-                    if(displayPane.frame != null) {
-                        displayPane.refreshResolution();
-                        dMenus.refreshLogos();
-                    }
+                sSettings.width = Integer.parseInt(value);
+                if(displayPane.frame != null) {
+                    displayPane.refreshResolution();
+                    dMenus.refreshLogos();
                 }
+            }
+        });
+        clientVars.putArg(new gArg("height", "1080") {
+            public void onChange() {
+                sSettings.height = Integer.parseInt(value);
+                dFonts.refreshFonts();
+                if(displayPane.frame != null) {
+                    displayPane.refreshResolution();
+                    dMenus.refreshLogos();
+                }
+            }
+        });
+        clientVars.putArg(new gArg("refresh", "60") {
+            public void onChange() {
+                sSettings.rateShell = Integer.parseInt(value);
+                xMain.shellSession.tickRate = sSettings.rateShell;
             }
         });
         clientVars.putArg(new gArg("audioenabled", "1") {
@@ -230,6 +222,22 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 sSettings.clientMapLoaded = Integer.parseInt(value) > 0;
             }
         });
+        clientVars.putArg(new gArg("mapthemes", sSettings.mapThemes[sSettings.mapTheme]) {
+            public void onChange() {
+                String[] toks = value.split(",");
+                sSettings.mapThemes = new String[toks.length];
+                for(int i = 0; i < toks.length; i++) {
+                    sSettings.mapThemes[i] = toks[i].strip();
+                }
+            }
+        });
+        clientVars.putArg(new gArg("maptheme", Integer.toString(sSettings.mapTheme)) {
+            public void onChange() {
+                int requestedTheme = Integer.parseInt(value);
+                if(sSettings.mapThemes.length > requestedTheme)
+                    sSettings.mapTheme = requestedTheme;
+            }
+        });
         clientVars.putArg(new gArg("maxhp", "500") {
             public void onChange() {
                 sSettings.clientMaxHP = Integer.parseInt(value);
@@ -240,7 +248,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 sSettings.clientVelocityPlayerBase = Integer.parseInt(value);
             }
         });
-        clientVars.putArg(new gArg("framerates", "24,30,60,75,98,120,144,165,240,320,360") {
+        clientVars.putArg(new gArg("framerates", "30,60,120,240,360,540,1000") {
             public void onChange() {
                 String[] toks = value.split(",");
                 sSettings.framerates = new int[toks.length];
@@ -320,6 +328,26 @@ public class eGameLogicShell extends eGameLogicAdapter {
             sSettings.drawhitboxes = true;
             sSettings.drawmapmakergrid = true;
             sSettings.zoomLevel = 0.5;
+            sSettings.showscale = true;
+        }
+        try {
+            floorTextures = new TexturePaint[sSettings.mapThemes.length];
+            wallTextures = new TexturePaint[sSettings.mapThemes.length];
+            topTextures = new TexturePaint[sSettings.mapThemes.length];
+            for(int i = 0; i < sSettings.mapThemes.length; i++) {
+                String floorPath = eManager.getPath(String.format("tiles/floor/%s.png", sSettings.mapThemes[i]));
+                String wallPath = eManager.getPath(String.format("tiles/wall/%s.png", sSettings.mapThemes[i]));
+                String topPath = eManager.getPath(String.format("tiles/top/%s.png", sSettings.mapThemes[i]));
+                floorTextures[i] = new TexturePaint(ImageIO.read(new File(floorPath)),
+                        new Rectangle2D.Double(0,0,300, 300));
+                wallTextures[i] = new TexturePaint(ImageIO.read(new File(wallPath)),
+                        new Rectangle2D.Double(0,0, 300, 300));
+                topTextures[i] = new TexturePaint(ImageIO.read(new File(topPath)),
+                        new Rectangle2D.Double(0,0, 300, 300));
+            }
+        }
+        catch (IOException err) {
+            err.printStackTrace();
         }
         displayPane.showFrame();
         gAnimations.init();
@@ -399,72 +427,79 @@ public class eGameLogicShell extends eGameLogicAdapter {
     }
 
     private void updateEntityPositions(long gameTimeMillis) {
-        if(sSettings.show_mapmaker_ui && getUserPlayer() == null)
-            gCamera.updatePosition();
-        double mod = (double)sSettings.ratesimulation/(double)sSettings.rateShell;
+        gPlayer userPlayer = getUserPlayer();
+        if(sSettings.show_mapmaker_ui && userPlayer == null)
+            gCamera.updatePositionMapmaker();
+        else if(userPlayer != null)
+            gCamera.updatePositionTrackThing(userPlayer);
         synchronized (clientScene.objectMaps) {
             try {
                 for (String id : getPlayerIds()) {
                     gPlayer obj = getPlayerById(id);
-                    if (obj == null)
-                        continue;
-                    int mx = obj.vel3 - obj.vel2;
-                    int my = obj.vel1 - obj.vel0;
-                    int dx = obj.coords[0] + (int) (mx * mod);
-                    int dy = obj.coords[1] + (int) (my * mod);
-                    if (obj.acceltick < gameTimeMillis) {
-                        obj.acceltick = gameTimeMillis + obj.acceldelay;
-                        //user player
-                        if (isUserPlayer(obj)) {
-                            if(obj.mov0 > 0)
-                                obj.vel0 = Math.min(sSettings.clientVelocityPlayerBase, obj.vel0 + obj.accelrate);
-                            else
-                                obj.vel0 = Math.max(0, obj.vel0 - obj.decelrate);
-                            if(obj.mov1 > 0)
-                                obj.vel1 = Math.min(sSettings.clientVelocityPlayerBase, obj.vel1 + obj.accelrate);
-                            else
-                                obj.vel1 = Math.max(0, obj.vel1 - obj.decelrate);
-                            if(obj.mov2 > 0)
-                                obj.vel2 = Math.min(sSettings.clientVelocityPlayerBase, obj.vel2 + obj.accelrate);
-                            else
-                                obj.vel2 = Math.max(0, obj.vel2 - obj.decelrate);
-                            if(obj.mov3 > 0)
-                                obj.vel3 = Math.min(sSettings.clientVelocityPlayerBase, obj.vel3 + obj.accelrate);
-                            else
-                                obj.vel3 = Math.max(0, obj.vel3 - obj.decelrate);
-                        }
-                    }
-                    if (!obj.wontClipOnMove(dx, obj.coords[1], clientScene))
-                        dx = obj.coords[0];
-                    if (!obj.wontClipOnMove(obj.coords[0], dy, clientScene))
-                        dy = obj.coords[1];
-                    if (isUserPlayer(obj))
-                        gCamera.coords = new int[]{
-                                dx + obj.dims[0]/2 - eUtils.unscaleInt(sSettings.width/2),
-                                dy + obj.dims[1]/2 - eUtils.unscaleInt(sSettings.height/2)
-                        };
-                    obj.coords[0] = dx;
-                    obj.coords[1] = dy;
+                    if (obj != null)
+                        updatePlayerPositionShell(obj, gameTimeMillis);
                 }
                 //bullets
                 ConcurrentHashMap<String, gThing> thingMap = clientScene.getThingMap("THING_BULLET");
                 for (String id : thingMap.keySet()) {
-                    gThing obj = thingMap.get(id);
-                    obj.coords[0] -= (int) ((double)gWeapons.fromCode(obj.src).bulletVel*mod*Math.cos(obj.fv+Math.PI/2));
-                    obj.coords[1] -= (int) ((double)gWeapons.fromCode(obj.src).bulletVel*mod*Math.sin(obj.fv+Math.PI/2));
+                    gThing thing = thingMap.get(id);
+                    updateThingPositionFromVelocity(thingMap.get(id), gWeapons.fromCode(thing.src).bulletVel);
                 }
                 checkBulletSplashes();
 //                //popups
                 thingMap = clientScene.getThingMap("THING_POPUP");
                 for (String id : thingMap.keySet()) {
-                    gThing obj = thingMap.get(id);
-                    obj.coords[0] -= (int) (sSettings.velocity_popup*Math.cos(obj.fv+Math.PI/2));
-                    obj.coords[1] -= (int) (sSettings.velocity_popup*Math.sin(obj.fv+Math.PI/2));
+                    updateThingPositionFromVelocity(thingMap.get(id), sSettings.velocity_popup);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void updateThingPositionFromVelocity(gThing thing, double velocity) {
+        if(thing == null)
+            return;
+        double mod = (double)sSettings.ratesimulation/(double)sSettings.rateShell;
+        thing.coords = new int[]{
+                thing.coords[0] - (int) (velocity*mod*Math.cos(thing.fv+Math.PI/2)),
+                thing.coords[1] - (int) (velocity*mod*Math.sin(thing.fv+Math.PI/2))
+        };
+    }
+
+    public void updatePlayerPositionShell(gPlayer obj, long gameTimeMillis) {
+        double mod = (double)sSettings.ratesimulation/(double)sSettings.rateShell;
+        if (obj.acceltick < gameTimeMillis) {
+            obj.acceltick = gameTimeMillis + obj.acceldelay;
+            //user player
+            if (isUserPlayer(obj)) {
+                if(obj.mov0 > 0)
+                    obj.vel0 = Math.min(sSettings.clientVelocityPlayerBase, obj.vel0 + obj.accelrate);
+                else
+                    obj.vel0 = Math.max(0, obj.vel0 - obj.decelrate);
+                if(obj.mov1 > 0)
+                    obj.vel1 = Math.min(sSettings.clientVelocityPlayerBase, obj.vel1 + obj.accelrate);
+                else
+                    obj.vel1 = Math.max(0, obj.vel1 - obj.decelrate);
+                if(obj.mov2 > 0)
+                    obj.vel2 = Math.min(sSettings.clientVelocityPlayerBase, obj.vel2 + obj.accelrate);
+                else
+                    obj.vel2 = Math.max(0, obj.vel2 - obj.decelrate);
+                if(obj.mov3 > 0)
+                    obj.vel3 = Math.min(sSettings.clientVelocityPlayerBase, obj.vel3 + obj.accelrate);
+                else
+                    obj.vel3 = Math.max(0, obj.vel3 - obj.decelrate);
+            }
+        }
+        int velX = obj.vel3 - obj.vel2;
+        int velY = obj.vel1 - obj.vel0;
+        int newX = (int)(obj.coords[0] + ((double)velX * mod));
+        int newY = (int)(obj.coords[1] + ((double)velY * mod));
+        if (!obj.wontClipOnMove(newX, obj.coords[1], clientScene))
+            newX = obj.coords[0];
+        if (!obj.wontClipOnMove(obj.coords[0], newY, clientScene))
+            newY = obj.coords[1];
+        obj.coords = new int[]{newX, newY};
     }
 
     private void checkBulletSplashes() {
@@ -534,7 +569,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
         sSettings.clientSelectedItemId = "";
     }
 
-    private boolean isUserPlayer(gPlayer player) {
+    public boolean isUserPlayer(gPlayer player) {
         return player.id.equals(sSettings.uuid);
     }
 
@@ -553,8 +588,8 @@ public class eGameLogicShell extends eGameLogicAdapter {
     private void pointPlayerAtMousePointer() {
         gPlayer p = getUserPlayer();
         int[] mc = uiInterface.getMouseCoordinates();
-        double dx = mc[0] - eUtils.scaleInt(p.coords[0] + p.dims[0]/2 - gCamera.coords[0]);
-        double dy = mc[1] - eUtils.scaleInt(p.coords[1] + p.dims[1]/2 - gCamera.coords[1]);
+        double dx = mc[0] - eUtils.scaleInt(p.coords[0] + p.dims[0]/2 - (int) gCamera.coords[0]);
+        double dy = mc[1] - eUtils.scaleInt(p.coords[1] + p.dims[1]/2 - (int) gCamera.coords[1]);
         double angle = Math.atan2(dy, dx);
         if (angle < 0)
             angle += 2*Math.PI;

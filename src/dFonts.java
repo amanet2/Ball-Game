@@ -33,7 +33,7 @@ public class dFonts {
         g.drawString(s,x-(int)g.getFont().getStringBounds(s, fontrendercontext).getWidth()/2,y);
     }
 
-    public static void drawPlayerNameScoreboard(Graphics g, String s, int x, int y, Color color) {
+    public static void drawScoreBoardPlayerLine(Graphics g, String s, int x, int y, Color color) {
         g.setColor(Color.BLACK);
         g.drawString(s,x+3,y+3);
         g.setColor(color);
@@ -70,5 +70,16 @@ public class dFonts {
 
     public static void setFontColor(Graphics g, String name) {
         g.setColor(gColors.getColorFromName(name));
+    }
+
+    public static void refreshFonts() {
+        fontNormal = new Font(xMain.shellLogic.clientVars.get("fontui"), Font.PLAIN,
+                size * sSettings.height / sSettings.gamescale);
+        fontGNormal = new Font(xMain.shellLogic.clientVars.get("fontui"), Font.PLAIN, size);
+        fontSmall = new Font(xMain.shellLogic.clientVars.get("fontui"), Font.PLAIN,
+                size *sSettings.height/sSettings.gamescale/2);
+        fontConsole = new Font(fontnameconsole, Font.PLAIN, size *sSettings.height/sSettings.gamescale/2);
+        fontLarge = new Font(xMain.shellLogic.clientVars.get("fontui"), Font.PLAIN,
+                (size * sSettings.height / sSettings.gamescale)*2);
     }
 }

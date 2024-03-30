@@ -12,7 +12,7 @@ public class sSettings {
 	static boolean IS_CLIENT = false;
 	static String[] colorSelection = {"blue", "green", "orange", "pink", "purple", "red", "teal", "yellow"};
 	static String[] resolutions = {"640x480", "800x600", "1024x768", "1280x720", "1600x900", "1920x1080", "2560x1440", "3840x2160"};
-	static int[] framerates = {24, 30, 60, 75, 98, 120, 144, 165, 240, 320, 360};
+	static int[] framerates = {30, 60, 75, 120, 240, 360, 540, 1000};
 	public static String[] object_titles = new String[]{};
 	public static String[] prefab_titles;
 
@@ -20,7 +20,6 @@ public class sSettings {
 	static int gamescale = 2160;
 	static int width = 1920;
 	static int height = 1080;
-	static int framerate = 240;
 	static boolean borderless = false;
 	static int vfxfactor = 144;
 	static int vfxfactordiv = 8;
@@ -32,7 +31,7 @@ public class sSettings {
 	static boolean vfxenableflares = true;
 	static boolean vfxenableanimations = true;
 	static int popuplivetime = 2000;
-	static int velocity_popup = 2;
+	static int velocity_popup = 17;
 	static double zoomLevel = 1.0;
 
 	// audio
@@ -46,7 +45,7 @@ public class sSettings {
 	static int ratesimulation = 60; //server internal game rate for simulation
 	static int rateserver = 1000; //server rate to poll for packet (<= 0 means unlimited)
 	static int rateclient = 30; //client net rate to request update from server
-	static int rateShell = 240; //desktop window rate like input, visual update
+	static int rateShell = 1000; //desktop window rate like input, visual update
 
 	// server
 	static int serverTimeLimit = 180000;
@@ -106,4 +105,6 @@ public class sSettings {
     static boolean showtick = false;
     static boolean showscale = false;
 	static int screenMessageFadeTime = 10000;
+	static String[] mapThemes = {"dungeon"};
+	static int mapTheme = 0;
 }

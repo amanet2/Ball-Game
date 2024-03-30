@@ -21,6 +21,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
     private final ArrayList<String> voteSkipList;
 
     public eGameLogicServer() {
+        super();
         masterStateMap = new nStateMap();
         clientCheckinMap = new HashMap<>();
         clientCmdDoables = new HashMap<>();
@@ -160,8 +161,15 @@ public class eGameLogicServer extends eGameLogicAdapter {
     }
 
     public void clientReceivedCmd(String id) {
-        if(clientNetCmdMap.get(id).size() > 0)
-            clientNetCmdMap.get(id).remove();
+        if(clientNetCmdMap.get(id).size() > 0) {
+            try { //needed here
+                clientNetCmdMap.get(id).remove();
+            }
+            catch(Exception cre) {
+                cre.printStackTrace();
+                clientNetCmdMap.get(id).clear();
+            }
+        }
     }
 
     private String createSendDataString(HashMap<String, String> netVars, String clientid) {
@@ -199,7 +207,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
             String botName = id;
             int idInt = Integer.parseInt(id.replace("bot",""));
             if(idInt > 90000000)
-                botName = "BotSteve";
+                botName = "BotLite";
             else if(idInt > 80000000)
                 botName = "BotRick";
             else if(idInt > 70000000)
@@ -207,9 +215,9 @@ public class eGameLogicServer extends eGameLogicAdapter {
             else if(idInt > 60000000)
                 botName = "BotChief";
             else if(idInt > 50000000)
-                botName = "BotHoleWater";
+                botName = "BotLite";
             else if(idInt > 40000000)
-                botName = "BotBratwurst";
+                botName = "BotMustard";
             else if(idInt > 30000000)
                 botName = "BotLite";
             else if(idInt > 20000000)
@@ -251,7 +259,6 @@ public class eGameLogicServer extends eGameLogicAdapter {
         //check if masterState contains
         if(!masterStateMap.contains(stateId)) {
             handleJoin(stateId);
-            // TODO: investigate 3 lines below possibly causing invisible players to spawn in
             String cname =  receivedState.get("name");
             String ccolor = receivedState.get("color");
             xMain.shellLogic.console.ex(String.format("echo %s#%s joined the game", cname, ccolor));
@@ -419,13 +426,6 @@ public class eGameLogicServer extends eGameLogicAdapter {
                 HashMap<String, String> netVars = new HashMap<>();
                 netVars.put("cmd", "");
                 netVars.put("time", Long.toString(sSettings.serverTimeLeft));
-                StringBuilder botStringBuilder = new StringBuilder();
-                for (String id : xMain.shellLogic.serverScene.getThingMapIds("ITEM_BALL")) {
-                    gThing obj = xMain.shellLogic.serverScene.getThingMap("ITEM_BALL").get(id);
-                    botStringBuilder.append(String.format("/%s:%s:%s", obj.id, obj.coords[0], obj.coords[1]));
-                }
-                if(!botStringBuilder.isEmpty())
-                    netVars.put("ITEM_BALL", botStringBuilder.substring(1));
                 String sendDataString = createSendDataString(netVars, clientId);
                 byte[] sendData = sendDataString.getBytes();
                 DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, addr, port);

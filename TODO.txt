@@ -1,10 +1,10 @@
-* DEBUG SCRIPTS:
-    -> we have to CD to the jar's directory to properly run game
-        -> won't find resource files like images, sounds otherwise
-        -> maybe pass resource folder on launch
-* weapons might be too powerful
-    -> give them ammo limits
-    -> or have them be destroyed when holder dies
+* create onShot script capability for items and players when they get hit by bullet object
+* for goldmaster and pointmaster have a way to replace botbehavior without interrupting regularly scheduled behavior
+* replace all usages of "Math.Random()" with threadlocal random
+* IDEA: separate weapon spawns maybe
+* IDEA: glowing light that follows around the player character
+* BUG VIDEO:
+    -> uiMenus framerate selection needs to update with the client vars file
 * MEMORY LEAK
     -> with sound?
         -> even with sound muted I see memory going up in task manager
@@ -19,57 +19,18 @@
     -> investigate exceptions
     -> create console command to pause bots
         -> sSettings.botsSleep
-    -> Fix the teleporter seemingly not letting players go back through
 * COMMANDS:
     -> server var to not allow movement for ID or all
     -> add race gamemode
-* BOTS:
-    -> pick target, default should be nearest player
-    -> bots to be able to target item of chosen type
-        -> bots should have state
-            -> rest <millis>
-            -> seek (player|item) // seek any items of a type, or players
-                -> seek (player|item) id //seek player/item with id
-            -> avoid (player|item)
-                -> see 'seek'
-    -> find direct vector to target
-        -> if can move there, go there or 45 degree offset
-        -> if can not move there, find dir you CAN move in and go
-    -> engine should handle all bot stuff up to spawning, actions should be scripted
-    -> bots should automatically protect themselves shooting at players nearby
-    -> how bots will be scripted (bringmaster as example):
-        getres hasflag setnstate $1 flag
-        testres $hasflag 1 targetthing $1 ITEM_FLAGDEPOSIT <millis>
-        testres $hasflag 0 targetthing $1 ITEM_FLAG <millis>
-    -> virusmaster example, should aggro everyone but sometimes go for teleporter
-        (no virus)
-        getres rando getrand 0 5
-        testresn $rando 0 avoidthing THING_PLAYER <millis>
-        testres $rando 0 targetthing ITEM_TELEPORTER <millis>
-        (if we have the virus)
-        getres rando getrand 0 5
-        testresn $rando 0 targetthing THING_PLAYER <millis>
-        testres $rando 0 targetthing ITEM_TELEPORTER <millis>
 * NETWORK: add retry limit to gamelogicclient so we disconnect and cl_echo when remote server becomes unreachable
 * CONSOLE: refresh scripts from disk when loading map
     -> verify scripts aren't running when map is loading
-* SCRIPT: handledestroyplayer and handledeleteplayer should be combined
 * GIT: want to go back in time
     -> git checkout <old working commit>
     -> git checkout -b <new branch>
-    -> push this branch
-        -> retarget the older branch into this new stable branch, stable branch targets main now
+    -> push this branch then retarget the older branch into this new stable branch, stable branch targets main now
 * TWO COMMITS TANGLED UP
     -> on target: git config pull.rebase true && git pull && git config pull.rebase false
-* BUILD: current steps
-    -> compile java into .class files
-    -> jar archive these files
-    -> call jar with jdk java
-    -> move all pkg and bin files into a dir for distributing
-    -> Executing: .exe that calls java (.c) -OR- .bat that calls java
-        -> manually edit the internal system call in .c file when compiling into mapmaker exe
-* ENGINE: think about whether net threads should have 'update' be called or 'render'
-    -> one is in a while loop while syncing with current time, other is called after sync
 * Engine: xCon console should be split up into server and client
 * BUG: Escape comma ',' characters that appear in net values
     -> it screws up building hashmap from received data
@@ -81,29 +42,11 @@
     -> when the forloop delegate completes, we jump ahead the parent script iterator by X lines
     -> remember to properly parse and fill in args and global variables for each line in loop
         -> same code as we currently have in gScript
-* GENERAL: cl_setthing executing on server thread (bad)
-    -> if a client is also running the server, cl_setthing can be called by the server if server not ignored
-* GENERAL: think about how prefabs are placed
-    -> current state: client requests "exec_"
-        -> client requests server to "exec prefabs/X", server fans-out lines (no client custom prefabs supported)
-            -> client does not get prefabs selection from server, so client needs same prefabs the server has
-        -> client requests server to "deleteprefab", server fans-out "cl_deleteprefab" (instant, OK)
-    -> option 1: have comm for "putprefab" to the effect that executed on each machine w/out server routing
-        -> this makes prefab appear and disappear instantly
-            -> server and clients need same prefab files (already the case)
-    -> option 2: have client request "put" for each individual block in local prefab file
-        -> even slower but does not require requesting "exec prefabs/X" and it supports client-custom prefabs
-            -> clients might put malicious script calls into prefabs, like playing sounds
-                -> we can ignore lines that arent "put" or "getres" (see previews)
+* GENERAL: if a client is also running the server, cl_setthing can be called by the server thread if server not ignored (bad)
 * GENERAL: increase map streaming speed by batching lines (see commented code in sendmap)
 * BUG: teleporters delay affects different colors i.e. blue teles are affected by red tele delay and vice versa
 * create a client var for player id to track with the camera
-    -> can move an invisible item for the camera to track?
-* camera should track without its xy being explicitly tied to user player
-    -> user player will be as smooth as the network, which is not very
-* create onShot script capability for items and players when they get hit by bullet object
 * fix the bug where players pop out on top of walls they shouldnt be visible behind
-* replace all usages of "Math.Random()" with threadlocal random
 * create ban system using timeevents and saving timestamps to a file on close and loading
     -> on server start, check for unban vars in config file, load ids into ban map
     -> loop: check if any ban times have expire and remove player from ban map
@@ -129,12 +72,10 @@
     -> rock lazily flies, either bounces or stops when collides with walls/players (rock from maniac gungame)
     -> right click could drop a timed bomb, left click kicks it forward
     -> hold mouse to blow a bubble and release it before it pops
-* make "themes" for prefabs
 * COMMIT SPOT CHECKS
     -> GO TO COMMIT: git checkout <commit>
     -> GO BACK: git checkout <branch_name>
 * PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
-* gungame mode
 * add "disable attacks" option
 * make players eyes blink
 * Create a server browser program w/ flask or something
