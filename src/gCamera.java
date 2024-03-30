@@ -10,10 +10,13 @@ public class gCamera {
 	static int startTrackingDelay = 200;
 	static boolean isTracking = false;
 	static boolean impulse = false;
-	static final int maxVelocity = 32;
-	static final int maxVelocityTracking = sSettings.clientVelocityPlayerBase;
+	static final double maxVelocity = 32.0;
+	static final double maxVelocityTracking = sSettings.clientVelocityPlayerBase;
 	static double linearVelocity = 0.0;
 	static double fv = 0.0;
+	static boolean isShaking = false;
+	static long shakeDuration = 200;
+	static long shakeTick = 0;
 //	static gThing trackingTarget = null;
 
 	public static void updatePositionMapmaker() {
@@ -51,6 +54,13 @@ public class gCamera {
 		double snapDistanceX = Math.abs(coords[0] + eUtils.unscaleInt(sSettings.width / 2) - snapCoords[0]);
 		double snapDistanceY = Math.abs(coords[1] + eUtils.unscaleInt(sSettings.height / 2) - snapCoords[1]);
 		double camToSnapVectorLength = Math.sqrt(Math.pow(snapDistanceX, 2) + Math.pow(snapDistanceY, 2));
+
+		if(isShaking) {
+			shakeAtWorldCoords(snapCoords[0], snapCoords[1]);
+			if(shakeTick < sSettings.gameTime)
+				isShaking = false;
+			return;
+		}
 
 		if(!isTracking && camToSnapVectorLength > 10 && startTrackingTick < sSettings.gameTime) {
 			startTrackingTick = sSettings.gameTime + startTrackingDelay;
@@ -105,12 +115,17 @@ public class gCamera {
 	}
 
 	// Call this function every tick for a shake effect
-	public static void shakeAtWorldCoords(int x, int y) {
+	private static void shakeAtWorldCoords(int x, int y) {
 		double mod = (double) sSettings.ratesimulation / (double) sSettings.rateShell;
 		pointAtWorldCoords(x, y);
 		coords = new double[]{
 				coords[0] - (16.0)*mod*Math.cos(fv+Math.PI/2),
 				coords[1] - (16.0)*mod*Math.sin(fv+Math.PI/2)
 		};
+	}
+
+	public static void shake() {
+		isShaking = true;
+		shakeTick = sSettings.gameTime + shakeDuration;
 	}
 }
