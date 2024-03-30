@@ -1,6 +1,6 @@
+* create onShot script capability for items and players when they get hit by bullet object
 * for goldmaster and pointmaster have a way to replace botbehavior without interrupting regularly scheduled behavior
 * replace all usages of "Math.Random()" with threadlocal random
-* See if converting session's loops to a scheduled task works for framerate timings
 * IDEA: separate weapon spawns maybe
 * IDEA: glowing light that follows around the player character
 * BUG VIDEO:
@@ -22,45 +22,15 @@
 * COMMANDS:
     -> server var to not allow movement for ID or all
     -> add race gamemode
-* BOTS:
-    -> pick target, default should be nearest player
-    -> bots to be able to target item of chosen type
-        -> bots should have state
-            -> rest <millis>
-            -> seek (player|item) // seek any items of a type, or players
-                -> seek (player|item) id //seek player/item with id
-            -> avoid (player|item)
-                -> see 'seek'
-    -> find direct vector to target
-        -> if can move there, go there or 45 degree offset
-        -> if can not move there, find dir you CAN move in and go
-    -> engine should handle all bot stuff up to spawning, actions should be scripted
-    -> bots should automatically protect themselves shooting at players nearby
-    -> how bots will be scripted (bringmaster as example):
-        getres hasflag setnstate $1 flag
-        testres $hasflag 1 targetthing $1 ITEM_FLAGDEPOSIT <millis>
-        testres $hasflag 0 targetthing $1 ITEM_FLAG <millis>
-    -> virusmaster example, should aggro everyone but sometimes go for teleporter
-        (no virus)
-        getres rando getrand 0 5
-        testresn $rando 0 avoidthing THING_PLAYER <millis>
-        testres $rando 0 targetthing ITEM_TELEPORTER <millis>
-        (if we have the virus)
-        getres rando getrand 0 5
-        testresn $rando 0 targetthing THING_PLAYER <millis>
-        testres $rando 0 targetthing ITEM_TELEPORTER <millis>
 * NETWORK: add retry limit to gamelogicclient so we disconnect and cl_echo when remote server becomes unreachable
 * CONSOLE: refresh scripts from disk when loading map
     -> verify scripts aren't running when map is loading
-* SCRIPT: handledestroyplayer and handledeleteplayer should be combined
 * GIT: want to go back in time
     -> git checkout <old working commit>
     -> git checkout -b <new branch>
     -> push this branch then retarget the older branch into this new stable branch, stable branch targets main now
 * TWO COMMITS TANGLED UP
     -> on target: git config pull.rebase true && git pull && git config pull.rebase false
-* ENGINE: think about whether net threads should have 'update' be called or 'render'
-    -> one is in a while loop while syncing with current time, other is called after sync
 * Engine: xCon console should be split up into server and client
 * BUG: Escape comma ',' characters that appear in net values
     -> it screws up building hashmap from received data
@@ -76,7 +46,6 @@
 * GENERAL: increase map streaming speed by batching lines (see commented code in sendmap)
 * BUG: teleporters delay affects different colors i.e. blue teles are affected by red tele delay and vice versa
 * create a client var for player id to track with the camera
-* create onShot script capability for items and players when they get hit by bullet object
 * fix the bug where players pop out on top of walls they shouldnt be visible behind
 * create ban system using timeevents and saving timestamps to a file on close and loading
     -> on server start, check for unban vars in config file, load ids into ban map

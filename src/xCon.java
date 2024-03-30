@@ -340,10 +340,9 @@ public class xCon {
                         //more server-side stuff
                         int dcx = player.coords[0];
                         int dcy = player.coords[1];
-                        ex("deleteplayer " + id);
                         if(shooterid.length() < 1)
                             shooterid = "null";
-                        ex("exec scripts/sv_handledestroyplayer " + id + " " + shooterid);
+                        ex("deleteplayer " + id + " " + shooterid);
                         int animInd = gAnimations.ANIM_EXPLOSION_REG;
                         String colorName = playerState.get("color");
                         if(gAnimations.colorNameToExplosionAnimMap.containsKey(colorName))
@@ -394,7 +393,10 @@ public class xCon {
                 String[] toks = fullCommand.split(" ");
                 if(toks.length > 1) {
                     String id = toks[1];
-                    ex("exec scripts/sv_handledeleteplayer " + id);
+                    String kid = "";
+                    if(toks.length > 2)
+                        kid = toks[2];
+                    ex("exec scripts/sv_handledeleteplayer " + id + " " + kid);
                     xMain.shellLogic.serverScene.getThingMap("THING_PLAYER").remove(id);
                     xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_"+fullCommand);
                 }
