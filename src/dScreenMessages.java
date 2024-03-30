@@ -11,17 +11,13 @@ public class dScreenMessages {
         expireTimes.add(sSettings.gameTime + sSettings.screenMessageFadeTime);
     }
 
-    public static void checkExpiredMessages() {
-        //expired msgs
-        if(expireTimes.size() > 0) {
-            if(expireTimes.peek() != null && expireTimes.peek() < sSettings.gameTime) {
-                messagesOnScreen.remove(0);
-                expireTimes.remove();
-            }
-        }
-    }
-
     public static void displayScreenMessages(Graphics g, long gameTimeMillis) {
+        //expired msgs
+        if(expireTimes.size() > 0 && expireTimes.peek() != null && expireTimes.peek() < gameTimeMillis) {
+            messagesOnScreen.remove(0);
+            expireTimes.remove();
+        }
+        //start displaying
         dFonts.setFontSmall(g);
         //scale
         if(sSettings.showscale)
@@ -41,8 +37,7 @@ public class dScreenMessages {
         }
         if(sSettings.showcam) {
             //camera
-            String camstring = String.format("Cam: %d,%d",
-                    (int) gCamera.coords[0], (int) gCamera.coords[1]);
+            String camstring = String.format("Cam: %d,%d", (int) gCamera.coords[0], (int) gCamera.coords[1]);
             dFonts.drawRightJustifiedString(g, camstring,63*sSettings.width/64, 8 * sSettings.height / 64);
         }
         if(sSettings.showmouse) {
