@@ -10,6 +10,8 @@ public class gBlockFloor extends gBlock {
     public void draw(Graphics2D g2) {
         g2.setPaint(xMain.shellLogic.floorTextures[sSettings.mapTheme]);
         g2.fillRect(coords[0], coords[1], dims[0], dims[1]);
+        if(!sSettings.vfxenableshading)
+            return;
         g2.setColor(gColors.getColorFromName("clrw_floorshading"));
         g2.fillRect(coords[0], coords[1], dims[0], dims[1]);
     }
