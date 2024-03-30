@@ -7,7 +7,7 @@ public class gCamera {
 	static long acceltick = 0;
 	static int acceldelay = 16;
 	static long startTrackingTick = 0;
-	static int startTrackingDelay = 50;
+	static int startTrackingDelay = 200;
 	static boolean isTracking = false;
 	static boolean impulse = false;
 	static final int maxVelocity = 32;
@@ -58,9 +58,9 @@ public class gCamera {
 			impulse = true;
 		}
 
-		if(isTracking && camToSnapVectorLength > 10) {
-			impulse = true;
-		}
+//		if(isTracking && camToSnapVectorLength > 10) {
+//			impulse = true;
+//		}
 
 		if (acceltick < sSettings.gameTime) {
 			acceltick = sSettings.gameTime + acceldelay;
@@ -72,7 +72,8 @@ public class gCamera {
 
 		if (camToSnapVectorLength < 10) {
 			impulse = false;
-			startTrackingTick = sSettings.gameTime + startTrackingDelay;
+//			if(startTrackingTick > 0)
+				startTrackingTick = sSettings.gameTime + startTrackingDelay;
 			isTracking = false;
 		}
 
