@@ -898,7 +898,7 @@ public class xCon {
                         iMouse.holdingMouseLeft = true;
                     else {
                         if(sSettings.show_mapmaker_ui && sSettings.clientMapLoaded) {
-                            int[] mc = uiInterface.getMouseCoordinates();
+                            int[] mc = xMain.shellLogic.getMouseCoordinates();
                             if(sSettings.clientNewPrefabName.length() > 0) {
                                 int[] pfd = dHUD.getNewPrefabDims();
                                 int w = pfd[0];

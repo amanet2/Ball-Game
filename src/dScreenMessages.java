@@ -46,10 +46,10 @@ public class dScreenMessages {
             dFonts.drawRightJustifiedString(g, camstring,63*sSettings.width/64, 8 * sSettings.height / 64);
         }
         if(sSettings.showmouse) {
-            int[] mc = uiInterface.getMouseCoordinates();
+            int[] mc = xMain.shellLogic.getMouseCoordinates();
             if(sSettings.show_mapmaker_ui)
-                dFonts.drawRightJustifiedString(g, String.format("Mouse: %d,%d", uiInterface.getPlaceObjCoords()[0],
-                        uiInterface.getPlaceObjCoords()[1]),63*sSettings.width/64,9*sSettings.height/64);
+                dFonts.drawRightJustifiedString(g, String.format("Mouse: %d,%d", xMain.shellLogic.getPlaceObjCoords()[0],
+                        xMain.shellLogic.getPlaceObjCoords()[1]),63*sSettings.width/64,9*sSettings.height/64);
             else
                 dFonts.drawRightJustifiedString(g, String.format("Mouse: %d,%d",eUtils.unscaleInt(mc[0]) + (int) gCamera.coords[0],
                         eUtils.unscaleInt(mc[1]) + (int) gCamera.coords[1]),63*sSettings.width/64,9*sSettings.height/64);

@@ -9,7 +9,7 @@ public class dMenus {
     }
 
     public static void showPauseMenu(Graphics g) {
-        uiInterface.getUIMenuItemUnderMouse();
+        xMain.shellLogic.getUIMenuItemUnderMouse();
         dFonts.setFontColor(g, "clrf_scoreboardbg");
         g.fillRect(0,0,sSettings.width,sSettings.height);
         g.drawImage(logoimg,0,0,null);

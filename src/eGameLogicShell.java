@@ -604,10 +604,63 @@ public class eGameLogicShell extends eGameLogicAdapter {
         return (gPlayer) clientScene.getThingMap("THING_PLAYER").get(id);
     }
 
+    public int[] getMouseCoordinates() {
+        return new int[]{
+                MouseInfo.getPointerInfo().getLocation().x - xMain.shellLogic.frame.getLocationOnScreen().x,
+                MouseInfo.getPointerInfo().getLocation().y - xMain.shellLogic.frame.getLocationOnScreen().y
+        };
+    }
+
+    public int[] getPlaceObjCoords() {
+        int[] mc = getMouseCoordinates();
+        int[] fabdims = dHUD.getNewPrefabDims();
+        int pfx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0])+(int) gCamera.coords[0] - fabdims[0]/2,
+                uiEditorMenus.snapToX);
+        int pfy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1])+(int) gCamera.coords[1] - fabdims[1]/2,
+                uiEditorMenus.snapToY);
+        return new int[]{pfx, pfy};
+    }
+
+    public synchronized void getUIMenuItemUnderMouse() {
+        if(!sSettings.hideMouseUI) {
+            int[] mc = getMouseCoordinates();
+            int[] xBounds = new int[]{0, sSettings.width / 4};
+            int[] yBounds = sSettings.borderless
+                    ? new int[]{14 * sSettings.height / 16, 15 * sSettings.height / 16}
+                    : new int[]{15 * sSettings.height / 16, sSettings.height};
+            if ((mc[0] >= xBounds[0] && mc[0] <= xBounds[1]) && (mc[1] >= yBounds[0] && mc[1] <= yBounds[1])) {
+                if (!uiMenus.gobackSelected) {
+                    uiMenus.gobackSelected = true;
+                    uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem = -1;
+                }
+                return;
+            } else
+                uiMenus.gobackSelected = false;
+            if (uiMenus.selectedMenu != uiMenus.MENU_CONTROLS) {
+                for (int i = 0; i < uiMenus.menuSelection[uiMenus.selectedMenu].items.length; i++) {
+                    xBounds = new int[]{sSettings.width / 2 - sSettings.width / 8,
+                            sSettings.width / 2 + sSettings.width / 8};
+                    yBounds = new int[]{11 * sSettings.height / 30 + i * sSettings.height / 30,
+                            11 * sSettings.height / 30 + (i + 1) * sSettings.height / 30};
+                    if (!sSettings.borderless) {
+                        yBounds[0] += 40;
+                        yBounds[1] += 40;
+                    }
+                    if ((mc[0] >= xBounds[0] && mc[0] <= xBounds[1]) && (mc[1] >= yBounds[0] && mc[1] <= yBounds[1])) {
+                        if (uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem != i)
+                            uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem = i;
+                        return;
+                    }
+                }
+            }
+            uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem = -1;
+        }
+    }
+
     private void selectThingUnderMouse() {
         if(!sSettings.clientMapLoaded)
             return;
-        int[] mc = uiInterface.getMouseCoordinates();
+        int[] mc = getMouseCoordinates();
         for(String id : clientScene.getThingMap("THING_ITEM").keySet()) {
             gThing item = clientScene.getThingMap("THING_ITEM").get(id);
             if(item.coordsWithinBounds(mc[0], mc[1])) {
@@ -646,7 +699,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
 
     private void pointPlayerAtMousePointer() {
         gPlayer p = getUserPlayer();
-        int[] mc = uiInterface.getMouseCoordinates();
+        int[] mc = getMouseCoordinates();
         double dx = mc[0] - eUtils.scaleInt(p.coords[0] + p.dims[0]/2 - (int) gCamera.coords[0]);
         double dy = mc[1] - eUtils.scaleInt(p.coords[1] + p.dims[1]/2 - (int) gCamera.coords[1]);
         double angle = Math.atan2(dy, dx);

@@ -19,19 +19,19 @@ public class dThings {
             gThing floor = floorMap.get(tag);
             //flashlight
             if(xMain.shellLogic.getUserPlayer() != null) {
-                int aimerx = eUtils.unscaleInt(uiInterface.getMouseCoordinates()[0]);
-                int aimery = eUtils.unscaleInt(uiInterface.getMouseCoordinates()[1]);
+                int aimerx = eUtils.unscaleInt(xMain.shellLogic.getMouseCoordinates()[0]);
+                int aimery = eUtils.unscaleInt(xMain.shellLogic.getMouseCoordinates()[1]);
                 int snapX = aimerx + (int) gCamera.coords[0];
                 int snapY = aimery + (int) gCamera.coords[1];
                 int setw = sSettings.height;
                 RadialGradientPaint df = new RadialGradientPaint(new Point(snapX, snapY), setw/2,
-                        new float[]{0f, 1f}, new Color[]{new Color(0,0,0,0), gColors.getColorFromName("clrw_floorshading")}
+                        new float[]{0f, 1f}, new Color[]{new Color(0,0,0,0), gColors.getColorFromName("clrw_ambientshading")}
                 );
                 g2.setPaint(df);
                 g2.fillRect(floor.coords[0], floor.coords[1], floor.dims[0], floor.dims[1]);
             }
             else {
-                g2.setColor(gColors.getColorFromName("clrw_floorshading"));
+                g2.setColor(gColors.getColorFromName("clrw_ambientshading"));
                 g2.fillRect(floor.coords[0], floor.coords[1], floor.dims[0], floor.dims[1]);
             }
         }
