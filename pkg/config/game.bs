@@ -40,8 +40,8 @@ setvar ITEM_LANDMINE_sprite misc/forbidden.png
 setvar ITEM_LANDMINE_script exec items/landmine
 setvar ITEM_POINTGIVER_dimw 300
 setvar ITEM_POINTGIVER_dimh 300
-setvar ITEM_POINTGIVER_flare 255:255:0:255
-setvar ITEM_POINTGIVER_sprite misc/light1.png
+setvar ITEM_POINTGIVER_flare 255:255:255:255
+setvar ITEM_POINTGIVER_sprite misc/ball.png
 setvar ITEM_POINTGIVER_script exec items/pointgiver
 setvar ITEM_SPAWNPOINT_dimw 300
 setvar ITEM_SPAWNPOINT_dimh 300
@@ -83,6 +83,7 @@ setvar ITEM_FLAGDEPOSIT_dimw 300
 setvar ITEM_FLAGDEPOSIT_dimh 300
 setvar ITEM_FLAGDEPOSIT_sprite misc/ball.png
 setvar ITEM_FLAGDEPOSIT_script exec items/flagdeposit
+setvar ITEM_FLAGDEPOSIT_flare 255:255:255:255
 setvar ITEM_PLAYERSPAWN_dimw 300
 setvar ITEM_PLAYERSPAWN_dimh 300
 setvar ITEM_PLAYERSPAWN_script exec items/playerspawn
