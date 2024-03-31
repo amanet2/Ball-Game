@@ -250,6 +250,10 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 if(sSettings.mapThemes.length > requestedTheme)
                     sSettings.mapTheme = requestedTheme;
             }
+
+            public String getValue() {
+                return Integer.toString(sSettings.mapTheme);
+            }
         });
         clientVars.putArg(new gArg("maxhp", "500") {
             public void onChange() {
