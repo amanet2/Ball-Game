@@ -241,6 +241,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 for(int i = 0; i < toks.length; i++) {
                     sSettings.mapThemes[i] = toks[i].strip();
                 }
+                uiMenus.menuSelection[uiMenus.MENU_THEME].items = uiMenus.getThemeMenuItems();
             }
         });
         clientVars.putArg(new gArg("maptheme", Integer.toString(sSettings.mapTheme)) {
