@@ -114,6 +114,12 @@ public class uiMenus {
         new uiMenu(
                 "Video",
                 new uiMenuItem[]{
+                        new uiMenuItem(String.format("Power Save [%s]", sSettings.powerSave ? "X" : "   ")) {
+                            public void doItem() {
+                                sSettings.powerSave = !sSettings.powerSave;
+                                text = String.format("Power Save [%s]", sSettings.powerSave ? "X" : "   ");
+                            }
+                        },
                         new uiMenuItem(String.format("Resolution [%dx%d]",sSettings.width,sSettings.height)) {
                             public void doItem() {
                                 selectedMenu = MENU_RESOLUTION;
@@ -131,9 +137,6 @@ public class uiMenus {
                         new uiMenuItem(String.format("Borderless [%s]", sSettings.borderless ? "X" : "  ")) {
                             public void doItem() {
                                 xMain.shellLogic.console.ex("cl_setvar borderless " + (sSettings.borderless ? "0" : "1"));
-                                refreshText();
-                            }
-                            public void refreshText() {
                                 text = String.format("Borderless [%s]", sSettings.borderless ? "X" : "  ");
                             }
                         },
@@ -167,7 +170,8 @@ public class uiMenus {
         ) {
             public void refresh() {
                 setMenuItemTexts(new String[]{
-                        String.format("Resolution [%dx%d]", sSettings.width,sSettings.height),
+                        String.format("Power Save [%s]", sSettings.powerSave ? "X" : "  "),
+                        String.format("Resolution [%dx%d]", sSettings.width, sSettings.height),
                         String.format("Framerate [%d]", sSettings.rateShell),
                         String.format("Borderless [%s]", sSettings.borderless ? "X" : "  "),
                         String.format("Animations [%s]", sSettings.vfxenableanimations ? "X" : "  "),
@@ -460,7 +464,7 @@ public class uiMenus {
                     String[] toks = text.split("x");
                     xMain.shellLogic.console.ex("cl_setvar width " + toks[0]);
                     xMain.shellLogic.console.ex("cl_setvar height " + toks[1]);
-                    menuSelection[MENU_VIDEO].items[0].refreshText();
+//                    menuSelection[MENU_VIDEO].items[0].refreshText();
                     selectedMenu = MENU_VIDEO;
                 }
             };
