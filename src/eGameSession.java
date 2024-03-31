@@ -35,26 +35,19 @@ public class eGameSession extends Thread implements Runnable {
                 BigDecimal bigDecimal = new BigDecimal(String.valueOf(sleepFor));
                 sleepForMillis = bigDecimal.intValue();
                 sleepForNanos = Integer.parseInt(bigDecimal.subtract(new BigDecimal(sleepForMillis)).toPlainString().split("\\.")[1]);
-//                System.out.println(gameLogic + " Time of frame: " + snapshotTimeNanos);
-//                System.out.println(gameLogic + " Time of Next frame: " + (snapshotTimeNanos + 1000000000/tickRate));
-//                System.out.println(gameLogic + " Time to Next frame: " + sleepFor);
-//                System.out.println(gameLogic + " Next step: " + sleepForMillis + "." + sleepForNanos);
-                if(tickRate > 0) {
-                    if(gameLogic.toString().contains("eGameLogicShell")) { // hacky way to specify shell session
-                        while (nextFrameTimeNanos > System.nanoTime()) {
-                            //do nothing and hammer cpu but get perfect timings and no random stutters
+                if(sSettings.powerSave) {
+                    if(sleepForMillis > 0 || sleepForNanos > 0) { // inaccurate but gentle on cpu
+                        try {
+                            sleep(Math.max(0, sleepForMillis), Math.max(0, sleepForNanos));
+                        }
+                        catch (InterruptedException ie) {
+                            ie.printStackTrace();
                         }
                     }
-                    else {
-                        if(sleepForMillis > 0 || sleepForNanos > 0) { // inaccurate but gentle on cpu
-                            try {
-                                sleep(Math.max(0, sleepForMillis), Math.max(0, sleepForNanos));
-//                                sleep(sleepForMillis); // faster but not the real number
-                            }
-                            catch (InterruptedException ie) {
-                                ie.printStackTrace();
-                            }
-                        }
+                }
+                else if(tickRate > 0) {
+                    while (nextFrameTimeNanos > System.nanoTime()) {
+                        //do nothing
                     }
                 }
             }

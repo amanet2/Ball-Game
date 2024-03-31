@@ -107,4 +107,5 @@ public class sSettings {
 	static int screenMessageFadeTime = 10000;
 	static String[] mapThemes = {"dungeon"};
 	static int mapTheme = 0;
+	static boolean powerSave = true;
 }
