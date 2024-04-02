@@ -1,3 +1,4 @@
+* EXCEPTION: weird exception when pressing ESC in mapmaker without any player spawns
 * create onShot script capability for items and players when they get hit by bullet object
 * for goldmaster and pointmaster have a way to replace botbehavior without interrupting regularly scheduled behavior
 * replace all usages of "Math.Random()" with threadlocal random

@@ -9,59 +9,22 @@ getres idmod8 sumint $1 8
 getres idmod9 sumint $1 9
 getres idmod10 sumint $1 10
 getres idmod11 sumint $1 11
-getres idmod12 sumint $1 12
-getres idmod13 sumint $1 13
-getres idmod14 sumint $1 14
-getres idmod15 sumint $1 15
-getres idmod16 sumint $1 16
-getres idmod17 sumint $1 17
-getres idmod18 sumint $1 18
-getres idmod19 sumint $1 19
-getres idmod20 sumint $1 20
-getres idmod21 sumint $1 21
-getres idmod22 sumint $1 22
-getres idmod23 sumint $1 23
-getres idmod24 sumint $1 24
-getres idmod25 sumint $1 25
-getres idmod26 sumint $1 26
-getres idmod27 sumint $1 27
-getres xmod1 sumint $3 900
-getres xmod2 sumint $3 1200
-getres xmod3 sumint $3 2100
-getres ymod1 sumint $4 -150
-getres ymod2 sumint $4 900
+getres xmod1 sumint $3 1200
+getres xmod2 sumint $3 2100
+getres ymod1 sumint $4 1200
+getres ymod2 sumint $4 -150
 getres ymod3 sumint $4 50
-getres ymod4 sumint $4 1100
-getres ymod5 sumint $4 1200
-getres ymod6 sumint $4 2100
-getres ymod7 sumint $4 1050
-getres ymod8 sumint $4 2300
-getres ymod9 sumint $4 1250
-putfloor $1 $2 $xmod2 $4
-putfloor $idmod1 $2 $3 $ymod5
-putfloor $idmod2 $2 $xmod2 $ymod5
-putcube $idmod3 $2 $xmod1 $ymod6 300 450 150 300
-putcube $idmod4 $2 $xmod2 $ymod6 300 450 150 300
-putcube $idmod5 $2 $xmod3 $ymod6 300 450 150 300
-putcube $idmod6 $2 $3 $ymod6 300 450 150 300
-putcube $idmod7 $2 $xmod3 $ymod7 300 450 150 300
-putcube $idmod8 $2 $3 $ymod7 300 450 150 300
-putcube $idmod9 $2 $xmod3 $ymod2 300 450 150 300
-putcube $idmod10 $2 $3 $ymod2 300 450 150 300
-putfloor $idmod11 $2 $3 $4
-putcube $idmod12 $2 $3 $ymod1 300 450 150 300
-putcube $idmod13 $2 $xmod1 $ymod1 300 450 150 300
-putcube $idmod14 $2 $xmod2 $ymod1 300 450 150 300
-putcube $idmod15 $2 $xmod3 $ymod1 300 450 150 300
-putcollision $idmod16 $2 $xmod1 $ymod8 300 150
-putcollision $idmod17 $2 $xmod2 $ymod8 300 150
-putcollision $idmod18 $2 $xmod3 $ymod8 300 150
-putcollision $idmod19 $2 $3 $ymod8 300 150
-putcollision $idmod20 $2 $xmod3 $ymod9 300 150
-putcollision $idmod21 $2 $3 $ymod9 300 150
-putcollision $idmod22 $2 $xmod3 $ymod4 300 150
-putcollision $idmod23 $2 $3 $ymod4 300 150
-putcollision $idmod24 $2 $3 $ymod3 300 150
-putcollision $idmod25 $2 $xmod1 $ymod3 300 150
-putcollision $idmod26 $2 $xmod2 $ymod3 300 150
-putcollision $idmod27 $2 $xmod3 $ymod3 300 150
+getres ymod4 sumint $4 2100
+getres ymod5 sumint $4 2300
+putfloor $1 $2 $3 $4
+putfloor $idmod1 $2 $xmod1 $4
+putfloor $idmod2 $2 $3 $ymod1
+putfloor $idmod3 $2 $xmod1 $ymod1
+putcube $idmod4 $2 $xmod2 $ymod4 300 450 150 300
+putcube $idmod5 $2 $3 $ymod4 300 450 150 300
+putcube $idmod6 $2 $3 $ymod2 300 450 150 300
+putcube $idmod7 $2 $xmod2 $ymod2 300 450 150 300
+putcollision $idmod8 $2 $xmod2 $ymod5 300 150
+putcollision $idmod9 $2 $3 $ymod5 300 150
+putcollision $idmod10 $2 $3 $ymod3 300 150
+putcollision $idmod11 $2 $xmod2 $ymod3 300 150
