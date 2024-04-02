@@ -260,6 +260,15 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 sSettings.clientMaxHP = Integer.parseInt(value);
             }
         });
+        clientVars.putArg(new gArg("powersave", sSettings.powerSave ? "1" : "0") {
+            public void onChange() {
+                sSettings.powerSave = value.equals("1");
+            }
+
+            public String getValue() {
+                return sSettings.powerSave ? "1" : "0";
+            }
+        });
         clientVars.putArg(new gArg("velocityplayerbase", Integer.toString(sSettings.clientVelocityPlayerBase)) {
             public void onChange() {
                 sSettings.clientVelocityPlayerBase = Integer.parseInt(value);
