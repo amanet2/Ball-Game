@@ -7,7 +7,7 @@ public class gCamera {
 	static long acceltick = 0;
 	static int acceldelay = 16;
 	static long startTrackingTick = 0;
-	static int startTrackingDelay = 200;
+	static int startTrackingDelay = 50;
 	static double trackingMaxDistance = 50;
 	static boolean isTracking = false;
 	static boolean impulse = false;
