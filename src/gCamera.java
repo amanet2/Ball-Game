@@ -18,7 +18,6 @@ public class gCamera {
 	private static boolean isShaking = false;
 	private static long shakeDuration = 200;
 	private static long shakeTick = 0;
-//	static gThing trackingTarget = null;
 
 	public static void updatePositionMapmaker() {
 		double mod = (double) sSettings.ratesimulation / (double) sSettings.rateShell;
@@ -50,7 +49,6 @@ public class gCamera {
 
 	public static void updatePositionTrackThing(gThing obj) {
 		double mod = (double) sSettings.ratesimulation / (double) sSettings.rateShell;
-//		gThing obj = trackingTarget;
 		int[] snapCoords = new int[]{obj.coords[0] + obj.dims[0] / 2, obj.coords[1] + obj.dims[1] / 2};
 		double snapDistanceX = Math.abs(coords[0] + eUtils.unscaleInt(sSettings.width / 2) - snapCoords[0]);
 		double snapDistanceY = Math.abs(coords[1] + eUtils.unscaleInt(sSettings.height / 2) - snapCoords[1]);
@@ -69,10 +67,6 @@ public class gCamera {
 			impulse = true;
 		}
 
-//		if(isTracking && camToSnapVectorLength > 10) {
-//			impulse = true;
-//		}
-
 		if (acceltick < sSettings.gameTime) {
 			acceltick = sSettings.gameTime + acceldelay;
 			if (impulse)
@@ -83,8 +77,7 @@ public class gCamera {
 
 		if (camToSnapVectorLength < trackingMaxDistance) {
 			impulse = false;
-//			if(startTrackingTick > 0)
-				startTrackingTick = sSettings.gameTime + startTrackingDelay;
+			startTrackingTick = sSettings.gameTime + startTrackingDelay;
 			isTracking = false;
 		}
 
