@@ -4,9 +4,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 
 public class dHUD {
-    private static final String dividerString = "_______________________";
-    static int spriteRad = sSettings.height/30;
-
     public static void drawHUD(Graphics g) {
         if(!sSettings.IS_CLIENT || !sSettings.clientMapLoaded)
             return;
@@ -257,6 +254,7 @@ public class dHUD {
     public static void showScoreBoard(Graphics g) {
         if(!sSettings.IS_CLIENT)
             return;
+        int spriteRad = sSettings.height/30;
         nStateMap clStateMap = new nStateMap(xMain.shellLogic.clientNetThread.clientStateSnapshot);
         dFonts.setFontColor(g, "clrf_scoreboardbg");
         g.fillRect(0,0,sSettings.width,sSettings.height);
@@ -274,8 +272,7 @@ public class dHUD {
         g.drawString("                                       Score",sSettings.width/3+3,5*spriteRad+3);
         dFonts.setFontColor(g, "clrf_normal");
         g.drawString("                                       Score",sSettings.width/3,5*spriteRad);
-        g.drawString(dividerString,
-                sSettings.width/3, 11*sSettings.height/60);
+        g.drawString("_______________________", sSettings.width/3, 11*sSettings.height/60);
 
         StringBuilder sortedScoreIds = new StringBuilder();
         boolean sorted = false;
