@@ -3,12 +3,12 @@ public class gCamera {
 	static double[] coords = {0.0, 0.0};
 	static double[] vels = {0.0, 0.0, 0.0, 0.0};
 	static double accelrate = 0.5;
-	static double decelrate = 0.7;
+	static double decelrate = 0.1;
 	static long acceltick = 0;
 	static int acceldelay = 0;
 	static long startTrackingTick = 0;
-	static int startTrackingDelay = 200;
-	static double trackingMaxDistance = 50;
+	static int startTrackingDelay = 0;
+	static double trackingMaxDistance = 100;
 	static boolean isTracking = false;
 	static boolean impulse = false;
 	static final double maxVelocity = 32.0;
