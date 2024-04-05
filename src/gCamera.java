@@ -2,10 +2,10 @@ public class gCamera {
 	static int[] move = {0, 0, 0, 0};
 	static double[] coords = {0.0, 0.0};
 	static double[] vels = {0.0, 0.0, 0.0, 0.0};
-	static double accelrate = 2.0;
-	static double decelrate = 3.0;
+	static double accelrate = 0.5;
+	static double decelrate = 0.7;
 	static long acceltick = 0;
-	static int acceldelay = 16;
+	static int acceldelay = 0;
 	static long startTrackingTick = 0;
 	static int startTrackingDelay = 200;
 	static double trackingMaxDistance = 50;
