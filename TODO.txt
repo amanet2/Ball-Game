@@ -1,3 +1,4 @@
+* come up with better way to create and place map geometry where we dont have to define rotations manually
 * be able to export prefabs again
 * Make Camera scriptable with 'setcam' console command
 * ITEM: boost pad that gives high player velocity in a certain direction
