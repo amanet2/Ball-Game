@@ -75,11 +75,11 @@ public class gBlockCube extends gBlock {
         }
         g2.setPaint(xMain.shellLogic.topTextures[sSettings.mapTheme]);
         g2.fillRect(coords[0], coords[1], dims[0], toph);
-        dFonts.setFontColor(g2, "clrw_topcolor");
-        if(wallh > 0 && wallh < 300)
-            dFonts.setFontColor(g2, "clrw_topcolordark");
-        g2.fillRect(coords[0], coords[1], dims[0], toph);
-        if (sSettings.vfxenableshading) {
+        if(sSettings.vfxenableshading) {
+            dFonts.setFontColor(g2, "clrw_topcolor");
+            if(wallh > 0 && wallh < 300)
+                dFonts.setFontColor(g2, "clrw_topcolordark");
+            g2.fillRect(coords[0], coords[1], dims[0], toph);
             g2.setStroke(dFonts.thickStroke);
             GradientPaint gradient = new GradientPaint(
                     coords[0] + dims[0] / 2, coords[1], gColors.getColorFromName("clrw_roofoutline1"),
