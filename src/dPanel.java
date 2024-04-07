@@ -2,7 +2,6 @@ import javax.swing.JPanel;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.util.Queue;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * JPanel
@@ -27,7 +26,7 @@ public class dPanel extends JPanel {
         dScreenMessages.displayScreenMessages(g2, gameTimeMillis);
         if(!sSettings.inplay && sSettings.show_mapmaker_ui && sSettings.clientMapLoaded) {
             drawBlockFloorsPreview(g2, xMain.shellLogic.clientPreviewScene);
-            drawBlockCubesPreview(g2);
+            drawBlockCubesPreview(g2, xMain.shellLogic.clientPreviewScene);
         }
     }
 
@@ -150,9 +149,8 @@ public class dPanel extends JPanel {
             else if(thing.type.contains("CUBE"))
                 drawCube(g2, (gBlockCube) thing);
         }
-        ConcurrentHashMap<String, gThing> floorMap = scene.getThingMap("BLOCK_FLOOR");
-        for(String tag : floorMap.keySet()) {
-            gThing floor = floorMap.get(tag);
+        for(String tag : scene.getThingMap("BLOCK_FLOOR").keySet()) {
+            gThing floor = scene.getThingMap("BLOCK_FLOOR").get(tag);
             //flashlight
             if(xMain.shellLogic.getUserPlayer() != null) {
                 int aimerx = eUtils.unscaleInt(xMain.shellLogic.getMouseCoordinates()[0]);
@@ -328,9 +326,8 @@ public class dPanel extends JPanel {
     }
 
     private void drawBlockFloors(Graphics2D g2, gScene scene) {
-        ConcurrentHashMap<String, gThing> floorMap = scene.getThingMap("BLOCK_FLOOR");
-        for(String tag : floorMap.keySet()) {
-            drawBlockFloor(g2, (gBlockFloor) floorMap.get(tag));
+        for(String tag : scene.getThingMap("BLOCK_FLOOR").keySet()) {
+            drawBlockFloor(g2, (gBlockFloor) scene.getThingMap("BLOCK_FLOOR").get(tag));
         }
     }
 
@@ -352,9 +349,8 @@ public class dPanel extends JPanel {
     }
 
     private void drawBlockFloorsPreview(Graphics2D g2, gScene scene) {
-        ConcurrentHashMap<String, gThing> floorMap = scene.getThingMap("BLOCK_FLOOR");
-        for(String tag : floorMap.keySet()) {
-            drawBlockFloorPreview(g2, (gBlockFloor) floorMap.get(tag));
+        for(String tag : scene.getThingMap("BLOCK_FLOOR").keySet()) {
+            drawBlockFloorPreview(g2, (gBlockFloor) scene.getThingMap("BLOCK_FLOOR").get(tag));
         }
     }
     
@@ -371,10 +367,9 @@ public class dPanel extends JPanel {
         );
     }
 
-    private void drawBlockCubesPreview(Graphics2D g2) {
-        ConcurrentHashMap<String, gThing> squareMap = xMain.shellLogic.clientPreviewScene.getThingMap("BLOCK_CUBE");
-        for(String tag : squareMap.keySet()) {
-            drawBlockCubePreview(g2, (gBlockCube) squareMap.get(tag));
+    private void drawBlockCubesPreview(Graphics2D g2, gScene scene) {
+        for(String tag : scene.getThingMap("BLOCK_CUBE").keySet()) {
+            drawBlockCubePreview(g2, (gBlockCube) scene.getThingMap("BLOCK_CUBE").get(tag));
         }
     }
 

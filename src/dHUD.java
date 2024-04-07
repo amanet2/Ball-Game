@@ -51,6 +51,12 @@ public class dHUD {
         //TODO: this sucks, find a better way to set size
         if(sSettings.clientNewPrefabName.contains("_large"))
             return new int[]{2400, 2400};
+        else if(sSettings.clientNewPrefabName.contains("cubeB"))
+            return new int[]{300, 450};
+        else if(sSettings.clientNewPrefabName.contains("cubeC") && (sSettings.clientNewPrefabName.contains("000") || sSettings.clientNewPrefabName.contains("180")))
+            return new int[]{1200, 300};
+        else if(sSettings.clientNewPrefabName.contains("cubeC") && (sSettings.clientNewPrefabName.contains("090") || sSettings.clientNewPrefabName.contains("270")))
+            return new int[]{300, 1200};
         else if(sSettings.clientNewPrefabName.contains("cube"))
             return new int[]{300, 300};
         return new int[]{1200, 1200};
