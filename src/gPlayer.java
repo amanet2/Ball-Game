@@ -1,5 +1,3 @@
-import java.awt.*;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
 public class gPlayer extends gThing {
@@ -91,8 +89,8 @@ public class gPlayer extends gThing {
     public boolean wontClipOnMove(int dx, int dy, gScene scene) {
         for(String id : scene.getThingMap("BLOCK_COLLISION").keySet()) {
             gThing coll = scene.getThingMap("BLOCK_COLLISION").get(id);
-            Rectangle2D playerRect = new Rectangle(dx, dy, dims[0], dims[1]);
-            Rectangle2D collRect = new Rectangle(coll.coords[0], coll.coords[1], coll.dims[0], coll.dims[1]);
+            Rectangle2D playerRect = new Rectangle2D.Double(dx, dy, dims[0], dims[1]);
+            Rectangle2D collRect = new Rectangle2D.Double(coll.coords[0], coll.coords[1], coll.dims[0], coll.dims[1]);
             if(playerRect.intersects(collRect))
                 return false;
         }
@@ -109,14 +107,12 @@ public class gPlayer extends gThing {
 
     public boolean willCollideWithPlayerAtCoords(gThing target, int dx, int dy) {
         if(target != null ) {
-            //check null fields
-            Shape bounds = new Rectangle(
+            return new Rectangle2D.Double(
                     target.coords[0] + target.dims[0]/4,
                     target.coords[1] + target.dims[1]/4,
                     target.dims[0]/2,
                     target.dims[1]/2
-            );
-            return bounds.intersects(new Rectangle(dx,dy,dims[0],dims[1]));
+            ).intersects(new Rectangle2D.Double(dx,dy,dims[0],dims[1]));
         }
         return false;
     }
@@ -195,55 +191,5 @@ public class gPlayer extends gThing {
                 return attackTargetId;
             }
         });
-    }
-
-    public void draw(Graphics2D g2) {
-        Color pc = gColors.getColorFromName("clrp_" + color);
-        if (pc != null) {
-            int x = coords[0] - dims[0] / 4;
-            int y = coords[1] - dims[1] / 4;
-            int w = 3 * dims[0] / 2;
-            int h = 3 * dims[1] / 2;
-            if (sSettings.vfxenableflares)
-                dScreenFX.drawFlareFromColor(g2, x, y, w, h, 1, pc, new Color(0, 0, 0, 0));
-        }
-        //player shadow
-        drawRoundShadow(g2);
-        //player itself
-        g2.drawImage(
-                sprite,
-                coords[0],
-                coords[1],
-                null
-        );
-        if(!decorationSprite.equalsIgnoreCase("null")) {
-            g2.drawImage(
-                    gTextures.getGScaledImage(eManager.getPath(decorationSprite), 300, 300),
-                    coords[0], coords[1] - 2*dims[1]/3,
-                    null
-            );
-        }
-        //shading
-        if(sSettings.vfxenableshading) {
-            GradientPaint df = new GradientPaint(
-                    coords[0], coords[1] + 2*dims[1]/3, gColors.getColorFromName("clrw_clear"),
-                    coords[0], coords[1] + dims[1], gColors.getColorFromName("clrw_shadow1half")
-            );
-            g2.setPaint(df);
-            g2.fillOval(coords[0], coords[1], dims[0], dims[1]);
-        }
-        //player weapon
-        AffineTransform backup = g2.getTransform();
-        AffineTransform a = g2.getTransform();
-        a.rotate(fv - Math.PI/2, coords[0] + (float) dims[0] / 2, coords[1] + (float) dims[1] / 2);
-        g2.setTransform(a);
-        int diff = gWeapons.fromCode(weapon).dims[1] / 2;
-        g2.drawImage(
-                gWeapons.fromCode(weapon).sprite,
-                coords[0] + dims[0]/2,
-                coords[1] + dims[1]/2 - diff,
-                null
-        );
-        g2.setTransform(backup);
     }
 }

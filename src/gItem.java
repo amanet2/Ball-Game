@@ -1,5 +1,3 @@
-import java.awt.*;
-
 public class gItem extends gThing {
     String flare;
     String script;
@@ -22,33 +20,6 @@ public class gItem extends gThing {
         sprite = sp.equalsIgnoreCase("null") ? null : gTextures.getGScaledImage(eManager.getPath(sp), dims[0], dims[1]);
         this.script = script;
         this.flare = flare;
-    }
-
-    public void draw(Graphics2D g2) {
-        if(sprite != null) {
-            //item shadow
-            drawRoundShadow(g2);
-            g2.drawImage(sprite, coords[0], coords[1], null);
-            if(sSettings.vfxenableflares && !flare.equals("null")) {
-                String[] flareToks = flare.split(":");
-                int[] flareArgs = new int[] {
-                        Integer.parseInt(flareToks[0]), Integer.parseInt(flareToks[1]),
-                        Integer.parseInt(flareToks[2]), Integer.parseInt(flareToks[3])
-                };
-                dScreenFX.drawFlareFromColor(g2,
-                        coords[0] - dims[0]/2, coords[1] - dims[1]/2, dims[0]*2, dims[1]*2, 1,
-                        new Color(flareArgs[0], flareArgs[1], flareArgs[2], flareArgs[3]),
-                        new Color(0,0,0,0)
-                );
-            }
-        }
-        else if(sSettings.show_mapmaker_ui){
-            dFonts.setFontColor(g2, "clrf_spawnpoint");
-            g2.fillRect(coords[0], coords[1], dims[0], dims[1]);
-            dFonts.setFontSmall(g2);
-            g2.setColor(Color.BLACK);
-            g2.drawString(type, coords[0], coords[1] + dims[1]/2);
-        }
     }
 
     public void addToScene(gScene scene) {

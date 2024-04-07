@@ -128,29 +128,6 @@ public class dHUD {
         }
     }
 
-    public static void drawMapmakerOverlay(Graphics2D g2, gScene scene) {
-        //draw the grid OVER everything
-        if(sSettings.drawmapmakergrid) {
-            dFonts.setFontColor(g2, "clrf_mapmakergrid");
-            g2.setStroke(dFonts.defaultStroke);
-            for(int i = -12000; i <= 12000; i+=300) {
-                g2.drawLine(-12000, i, 12000, i);
-                g2.drawLine(i, -12000, i, 12000);
-            }
-        }
-        //draw hitboxes
-        if(sSettings.drawhitboxes) {
-            for(String id : scene.getThingMap("BLOCK_COLLISION").keySet()) {
-                ((gBlockCollision) scene.getThingMap("BLOCK_COLLISION").get(id)).draw(g2);
-            }
-            for(String id : scene.getThingMap("THING_PLAYER").keySet()) {
-                gThing player = scene.getThingMap("THING_PLAYER").get(id);
-                g2.setColor(Color.WHITE);
-                g2.drawRect(player.coords[0], player.coords[1], player.dims[0], player.dims[1]);
-            }
-        }
-    }
-
     public static void drawBulletsAndAnimations(Graphics2D g2, gScene scene) {
         ConcurrentHashMap<String, gThing> bulletsMap = scene.getThingMap("THING_BULLET");
         for (String id : bulletsMap.keySet()) {
