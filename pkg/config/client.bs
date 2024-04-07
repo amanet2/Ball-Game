@@ -25,7 +25,7 @@ cl_setvar playername player
 REM low power mode
 cl_setvar powersave 0
 REM framerate
-cl_setvar refresh 540
+cl_setvar refresh 360
 REM available resolutions
 cl_setvar resolutions 640x480,800x600,1024x768,1280x720,1600x900,1920x1080,2560x1440,3840x2160
 REM show frames per second
@@ -39,11 +39,11 @@ cl_setvar showscale 1
 REM enable animations
 cl_setvar vfxenableanimations 1
 REM enable flares
-cl_setvar vfxenableflares 0
+cl_setvar vfxenableflares 1
 REM enable shading
-cl_setvar vfxenableshading 0
+cl_setvar vfxenableshading 1
 REM enable shadows
-cl_setvar vfxenableshadows 0
+cl_setvar vfxenableshadows 1
 REM volume
 cl_setvar volume 1
 REM screen width
