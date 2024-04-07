@@ -5,13 +5,13 @@ cl_setvar debug 0
 REM save console log to file on close
 cl_setvar debuglog 0
 REM set to 1 for borderless window
-cl_setvar borderless 1
+cl_setvar borderless 0
 REM font name ui
 cl_setvar fontui None
 REM available framerates
 cl_setvar framerates 30,60,120,240,360,540,1000
 REM screen height
-cl_setvar height 2160
+cl_setvar height 1080
 REM default net address
 cl_setvar joinip localhost
 REM default net port
@@ -19,7 +19,7 @@ cl_setvar joinport 5555
 cl_setvar mapthemes dungeon,desert,forest,snow,wood
 cl_setvar maptheme 2
 REM player color
-cl_setvar playercolor yellow
+cl_setvar playercolor green
 REM player name
 cl_setvar playername player
 REM low power mode
@@ -47,7 +47,7 @@ cl_setvar vfxenableshadows 1
 REM volume
 cl_setvar volume 1
 REM screen width
-cl_setvar width 3840
+cl_setvar width 1920
 REM bindings
 bind - -zoom
 bind = zoom
