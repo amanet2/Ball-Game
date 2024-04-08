@@ -2,6 +2,7 @@ import javax.swing.JPanel;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.util.Queue;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * JPanel
@@ -19,6 +20,32 @@ public class dPanel extends JPanel {
         g2v.dispose();
         g2u.dispose();
         g.dispose();
+    }
+
+    private void drawFrame(Graphics2D g2) {
+        if(!sSettings.clientMapLoaded) // comment out for no loading screens
+            return;
+        g2.translate(sSettings.width / 2, sSettings.height / 2);
+        g2.scale(sSettings.zoomLevel, sSettings.zoomLevel);
+        g2.translate(-sSettings.width / 2, -sSettings.height / 2);
+        gScene scene = xMain.shellLogic.clientScene;
+        g2.scale(
+                ((1.0 / sSettings.gamescale) * (double) sSettings.height),
+                ((1.0 / sSettings.gamescale) * (double) sSettings.height)
+        );
+        g2.translate(-gCamera.coords[0], -gCamera.coords[1]);
+        synchronized (scene.objectMaps) {
+            drawBlockFloors(g2, scene);
+            drawBlockWallsAndPlayers(g2, scene);
+            drawMapmakerOverlay(g2, scene);
+            drawBulletsAndAnimations(g2, scene);
+            drawWaypoints(g2, scene);
+            drawPopups(g2, scene);
+            drawUserPlayerArrow(g2);
+            drawPlayerNames(g2);
+            if (sSettings.show_mapmaker_ui)
+                drawSelectionBoxes(g2);
+        }
     }
 
     private void drawFrameUI(Graphics2D g2, long gameTimeMillis) {
@@ -84,32 +111,6 @@ public class dPanel extends JPanel {
         g2.fillRect(x, y, w, h);
     }
 
-    private void drawFrame(Graphics2D g2) {
-        if(!sSettings.clientMapLoaded) // comment out for no loading screens
-            return;
-        g2.translate(sSettings.width / 2, sSettings.height / 2);
-        g2.scale(sSettings.zoomLevel, sSettings.zoomLevel);
-        g2.translate(-sSettings.width / 2, -sSettings.height / 2);
-        gScene scene = xMain.shellLogic.clientScene;
-        g2.scale(
-            ((1.0 / sSettings.gamescale) * (double) sSettings.height),
-            ((1.0 / sSettings.gamescale) * (double) sSettings.height)
-        );
-        g2.translate(-gCamera.coords[0], -gCamera.coords[1]);
-        synchronized (scene.objectMaps) {
-            drawBlockFloors(g2, scene);
-            drawBlockWallsAndPlayers(g2, scene);
-            drawMapmakerOverlay(g2, scene);
-            dHUD.drawBulletsAndAnimations(g2, scene);
-            dHUD.drawWaypoints(g2, scene);
-            dHUD.drawPopups(g2, scene);
-            dHUD.drawUserPlayerArrow(g2);
-            dHUD.drawPlayerNames(g2);
-            if (sSettings.show_mapmaker_ui)
-                dHUD.drawSelectionBoxes(g2);
-        }
-    }
-
     private void drawMapmakerOverlay(Graphics2D g2, gScene scene) {
         //draw the grid OVER everything
         if(sSettings.drawmapmakergrid) {
@@ -130,6 +131,127 @@ public class dPanel extends JPanel {
                 g2.setColor(Color.WHITE);
                 g2.drawRect(player.coords[0], player.coords[1], player.dims[0], player.dims[1]);
             }
+        }
+    }
+
+    private void drawBulletsAndAnimations(Graphics2D g2, gScene scene) {
+        ConcurrentHashMap<String, gThing> bulletsMap = scene.getThingMap("THING_BULLET");
+        for (String id : bulletsMap.keySet()) {
+            gThing t = bulletsMap.get(id);
+            g2.drawImage(t.sprite, t.coords[0], t.coords[1], null);
+        }
+        if(!sSettings.vfxenableanimations)
+            return;
+        ConcurrentHashMap<String, gThing> animationsMap = scene.getThingMap("THING_ANIMATION");
+        long gameTimeMillis = sSettings.gameTime;
+        for(String id : animationsMap.keySet()) {
+            gAnimation emit = (gAnimation) animationsMap.get(id);
+            if(emit.frame < gAnimations.animation_selection[emit.code].frames.length) {
+                if (gAnimations.animation_selection[emit.code].frames[emit.frame] != null) {
+                    g2.drawImage(gAnimations.animation_selection[emit.code].frames[emit.frame],
+                            emit.coords[0], emit.coords[1], null);
+                    if(emit.frametime < gameTimeMillis) {
+                        emit.frame = emit.frame + 1;
+                        emit.frametime = gameTimeMillis + 30;
+                    }
+                }
+            }
+            else {
+                xMain.shellLogic.scheduledEvents.put(
+                        Long.toString(sSettings.gameTime + 500), new gDoable() {
+                            public void doCommand() {
+                                xMain.shellLogic.clientScene.getThingMap("THING_ANIMATION").remove(id);
+                            }
+                        }
+                );
+            }
+        }
+    }
+
+    private void drawWaypoints(Graphics2D g2, gScene scene) {
+        if(sSettings.inplay) {
+            // players
+            for(String id : scene.getThingMapIds("THING_PLAYER")) {
+                if(id.equals(sSettings.uuid))
+                    continue;
+                gPlayer wpPlayer = scene.getPlayerById(id);
+                if(wpPlayer == null)
+                    continue;
+                if(!(wpPlayer.waypoint.equals("null") || wpPlayer.waypoint.equals("0")))
+                    drawNavPointer(g2, wpPlayer.coords[0] + wpPlayer.dims[0] / 2,
+                            wpPlayer.coords[1] + wpPlayer.dims[1] / 2,
+                            wpPlayer.waypoint);
+            }
+            // items
+            String[] itemIds = scene.getThingMapIds("THING_ITEM");
+            for(String id : itemIds) {
+                gThing item = scene.getThingMap("THING_ITEM").get(id);
+                if(item == null)
+                    continue;
+                if(!(item.waypoint.equals("null") || item.waypoint.equals("0")))
+                    drawNavPointer(g2,item.coords[0] + item.dims[0]/2,
+                            item.coords[1] + item.dims[1]/2, item.waypoint);
+            }
+        }
+    }
+
+    private void drawNavPointer(Graphics2D g2, int dx, int dy, String message) {
+        if(sSettings.inplay && xMain.shellLogic.getUserPlayer() != null) {
+            double[] deltas = new double[]{
+                    dx - xMain.shellLogic.getUserPlayer().coords[0]
+                            + xMain.shellLogic.getUserPlayer().dims[0]/2,
+                    dy - xMain.shellLogic.getUserPlayer().coords[1]
+                            + xMain.shellLogic.getUserPlayer().dims[1]/2
+            };
+            int[][] polygondims = new int[][]{
+                    new int[]{dx - eUtils.unscaleInt(sSettings.height / 16), dx,
+                            dx + eUtils.unscaleInt(sSettings.height / 16), dx
+                    },
+                    new int[]{dy, dy - eUtils.unscaleInt(sSettings.height / 16),
+                            dy, dy + eUtils.unscaleInt(sSettings.height / 16)
+                    }
+            };
+            g2.translate(3,3);
+            g2.setColor(Color.BLACK);
+            g2.fillPolygon(polygondims[0], polygondims[1], 4);
+            g2.translate(-3,-3);
+            g2.setColor(gColors.getColorFromName("clrp_" + xMain.shellLogic.clientVars.get("playercolor")));
+            g2.fillPolygon(polygondims[0], polygondims[1], 4);
+            //big font
+            dFonts.setFontGNormal(g2);
+            dFonts.drawCenteredString(g2, message, dx, dy);
+            AffineTransform backup = g2.getTransform();
+            g2.translate(gCamera.coords[0], gCamera.coords[1]);
+            double angle = Math.atan2(deltas[1], deltas[0]);
+            if (angle < 0)
+                angle += 2 * Math.PI;
+            angle += Math.PI / 2;
+            AffineTransform a = g2.getTransform();
+            a.rotate(angle,
+                    eUtils.unscaleInt((int)((double)sSettings.width / 2)),
+                    eUtils.unscaleInt((int)((double)sSettings.height / 2))
+            );
+            g2.setTransform(a);
+            int[][] arrowpolygon = new int[][]{
+                    new int[]{
+                            eUtils.unscaleInt(sSettings.width / 2 - sSettings.width / 54),
+                            eUtils.unscaleInt(sSettings.width / 2 + sSettings.width / 54),
+                            eUtils.unscaleInt(sSettings.width / 2)
+                    },
+                    new int[]{
+                            eUtils.unscaleInt(sSettings.height / 12),
+                            eUtils.unscaleInt(sSettings.height / 12),
+                            eUtils.unscaleInt(0)
+                    }
+            };
+            g2.translate(3,3);
+            g2.setColor(Color.BLACK);
+            g2.fillPolygon(arrowpolygon[0], arrowpolygon[1], 3);
+            g2.translate(-3,-3);
+            g2.setColor(gColors.getColorFromName("clrp_" + xMain.shellLogic.clientVars.get("playercolor")));
+            g2.fillPolygon(arrowpolygon[0], arrowpolygon[1], 3);
+            g2.translate(-gCamera.coords[0], -gCamera.coords[1]);
+            g2.setTransform(backup);
         }
     }
 
@@ -372,6 +494,184 @@ public class dPanel extends JPanel {
             drawBlockCubePreview(g2, (gBlockCube) scene.getThingMap("BLOCK_CUBE").get(tag));
         }
     }
+
+    private void drawPopup(Graphics2D g2, gPopup popup) {
+        // look for hashtag color codes here
+        StringBuilder ts = new StringBuilder();
+        for(String word : popup.text.split(" ")) {
+            if(word.contains("#")) {
+                if(word.split("#").length != 2)
+                    ts.append(word).append(" ");
+                else if(gColors.getColorFromName("clrp_" + word.split("#")[1].replace(":","")) != null){
+                    g2.setColor(Color.BLACK);
+                    g2.drawString(
+                            word.split("#")[0]+" ",
+                            popup.coords[0] + dFonts.getStringWidth(g2, ts.toString())+3,
+                            popup.coords[1] + 3
+                    );
+                    g2.setColor(gColors.getColorFromName("clrp_" + word.split("#")[1].replace(":","")));
+                    g2.drawString(word.split("#")[0]+" ",
+                            popup.coords[0] + dFonts.getStringWidth(g2, ts.toString()),
+                            popup.coords[1]);
+                    dFonts.setFontColor(g2, "clrf_normal");
+                    ts.append(word.split("#")[0]).append(word.contains(":") ? ": " : " ");
+                    continue;
+                }
+            }
+            g2.setColor(Color.BLACK);
+            g2.drawString(
+                    word.split("#")[0]+" ",
+                    popup.coords[0] + dFonts.getStringWidth(g2, ts.toString())+3,
+                    popup.coords[1] + 3
+            );
+            dFonts.setFontColor(g2, "clrf_normal");
+            g2.drawString(
+                    word.split("#")[0]+" ",
+                    popup.coords[0] + dFonts.getStringWidth(g2, ts.toString()),
+                    popup.coords[1]
+            );
+            ts.append(word).append(" ");
+        }
+    }
+
+    private void drawPopups(Graphics2D g2, gScene scene) {
+        dFonts.setFontGNormal(g2);
+        for(String id : scene.getThingMap("THING_POPUP").keySet()) {
+            drawPopup(g2, (gPopup)scene.getThingMap("THING_POPUP").get(id));
+        }
+    }
+    
+    private void drawPlayerNames(Graphics2D g2) {
+        nStateMap clStateMap = new nStateMap(xMain.shellLogic.clientNetThread.clientStateSnapshot);
+        for(String id : clStateMap.keys()) {
+            gPlayer p = xMain.shellLogic.getPlayerById(id);
+            if(p == null)
+                continue;
+            nState clState = clStateMap.get(id);
+            dFonts.setFontGNormal(g2);
+            String name = clState.get("name");
+            int coordx = p.coords[0];
+            int coordy = p.coords[1];
+            String ck = clState.get("color");
+            Color color = gColors.getColorFromName("clrp_" + ck);
+            g2.setColor(Color.BLACK);
+            g2.drawString(name,coordx + p.dims[0]/2 - (int)g2.getFont().getStringBounds(name, dFonts.fontrendercontext).getWidth()/2 + 3, coordy + 3);
+            g2.setColor(color);
+            g2.drawString(name,coordx + p.dims[0]/2 - (int)g2.getFont().getStringBounds(name, dFonts.fontrendercontext).getWidth()/2, coordy);
+            int[] bounds = {
+                    coordx + p.dims[0]/2-(int)g2.getFont().getStringBounds(name, dFonts.fontrendercontext).getWidth()/2
+                            - eUtils.unscaleInt(5*sSettings.height/128),
+                    coordy - eUtils.unscaleInt(sSettings.height/32),
+                    eUtils.unscaleInt(sSettings.height/32),
+                    eUtils.unscaleInt(sSettings.height/32)
+            };
+            g2.setColor(Color.BLACK);
+            g2.fillOval(bounds[0]+3, bounds[1]+3, bounds[2], bounds[3]);
+            g2.setColor(color);
+            g2.fillOval(bounds[0], bounds[1], bounds[2], bounds[3]);
+        }
+    }
+
+    private Polygon getPolygon(int midx, int coordy) {
+        int[][] polygonBase = new int[][]{new int[]{1,1,1}, new int[]{0,0,1}};
+        int polygonSize = eUtils.unscaleInt(sSettings.width/32);
+        int[][] polygon = new int[][]{
+                new int[]{midx - polygonBase[0][0]*polygonSize, midx + polygonBase[0][1]*polygonSize, midx},
+                new int[]{coordy + polygonBase[1][0]*polygonSize, coordy + polygonBase[1][1]*polygonSize,
+                        coordy + polygonBase[1][2]*polygonSize}
+        };
+        return new Polygon(polygon[0], polygon[1], polygon[0].length);
+    }
+
+    private void drawUserPlayerArrow(Graphics2D g2) {
+        gPlayer userPlayer = xMain.shellLogic.getUserPlayer();
+        if(userPlayer == null || (sSettings.show_mapmaker_ui && !sSettings.inplay))
+            return;
+        int midx = userPlayer.coords[0] + userPlayer.dims[0]/2;
+        int coordy = userPlayer.coords[1] - 200;
+        Polygon pg = getPolygon(midx, coordy);
+        Color color = gColors.getColorFromName("clrp_" + userPlayer.color);
+        g2.setStroke(dFonts.thickStroke);
+        g2.setColor(Color.BLACK);
+        pg.translate(3, 3);
+        g2.fillPolygon(pg);
+        pg.translate(-3, -3);
+        g2.setColor(color);
+        g2.fillPolygon(pg);
+    }
+
+    private void drawSelectionBoxes(Graphics2D g2) {
+        int mousex = MouseInfo.getPointerInfo().getLocation().x;
+        int mousey = MouseInfo.getPointerInfo().getLocation().y;
+        int window_offsetx = xMain.shellLogic.frame.getLocationOnScreen().x;
+        int window_offsety = xMain.shellLogic.frame.getLocationOnScreen().y;
+        // -- selected prefab (blocks)
+        g2.setStroke(dFonts.thickStroke);
+        for(String id : xMain.shellLogic.clientScene.getThingMap("THING_BLOCK").keySet()) { //TODO: concurrent excpetion occurred on this line
+            gBlock block = (gBlock) xMain.shellLogic.clientScene.getThingMap("THING_BLOCK").get(id);
+            if(xMain.shellLogic.getUserPlayer() == null && block.prefabId.equals(sSettings.clientSelectedPrefabId)) {
+                g2.setColor(gColors.getColorFromName("clrp_" + sSettings.clientPlayerColor));
+                g2.drawRect(block.coords[0], block.coords[1], block.dims[0], block.dims[1]);
+            }
+        }
+        // -- selected item
+        for(String id : xMain.shellLogic.clientScene.getThingMap("THING_ITEM").keySet()) {
+            gThing item = xMain.shellLogic.clientScene.getThingMap("THING_ITEM").get(id);
+            if(item.id.equals(sSettings.clientSelectedItemId)) {
+                g2.setColor(gColors.getColorFromName("clrp_" + sSettings.clientPlayerColor));
+                g2.drawRect(item.coords[0], item.coords[1], item.dims[0], item.dims[1]);
+            }
+        }
+        //prefab dims
+        // -- preview rect
+        int w = 300;
+        int h = 300;
+        if(sSettings.clientNewPrefabName.length() > 0) {
+            int[] pfd = uiEditorMenus.getNewPrefabDims();
+            w = pfd[0];
+            h = pfd[1];
+        }
+        int px = eUtils.roundToNearest(eUtils.unscaleInt(mousex - window_offsetx)
+                + (int) gCamera.coords[0] - w/2, uiEditorMenus.snapToX);
+        int py = eUtils.roundToNearest(eUtils.unscaleInt(mousey - window_offsety)
+                + (int) gCamera.coords[1] - h/2, uiEditorMenus.snapToY);
+        sSettings.clientPrevX = px;
+        sSettings.clientPrevY = py;
+        sSettings.clientPrevW = w;
+        sSettings.clientPrevH = h;
+        nStateMap clStateMap = new nStateMap(xMain.shellLogic.clientNetThread.clientStateSnapshot);
+        for(String id : clStateMap.keys()) {
+            if(xMain.shellLogic.clientScene.getPlayerById(id) != null)
+                continue;
+            nState clState = clStateMap.get(id);
+            String pxs = clState.get("px");
+            String pys = clState.get("py");
+            String pws = clState.get("pw");
+            String phs = clState.get("ph");
+            String cs = clState.get("color");
+            String nm = clState.get("name");
+            g2.setColor(gColors.getColorFromName("clrp_" + cs));
+            //check for null fields
+            for(String s : new String[]{pxs,pys,pws,phs,cs,nm}) {
+                if(s.equalsIgnoreCase("null"))
+                    return;
+            }
+            g2.drawRect(Integer.parseInt(pxs), Integer.parseInt(pys), Integer.parseInt(pws), Integer.parseInt(phs));
+            dFonts.setFontGNormal(g2);
+            g2.setColor(gColors.getColorFromName("clrp_" + cs));
+            g2.drawString(nm, Integer.parseInt(pxs), Integer.parseInt(pys));
+            if(id.equals(sSettings.uuid)) { //draw arrow over our own preview box
+                Polygon pg = getPolygon(Integer.parseInt(pxs), Integer.parseInt(pys) - 200);
+                Color color = gColors.getColorFromName("clrp_" + cs);
+                g2.setStroke(dFonts.thickStroke);
+                dFonts.setFontColor(g2, "clrf_normaltransparent");
+                g2.drawPolygon(pg);
+                g2.setColor(color);
+                g2.fillPolygon(pg);
+            }
+        }
+    }
+
 
     public dPanel() {
         super();

@@ -627,7 +627,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
 
     public int[] getPlaceObjCoords() {
         int[] mc = getMouseCoordinates();
-        int[] fabdims = dHUD.getNewPrefabDims();
+        int[] fabdims = uiEditorMenus.getNewPrefabDims();
         int pfx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0])+(int) gCamera.coords[0] - fabdims[0]/2,
                 uiEditorMenus.snapToX);
         int pfy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1])+(int) gCamera.coords[1] - fabdims[1]/2,

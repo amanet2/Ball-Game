@@ -1,4 +1,9 @@
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.MultipleGradientPaint;
+import java.awt.RadialGradientPaint;
+import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 
 public class gThing {

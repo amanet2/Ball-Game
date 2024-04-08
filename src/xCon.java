@@ -908,7 +908,7 @@ public class xCon {
                         if(sSettings.show_mapmaker_ui && sSettings.clientMapLoaded) {
                             int[] mc = xMain.shellLogic.getMouseCoordinates();
                             if(sSettings.clientNewPrefabName.length() > 0) {
-                                int[] pfd = dHUD.getNewPrefabDims();
+                                int[] pfd = uiEditorMenus.getNewPrefabDims();
                                 int w = pfd[0];
                                 int h = pfd[1];
                                 int pfx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0]) + (int) gCamera.coords[0] - w / 2,
