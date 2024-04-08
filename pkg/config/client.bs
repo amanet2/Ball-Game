@@ -5,13 +5,13 @@ cl_setvar debug 0
 REM save console log to file on close
 cl_setvar debuglog 0
 REM set to 1 for borderless window
-cl_setvar borderless 0
+cl_setvar borderless 1
 REM font name ui
 cl_setvar fontui None
 REM available framerates
 cl_setvar framerates 30,60,120,240,360,540,1000
 REM screen height
-cl_setvar height 900
+cl_setvar height 2160
 REM default net address
 cl_setvar joinip localhost
 REM default net port
@@ -19,7 +19,7 @@ cl_setvar joinport 5555
 cl_setvar mapthemes dungeon,desert,forest,snow,wood
 cl_setvar maptheme 2
 REM player color
-cl_setvar playercolor green
+cl_setvar playercolor blue
 REM player name
 cl_setvar playername player
 REM low power mode
@@ -39,15 +39,15 @@ cl_setvar showscale 1
 REM enable animations
 cl_setvar vfxenableanimations 1
 REM enable flares
-cl_setvar vfxenableflares 0
+cl_setvar vfxenableflares 1
 REM enable shading
-cl_setvar vfxenableshading 0
+cl_setvar vfxenableshading 1
 REM enable shadows
-cl_setvar vfxenableshadows 0
+cl_setvar vfxenableshadows 1
 REM volume
 cl_setvar volume 1
 REM screen width
-cl_setvar width 1600
+cl_setvar width 3840
 REM bindings
 bind - -zoom
 bind = zoom
@@ -122,22 +122,22 @@ cl_setvar clrw_shadow1half 0 0 0 100
 cl_setvar clrw_shadow2 0 0 0 0
 cl_setvar clrw_clear 0 0 0 0
 cl_setvar clrw_floorshading 0 0 0 25
-cl_setvar clrw_ambientshading 0 0 0 200
-cl_setvar clrw_roofvertoutline1 0 0 0 20
-cl_setvar clrw_roofvertoutline2 0 0 0 90
+cl_setvar clrw_ambientshading 0 0 0 0
+cl_setvar clrw_roofvertoutline1 0 0 0 0
+cl_setvar clrw_roofvertoutline2 0 0 0 0
 cl_setvar clrw_roofvertshading1 0 0 0 0
-cl_setvar clrw_roofvertshading2 0 0 0 20
-cl_setvar clrw_roofoutline1 0 0 0 100
+cl_setvar clrw_roofvertshading2 0 0 0 0
+cl_setvar clrw_roofoutline1 0 0 0 0
 cl_setvar clrw_roofoutline2 0 0 0 0
-cl_setvar clrw_roofshading1 0 0 0 100
+cl_setvar clrw_roofshading1 0 0 0 0
 cl_setvar clrw_roofshading2 0 0 0 0
-cl_setvar clrw_walloutline1 0 0 0 80
-cl_setvar clrw_walloutline2 0 0 0 255
-cl_setvar clrw_walllowoutline1 0 0 0 140
-cl_setvar clrw_walllowoutline2 0 0 0 255
+cl_setvar clrw_walloutline1 0 0 0 0
+cl_setvar clrw_walloutline2 0 0 0 0
+cl_setvar clrw_walllowoutline1 0 0 0 0
+cl_setvar clrw_walllowoutline2 0 0 0 0
 cl_setvar clrw_wallshading1 0 0 0 80
 cl_setvar clrw_wallshading2 0 0 0 200
-cl_setvar clrw_walllowshading1 0 0 0 120
+cl_setvar clrw_walllowshading1 0 0 0 140
 cl_setvar clrw_walllowshading2 0 0 0 200
 cl_setvar clrw_topcolor 0 0 0 0
 cl_setvar clrw_topcolordark 0 0 0 100
