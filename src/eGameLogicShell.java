@@ -130,7 +130,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 sSettings.width = Integer.parseInt(value);
                 if(frame != null) {
                     refreshResolution();
-                    dMenus.refreshLogos();
+                    dScreenMessages.refreshLogos();
                 }
             }
         });
@@ -140,7 +140,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 dFonts.refreshFonts();
                 if(frame != null) {
                     refreshResolution();
-                    dMenus.refreshLogos();
+                    dScreenMessages.refreshLogos();
                 }
             }
         });
