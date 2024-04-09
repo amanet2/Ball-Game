@@ -1,8 +1,8 @@
 load
-gamemode 5
+gamemode 7
 putfloor 55 6 0 2100
-putfloor 12 1 0 -300
 putfloor 34 3 2400 -300
+putfloor 12 1 0 -300
 putfloor 48 5 -1200 900
 putfloor 29 2 2400 -1500
 putfloor 1 1 1200 -300
@@ -163,7 +163,7 @@ putitem ITEM_PLAYERSPAWN 71 -300 -100
 putitem ITEM_PLAYERSPAWN 72 2400 0
 putitem ITEM_PLAYERSPAWN 73 1800 2100
 putitem ITEM_SPAWNPOINT 30 -600 600
-putitem ITEM_FLAG 74 1200 600
+putitem ITEM_FLAGDEPOSIT 74 1200 600
 putitem ITEM_SPAWNPOINT 31 -900 900
 putitem ITEM_SPAWNPOINT 32 -600 1200
 putitem ITEM_SPAWNPOINT 33 -900 1500
