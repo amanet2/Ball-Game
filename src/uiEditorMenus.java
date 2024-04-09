@@ -116,7 +116,6 @@ public class uiEditorMenus {
         JMenuItem open = addMenuItem("File", "Open");
         JMenuItem saveas = addMenuItem("File", "Save As...");
         saveas.setEnabled(false);
-//        JMenuItem exportasprefab = addMenuItem("File", "Export as Prefab");
         JMenuItem exit = addMenuItem("File", "Exit");
         JMenuItem join = addMenuItem("Multiplayer", "Join Game");
         JMenuItem joinip = addMenuItem("Multiplayer", "Address: " + xMain.shellLogic.console.ex("cl_setvar joinip"));
@@ -175,8 +174,6 @@ public class uiEditorMenus {
         });
 
         saveas.addActionListener(e -> xMain.shellLogic.console.ex("e_saveas"));
-
-//        exportasprefab.addActionListener(e -> xMain.shellLogic.console.ex("exportasprefab"));
 
         //fill prefabs menu
         ArrayList<String> allPrefabFiles = new ArrayList<>(Arrays.asList(sSettings.prefab_titles));

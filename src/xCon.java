@@ -429,14 +429,6 @@ public class xCon {
                 return "usage: cl_deleteprefab <id>";
             }
         });
-        commands.put("exportprefab", new gDoable() {
-            public String doCommand(String fullCommand) {
-                String[] toks = fullCommand.split(" ");
-                if(toks.length > 1)
-                    deletePrefabDelegate(xMain.shellLogic.clientScene, toks[1]);
-                return "usage: exportprefab <prefab_name>";
-            }
-        });
         commands.put("disconnect", new gDoable() {
             public String doCommand(String fullCommand) {
                 if(sSettings.IS_SERVER && sSettings.IS_CLIENT) {
