@@ -1,0 +1,4 @@
+getres spid getrandthing ITEM_POINTGIVER
+getres att setthing THING_PLAYER $1 attack_target_type
+testresn null $spid setthing THING_PLAYER $1 attack_target_type ITEM_POINTGIVER
+testres null $spid testres $att ITEM_POINTGIVER setthing THING_PLAYER $1 attack_target_type THING_PLAYER
