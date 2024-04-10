@@ -70,6 +70,19 @@ public class gScene {
         return visualQueue;
     }
 
+    public void saveAsPrefab(String filename, String foldername) {
+        ArrayList<String> buildStrings = new ArrayList<>();
+        ConcurrentHashMap<String, gThing> floorMap = getThingMap("BLOCK_FLOOR");
+        ConcurrentHashMap<String, gThing> cubeMap = getThingMap("BLOCK_CUBE");
+        ConcurrentHashMap<String, gThing> collisionMap = getThingMap("BLOCK_COLLISION");
+        String idmodstr = getIdModStr(1);
+        System.out.println(buildStrings);
+    }
+
+    private String getIdModStr(int ctr) {
+        return String.format("getres idmod%d sumint $1 %d", ctr, ctr);
+    }
+
     public void saveAs(String filename, String foldername) {
         if(foldername == null || foldername.strip().length() < 1)
             foldername="maps";
