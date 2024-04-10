@@ -78,50 +78,66 @@ public class gScene {
         int idctr = 0;
         int modxctr = 0;
         int modyctr = 0;
+
         for(String id : floorMap.keySet()) {
             gThing block = floorMap.get(id);
 
-            String modxstrval = "$3";
+            String modxstr = "$3";
             int modx = block.coords[0];
             if(modx != 0) {
                 modxctr++;
-                modxstrval = "$xmod"+modxctr;
-                String modxstr = String.format("getres xmod%d sumint $3 %d", modxctr, modx);
-                buildStrings.add(modxstr);
+                modxstr = "$xmod"+modxctr;
+                buildStrings.add(String.format("getres xmod%d sumint $3 %d", modxctr, modx));
             }
 
-            String modystrval = "$4";
+            String modystr = "$4";
             int mody = block.coords[1];
             if(mody != 0) {
                 modyctr++;
-                modystrval = "$ymod"+modyctr;
-                String modystr = String.format("getres ymod%d sumint $4 %d", modyctr, mody);
-                buildStrings.add(modystr);
+                modystr = "$ymod"+modyctr;
+                buildStrings.add(String.format("getres ymod%d sumint $4 %d", modyctr, mody));
             }
 
-            String modidstr = "";
+            String modidstr = "$1";
             if(idctr > 0) {
-                modidstr = getIdModStr(idctr);
-                buildStrings.add(modidstr);
+                modidstr = "$idmod" + idctr;
+                buildStrings.add(String.format("getres idmod%d sumint $1 %d", idctr, idctr));
             }
-            String modId = "$1";
-            if(idctr > 0) {
-                modId = "$idmod" + idctr;
-            }
-            String[] args = new String[] { modId, "$2", modxstrval, modystrval};
-            StringBuilder floorString = new StringBuilder("putfloor");
-            for(String arg : args) {
-                if(arg != null)
-                    floorString.append(" ").append(arg);
-            }
-            buildStrings.add(floorString.toString());
+            buildStrings.add(String.format("putfloor %s $2 %s %s", modidstr, modxstr, modystr));
+
             idctr++;
         }
-        System.out.println(buildStrings);
-    }
 
-    private String getIdModStr(int ctr) {
-        return String.format("getres idmod%d sumint $1 %d", ctr, ctr);
+        for(String id : cubeMap.keySet()) {
+            gBlockCube block = (gBlockCube) cubeMap.get(id);
+
+            String modxstr = "$3";
+            int modx = block.coords[0];
+            if(modx != 0) {
+                modxctr++;
+                modxstr = "$xmod"+modxctr;
+                buildStrings.add(String.format("getres xmod%d sumint $3 %d", modxctr, modx));
+            }
+
+            String modystr = "$4";
+            int mody = block.coords[1];
+            if(mody != 0) {
+                modyctr++;
+                modystr = "$ymod"+modyctr;
+                buildStrings.add(String.format("getres ymod%d sumint $4 %d", modyctr, mody));
+            }
+
+            String modidstr = "$1";
+            if(idctr > 0) {
+                modidstr = "$idmod" + idctr;
+                buildStrings.add(String.format("getres idmod%d sumint $1 %d", idctr, idctr));
+            }
+            buildStrings.add(String.format("putcube %s $2 %s %s %d %d %d %d", modidstr, modxstr, modystr, block.dims[0], block.dims[1], block.toph, block.wallh));
+
+            idctr++;
+        }
+
+        System.out.println(buildStrings);
     }
 
     public void saveAs(String filename, String foldername) {
