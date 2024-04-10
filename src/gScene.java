@@ -75,7 +75,48 @@ public class gScene {
         ConcurrentHashMap<String, gThing> floorMap = getThingMap("BLOCK_FLOOR");
         ConcurrentHashMap<String, gThing> cubeMap = getThingMap("BLOCK_CUBE");
         ConcurrentHashMap<String, gThing> collisionMap = getThingMap("BLOCK_COLLISION");
-        String idmodstr = getIdModStr(1);
+        int idctr = 0;
+        int modxctr = 0;
+        int modyctr = 0;
+        for(String id : floorMap.keySet()) {
+            gThing block = floorMap.get(id);
+
+            String modxstrval = "$3";
+            int modx = block.coords[0];
+            if(modx != 0) {
+                modxctr++;
+                modxstrval = "$xmod"+modxctr;
+                String modxstr = String.format("getres xmod%d sumint $3 %d", modxctr, modx);
+                buildStrings.add(modxstr);
+            }
+
+            String modystrval = "$4";
+            int mody = block.coords[1];
+            if(mody != 0) {
+                modyctr++;
+                modystrval = "$ymod"+modyctr;
+                String modystr = String.format("getres ymod%d sumint $4 %d", modyctr, mody);
+                buildStrings.add(modystr);
+            }
+
+            String modidstr = "";
+            if(idctr > 0) {
+                modidstr = getIdModStr(idctr);
+                buildStrings.add(modidstr);
+            }
+            String modId = "$1";
+            if(idctr > 0) {
+                modId = "$idmod" + idctr;
+            }
+            String[] args = new String[] { modId, "$2", modxstrval, modystrval};
+            StringBuilder floorString = new StringBuilder("putfloor");
+            for(String arg : args) {
+                if(arg != null)
+                    floorString.append(" ").append(arg);
+            }
+            buildStrings.add(floorString.toString());
+            idctr++;
+        }
         System.out.println(buildStrings);
     }
 
