@@ -11,7 +11,7 @@ cl_setvar fontui None
 REM available framerates
 cl_setvar framerates 30,60,120,240,360,540,1000
 REM screen height
-cl_setvar height 720
+cl_setvar height 1080
 REM default net address
 cl_setvar joinip 192.168.1.151
 REM default net port
@@ -23,7 +23,7 @@ cl_setvar playercolor purple
 REM player name
 cl_setvar playername guest
 REM low power mode
-cl_setvar powersave 1
+cl_setvar powersave 0
 REM framerate
 cl_setvar refresh 360
 REM available resolutions
@@ -39,15 +39,15 @@ cl_setvar showscale 1
 REM enable animations
 cl_setvar vfxenableanimations 1
 REM enable flares
-cl_setvar vfxenableflares 0
+cl_setvar vfxenableflares 1
 REM enable shading
-cl_setvar vfxenableshading 0
+cl_setvar vfxenableshading 1
 REM enable shadows
-cl_setvar vfxenableshadows 0
+cl_setvar vfxenableshadows 1
 REM volume
 cl_setvar volume 1
 REM screen width
-cl_setvar width 1280
+cl_setvar width 1920
 REM bindings
 bind - -zoom
 bind = zoom
