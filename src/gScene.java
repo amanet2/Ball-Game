@@ -137,6 +137,35 @@ public class gScene {
             idctr++;
         }
 
+        for(String id : collisionMap.keySet()) {
+            gThing block = collisionMap.get(id);
+
+            String modxstr = "$3";
+            int modx = block.coords[0];
+            if(modx != 0) {
+                modxctr++;
+                modxstr = "$xmod"+modxctr;
+                buildStrings.add(String.format("getres xmod%d sumint $3 %d", modxctr, modx));
+            }
+
+            String modystr = "$4";
+            int mody = block.coords[1];
+            if(mody != 0) {
+                modyctr++;
+                modystr = "$ymod"+modyctr;
+                buildStrings.add(String.format("getres ymod%d sumint $4 %d", modyctr, mody));
+            }
+
+            String modidstr = "$1";
+            if(idctr > 0) {
+                modidstr = "$idmod" + idctr;
+                buildStrings.add(String.format("getres idmod%d sumint $1 %d", idctr, idctr));
+            }
+            buildStrings.add(String.format("putcollision %s $2 %s %s %s %s\n", modidstr, modxstr, modystr, block.dims[0], block.dims[1]));
+
+            idctr++;
+        }
+
         System.out.println(buildStrings);
     }
 
