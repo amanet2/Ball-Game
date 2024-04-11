@@ -115,7 +115,9 @@ public class uiEditorMenus {
         JMenuItem newtopmap = addMenuItem("File", "New");
         JMenuItem open = addMenuItem("File", "Open");
         JMenuItem saveas = addMenuItem("File", "Save As...");
+        JMenuItem saveprefab = addMenuItem("File", "Save As Prefab...");
         saveas.setEnabled(false);
+        saveprefab.setEnabled(false);
         JMenuItem exit = addMenuItem("File", "Exit");
         JMenuItem join = addMenuItem("Multiplayer", "Join Game");
         JMenuItem joinip = addMenuItem("Multiplayer", "Address: " + xMain.shellLogic.console.ex("cl_setvar joinip"));
@@ -142,6 +144,7 @@ public class uiEditorMenus {
                 if(!sSettings.clientMapLoaded || xMain.shellLogic.console.ex("e_showlossalert").equals("0"))
                     delegate();
                 saveas.setEnabled(true);
+                saveprefab.setEnabled(true);
             }
 
             private void delegate() {
@@ -160,6 +163,7 @@ public class uiEditorMenus {
             newtopmap.setEnabled(false);
             open.setEnabled(false);
             saveas.setEnabled(true);
+            saveprefab.setEnabled(true);
         });
 
         joinip.addActionListener(e -> xMain.shellLogic.console.ex("e_changejoinip"));
@@ -171,9 +175,11 @@ public class uiEditorMenus {
         open.addActionListener(e -> {
             xMain.shellLogic.console.ex("e_openfile");
             saveas.setEnabled(true);
+            saveprefab.setEnabled(true);
         });
 
         saveas.addActionListener(e -> xMain.shellLogic.console.ex("e_saveas"));
+        saveprefab.addActionListener(e -> xMain.shellLogic.console.ex("exportprefab"));
 
         //fill prefabs menu
         ArrayList<String> allPrefabFiles = new ArrayList<>(Arrays.asList(sSettings.prefab_titles));

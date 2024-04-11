@@ -1,3 +1,5 @@
+* make created prefabs available right away without having to restart game
+    -> can add the new prefab's script into the prefab map at some point
 * include items in prefab export
 * come up with better way to create and place map geometry where we dont have to define rotations manually
 * be able to export prefabs again

@@ -628,18 +628,17 @@ public class xCon {
         });
         commands.put("exportprefab", new gDoable() {
             public String doCommand(String fullCommand) {
-//                JFileChooser fileChooser = new JFileChooser();
-//                uiEditorMenus.setFileChooserFont(fileChooser.getComponents());
-//                File workingDirectory = new File("prefabs");
-//                fileChooser.setCurrentDirectory(workingDirectory);
-//                if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
-//                    File file = fileChooser.getSelectedFile();
-//                    String filename = file.getName();
-//                    String foldername = file.getParent();
-//                    xMain.shellLogic.clientScene.saveAsPrefab(filename, foldername);
-//                    return "exported " + file.getPath();
-//                }
-                xMain.shellLogic.clientScene.saveAsPrefab("test", "pkg");
+                JFileChooser fileChooser = new JFileChooser();
+                uiEditorMenus.setFileChooserFont(fileChooser.getComponents());
+                File workingDirectory = new File("prefabs");
+                fileChooser.setCurrentDirectory(workingDirectory);
+                if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+                    File file = fileChooser.getSelectedFile();
+                    String filename = file.getName();
+                    String foldername = file.getParent();
+                    xMain.shellLogic.clientScene.saveAsPrefab(filename, foldername);
+                    return "exported " + file.getPath();
+                }
                 return "failed to export prefab";
             }
         });
