@@ -20,6 +20,7 @@ public class uiMenus {
     static final int MENU_CREDITS = 14;
     static final int MENU_DISCONNECT = 15;
     static final int MENU_THEME = 16;
+    static final int MENU_BOTS = 17;
 
     static int selectedMenu = MENU_MAIN;
 
@@ -197,10 +198,7 @@ public class uiMenus {
                         },
                         new uiMenuItem(String.format("Number of Bots [%d]", sSettings.botCount)){
                             public void doItem() {
-                                sSettings.botCount++;
-                                if(sSettings.botCount > 3)
-                                    sSettings.botCount = 0;
-                                this.text = String.format("Number of Bots [%d]", sSettings.botCount);
+                                selectedMenu = MENU_BOTS;
                             }
                         }
                 },
@@ -394,8 +392,23 @@ public class uiMenus {
                 },
                 MENU_MAIN
         ),
-        new uiMenu("Choose Theme", getThemeMenuItems(),  MENU_MAIN)
+        new uiMenu("Choose Theme", getThemeMenuItems(),  MENU_MAIN),
+        new uiMenu("Number of Bots", getBotMenuItems(), MENU_NEWGAME)
     };
+
+    private static uiMenuItem[] getBotMenuItems() {
+        uiMenuItem[] menuItems = new uiMenuItem[sSettings.botCountMax + 1];
+        for(int i = 0; i < menuItems.length; i++) {
+            menuItems[i] = new uiMenuItem(Integer.toString(i)){
+                public void doItem() {
+                    sSettings.botCount = Integer.parseInt(this.text);
+                    menuSelection[MENU_NEWGAME].refresh();
+                    selectedMenu = MENU_NEWGAME;
+                }
+            };
+        }
+        return menuItems;
+    }
 
     public static void nextItem() {
         if(menuSelection[selectedMenu].selectedItem < menuSelection[selectedMenu].items.length-1)
