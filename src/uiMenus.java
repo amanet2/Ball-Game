@@ -191,7 +191,7 @@ public class uiMenus {
                                 selectedMenu = MENU_MAIN;
                             }
                         },
-                        new uiMenuItem("MAP [<random map>]"){
+                        new uiMenuItem("MAP [random]"){
                             public void doItem() {
                                 selectedMenu = MENU_MAP;
                             }
@@ -207,7 +207,7 @@ public class uiMenus {
             public void refresh() {
                 setMenuItemTexts(new String[]{
                         "-Start-",
-                        String.format("Map [%s]", eManager.mapSelectionIndex < 0 ? "<random map>"
+                        String.format("Map [%s]", eManager.mapSelectionIndex < 0 ? "random"
                                 : eManager.mapsFileSelection[eManager.mapSelectionIndex]),
                         String.format("Number of Bots [%d]", sSettings.botCount),
                 });
@@ -441,10 +441,10 @@ public class uiMenus {
 
     private static uiMenuItem[] getMapMenuItems() {
         uiMenuItem[] items = new uiMenuItem[]{
-            new uiMenuItem("<random map>") {
+            new uiMenuItem("random") {
                 public void doItem() {
                     eManager.mapSelectionIndex = -1;
-                    menuSelection[MENU_NEWGAME].items[1].text = "MAP [<random map>]";
+                    menuSelection[MENU_NEWGAME].items[1].text = "MAP [random]";
                     selectedMenu = MENU_NEWGAME;
                 }
             }
