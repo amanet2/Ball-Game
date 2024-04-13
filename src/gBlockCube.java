@@ -1,6 +1,9 @@
+import java.awt.*;
+
 public class gBlockCube extends gBlock {
     int wallh; //for cubes
     int toph; //for cubes
+    TexturePaint wallTexture;
 
     public gBlockCube(String id, String prefabId, int x, int y, int w, int h, int toph, int wallh) {
         super(id, prefabId, x, y, w, h);

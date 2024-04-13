@@ -4,13 +4,14 @@ import javax.sound.sampled.FloatControl;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
-import java.awt.Cursor;
-import java.awt.Font;
+import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.*;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -1695,7 +1696,7 @@ public class xCon {
     }
 
     private void putCubeDelegate(String[] toks, gScene scene) {
-        new gBlockCube(
+        gBlockCube cube = new gBlockCube(
                 toks[1], toks[2],
                 Integer.parseInt(toks[3]),
                 Integer.parseInt(toks[4]),
@@ -1703,7 +1704,10 @@ public class xCon {
                 Integer.parseInt(toks[6]),
                 Integer.parseInt(toks[7]),
                 Integer.parseInt(toks[8])
-        ).addToScene(scene);
+        );
+        cube.wallTexture = new TexturePaint(xMain.shellLogic.wallTextureSourceImages[sSettings.mapTheme],
+                new Rectangle2D.Double(cube.coords[0], cube.coords[1] + cube.toph, 300, cube.wallh));
+        cube.addToScene(scene);
     }
 
     private void putItemDelegate(String[] toks, gScene scene) {

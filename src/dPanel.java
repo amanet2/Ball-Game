@@ -307,7 +307,10 @@ public class dPanel extends JPanel {
                     cube.coords[0], cube.coords[1] + cube.dims[1], cube.dims[0], (int)(cube.wallh*sSettings.vfxshadowfactor)
             );
         }
-        g2.setPaint(xMain.shellLogic.wallTextures[sSettings.mapTheme]);
+        if(cube.wallTexture != null)
+            g2.setPaint(cube.wallTexture);
+        else
+            g2.setPaint(xMain.shellLogic.wallTextures[sSettings.mapTheme]);
         g2.fillRect(cube.coords[0], cube.coords[1] + cube.toph, cube.dims[0], cube.wallh);
         if (sSettings.vfxenableshading) {
             g2.setStroke(dFonts.thickStroke);
