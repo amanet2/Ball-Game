@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -25,6 +26,9 @@ public class eGameLogicShell extends eGameLogicAdapter {
     eGameLogicSimulation serverSimulationThread;
     public eGameLogicServer serverNetThread;
     eGameLogicClient clientNetThread;
+    BufferedImage[] floorTextureSourceImages;
+    BufferedImage[] wallTextureSourceImages;
+    BufferedImage[] topTextureSourceImages;
     TexturePaint[] floorTextures;
     TexturePaint[] wallTextures;
     TexturePaint[] topTextures;
@@ -357,6 +361,9 @@ public class eGameLogicShell extends eGameLogicAdapter {
             sSettings.showscale = true;
         }
         try {
+            floorTextureSourceImages = new BufferedImage[sSettings.mapThemes.length];
+            wallTextureSourceImages = new BufferedImage[sSettings.mapThemes.length];
+            topTextureSourceImages = new BufferedImage[sSettings.mapThemes.length];
             floorTextures = new TexturePaint[sSettings.mapThemes.length];
             wallTextures = new TexturePaint[sSettings.mapThemes.length];
             topTextures = new TexturePaint[sSettings.mapThemes.length];
@@ -364,11 +371,14 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 String floorPath = eManager.getPath(String.format("tiles/floor/%s.png", sSettings.mapThemes[i]));
                 String wallPath = eManager.getPath(String.format("tiles/wall/%s.png", sSettings.mapThemes[i]));
                 String topPath = eManager.getPath(String.format("tiles/top/%s.png", sSettings.mapThemes[i]));
-                floorTextures[i] = new TexturePaint(ImageIO.read(new File(floorPath)),
+                floorTextureSourceImages[i] = ImageIO.read(new File(floorPath));
+                wallTextureSourceImages[i] = ImageIO.read(new File(wallPath));
+                topTextureSourceImages[i] = ImageIO.read(new File(topPath));
+                floorTextures[i] = new TexturePaint(floorTextureSourceImages[i],
                         new Rectangle2D.Double(0,0,300, 300));
-                wallTextures[i] = new TexturePaint(ImageIO.read(new File(wallPath)),
+                wallTextures[i] = new TexturePaint(wallTextureSourceImages[i],
                         new Rectangle2D.Double(0,0, 300, 300));
-                topTextures[i] = new TexturePaint(ImageIO.read(new File(topPath)),
+                topTextures[i] = new TexturePaint(topTextureSourceImages[i],
                         new Rectangle2D.Double(0,0, 300, 300));
             }
         }
