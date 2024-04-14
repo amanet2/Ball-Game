@@ -650,8 +650,8 @@ public class eGameLogicShell extends eGameLogicAdapter {
             int[] mc = getMouseCoordinates();
             int[] xBounds = new int[]{0, sSettings.width / 4};
             int[] yBounds = sSettings.borderless
-                    ? new int[]{14 * sSettings.height / 16, 15 * sSettings.height / 16}
-                    : new int[]{15 * sSettings.height / 16, sSettings.height};
+                    ? new int[]{14 * sSettings.height / 16, sSettings.height}
+                    : new int[]{15 * sSettings.height / 16, 17 * sSettings.height / 16};
             if ((mc[0] >= xBounds[0] && mc[0] <= xBounds[1]) && (mc[1] >= yBounds[0] && mc[1] <= yBounds[1])) {
                 if (!uiMenus.gobackSelected) {
                     uiMenus.gobackSelected = true;

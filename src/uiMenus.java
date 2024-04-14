@@ -26,7 +26,7 @@ public class uiMenus {
 
     static final uiMenu[] menuSelection = new uiMenu[]{
         new uiMenu(
-                "Welcome",
+                "Home",
                 new uiMenuItem[]{
                         new uiMenuItem("Host Game") {
                             public void doItem(){

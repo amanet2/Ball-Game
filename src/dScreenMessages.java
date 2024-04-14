@@ -228,10 +228,16 @@ public class dScreenMessages {
         g.fillRect(0,0,sSettings.width,sSettings.height);
         g.drawImage(logoimg,0,0,null);
         g.setColor(Color.GRAY);
-        dFonts.drawCenteredString(g, uiMenus.menuSelection[uiMenus.selectedMenu].title,
-                sSettings.width/2,10*sSettings.height/30);
+        StringBuilder crumbString = new StringBuilder(uiMenus.menuSelection[uiMenus.selectedMenu].title);
+        int crumbParent = uiMenus.menuSelection[uiMenus.selectedMenu].parentMenu;
+        while(crumbParent > -1) {
+            crumbString.insert(0, uiMenus.menuSelection[crumbParent].title + "/");
+            crumbParent = uiMenus.menuSelection[crumbParent].parentMenu;
+        }
+        dFonts.drawCenteredString(g, crumbString.toString(), sSettings.width/2,10*sSettings.height/30);
         dFonts.setFontColor(g, "clrf_normal");
-        dFonts.drawCenteredString(g, "_________",sSettings.width/2,21*sSettings.height/60);
+        g.drawLine(2*sSettings.width/5, 21*sSettings.height/60, 3*sSettings.width/5, 21*sSettings.height/60);
+//        dFonts.drawCenteredString(g, "_________",sSettings.width/2,21*sSettings.height/60);
         int ctr = 0;
         int sel = 0;
         for(uiMenuItem i : uiMenus.menuSelection[uiMenus.selectedMenu].items){
