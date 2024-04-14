@@ -1705,8 +1705,8 @@ public class xCon {
                 Integer.parseInt(toks[7]),
                 Integer.parseInt(toks[8])
         );
-        cube.wallTexture = new TexturePaint(xMain.shellLogic.wallTextureSourceImages[sSettings.mapTheme],
-                new Rectangle2D.Double(cube.coords[0], cube.coords[1] + cube.toph, 300, cube.wallh));
+//        cube.wallTexture = new TexturePaint(xMain.shellLogic.wallTextureSourceImages[sSettings.mapTheme],
+//                new Rectangle2D.Double(cube.coords[0], cube.coords[1] + cube.toph, cube.wallh, cube.wallh));
         cube.addToScene(scene);
     }
 
