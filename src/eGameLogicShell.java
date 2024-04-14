@@ -157,7 +157,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
         clientVars.putArg(new gArg("audioenabled", "1") {
             public void onChange() {
                 sSettings.audioenabled = Integer.parseInt(value) > 0;
-                if(!sSettings.audioenabled) {
+                if(!sSettings.audioenabled && clientScene != null) {
                     for(Clip c : clientScene.soundClips) {
                         c.stop();
                     }
