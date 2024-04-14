@@ -62,7 +62,7 @@ public class uiMenus {
                 -1
         ),
         new uiMenu(
-                "Quit Game?",
+                "Quit",
                 new uiMenuItem[]{
                         new uiMenuItem("No") {
                             public void doItem(){
@@ -183,7 +183,7 @@ public class uiMenus {
             }
         },
         new uiMenu(
-                "Host Game",
+                "Host",
                 new uiMenuItem[]{
                         new uiMenuItem("-Start-"){
                             public void doItem() {
@@ -214,7 +214,7 @@ public class uiMenus {
             }
         },
         new uiMenu(
-                "Join Game",
+                "Join",
                 new uiMenuItem[]{
                         new uiMenuItem("-Start-"){
                             public void doItem() {
@@ -296,11 +296,11 @@ public class uiMenus {
                 });
             }
         },
-        new uiMenu("Select Resolution", getResolutionMenuItems(), MENU_VIDEO),
-        new uiMenu("Select Framerate", getFramerateMenuItems(), MENU_VIDEO),
-        new uiMenu("Select Map", getMapMenuItems(), MENU_NEWGAME),
+        new uiMenu("Resolution", getResolutionMenuItems(), MENU_VIDEO),
+        new uiMenu("Framerate", getFramerateMenuItems(), MENU_VIDEO),
+        new uiMenu("Map", getMapMenuItems(), MENU_NEWGAME),
         new uiMenu(
-                "Volume Level",
+                "Volume",
                 new uiMenuItem[]{
                         new uiMenuItem("0"){
                             public void doItem() {
@@ -361,7 +361,7 @@ public class uiMenus {
                 },
                 MENU_AUDIO
         ),
-        new uiMenu("Select Color", getColorMenuItems(), MENU_PROFILE),
+        new uiMenu("Color", getColorMenuItems(), MENU_PROFILE),
         new uiMenu(
                 "Credits",
                 new uiMenuItem[] {
@@ -377,7 +377,7 @@ public class uiMenus {
                 MENU_MAIN
         ),
         new uiMenu(
-                "Disconnect?",
+                "Disconnect",
                 new uiMenuItem[] {
                         new uiMenuItem("No") {
                             public void doItem(){
@@ -393,8 +393,8 @@ public class uiMenus {
                 },
                 MENU_MAIN
         ),
-        new uiMenu("Choose Theme", getThemeMenuItems(),  MENU_MAIN),
-        new uiMenu("Number of Bots", getBotMenuItems(), MENU_NEWGAME)
+        new uiMenu("Theme", getThemeMenuItems(),  MENU_MAIN),
+        new uiMenu("Bots", getBotMenuItems(), MENU_NEWGAME)
     };
 
     private static uiMenuItem[] getBotMenuItems() {
