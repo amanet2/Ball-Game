@@ -479,6 +479,7 @@ public class uiMenus {
                     xMain.shellLogic.console.ex("cl_setvar width " + toks[0]);
                     xMain.shellLogic.console.ex("cl_setvar height " + toks[1]);
 //                    menuSelection[MENU_VIDEO].items[0].refreshText();
+                    uiMenus.menuSelection[uiMenus.MENU_VIDEO].refresh();
                     selectedMenu = MENU_VIDEO;
                 }
             };
