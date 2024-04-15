@@ -100,7 +100,6 @@ cl_setvar clrf_normaldark 200 200 200 255
 cl_setvar clrf_background 0 0 0 255
 cl_setvar clrf_scoreboardbg 0 0 0 100
 cl_setvar clrf_spawnpoint 255 255 255 150
-cl_setvar clrf_flooroutline 100 100 255
 cl_setvar clrf_selected 255 100 255
 cl_setvar clrf_preview 50 255 100
 cl_setvar clrf_console 100 100 150 100
@@ -123,24 +122,10 @@ cl_setvar clrw_shadow2 0 0 0 0
 cl_setvar clrw_clear 0 0 0 0
 cl_setvar clrw_floorshading 0 0 0 25
 cl_setvar clrw_ambientshading 0 0 0 0
-cl_setvar clrw_roofvertoutline1 0 0 0 0
-cl_setvar clrw_roofvertoutline2 0 0 0 0
-cl_setvar clrw_roofvertshading1 0 0 0 0
-cl_setvar clrw_roofvertshading2 0 0 0 0
-cl_setvar clrw_roofoutline1 0 0 0 0
-cl_setvar clrw_roofoutline2 0 0 0 0
-cl_setvar clrw_roofshading1 0 0 0 0
-cl_setvar clrw_roofshading2 0 0 0 0
-cl_setvar clrw_walloutline1 0 0 0 0
-cl_setvar clrw_walloutline2 0 0 0 0
-cl_setvar clrw_walllowoutline1 0 0 0 0
-cl_setvar clrw_walllowoutline2 0 0 0 0
 cl_setvar clrw_wallshading1 0 0 0 80
 cl_setvar clrw_wallshading2 0 0 0 200
 cl_setvar clrw_walllowshading1 0 0 0 140
 cl_setvar clrw_walllowshading2 0 0 0 200
-cl_setvar clrw_topcolor 0 0 0 0
-cl_setvar clrw_topcolordark 0 0 0 100
 cl_setvar clrw_toppolorpreview 190 190 180 255
 cl_setvar clrw_wallcolorpreview 120 120 200 255
 cl_setvar clrw_floorcolorpreview 100 100 60 255
