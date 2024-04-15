@@ -71,8 +71,8 @@ public class dPanel extends JPanel {
             Color color = gColors.getColorFromName("clrp_" + xMain.shellLogic.clientVars.get("playercolor"));
             for (int i = 0; i < sSettings.width; i += sSettings.width / factors) {
                 for (int j = 0; j < sSettings.height; j += sSettings.height / factors) {
-                    int w = sSettings.width / factors;
-                    int h = sSettings.height / factors;
+                    int w = sSettings.width / factors / 2;
+                    int h = sSettings.height / factors / 2;
                     if (Math.random() > 0.95 && Math.random() > 0.95) {
                         g.setColor(new Color(color.getRed(), color.getGreen(), color.getBlue(), maxl
                                 - maxl * userhp / sSettings.clientMaxHP
