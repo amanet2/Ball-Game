@@ -315,62 +315,12 @@ public class dPanel extends JPanel {
         if (sSettings.vfxenableshading) {
             g2.setStroke(dFonts.thickStroke);
             if (cube.wallh > 0) {
-                GradientPaint gradient;
-                if(cube.wallh < 300) {
-                    gradient = new GradientPaint(
-                            cube.coords[0] + cube.dims[0] / 2, cube.coords[1] + cube.toph,
-                            gColors.getColorFromName("clrw_walllowshading1"),
-                            cube.coords[0] + cube.dims[0] / 2, cube.coords[1] + cube.dims[1],
-                            gColors.getColorFromName("clrw_walllowshading2")
-                    );
-                }
-                else {
-                    gradient = new GradientPaint(
-                            cube.coords[0] + cube.dims[0] / 2, cube.coords[1] + cube.toph,
-                            gColors.getColorFromName("clrw_wallshading1"),
-                            cube.coords[0] + cube.dims[0] / 2, cube.coords[1] + cube.dims[1],
-                            gColors.getColorFromName("clrw_wallshading2")
-                    );
-                }
-                g2.setPaint(gradient);
+                g2.setPaint(cube.shadingOverlay);
                 g2.fillRect(cube.coords[0], cube.coords[1] + cube.toph, cube.dims[0], cube.wallh);
-                if(cube.wallh < 300) {
-                    gradient = new GradientPaint(
-                            cube.coords[0] + cube.dims[0] / 2, cube.coords[1] + cube.toph,
-                            gColors.getColorFromName("clrw_walllowoutline1"),
-                            cube.coords[0] + cube.dims[0] / 2, cube.coords[1] + cube.dims[1],
-                            gColors.getColorFromName("clrw_walllowoutline2")
-                    );
-                }
-                else {
-                    gradient = new GradientPaint(
-                            cube.coords[0] + cube.dims[0] / 2, cube.coords[1] + cube.toph,
-                            gColors.getColorFromName("clrw_walloutline1"),
-                            cube.coords[0] + cube.dims[0] / 2, cube.coords[1] + cube.dims[1],
-                            gColors.getColorFromName("clrw_walloutline2")
-                    );
-                }
-                g2.setPaint(gradient);
-                g2.drawRoundRect(cube.coords[0], cube.coords[1] + cube.toph, cube.dims[0], cube.wallh, 5, 5);
             }
         }
         g2.setPaint(xMain.shellLogic.topTextures[sSettings.mapTheme]);
         g2.fillRect(cube.coords[0], cube.coords[1], cube.dims[0], cube.toph);
-        if(sSettings.vfxenableshading) {
-            dFonts.setFontColor(g2, "clrw_topcolor");
-            if(cube.wallh > 0 && cube.wallh < 300)
-                dFonts.setFontColor(g2, "clrw_topcolordark");
-            g2.fillRect(cube.coords[0], cube.coords[1], cube.dims[0], cube.toph);
-            g2.setStroke(dFonts.thickStroke);
-            GradientPaint gradient = new GradientPaint(
-                    cube.coords[0] + cube.dims[0] / 2, cube.coords[1], gColors.getColorFromName("clrw_roofoutline1"),
-                    cube.coords[0] + cube.dims[0] / 2, cube.coords[1] + cube.toph, gColors.getColorFromName("clrw_roofoutline2")
-            );
-            g2.setPaint(gradient);
-            if(cube.wallh > 0 && cube.wallh < 300)
-                g2.fillRect(cube.coords[0], cube.coords[1], cube.dims[0], cube.toph);
-            g2.drawRoundRect(cube.coords[0], cube.coords[1], cube.dims[0], cube.toph, 5, 5);
-        }
     }
 
     private void drawItem(Graphics2D g2, gItem item) {
