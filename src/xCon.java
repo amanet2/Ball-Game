@@ -1158,7 +1158,36 @@ public class xCon {
                 String[] toks = fullCommand.split(" ");
                 if(toks.length < 9)
                     return "usage: cl_putcube <id> <prefabid> <x> <y> <w> <y> <top_height> <wall_height>";
-                putCubeDelegate(toks, xMain.shellLogic.clientScene);
+                gBlockCube cube = new gBlockCube(
+                        toks[1], toks[2],
+                        Integer.parseInt(toks[3]),
+                        Integer.parseInt(toks[4]),
+                        Integer.parseInt(toks[5]),
+                        Integer.parseInt(toks[6]),
+                        Integer.parseInt(toks[7]),
+                        Integer.parseInt(toks[8])
+                );
+                if(cube.wallh < 300) {
+                    cube.shadingOverlay = new GradientPaint(
+                            cube.coords[0] + cube.dims[0] / 2, cube.coords [1] + cube.toph ,
+                            gColors.getColorFromName("clrw_walllowshading1"),
+                            cube.coords[0] + cube.dims[0] / 2, cube.coords [1] + cube.dims[1],
+                            gColors.getColorFromName("clrw_walllowshading2"));
+                }
+                else {
+                    cube.shadingOverlay = new GradientPaint(
+                            cube.coords [0] + cube.dims[0] / 2, cube.coords [1] + cube.toph ,
+                            gColors.getColorFromName("clrw_wallshading1"),
+                            cube.coords [0] + cube.dims[0] / 2, cube.coords [1] + cube.dims[1],
+                            gColors.getColorFromName("clrw_wallshading2")
+                    );
+                }
+                cube.shadowOverlay = new GradientPaint(
+                        cube.coords[0] + cube.dims[0]/2,cube.coords[1] + cube.dims[1], gColors.getColorFromName("clrw_shadow1"),
+                        cube.coords[0] + cube.dims[0]/2, cube.coords[1] + cube.dims[1] + (int)((cube.wallh)*sSettings.vfxshadowfactor),
+                        gColors.getColorFromName("clrw_shadow2")
+                );
+                cube.addToScene(xMain.shellLogic.clientScene);
                 return "put cube client";
             }
         });
@@ -1705,8 +1734,6 @@ public class xCon {
                 Integer.parseInt(toks[7]),
                 Integer.parseInt(toks[8])
         );
-//        cube.wallTexture = new TexturePaint(xMain.shellLogic.wallTextureSourceImages[sSettings.mapTheme],
-//                new Rectangle2D.Double(cube.coords[0], cube.coords[1] + cube.toph, cube.wallh, cube.wallh));
         cube.addToScene(scene);
     }
 

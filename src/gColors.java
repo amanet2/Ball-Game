@@ -17,23 +17,23 @@ public class gColors {
         if(args.length < 3)
             return Color.WHITE;
         //color without alpha
-        if(args.length < 4) {
-            Color c = new Color(
-                    Integer.parseInt(args[0]),
-                    Integer.parseInt(args[1]),
-                    Integer.parseInt(args[2])
-            );
+        if(!colorMap.containsKey(name)) {
+            Color c;
+            if(args.length < 4)
+                c = new Color(
+                        Integer.parseInt(args[0]),
+                        Integer.parseInt(args[1]),
+                        Integer.parseInt(args[2])
+                );
+            else
+                c = new Color(
+                        Integer.parseInt(args[0]),
+                        Integer.parseInt(args[1]),
+                        Integer.parseInt(args[2]),
+                        Integer.parseInt(args[3])
+                );
             colorMap.put(name, c);
-            return colorMap.get(name);
         }
-        //color with alpha
-        Color c = new Color(
-                Integer.parseInt(args[0]),
-                Integer.parseInt(args[1]),
-                Integer.parseInt(args[2]),
-                Integer.parseInt(args[3])
-        );
-        colorMap.put(name, c);
         return colorMap.get(name);
     }
 }

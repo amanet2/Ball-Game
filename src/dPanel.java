@@ -296,24 +296,14 @@ public class dPanel extends JPanel {
     private void drawCube(Graphics2D g2, gBlockCube cube) {
         //floor shadow
         if(sSettings.vfxenableshadows) {
-            g2.setStroke(dFonts.thickStroke);
-            GradientPaint gradient = new GradientPaint(
-                    cube.coords[0] + cube.dims[0]/2,cube.coords[1] + cube.dims[1], gColors.getColorFromName("clrw_shadow1"),
-                    cube.coords[0] + cube.dims[0]/2, cube.coords[1] + cube.dims[1] + (int)((cube.wallh)*sSettings.vfxshadowfactor),
-                    gColors.getColorFromName("clrw_shadow2")
-            );
-            g2.setPaint(gradient);
+            g2.setPaint(cube.shadowOverlay);
             g2.fillRect(
                     cube.coords[0], cube.coords[1] + cube.dims[1], cube.dims[0], (int)(cube.wallh*sSettings.vfxshadowfactor)
             );
         }
-        if(cube.wallTexture != null)
-            g2.setPaint(cube.wallTexture);
-        else
-            g2.setPaint(xMain.shellLogic.wallTextures[sSettings.mapTheme]);
+        g2.setPaint(xMain.shellLogic.wallTextures[sSettings.mapTheme]);
         g2.fillRect(cube.coords[0], cube.coords[1] + cube.toph, cube.dims[0], cube.wallh);
         if (sSettings.vfxenableshading) {
-            g2.setStroke(dFonts.thickStroke);
             if (cube.wallh > 0) {
                 g2.setPaint(cube.shadingOverlay);
                 g2.fillRect(cube.coords[0], cube.coords[1] + cube.toph, cube.dims[0], cube.wallh);
@@ -321,6 +311,10 @@ public class dPanel extends JPanel {
         }
         g2.setPaint(xMain.shellLogic.topTextures[sSettings.mapTheme]);
         g2.fillRect(cube.coords[0], cube.coords[1], cube.dims[0], cube.toph);
+        if(cube.wallh > 0 && cube.wallh < 300) {
+            g2.setColor(gColors.getColorFromName("clrw_wallshading1"));
+            g2.fillRect(cube.coords[0], cube.coords[1], cube.dims[0], cube.toph);
+        }
     }
 
     private void drawItem(Graphics2D g2, gItem item) {
