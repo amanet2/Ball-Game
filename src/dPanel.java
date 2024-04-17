@@ -311,6 +311,8 @@ public class dPanel extends JPanel {
         }
         g2.setPaint(xMain.shellLogic.topTextures[sSettings.mapTheme]);
         g2.fillRect(cube.coords[0], cube.coords[1], cube.dims[0], cube.toph);
+        if(!sSettings.vfxenableshading)
+            return;
         if(cube.wallh > 0 && cube.wallh < 300) {
             g2.setColor(gColors.getColorFromName("clrw_wallshading1"));
             g2.fillRect(cube.coords[0], cube.coords[1], cube.dims[0], cube.toph);
