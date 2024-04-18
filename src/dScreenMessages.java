@@ -369,6 +369,8 @@ public class dScreenMessages {
             int height = sSettings.height / 30;
             String ck = clStateMap.get(id).get("color");
             Color color = gColors.getColorFromName("clrp_" + ck);
+            if(xMain.shellLogic.clientScene.getPlayerById(id) == null)
+                color = Color.GRAY;
             dFonts.drawScoreBoardPlayerLine(g, hudName, coordx, coordy, color);
             g.setColor(color);
             if(isMe) {
