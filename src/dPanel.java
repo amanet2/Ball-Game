@@ -1,7 +1,6 @@
 import javax.swing.JPanel;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.util.Arrays;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -125,12 +124,16 @@ public class dPanel extends JPanel {
         //draw hitboxes
         if(sSettings.drawhitboxes) {
             for(String id : scene.getThingMap("BLOCK_COLLISION").keySet()) {
-                drawCollision(g2, (gBlockCollision) scene.getThingMap("BLOCK_COLLISION").get(id));
+                gBlockCollision collision = (gBlockCollision) scene.getThingMap("BLOCK_COLLISION").get(id);
+                if(collision.isOnScreen())
+                    drawCollision(g2, collision);
             }
             for(String id : scene.getThingMap("THING_PLAYER").keySet()) {
                 gThing player = scene.getThingMap("THING_PLAYER").get(id);
-                g2.setColor(Color.WHITE);
-                g2.drawRect(player.coords[0], player.coords[1], player.dims[0], player.dims[1]);
+                if(player.isOnScreen()) {
+                    g2.setColor(Color.WHITE);
+                    g2.drawRect(player.coords[0], player.coords[1], player.dims[0], player.dims[1]);
+                }
             }
         }
     }
@@ -139,7 +142,8 @@ public class dPanel extends JPanel {
         ConcurrentHashMap<String, gThing> bulletsMap = scene.getThingMap("THING_BULLET");
         for (String id : bulletsMap.keySet()) {
             gThing t = bulletsMap.get(id);
-            g2.drawImage(t.sprite, t.coords[0], t.coords[1], null);
+            if(t.isOnScreen())
+                g2.drawImage(t.sprite, t.coords[0], t.coords[1], null);
         }
         if(!sSettings.vfxenableanimations)
             return;
@@ -149,8 +153,9 @@ public class dPanel extends JPanel {
             gAnimation emit = (gAnimation) animationsMap.get(id);
             if(emit.frame < gAnimations.animation_selection[emit.code].frames.length) {
                 if (gAnimations.animation_selection[emit.code].frames[emit.frame] != null) {
-                    g2.drawImage(gAnimations.animation_selection[emit.code].frames[emit.frame],
-                            emit.coords[0], emit.coords[1], null);
+                    if(emit.isOnScreen())
+                        g2.drawImage(gAnimations.animation_selection[emit.code].frames[emit.frame],
+                                emit.coords[0], emit.coords[1], null);
                     if(emit.frametime < gameTimeMillis) {
                         emit.frame = emit.frame + 1;
                         emit.frametime = gameTimeMillis + 30;
@@ -179,9 +184,7 @@ public class dPanel extends JPanel {
                 if(wpPlayer == null)
                     continue;
                 if(!(wpPlayer.waypoint.equals("null") || wpPlayer.waypoint.equals("0")))
-                    drawNavPointer(g2, wpPlayer.coords[0] + wpPlayer.dims[0] / 2,
-                            wpPlayer.coords[1] + wpPlayer.dims[1] / 2,
-                            wpPlayer.waypoint);
+                    drawThingWaypoint(g2, wpPlayer);
             }
             // items
             String[] itemIds = scene.getThingMapIds("THING_ITEM");
@@ -190,13 +193,47 @@ public class dPanel extends JPanel {
                 if(item == null)
                     continue;
                 if(!(item.waypoint.equals("null") || item.waypoint.equals("0")))
-                    drawNavPointer(g2,item.coords[0] + item.dims[0]/2,
-                            item.coords[1] + item.dims[1]/2, item.waypoint);
+                    drawThingWaypoint(g2, item);
             }
         }
     }
 
-    private void drawNavPointer(Graphics2D g2, int dx, int dy, String message) {
+    private void drawThingWaypoint(Graphics2D g2, gThing thing) {
+        if(thing.isOnScreen())
+            drawNavPointerMapMarker(
+                    g2,
+                    thing.coords[0] + thing.dims[0]/2,
+                    thing.coords[1] + thing.dims[1]/2,
+                    thing.waypoint
+            );
+        drawNavPointerHUDArrow(
+                g2,
+                thing.coords[0] + thing.dims[0]/2,
+                thing.coords[1] + thing.dims[1]/2,
+                thing.waypoint
+        );
+    }
+
+    private void drawNavPointerMapMarker(Graphics2D g2, int dx, int dy, String message) {
+        int[][] polygondims = new int[][]{
+                new int[]{dx - eUtils.unscaleInt(sSettings.height / 16), dx,
+                        dx + eUtils.unscaleInt(sSettings.height / 16), dx
+                },
+                new int[]{dy, dy - eUtils.unscaleInt(sSettings.height / 16),
+                        dy, dy + eUtils.unscaleInt(sSettings.height / 16)
+                }
+        };
+        g2.translate(3,3);
+        g2.setColor(Color.BLACK);
+        g2.fillPolygon(polygondims[0], polygondims[1], 4);
+        g2.translate(-3,-3);
+        g2.setColor(gColors.getColorFromName("clrp_" + xMain.shellLogic.clientVars.get("playercolor")));
+        g2.fillPolygon(polygondims[0], polygondims[1], 4);
+        dFonts.setFontGNormal(g2);
+        dFonts.drawCenteredString(g2, message, dx, dy);
+    }
+
+    private void drawNavPointerHUDArrow(Graphics2D g2, int dx, int dy, String message) {
         if(sSettings.inplay && xMain.shellLogic.getUserPlayer() != null) {
             double[] deltas = new double[]{
                     dx - xMain.shellLogic.getUserPlayer().coords[0]
@@ -204,23 +241,9 @@ public class dPanel extends JPanel {
                     dy - xMain.shellLogic.getUserPlayer().coords[1]
                             + xMain.shellLogic.getUserPlayer().dims[1]/2
             };
-            int[][] polygondims = new int[][]{
-                    new int[]{dx - eUtils.unscaleInt(sSettings.height / 16), dx,
-                            dx + eUtils.unscaleInt(sSettings.height / 16), dx
-                    },
-                    new int[]{dy, dy - eUtils.unscaleInt(sSettings.height / 16),
-                            dy, dy + eUtils.unscaleInt(sSettings.height / 16)
-                    }
-            };
-            g2.translate(3,3);
-            g2.setColor(Color.BLACK);
-            g2.fillPolygon(polygondims[0], polygondims[1], 4);
-            g2.translate(-3,-3);
-            g2.setColor(gColors.getColorFromName("clrp_" + xMain.shellLogic.clientVars.get("playercolor")));
-            g2.fillPolygon(polygondims[0], polygondims[1], 4);
-            //big font
-            dFonts.setFontGNormal(g2);
-            dFonts.drawCenteredString(g2, message, dx, dy);
+            //map marker
+            drawNavPointerMapMarker(g2, dx, dy, message);
+            //hud arrow
             AffineTransform backup = g2.getTransform();
             g2.translate(gCamera.coords[0], gCamera.coords[1]);
             double angle = Math.atan2(deltas[1], deltas[0]);
@@ -265,10 +288,9 @@ public class dPanel extends JPanel {
         Queue<gThing> visualQueue = scene.getWallsAndPlayersSortedByCoordY();
         while(visualQueue.size() > 0) {
             gThing thing = visualQueue.remove();
-            if((thing.coords[0] - gCamera.coords[0] < eUtils.unscaleInt(sSettings.width))
-                && (thing.coords[0] + thing.dims[0] - gCamera.coords[0] > 0)
-                && (thing.coords[1] - gCamera.coords[1] < eUtils.unscaleInt(sSettings.height))
-                && (thing.coords[1] + thing.dims[1] - gCamera.coords[1] > 0)) {
+            //check if on screen
+            //have special modifier which is the shadows for cubes, use placeholder 300 for wallheight value
+            if(thing.isOnScreen()) {
                 if (thing.type.equals("THING_PLAYER"))
                     drawPlayer(g2, (gPlayer) thing);
                 else if (thing.type.startsWith("ITEM_"))

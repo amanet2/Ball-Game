@@ -23,7 +23,7 @@ public class sSettings {
 	static boolean borderless = false;
 	static int vfxfactor = 144;
 	static int vfxfactordiv = 8;
-	static double vfxshadowfactor = 0.3;
+	static double vfxshadowfactor = 1.2;
 	static boolean drawhitboxes = false;
 	static boolean drawmapmakergrid = false;
 	static boolean vfxenableshading = true;

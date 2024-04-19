@@ -140,6 +140,13 @@ public class gThing {
         return new Rectangle(target.coords[0], target.coords[1], target.dims[0], target.dims[1]).intersects(new Rectangle(coords[0], coords[1], dims[0], dims[1]));
     }
 
+    public boolean isOnScreen() {
+        return (coords[0] - gCamera.coords[0] < eUtils.unscaleInt(sSettings.width))
+                && (coords[0] + dims[0] - gCamera.coords[0] > 0)
+                && (coords[1] - gCamera.coords[1] < eUtils.unscaleInt(sSettings.height))
+                && (coords[1] + dims[1] + (int)(300*sSettings.vfxshadowfactor) - gCamera.coords[1] > 0);
+    }
+    
     public void drawRoundShadow(Graphics2D g2) {
         if(sSettings.vfxenableshadows) {
             Rectangle2D shadowBounds = new Rectangle.Double(
