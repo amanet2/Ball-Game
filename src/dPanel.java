@@ -265,12 +265,17 @@ public class dPanel extends JPanel {
         Queue<gThing> visualQueue = scene.getWallsAndPlayersSortedByCoordY();
         while(visualQueue.size() > 0) {
             gThing thing = visualQueue.remove();
-            if(thing.type.equals("THING_PLAYER"))
-                drawPlayer(g2, (gPlayer) thing);
-            else if(thing.type.startsWith("ITEM_"))
-                drawItem(g2, (gItem) thing);
-            else if(thing.type.contains("CUBE"))
-                drawCube(g2, (gBlockCube) thing);
+            if((thing.coords[0] - gCamera.coords[0] < eUtils.unscaleInt(sSettings.width))
+                && (thing.coords[0] + thing.dims[0] - gCamera.coords[0] > 0)
+                && (thing.coords[1] - gCamera.coords[1] < eUtils.unscaleInt(sSettings.height))
+                && (thing.coords[1] + thing.dims[1] - gCamera.coords[1] > 0)) {
+                if (thing.type.equals("THING_PLAYER"))
+                    drawPlayer(g2, (gPlayer) thing);
+                else if (thing.type.startsWith("ITEM_"))
+                    drawItem(g2, (gItem) thing);
+                else if (thing.type.contains("CUBE"))
+                    drawCube(g2, (gBlockCube) thing);
+            }
         }
         for(String tag : scene.getThingMap("BLOCK_FLOOR").keySet()) {
             gThing floor = scene.getThingMap("BLOCK_FLOOR").get(tag);
@@ -411,7 +416,9 @@ public class dPanel extends JPanel {
 //                    + (floor.coords[0] + floor.dims[0] - gCamera.coords[0] > 0)
 //            );
             if((floor.coords[0] - gCamera.coords[0] < eUtils.unscaleInt(sSettings.width))
-                    && (floor.coords[0] + floor.dims[0] - gCamera.coords[0] > 0)) {
+            && (floor.coords[0] + floor.dims[0] - gCamera.coords[0] > 0)
+            && (floor.coords[1] - gCamera.coords[1] < eUtils.unscaleInt(sSettings.height))
+            && (floor.coords[1] + floor.dims[1] - gCamera.coords[1] > 0)) {
                 g2.setPaint(xMain.shellLogic.floorTextures[sSettings.mapTheme]);
                 g2.fillRect(floor.coords[0], floor.coords[1], floor.dims[0], floor.dims[1]);
                 if (!sSettings.vfxenableshading)
