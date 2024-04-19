@@ -405,16 +405,7 @@ public class dPanel extends JPanel {
     private void drawBlockFloors(Graphics2D g2, gScene scene) {
         for(String tag : scene.getThingMap("BLOCK_FLOOR").keySet()) {
             gThing floor = scene.getThingMap("BLOCK_FLOOR").get(tag);
-            //TODO: IS IT ON SCREEN?
-//            double[] centerScreen = new double[]{
-//                    (double)(target.coords[0] + target.dims[0]/2 - eUtils.unscaleInt(sSettings.width / 2)),
-//                    (double)(target.coords[1 + target.dims[1]/2 - eUtils.unscaleInt(sSettings.height / 2))
-//            };
-//            System.out.println(
-//                    (floor.coords[0] - gCamera.coords[0] < eUtils.unscaleInt(sSettings.width / 2))
-//                    + ", "
-//                    + (floor.coords[0] + floor.dims[0] - gCamera.coords[0] > 0)
-//            );
+            //on-screen check
             if((floor.coords[0] - gCamera.coords[0] < eUtils.unscaleInt(sSettings.width))
             && (floor.coords[0] + floor.dims[0] - gCamera.coords[0] > 0)
             && (floor.coords[1] - gCamera.coords[1] < eUtils.unscaleInt(sSettings.height))
@@ -422,7 +413,7 @@ public class dPanel extends JPanel {
                 g2.setPaint(xMain.shellLogic.floorTextures[sSettings.mapTheme]);
                 g2.fillRect(floor.coords[0], floor.coords[1], floor.dims[0], floor.dims[1]);
                 if (!sSettings.vfxenableshading)
-                    return;
+                    continue;
                 g2.setColor(gColors.getColorFromName("clrw_floorshading"));
                 g2.fillRect(floor.coords[0], floor.coords[1], floor.dims[0], floor.dims[1]);
             }

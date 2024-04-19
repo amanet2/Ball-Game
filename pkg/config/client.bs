@@ -11,7 +11,7 @@ cl_setvar fontui None
 REM available framerates
 cl_setvar framerates 30,60,120,240,360,540,1000
 REM screen height
-cl_setvar height 1080
+cl_setvar height 900
 REM default net address
 cl_setvar joinip localhost
 REM default net port
@@ -25,7 +25,7 @@ cl_setvar playername player
 REM low power mode
 cl_setvar powersave 0
 REM framerate
-cl_setvar refresh 1000
+cl_setvar refresh 240
 REM available resolutions
 cl_setvar resolutions 640x480,800x600,1024x768,1280x720,1600x900,1920x1080,2560x1440,3840x2160
 REM show frames per second
@@ -47,7 +47,7 @@ cl_setvar vfxenableshadows 1
 REM volume
 cl_setvar volume 1
 REM screen width
-cl_setvar width 1920
+cl_setvar width 1600
 REM bindings
 bind - -zoom
 bind = zoom
@@ -116,16 +116,16 @@ cl_setvar clrp_blue 50 160 200
 cl_setvar clrp_teal 0 200 160
 cl_setvar clrp_pink 200 0 200
 cl_setvar clrp_purple 100 0 200
-cl_setvar clrw_shadow1 0 0 0 200
-cl_setvar clrw_shadow1half 0 0 0 100
+cl_setvar clrw_shadow1 0 0 0 175
+cl_setvar clrw_shadow1half 0 0 0 87
 cl_setvar clrw_shadow2 0 0 0 0
 cl_setvar clrw_clear 0 0 0 0
-cl_setvar clrw_floorshading 0 0 0 25
+cl_setvar clrw_floorshading 0 0 0 12
 cl_setvar clrw_ambientshading 0 0 0 0
-cl_setvar clrw_wallshading1 0 0 0 80
-cl_setvar clrw_wallshading2 0 0 0 200
-cl_setvar clrw_walllowshading1 0 0 0 140
-cl_setvar clrw_walllowshading2 0 0 0 200
+cl_setvar clrw_wallshading1 0 0 0 40
+cl_setvar clrw_wallshading2 0 0 0 100
+cl_setvar clrw_walllowshading1 0 0 0 70
+cl_setvar clrw_walllowshading2 0 0 0 100
 cl_setvar clrw_toppolorpreview 190 190 180 255
 cl_setvar clrw_wallcolorpreview 120 120 200 255
 cl_setvar clrw_floorcolorpreview 100 100 60 255
