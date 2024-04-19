@@ -117,8 +117,8 @@ public class uiMenus {
                 new uiMenuItem[]{
                         new uiMenuItem(String.format("Power Save [%s]", sSettings.powerSave ? "X" : "   ")) {
                             public void doItem() {
-                                sSettings.powerSave = !sSettings.powerSave;
-                                text = String.format("Power Save [%s]", sSettings.powerSave ? "X" : "   ");
+                                xMain.shellLogic.clientVars.put("powersave", sSettings.powerSave ? "0" : "1");
+                                menuSelection[MENU_VIDEO].refresh();
                             }
                         },
                         new uiMenuItem(String.format("Resolution [%dx%d]",sSettings.width,sSettings.height)) {
