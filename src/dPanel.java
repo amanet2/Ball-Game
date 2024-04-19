@@ -1,6 +1,7 @@
 import javax.swing.JPanel;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.util.Arrays;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -398,30 +399,37 @@ public class dPanel extends JPanel {
 
     private void drawBlockFloors(Graphics2D g2, gScene scene) {
         for(String tag : scene.getThingMap("BLOCK_FLOOR").keySet()) {
-            drawBlockFloor(g2, (gBlockFloor) scene.getThingMap("BLOCK_FLOOR").get(tag));
+            gThing floor = scene.getThingMap("BLOCK_FLOOR").get(tag);
+            //TODO: IS IT ON SCREEN?
+//            double[] centerScreen = new double[]{
+//                    (double)(target.coords[0] + target.dims[0]/2 - eUtils.unscaleInt(sSettings.width / 2)),
+//                    (double)(target.coords[1 + target.dims[1]/2 - eUtils.unscaleInt(sSettings.height / 2))
+//            };
+//            System.out.println(
+//                    (floor.coords[0] - gCamera.coords[0] < eUtils.unscaleInt(sSettings.width / 2))
+//                    + ", "
+//                    + (floor.coords[0] + floor.dims[0] - gCamera.coords[0] > 0)
+//            );
+            if((floor.coords[0] - gCamera.coords[0] < eUtils.unscaleInt(sSettings.width))
+                    && (floor.coords[0] + floor.dims[0] - gCamera.coords[0] > 0)) {
+                g2.setPaint(xMain.shellLogic.floorTextures[sSettings.mapTheme]);
+                g2.fillRect(floor.coords[0], floor.coords[1], floor.dims[0], floor.dims[1]);
+                if (!sSettings.vfxenableshading)
+                    return;
+                g2.setColor(gColors.getColorFromName("clrw_floorshading"));
+                g2.fillRect(floor.coords[0], floor.coords[1], floor.dims[0], floor.dims[1]);
+            }
         }
-    }
-
-    private void drawBlockFloor(Graphics2D g2, gBlockFloor floor) {
-        g2.setPaint(xMain.shellLogic.floorTextures[sSettings.mapTheme]);
-        g2.fillRect(floor.coords[0], floor.coords[1], floor.dims[0], floor.dims[1]);
-        if(!sSettings.vfxenableshading)
-            return;
-        g2.setColor(gColors.getColorFromName("clrw_floorshading"));
-        g2.fillRect(floor.coords[0], floor.coords[1], floor.dims[0], floor.dims[1]);
-    }
-
-    private void drawBlockFloorPreview(Graphics2D g2, gBlockFloor floorPreview) {
-        dFonts.setFontColor(g2, "clrw_floorcolorpreview");
-        g2.fillRect(
-                eUtils.scaleInt(floorPreview.coords[0]/4), eUtils.scaleInt(floorPreview.coords[1]/4),
-                eUtils.scaleInt(floorPreview.dims[0]/4), eUtils.scaleInt(floorPreview.dims[1]/4)
-        );
     }
 
     private void drawBlockFloorsPreview(Graphics2D g2, gScene scene) {
         for(String tag : scene.getThingMap("BLOCK_FLOOR").keySet()) {
-            drawBlockFloorPreview(g2, (gBlockFloor) scene.getThingMap("BLOCK_FLOOR").get(tag));
+            gThing floor = scene.getThingMap("BLOCK_FLOOR").get(tag);
+            dFonts.setFontColor(g2, "clrw_floorcolorpreview");
+            g2.fillRect(
+                    eUtils.scaleInt(floor.coords[0]/4), eUtils.scaleInt(floor.coords[1]/4),
+                    eUtils.scaleInt(floor.dims[0]/4), eUtils.scaleInt(floor.dims[1]/4)
+            );
         }
     }
     

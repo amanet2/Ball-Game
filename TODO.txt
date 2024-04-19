@@ -1,3 +1,4 @@
+* VFX: dont draw blocks not on screen
 * VFX: using gradient inside the texture makes performance much better on macbook
     -> but the texture tiling doesnt line up exactly at some points
 * BUG: flag disappeared during flagmaster game
