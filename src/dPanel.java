@@ -428,10 +428,7 @@ public class dPanel extends JPanel {
         for(String tag : scene.getThingMap("BLOCK_FLOOR").keySet()) {
             gThing floor = scene.getThingMap("BLOCK_FLOOR").get(tag);
             //on-screen check
-            if((floor.coords[0] - gCamera.coords[0] < eUtils.unscaleInt(sSettings.width))
-            && (floor.coords[0] + floor.dims[0] - gCamera.coords[0] > 0)
-            && (floor.coords[1] - gCamera.coords[1] < eUtils.unscaleInt(sSettings.height))
-            && (floor.coords[1] + floor.dims[1] - gCamera.coords[1] > 0)) {
+            if(floor.isOnScreen()) {
                 g2.setPaint(xMain.shellLogic.floorTextures[sSettings.mapTheme]);
                 g2.fillRect(floor.coords[0], floor.coords[1], floor.dims[0], floor.dims[1]);
                 if (!sSettings.vfxenableshading)
@@ -473,6 +470,8 @@ public class dPanel extends JPanel {
     }
 
     private void drawPopup(Graphics2D g2, gPopup popup) {
+        if(!popup.isOnScreen())
+            return;
         // look for hashtag color codes here
         StringBuilder ts = new StringBuilder();
         for(String word : popup.text.split(" ")) {
