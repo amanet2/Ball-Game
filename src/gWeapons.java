@@ -49,7 +49,7 @@ public class gWeapons {
 				new gWeapon(
 						"PISTOL",
 						new int[] {200, 100},
-						"objects/misc/firegreen.png",
+						"misc/firegreen.png",
 						"sounds/splash.wav",
 						"misc/bfg.png",
 						new int[] {100, 100}
@@ -61,7 +61,7 @@ public class gWeapons {
 						gThing bullet = new gThing();
 						bullet.dims = new int[]{bulletDims[0], bulletDims[1]};
 						bullet.coords = new int[]{p.coords[0]+p.dims[0]/2-bullet.dims[0]/2, p.coords[1]+p.dims[1]/2-bullet.dims[1]/2};
-						bullet.sprite = gTextures.getGScaledImage(eManager.getPath(String.format("objects/misc/fire%s.png", p.color)), bullet.dims[0], bullet.dims[1]);
+						bullet.sprite = gTextures.getGScaledImage(eManager.getPath(String.format("misc/fire%s.png", p.color)), bullet.dims[0], bullet.dims[1]);
 						bullet.dmg = damage;
 						bullet.src = gWeapons.pistol;
 						bullet.fv = p.fv + (Math.random() * ((Math.PI/10))) - Math.PI/20;
@@ -82,7 +82,7 @@ public class gWeapons {
 				new gWeapon(
 						"SHOTGUN",
 						new int[] {200, 100},
-						"objects/misc/fireblue.png",
+						"misc/fireblue.png",
 						"sounds/splash.wav",
 						"misc/shotgun.png",
 						new int[] {100, 100}
@@ -96,7 +96,7 @@ public class gWeapons {
 							gThing bullet = new gThing();
 							bullet.dims = new int[]{bulletDims[0], bulletDims[1]};
 							bullet.coords = new int[]{p.coords[0]+p.dims[0]/2-bullet.dims[0]/2, p.coords[1]+p.dims[1]/2-bullet.dims[1]/2};
-							bullet.sprite = gTextures.getGScaledImage(eManager.getPath(String.format("objects/misc/fire%s.png", p.color)), bullet.dims[0], bullet.dims[1]);
+							bullet.sprite = gTextures.getGScaledImage(eManager.getPath(String.format("misc/fire%s.png", p.color)), bullet.dims[0], bullet.dims[1]);
 							bullet.dmg = damage/numpellets;
 							bullet.src = gWeapons.shotgun;
 							double randomOffset = (Math.random() * ((Math.PI/16))) - Math.PI/32;
@@ -119,7 +119,7 @@ public class gWeapons {
 				new gWeapon(
 					"AUTORIFLE",
 					new int[] {200, 100},
-					"objects/misc/fireorange.png",
+					"misc/fireorange.png",
 					"sounds/splash.wav",
 						"misc/autorifle.png",
 						new int[] {100, 100}
@@ -131,7 +131,7 @@ public class gWeapons {
 						gThing bullet = new gThing();
 						bullet.dims = new int[]{bulletDims[0], bulletDims[1]};
 						bullet.coords = new int[]{p.coords[0]+p.dims[0]/2-bullet.dims[0]/2, p.coords[1]+p.dims[1]/2-bullet.dims[1]/2};
-						bullet.sprite = gTextures.getGScaledImage(eManager.getPath(String.format("objects/misc/fire%s.png", p.color)), bullet.dims[0], bullet.dims[1]);
+						bullet.sprite = gTextures.getGScaledImage(eManager.getPath(String.format("misc/fire%s.png", p.color)), bullet.dims[0], bullet.dims[1]);
 						bullet.dmg = damage;
 						bullet.src = gWeapons.autorifle;
 						bullet.fv = p.fv + (Math.random() * ((Math.PI/8))) - Math.PI/16;
@@ -152,7 +152,7 @@ public class gWeapons {
 				new gWeapon(
 						"LAUNCHER",
 						new int[] {200, 100},
-						"objects/misc/firegreen.png",
+						"misc/firegreen.png",
 						"sounds/bfg.wav",
 						"misc/launcher.png",
 						new int[] {100, 100}
@@ -164,13 +164,13 @@ public class gWeapons {
 						gThing bullet = new gThing();
 						bullet.dims = new int[]{bulletDims[0], bulletDims[1]};
 						bullet.coords = new int[]{p.coords[0]+p.dims[0]/2-bullet.dims[0]/2, p.coords[1]+p.dims[1]/2-bullet.dims[1]/2};
-						bullet.sprite = gTextures.getGScaledImage(eManager.getPath(String.format("objects/misc/fire%s.png", p.color)), bullet.dims[0], bullet.dims[1]);
+						bullet.sprite = gTextures.getGScaledImage(eManager.getPath(String.format("misc/fire%s.png", p.color)), bullet.dims[0], bullet.dims[1]);
 						bullet.dmg = damage;
 						bullet.src = gWeapons.launcher;
 						bullet.fv = p.fv + (Math.random() * ((Math.PI/8))) - Math.PI/16;
 						bullet.id = eUtils.createId();
 						bullet.srcId = p.id;
-						bullet.spritePath = eManager.getPath(String.format("objects/misc/fire%s.png", p.color));
+						bullet.spritePath = eManager.getPath(String.format("misc/fire%s.png", p.color));
 						scene.getThingMap("THING_BULLET").put(bullet.id, bullet);
 						xMain.shellLogic.scheduledEvents.put(Long.toString(sSettings.gameTime + bulletTtl),
 								new gDoable() {
