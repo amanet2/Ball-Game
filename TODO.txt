@@ -8,6 +8,8 @@
     -> can add the new prefab's script into the prefab map at some point
 * include items in prefab export
 * come up with better way to create and place map geometry where we dont have to define rotations manually
+    -> use java polygons
+        -> but might as well start a new 3d engine
 * Make Camera scriptable with 'setcam' console command
 * ITEM: boost pad that gives high player velocity in a certain direction
 * EXCEPTION: weird exception when pressing ESC in mapmaker without any player spawns

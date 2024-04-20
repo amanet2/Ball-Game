@@ -25,7 +25,7 @@ cl_setvar playername player
 REM low power mode
 cl_setvar powersave 0
 REM framerate
-cl_setvar refresh 540
+cl_setvar refresh 240
 REM available resolutions
 cl_setvar resolutions 640x480,800x600,1024x768,1280x720,1600x900,1920x1080,2560x1440,3840x2160
 REM show frames per second
@@ -122,10 +122,10 @@ cl_setvar clrw_shadow2 0 0 0 0
 cl_setvar clrw_clear 0 0 0 0
 cl_setvar clrw_floorshading 0 0 0 12
 cl_setvar clrw_ambientshading 0 0 0 0
-cl_setvar clrw_wallshading1 0 0 0 40
-cl_setvar clrw_wallshading2 0 0 0 100
-cl_setvar clrw_walllowshading1 0 0 0 70
-cl_setvar clrw_walllowshading2 0 0 0 100
+cl_setvar clrw_wallshading1 0 0 0 60
+cl_setvar clrw_wallshading2 0 0 0 150
+cl_setvar clrw_walllowshading1 0 0 0 90
+cl_setvar clrw_walllowshading2 0 0 0 150
 cl_setvar clrw_toppolorpreview 190 190 180 255
 cl_setvar clrw_wallcolorpreview 120 120 200 255
 cl_setvar clrw_floorcolorpreview 100 100 60 255
