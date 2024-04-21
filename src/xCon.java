@@ -394,7 +394,7 @@ public class xCon {
                 String[] toks = fullCommand.split(" ");
                 if(toks.length > 1) {
                     String id = toks[1];
-                    String kid = "";
+                    String kid = "null";
                     if(toks.length > 2)
                         kid = toks[2];
                     ex("exec scripts/sv_handledeleteplayer " + id + " " + kid);
