@@ -521,7 +521,7 @@ public class dPanel extends JPanel {
         nStateMap clStateMap = new nStateMap(xMain.shellLogic.clientNetThread.clientStateSnapshot);
         for(String id : clStateMap.keys()) {
             gPlayer p = xMain.shellLogic.getPlayerById(id);
-            if(p == null)
+            if(p == null || !p.isOnScreen())
                 continue;
             nState clState = clStateMap.get(id);
             dFonts.setFontGNormal(g2);
