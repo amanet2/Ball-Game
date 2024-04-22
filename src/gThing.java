@@ -141,7 +141,7 @@ public class gThing {
     }
 
     public boolean isOnScreen() {
-        return sSettings.show_mapmaker_ui || ((coords[0] - gCamera.coords[0] < eUtils.unscaleInt(sSettings.width))
+        return !sSettings.culling || ((coords[0] - gCamera.coords[0] < eUtils.unscaleInt(sSettings.width))
                 && (coords[0] + dims[0] - gCamera.coords[0] > 0)
                 && (coords[1] - gCamera.coords[1] < eUtils.unscaleInt(sSettings.height))
                 && (coords[1] + dims[1] + (int)(300*sSettings.vfxshadowfactor) - gCamera.coords[1] > 0));

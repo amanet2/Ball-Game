@@ -173,6 +173,8 @@ public class eGameLogicShell extends eGameLogicAdapter {
         clientVars.putArg(new gArg("showmapmakerui", "0") {
             public void onChange() {
                 sSettings.show_mapmaker_ui = Integer.parseInt(value) > 0;
+                if(sSettings.show_mapmaker_ui)
+                    sSettings.culling = false;
             }
         });
         clientVars.putArg(new gArg("debuglog", "0") {
@@ -202,6 +204,11 @@ public class eGameLogicShell extends eGameLogicAdapter {
                     createPanels();
                     showFrame();
                 }
+            }
+        });
+        clientVars.putArg(new gArg("culling", "1") {
+            public void onChange() {
+                sSettings.culling = value.equalsIgnoreCase("true") || value.equals("1");
             }
         });
         clientVars.putArg(new gArg("vfxenableanimations", "1"){
@@ -417,7 +424,9 @@ public class eGameLogicShell extends eGameLogicAdapter {
     }
 
     public gPlayer getUserPlayer() {
-        return clientScene.getPlayerById(sSettings.uuid);
+        if(clientScene != null)
+            return clientScene.getPlayerById(sSettings.uuid);
+        return null;
     }
 
     public void refreshResolution() {
