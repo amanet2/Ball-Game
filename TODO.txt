@@ -1,3 +1,5 @@
+* VFX: ambient shading is broken on virus map
+    -> works when vm7 is the first map loaded though
 * CRITICAL: whats with the camera "shaking" when it centers on player @ 240hz and lower
 * VFX: using gradient inside the texture makes performance much better on macbook
     -> but the texture tiling doesnt line up exactly at some points

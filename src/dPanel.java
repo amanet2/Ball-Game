@@ -34,7 +34,7 @@ public class dPanel extends JPanel {
                 ((1.0 / sSettings.gamescale) * (double) sSettings.height)
         );
         g2.translate(-gCamera.coords[0], -gCamera.coords[1]);
-        synchronized (scene.objectMaps) {
+//        synchronized (scene.objectMaps) {
             drawBlockFloors(g2, scene);
             drawBlockWallsAndPlayers(g2, scene);
             drawMapmakerOverlay(g2, scene);
@@ -45,7 +45,7 @@ public class dPanel extends JPanel {
             drawPlayerNames(g2);
             if (sSettings.show_mapmaker_ui)
                 drawSelectionBoxes(g2);
-        }
+//        }
     }
 
     private void drawFrameUI(Graphics2D g2, long gameTimeMillis) {
@@ -307,8 +307,7 @@ public class dPanel extends JPanel {
                 int aimery = eUtils.unscaleInt(xMain.shellLogic.getMouseCoordinates()[1]);
                 int snapX = aimerx + (int) gCamera.coords[0];
                 int snapY = aimery + (int) gCamera.coords[1];
-                int setw = sSettings.height;
-                RadialGradientPaint df = new RadialGradientPaint(new Point(snapX, snapY), setw/2,
+                RadialGradientPaint df = new RadialGradientPaint(new Point(snapX, snapY), 600,
                         new float[]{0f, 1f}, new Color[]{new Color(0,0,0,0), gColors.getColorFromName("clrw_ambientshading")}
                 );
                 g2.setPaint(df);
