@@ -1,7 +1,9 @@
 * VFX: ambient shading is broken
     -> works when vm7 is the first map loaded though
         -> but then every other map is dark
-    -> SOLUTION: the first value for any gColor is the one applied forever
+    -> CAUSE: the first value for any gColor is the one applied forever
+    -> SOLUTION: create a console command to set the scene brightness level
+        -> ambient shading _should_ be a variable and colormap should store static colors
 * CRITICAL: whats with the camera "shaking" when it centers on player @ 240hz and lower
 * VFX: using gradient inside the texture makes performance much better on macbook
     -> but the texture tiling doesnt line up exactly at some points
