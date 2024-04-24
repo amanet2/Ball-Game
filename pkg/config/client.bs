@@ -121,7 +121,6 @@ cl_setvar clrw_shadow1half 0 0 0 87
 cl_setvar clrw_shadow2 0 0 0 0
 cl_setvar clrw_clear 0 0 0 0
 cl_setvar clrw_floorshading 0 0 0 12
-cl_setvar clrw_ambientshading 0 0 0 0
 cl_setvar clrw_wallshading1 0 0 0 60
 cl_setvar clrw_wallshading2 0 0 0 150
 cl_setvar clrw_walllowshading1 0 0 0 90

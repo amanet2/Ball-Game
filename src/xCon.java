@@ -1437,6 +1437,23 @@ public class xCon {
                 return xMain.shellLogic.clientVars.get(tk);
             }
         });
+        commands.put("cl_scenebrightness", new gDoable() {
+            public String doCommand(String fullCommand) {
+                String[] toks = fullCommand.split(" ");
+                if (toks.length > 1) {
+                    String rawBrightness = toks[1];
+                    try {
+                        int newBrightness = Integer.parseInt(rawBrightness);
+                        if(newBrightness > -1 && newBrightness < 101)
+                            xMain.shellLogic.clientScene.brightnessLevel = newBrightness;
+                    }
+                    catch(Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                return Integer.toString(xMain.shellLogic.clientScene.brightnessLevel);
+            }
+        });
         commands.put("cl_shake", new gDoable() {
             public String doCommand(String fullCommand) {
                 gCamera.shake();

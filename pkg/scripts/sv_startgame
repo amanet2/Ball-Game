@@ -1,6 +1,6 @@
 foreachclient pid setnstate $pid flag 0
 foreachclient pid setnstate $pid virus 0
-addcomi server cl_setvar clrw_ambientshading 0 0 0 200
+addcomi server cl_scenebrightness 20
 getres gtime setvar gametimemillis
 getres estart sumlong $gtime 1000
 getres eend sumlong $gtime $timelimit
@@ -21,7 +21,7 @@ testres $gamemode $mode_pointmaster foreachlong tv $cstart $eend 30000 schedulee
 testres $gamemode $mode_vipmaster foreachlong tv $estart $eend 5000 scheduleevent $tv exec scripts/spawnpointgiverbonus
 testres $gamemode $mode_virus foreachlong tv $estart $eend 1000 scheduleevent $tv exec scripts/checkvirus
 REM bring brightness back after virus
-addcom cl_setvar clrw_ambientshading 0 0 0 0
+addcomi server cl_scenebrightness 100
 testres $gamemode $mode_capmaster foreachlong tv $estart $eend 1000 scheduleevent $tv exec scripts/capmaster
 testres $gamemode $mode_bringmaster foreachlong tv $estart $eend 1000 scheduleevent $tv foreachclient cli exec scripts/bringmaster_bot $cli
 testres $gamemode $mode_capmaster foreachlong tv $estart $eend 1000 scheduleevent $tv foreachclient cli exec scripts/capmaster_bot $cli

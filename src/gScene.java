@@ -16,6 +16,9 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class gScene {
     final ConcurrentHashMap<String, ConcurrentHashMap<String, gThing>> objectMaps;
     final ConcurrentLinkedQueue<Clip> soundClips;
+    int brightnessLevel = 100;
+
+
 
 	public gScene() {
         objectMaps = new ConcurrentHashMap<>();

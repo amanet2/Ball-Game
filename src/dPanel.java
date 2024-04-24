@@ -308,13 +308,13 @@ public class dPanel extends JPanel {
                 int snapX = aimerx + (int) gCamera.coords[0];
                 int snapY = aimery + (int) gCamera.coords[1];
                 RadialGradientPaint df = new RadialGradientPaint(new Point(snapX, snapY), 600,
-                        new float[]{0f, 1f}, new Color[]{new Color(0,0,0,0), gColors.getColorFromName("clrw_ambientshading")}
+                        new float[]{0f, 1f}, new Color[]{new Color(0,0,0,0), new Color(0, 0, 0,255 - (int) (255*(xMain.shellLogic.clientScene.brightnessLevel*0.01)))}
                 );
                 g2.setPaint(df);
                 g2.fillRect(floor.coords[0], floor.coords[1], floor.dims[0], floor.dims[1]);
             }
             else {
-                g2.setColor(gColors.getColorFromName("clrw_ambientshading"));
+                g2.setColor(new Color(0, 0, 0,255 - (int) (255*(xMain.shellLogic.clientScene.brightnessLevel*0.01))));
                 g2.fillRect(floor.coords[0], floor.coords[1], floor.dims[0], floor.dims[1]);
             }
         }
