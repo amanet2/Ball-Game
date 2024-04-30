@@ -66,6 +66,7 @@ public class dScreenMessages {
             g.setColor(Color.BLACK);
             g.drawString(eUtils.getTimeString(sSettings.clientTimeLeft), sSettings.width / 128 + 2, sSettings.height / 12 + 2);
             dFonts.setFontLarge(g);
+//            g.setColor(gColors.getColorFromName("clrp_" + sSettings.clientPlayerColor));
             g.drawString(eUtils.getTimeString(sSettings.clientTimeLeft), sSettings.width / 128, sSettings.height / 12);
         }
         //menus
