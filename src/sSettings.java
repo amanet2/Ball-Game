@@ -21,8 +21,6 @@ public class sSettings {
 	static int width = 1920;
 	static int height = 1080;
 	static boolean borderless = false;
-	static int vfxfactor = 144;
-	static int vfxfactordiv = 8;
 	static double vfxshadowfactor = 0.1;
 	static boolean drawhitboxes = false;
 	static boolean drawmapmakergrid = false;

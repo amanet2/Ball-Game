@@ -4,8 +4,6 @@ import java.util.HashMap;
 public class gColors {
     private static final HashMap<String, Color> colorMap = new HashMap<>();
 
-    public static int hpAlpha = 230;
-
     public static Color getColorFromName(String name) {
         //not in the map, check our cvars for color info
         String s = xMain.shellLogic.clientVars.get(name);

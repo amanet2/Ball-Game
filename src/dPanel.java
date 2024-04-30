@@ -67,47 +67,13 @@ public class dPanel extends JPanel {
         // health overlay
         int userhp = Math.max(Integer.parseInt(userState.get("hp")), 0);
         if (userhp < sSettings.clientMaxHP) {
-            int factors = sSettings.vfxfactor;
-            int maxl = 255;
+            int maxAlpha = 255;
             Color color = gColors.getColorFromName("clrp_" + xMain.shellLogic.clientVars.get("playercolor"));
             RadialGradientPaint rgp = new RadialGradientPaint(new Rectangle.Double(0, 0, sSettings.width, sSettings.height),
-                    new float[]{0f, 1f}, new Color[]{new Color(0,0,0,0), new Color(color.getRed(), color.getGreen(), color.getBlue(), maxl
-                    - maxl * userhp / sSettings.clientMaxHP)}, MultipleGradientPaint.CycleMethod.NO_CYCLE);
-//            RadialGradientPaint rgp = new RadialGradientPaint(new Point(sSettings.width/2, sSettings.height/2), sSettings.width/2,
-//                    new float[]{0f, 1f}, new Color[]{new Color(0,0,0,0), new Color(color.getRed(), color.getGreen(), color.getBlue(), maxl
-//                    - maxl * userhp / sSettings.clientMaxHP)});
+                    new float[]{0f, 1f}, new Color[]{new Color(0,0,0,0), new Color(color.getRed(), color.getGreen(), color.getBlue(), maxAlpha
+                    - maxAlpha * userhp / sSettings.clientMaxHP)}, MultipleGradientPaint.CycleMethod.NO_CYCLE);
             g2.setPaint(rgp);
             g2.fillRect(0,0, sSettings.width, sSettings.height);
-//            for (int i = 0; i < sSettings.width; i += sSettings.width / factors) {
-//                for (int j = 0; j < sSettings.height; j += sSettings.height / factors) {
-//                    int w = sSettings.width / factors / 2;
-//                    int h = sSettings.height / factors / 2;
-//                    if (Math.random() > 0.95 && Math.random() > 0.95) {
-//                        g2.setColor(new Color(color.getRed(), color.getGreen(), color.getBlue(), maxl
-//                                - maxl * userhp / sSettings.clientMaxHP
-//                                + (int) (Math.random() * (-25) + 25)));
-//                        g2.fillRect(i, j, w, h);
-//                    }
-//                }
-//            }
-//            int factorsdiv = sSettings.vfxfactordiv;
-//            int factorsw = sSettings.width / factorsdiv;
-//            int factorsh = sSettings.height / factorsdiv;
-//            for (int i = 0; i < factorsw; i++) {
-//                Color hpvfxColor = new Color(color.getRed(), color.getGreen(), color.getBlue(),
-//                        Math.abs(Math.abs((maxl / (factorsw / 2)) * (Math.abs(((factorsw / 2) - i))
-//                                - (factorsw / 2))) - maxl)
-//                                * (sSettings.clientMaxHP - userhp) / sSettings.clientMaxHP / 2);
-//                g.setColor(hpvfxColor);
-//                g.fillRect(sSettings.width / factorsw * i, 0, sSettings.width / factorsw, sSettings.height);
-//            }
-//            for (int i = 0; i < factorsh; i++) {
-//                Color hpvfxColor = new Color(color.getRed(), color.getGreen(), color.getBlue(),
-//                        Math.abs(Math.abs((maxl / (factorsh / 2)) * (Math.abs(((factorsh / 2) - i)) - (factorsh / 2))) - maxl)
-//                                * (sSettings.clientMaxHP - userhp) / sSettings.clientMaxHP / 2);
-//                g.setColor(hpvfxColor);
-//                g.fillRect(0, sSettings.height / factorsh * i, sSettings.width, sSettings.height / factorsh);
-//            }
         }
     }
 

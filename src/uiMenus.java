@@ -367,7 +367,7 @@ public class uiMenus {
                 new uiMenuItem[] {
                         new uiMenuItem("Ballmaster 2021-2024"),
                         new uiMenuItem("Created by stallionusa (stallionusa.itch.io)"),
-                        new uiMenuItem("Designed & Programmed by stallionusa (stallionusa.itch.io)"),
+                        new uiMenuItem("Programming by stallionusa (stallionusa.itch.io)"),
                         new uiMenuItem("VFX by drummyfish (opengameart.org)"),
                         new uiMenuItem("VFX by Master484 (opengameart.org)"),
                         new uiMenuItem("VFX by stallionusa (stallionusa.itch.io)"),

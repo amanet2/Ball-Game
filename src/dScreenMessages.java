@@ -76,7 +76,7 @@ public class dScreenMessages {
                 showPauseMenu(g);
                 if(uiMenus.gobackSelected)
                     g.setColor(Color.WHITE);
-                g.drawString("[Esc] GO BACK",0,31*sSettings.height/32);
+                g.drawString("<<< GO BACK",0,31*sSettings.height/32);
             }
             else if(sSettings.clientMapLoaded){
                 String newThingString = sSettings.clientNewPrefabName;
@@ -238,7 +238,6 @@ public class dScreenMessages {
         dFonts.drawCenteredString(g, crumbString.toString(), sSettings.width/2,10*sSettings.height/30);
         dFonts.setFontColor(g, "clrf_normal");
         g.drawLine(2*sSettings.width/5, 21*sSettings.height/60, 3*sSettings.width/5, 21*sSettings.height/60);
-//        dFonts.drawCenteredString(g, "_________",sSettings.width/2,21*sSettings.height/60);
         int ctr = 0;
         int sel = 0;
         for(uiMenuItem i : uiMenus.menuSelection[uiMenus.selectedMenu].items){
