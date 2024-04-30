@@ -1,6 +1,7 @@
 import javax.swing.JPanel;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -67,11 +68,16 @@ public class dPanel extends JPanel {
         int userhp = Math.max(Integer.parseInt(userState.get("hp")), 0);
         if (userhp < sSettings.clientMaxHP) {
             int factors = sSettings.vfxfactor;
-            int maxl = gColors.hpAlpha;
+            int maxl = 255;
             Color color = gColors.getColorFromName("clrp_" + xMain.shellLogic.clientVars.get("playercolor"));
-            RadialGradientPaint rgp = new RadialGradientPaint(new Point(sSettings.width/2, sSettings.height/2), sSettings.width/2,
+            RadialGradientPaint rgp = new RadialGradientPaint(new Rectangle.Double(0, 0, sSettings.width, sSettings.height),
                     new float[]{0f, 1f}, new Color[]{new Color(0,0,0,0), new Color(color.getRed(), color.getGreen(), color.getBlue(), maxl
-                    - maxl * userhp / sSettings.clientMaxHP)});
+                    - maxl * userhp / sSettings.clientMaxHP)}, MultipleGradientPaint.CycleMethod.NO_CYCLE);
+//            RadialGradientPaint rgp = new RadialGradientPaint(new Point(sSettings.width/2, sSettings.height/2), sSettings.width/2,
+//                    new float[]{0f, 1f}, new Color[]{new Color(0,0,0,0), new Color(color.getRed(), color.getGreen(), color.getBlue(), maxl
+//                    - maxl * userhp / sSettings.clientMaxHP)});
+            g2.setPaint(rgp);
+            g2.fillRect(0,0, sSettings.width, sSettings.height);
 //            for (int i = 0; i < sSettings.width; i += sSettings.width / factors) {
 //                for (int j = 0; j < sSettings.height; j += sSettings.height / factors) {
 //                    int w = sSettings.width / factors / 2;
@@ -84,8 +90,6 @@ public class dPanel extends JPanel {
 //                    }
 //                }
 //            }
-            g2.setPaint(rgp);
-            g2.fillRect(0,0,sSettings.width, sSettings.height);
 //            int factorsdiv = sSettings.vfxfactordiv;
 //            int factorsw = sSettings.width / factorsdiv;
 //            int factorsh = sSettings.height / factorsdiv;
