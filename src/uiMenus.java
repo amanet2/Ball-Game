@@ -196,7 +196,7 @@ public class uiMenus {
                                 selectedMenu = MENU_MAP;
                             }
                         },
-                        new uiMenuItem(String.format("Number of Bots [%d]", sSettings.botCount)){
+                        new uiMenuItem(String.format("Bots [%d]", sSettings.botCount)){
                             public void doItem() {
                                 selectedMenu = MENU_BOTS;
                             }
@@ -209,7 +209,7 @@ public class uiMenus {
                         "-Start-",
                         String.format("Map [%s]", eManager.mapSelectionIndex < 0 ? "random"
                                 : eManager.mapsFileSelection[eManager.mapSelectionIndex]),
-                        String.format("Number of Bots [%d]", sSettings.botCount),
+                        String.format("Bots [%d]", sSettings.botCount),
                 });
             }
         },
@@ -222,12 +222,12 @@ public class uiMenus {
                                 selectedMenu = MENU_MAIN;
                             }
                         },
-                        new uiMenuItem("Join IP []") {
+                        new uiMenuItem("IP []") {
                             public void doItem() {
                                 xMain.shellLogic.console.ex("e_changejoinip");
                             }
                         },
-                        new uiMenuItem("Join Port []") {
+                        new uiMenuItem("Port []") {
                             public void doItem() {
                                 xMain.shellLogic.console.ex("e_changejoinport");
                             }
@@ -238,8 +238,8 @@ public class uiMenus {
             public void refresh() {
                 setMenuItemTexts(new String[]{
                         "-Start-",
-                        String.format("Join IP [%s]", xMain.shellLogic.console.ex("cl_setvar joinip")),
-                        String.format("Join Port [%s]", xMain.shellLogic.console.ex("cl_setvar joinport"))
+                        String.format("IP [%s]", xMain.shellLogic.console.ex("cl_setvar joinip")),
+                        String.format("Port [%s]", xMain.shellLogic.console.ex("cl_setvar joinport"))
                 });
             }
         },
@@ -365,7 +365,7 @@ public class uiMenus {
         new uiMenu(
                 "Credits",
                 new uiMenuItem[] {
-                        new uiMenuItem("Ballmaster 2021-2024"),
+                        new uiMenuItem("Ballmaster 2021"),
                         new uiMenuItem("Created by stallionusa (stallionusa.itch.io)"),
                         new uiMenuItem("Programming by stallionusa (stallionusa.itch.io)"),
                         new uiMenuItem("VFX by drummyfish (opengameart.org)"),

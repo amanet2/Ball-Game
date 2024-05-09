@@ -19,7 +19,7 @@ public class gScheduler {
         for(String timeStampKey : toRemoveIds) {
             events.remove(timeStampKey);
         }
-        while (eventQueue.size() > 0) { //TODO: crash here when queue.remove() is null (solution in place, testing)
+        while (eventQueue.size() > 0) { //TODO: crash here when queue.remove() is null
             gDoable o = eventQueue.remove();
             if(o != null)
                 o.doCommand();

@@ -38,6 +38,7 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
         ConcurrentHashMap<String, gThing> itemsMap = xMain.shellLogic.serverScene.getThingMap("THING_ITEM");
         ConcurrentHashMap<String, gThing> playerMap = xMain.shellLogic.serverScene.getThingMap("THING_PLAYER");
         //TODO: fix concurrent modification by capturing a copy of the keyset and iterating over that instead
+        //TODO: now that we use concurrent structures, should we still do this workaround?
         ArrayList<String> itemKeySetCopy = new ArrayList<>(itemsMap.keySet());
         ArrayList<String> playerKeySetCopy = new ArrayList<>(playerMap.keySet());
         for(String iid : itemKeySetCopy) {

@@ -76,7 +76,7 @@ public class dScreenMessages {
                 showPauseMenu(g);
                 if(uiMenus.gobackSelected)
                     g.setColor(Color.WHITE);
-                g.drawString("<<< GO BACK",0,31*sSettings.height/32);
+                g.drawString("[ESC] GO BACK",0,31*sSettings.height/32);
             }
             else if(sSettings.clientMapLoaded){
                 String newThingString = sSettings.clientNewPrefabName;
@@ -235,9 +235,12 @@ public class dScreenMessages {
             crumbString.insert(0, uiMenus.menuSelection[crumbParent].title + "/");
             crumbParent = uiMenus.menuSelection[crumbParent].parentMenu;
         }
-        dFonts.drawCenteredString(g, crumbString.toString(), sSettings.width/2,10*sSettings.height/30);
+        int alignX = sSettings.width/2;
+//        int alignX = 0;
+        int alignY = 21*sSettings.height/60;
+        g.drawString(crumbString.toString(), 0, alignY);
         dFonts.setFontColor(g, "clrf_normal");
-        g.drawLine(2*sSettings.width/5, 21*sSettings.height/60, 3*sSettings.width/5, 21*sSettings.height/60);
+        g.drawLine(0, alignY, sSettings.width, alignY);
         int ctr = 0;
         int sel = 0;
         for(uiMenuItem i : uiMenus.menuSelection[uiMenus.selectedMenu].items){
@@ -246,7 +249,7 @@ public class dScreenMessages {
                 String input = i.text.split(":")[1];
                 dFonts.drawRightJustifiedString(g," "+action,
                         sSettings.width/2, 12*sSettings.height/30+ctr%16*sSettings.height/30);
-                g.drawString(" "+input,
+                g.drawString( " "+input,
                         sSettings.width/2, 12*sSettings.height/30+ctr%16*sSettings.height/30);
             }
             else if(uiMenus.selectedMenu != uiMenus.MENU_CREDITS && ctr == uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem) {
@@ -255,15 +258,13 @@ public class dScreenMessages {
                     dFonts.setFontColor(g, "clrp_" + i.text);
                 else
                     g.setColor(Color.WHITE);
-                dFonts.drawCenteredString(g,i.text,
-                        sSettings.width/2,12*sSettings.height/30+ctr*sSettings.height/30);
+                dFonts.drawCenteredString(g,i.text, alignX,12*sSettings.height/30+ctr*sSettings.height/30);
                 dFonts.setFontColor(g, "clrf_normal");
                 if(xMain.shellLogic.frame.getCursor() != Cursor.getPredefinedCursor(Cursor.HAND_CURSOR))
                     xMain.shellLogic.frame.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             }
             else {
-                dFonts.drawCenteredString(g,i.text,
-                        sSettings.width/2,12*sSettings.height/30+ctr*sSettings.height/30);
+                dFonts.drawCenteredString(g, i.text, alignX,12*sSettings.height/30+ctr*sSettings.height/30);
             }
             ctr++;
         }

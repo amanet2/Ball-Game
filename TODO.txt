@@ -1,3 +1,7 @@
+* UI: combine disconnect into quit menu
+
+* maybe try the top bar from mapmaker for regular pause menu
+* Revamp main menu to have 3+ columns showing menu options
 * CRITICAL: whats with the camera shaking when it centers on player @ 240hz and lower
 * VFX: using gradient inside the texture makes performance much better on macbook
     -> but the texture tiling doesnt line up exactly at some points

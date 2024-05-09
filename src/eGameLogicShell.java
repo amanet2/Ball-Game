@@ -444,20 +444,45 @@ public class eGameLogicShell extends eGameLogicAdapter {
         {
             public void windowClosing(WindowEvent e)
             {
-                xMain.shellLogic.console.ex("quit");
+                console.ex("quit");
             }
         });
         frame.setUndecorated(sSettings.borderless);
-        if(sSettings.show_mapmaker_ui) {
-            uiEditorMenus.setupMapMakerWindow();
-            xMain.shellLogic.console.ex(String.format("cl_execpreview prefabs/%s 0 0 12500 5600", sSettings.clientNewPrefabName));
-        }
+        //create menubar here
+
         frame.setResizable(false);
         contentPane.setPreferredSize(new Dimension(sSettings.width,sSettings.height));
         createPanels();
         frame.setContentPane(contentPane);
         frame.pack();
         frame.setLocationRelativeTo(null);
+
+        //experiment with creating menubar here
+        if(sSettings.show_mapmaker_ui) {
+            uiEditorMenus.setupMapMakerWindow();
+            console.ex(String.format("cl_execpreview prefabs/%s 0 0 12500 5600", sSettings.clientNewPrefabName));
+        }
+//        else {
+//            JMenuBar menubar = new JMenuBar();
+//            frame.setJMenuBar(menubar);
+//            for(String t : new String[]{"Host", "Join", "Settings", "Quit"}) {
+//                uiEditorMenus.createNewMenu(t);
+//            }
+//            uiEditorMenus.addMenuItem("Host", "START");
+//            uiEditorMenus.addMenu("Host", "Map");
+//            uiEditorMenus.addMenuItem("Map", "random");
+//            uiEditorMenus.addMenuItem("Host", "Bots");
+////            uiEditorMenus.addCheckBoxMenuItem("Bots", "0");
+////            uiEditorMenus.addCheckBoxMenuItem("Bots", "1");
+////            uiEditorMenus.addCheckBoxMenuItem("Bots", "2");
+////            uiEditorMenus.addCheckBoxMenuItem("Bots", "3");
+//            uiEditorMenus.addMenuItem("Join", "START");
+//            uiEditorMenus.addMenuItem("Join", "IP");
+////            uiEditorMenus.addMenuItem("IP", "localhost");
+//            uiEditorMenus.addMenuItem("Join", "Port");
+////            uiEditorMenus.addMenuItem("Port", "5555");
+//        }
+
         frame.setVisible(true);
         //add listeners
         frame.addKeyListener(iInput.keyboardInput);
