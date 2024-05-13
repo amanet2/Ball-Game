@@ -682,7 +682,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
     public synchronized void getUIMenuItemUnderMouse() {
         if(!sSettings.hideMouseUI) {
             int[] mc = getMouseCoordinates();
-            int[] xBounds = new int[]{5 * sSettings.width / 32, 19 * sSettings.width / 64};
+            int[] xBounds = new int[]{9 * sSettings.width / 32, 5 * sSettings.width / 16};
             int[] yBounds = sSettings.borderless
                     ? new int[]{19*sSettings.height/60, 21*sSettings.height/60}
                     : new int[]{20*sSettings.height/60, 22*sSettings.height/60};

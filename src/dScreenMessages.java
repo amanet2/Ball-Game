@@ -265,11 +265,14 @@ public class dScreenMessages {
             }
             ctr++;
         }
-        if(sel == 0 && xMain.shellLogic.frame.getCursor() != Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR))
-            xMain.shellLogic.frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-        if(uiMenus.gobackSelected)
+        if(uiMenus.gobackSelected) {
             g.setColor(Color.WHITE);
-        g.drawString("[ESC] ←",5 * sSettings.width / 32, alignY);
+            if(xMain.shellLogic.frame.getCursor() != Cursor.getPredefinedCursor(Cursor.HAND_CURSOR))
+                xMain.shellLogic.frame.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        }
+        if(!uiMenus.gobackSelected && sel == 0 && xMain.shellLogic.frame.getCursor() != Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR))
+            xMain.shellLogic.frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        g.drawString("←",9 * sSettings.width / 32, alignY);
     }
 
     private static void drawHUD(Graphics g) {
