@@ -393,7 +393,7 @@ public class uiMenus {
                 },
                 MENU_MAIN
         ),
-        new uiMenu("Theme", getThemeMenuItems(),  MENU_MAIN),
+        new uiMenu("Theme", getThemeMenuItems(),  MENU_PROFILE),
         new uiMenu("Bots", getBotMenuItems(), MENU_NEWGAME)
     };
 

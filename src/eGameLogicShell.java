@@ -682,17 +682,18 @@ public class eGameLogicShell extends eGameLogicAdapter {
     public synchronized void getUIMenuItemUnderMouse() {
         if(!sSettings.hideMouseUI) {
             int[] mc = getMouseCoordinates();
-            int[] xBounds = new int[]{0, sSettings.width / 4};
+            int[] xBounds = new int[]{5 * sSettings.width / 32, 19 * sSettings.width / 64};
             int[] yBounds = sSettings.borderless
-                    ? new int[]{14 * sSettings.height / 16, sSettings.height}
-                    : new int[]{15 * sSettings.height / 16, 17 * sSettings.height / 16};
+                    ? new int[]{19*sSettings.height/60, 21*sSettings.height/60}
+                    : new int[]{20*sSettings.height/60, 22*sSettings.height/60};
             if ((mc[0] >= xBounds[0] && mc[0] <= xBounds[1]) && (mc[1] >= yBounds[0] && mc[1] <= yBounds[1])) {
                 if (!uiMenus.gobackSelected) {
                     uiMenus.gobackSelected = true;
                     uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem = -1;
                 }
                 return;
-            } else
+            }
+            else
                 uiMenus.gobackSelected = false;
             if (uiMenus.selectedMenu != uiMenus.MENU_CONTROLS) {
                 for (int i = 0; i < uiMenus.menuSelection[uiMenus.selectedMenu].items.length; i++) {

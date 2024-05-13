@@ -74,9 +74,6 @@ public class dScreenMessages {
         if(!sSettings.inplay) {
             if(!sSettings.show_mapmaker_ui) {
                 showPauseMenu(g);
-                if(uiMenus.gobackSelected)
-                    g.setColor(Color.WHITE);
-                g.drawString("[ESC] GO BACK",0,31*sSettings.height/32);
             }
             else if(sSettings.clientMapLoaded){
                 String newThingString = sSettings.clientNewPrefabName;
@@ -238,7 +235,7 @@ public class dScreenMessages {
         int alignX = sSettings.width/2;
 //        int alignX = 0;
         int alignY = 21*sSettings.height/60;
-        g.drawString(crumbString.toString(), 0, alignY);
+        g.drawString("|| " + crumbString, 5 * sSettings.width / 16, alignY);
         dFonts.setFontColor(g, "clrf_normal");
         g.drawLine(0, alignY, sSettings.width, alignY);
         int ctr = 0;
@@ -270,6 +267,9 @@ public class dScreenMessages {
         }
         if(sel == 0 && xMain.shellLogic.frame.getCursor() != Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR))
             xMain.shellLogic.frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        if(uiMenus.gobackSelected)
+            g.setColor(Color.WHITE);
+        g.drawString("[ESC] ←",5 * sSettings.width / 32, alignY);
     }
 
     private static void drawHUD(Graphics g) {
