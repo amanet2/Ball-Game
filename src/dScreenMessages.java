@@ -254,7 +254,8 @@ public class dScreenMessages {
                 if(uiMenus.selectedMenu == uiMenus.MENU_COLOR && !xMain.shellLogic.console.ex("cl_setvar clrp_" + i.text).contains("null"))
                     dFonts.setFontColor(g, "clrp_" + i.text);
                 else
-                    g.setColor(Color.WHITE);
+//                    g.setColor(Color.WHITE);
+                    dFonts.setFontColor(g, "clrp_" + sSettings.clientPlayerColor);
                 dFonts.drawCenteredString(g,i.text, alignX,12*sSettings.height/30+ctr*sSettings.height/30);
                 dFonts.setFontColor(g, "clrf_normal");
                 if(xMain.shellLogic.frame.getCursor() != Cursor.getPredefinedCursor(Cursor.HAND_CURSOR))
@@ -266,7 +267,8 @@ public class dScreenMessages {
             ctr++;
         }
         if(uiMenus.gobackSelected) {
-            g.setColor(Color.WHITE);
+//            g.setColor(Color.WHITE);
+            dFonts.setFontColor(g, "clrp_" + sSettings.clientPlayerColor);
             if(xMain.shellLogic.frame.getCursor() != Cursor.getPredefinedCursor(Cursor.HAND_CURSOR))
                 xMain.shellLogic.frame.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         }
