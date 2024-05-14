@@ -12,12 +12,7 @@ public class dScreenMessages {
         expireTimes.add(sSettings.gameTime + sSettings.screenMessageFadeTime);
     }
 
-    public static void displayScreenMessages(Graphics g, long gameTimeMillis) {
-        //expired msgs
-        if(expireTimes.size() > 0 && expireTimes.peek() != null && expireTimes.peek() < gameTimeMillis) {
-            messagesOnScreen.remove(0);
-            expireTimes.remove();
-        }
+    private static void showDebugInfo(Graphics g) {
         //start displaying
         dFonts.setFontSmall(g);
         //scale
@@ -52,9 +47,17 @@ public class dScreenMessages {
         }
         if(sSettings.showplayer && xMain.shellLogic.getUserPlayer() != null) {
             dFonts.drawRightJustifiedString(g, String.format("Player: %d,%d",
-                    xMain.shellLogic.getUserPlayer().coords[0],
-                    xMain.shellLogic.getUserPlayer().coords[1]),
+                            xMain.shellLogic.getUserPlayer().coords[0],
+                            xMain.shellLogic.getUserPlayer().coords[1]),
                     63*sSettings.width/64,10*sSettings.height/64);
+        }
+    }
+
+    public static void displayScreenMessages(Graphics g, long gameTimeMillis) {
+        //expired msgs
+        if(expireTimes.size() > 0 && expireTimes.peek() != null && expireTimes.peek() < gameTimeMillis) {
+            messagesOnScreen.remove(0);
+            expireTimes.remove();
         }
         //ingame messages
         dFonts.setFontColor(g, "clrf_normal");
@@ -214,6 +217,8 @@ public class dScreenMessages {
         if(xMain.shellLogic.enteringMessage)
             g.drawString(String.format("%s: %s", xMain.shellLogic.prompt, xMain.shellLogic.msgInProgress),
                     0,25 * sSettings.height/32);
+        //show fps, etc.
+        showDebugInfo(g);
     }
 
     public static void refreshLogos() {
