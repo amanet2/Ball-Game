@@ -230,7 +230,6 @@ public class dScreenMessages {
         dFonts.setFontColor(g, "clrf_scoreboardbg");
         g.fillRect(0,0,sSettings.width,sSettings.height);
         g.drawImage(logoimg,0,0,null);
-        g.setColor(Color.GRAY);
         StringBuilder crumbString = new StringBuilder(uiMenus.menuSelection[uiMenus.selectedMenu].title);
         int crumbParent = uiMenus.menuSelection[uiMenus.selectedMenu].parentMenu;
         while(crumbParent > -1) {
@@ -238,11 +237,14 @@ public class dScreenMessages {
             crumbParent = uiMenus.menuSelection[crumbParent].parentMenu;
         }
         int alignX = sSettings.width/2;
-//        int alignX = 0;
         int alignY = 21*sSettings.height/60;
-        g.drawString("|| " + crumbString, 5 * sSettings.width / 16, alignY);
+        g.setColor(Color.WHITE);
+        g.drawRect(0, alignY - sSettings.width/60, sSettings.width, sSettings.height/30);
+        g.setColor(Color.GRAY);
+        g.drawString(crumbString.toString(), 5 * sSettings.width / 16, alignY);
+
         dFonts.setFontColor(g, "clrf_normal");
-        g.drawLine(0, alignY, sSettings.width, alignY);
+//        g.drawLine(0, alignY + sSettings.height/258, sSettings.width, alignY + sSettings.height/258);
         int ctr = 0;
         int sel = 0;
         for(uiMenuItem i : uiMenus.menuSelection[uiMenus.selectedMenu].items){
@@ -280,6 +282,7 @@ public class dScreenMessages {
         if(!uiMenus.gobackSelected && sel == 0 && xMain.shellLogic.frame.getCursor() != Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR))
             xMain.shellLogic.frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         g.drawString("←",9 * sSettings.width / 32, alignY);
+        g.drawRect(9 * sSettings.width / 32, alignY - sSettings.width/60, sSettings.width / 32, sSettings.height/30);
     }
 
     private static void drawHUD(Graphics g) {

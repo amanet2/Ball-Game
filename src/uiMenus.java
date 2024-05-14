@@ -21,6 +21,7 @@ public class uiMenus {
     static final int MENU_DISCONNECT = 15;
     static final int MENU_THEME = 16;
     static final int MENU_BOTS = 17;
+    static final int MENU_POWER = 18;
 
     static int selectedMenu = MENU_MAIN;
 
@@ -101,7 +102,13 @@ public class uiMenus {
                         new uiMenuItem("Profile") {
                             public void doItem(){
                                 menuSelection[MENU_PROFILE].refresh();
-                                selectedMenu = (MENU_PROFILE);
+                                selectedMenu = MENU_PROFILE;
+                            }
+                        },
+                        new uiMenuItem("Power") {
+                            public void doItem(){
+                                menuSelection[MENU_POWER].refresh();
+                                selectedMenu = MENU_POWER;
                             }
                         }
                 },
@@ -115,12 +122,6 @@ public class uiMenus {
         new uiMenu(
                 "Video",
                 new uiMenuItem[]{
-                        new uiMenuItem(String.format("Power Save [%s]", sSettings.powerSave ? "X" : "   ")) {
-                            public void doItem() {
-                                xMain.shellLogic.clientVars.put("powersave", sSettings.powerSave ? "0" : "1");
-                                menuSelection[MENU_VIDEO].refresh();
-                            }
-                        },
                         new uiMenuItem(String.format("Resolution [%dx%d]",sSettings.width,sSettings.height)) {
                             public void doItem() {
                                 selectedMenu = MENU_RESOLUTION;
@@ -171,7 +172,6 @@ public class uiMenus {
         ) {
             public void refresh() {
                 setMenuItemTexts(new String[]{
-                        String.format("Power Save [%s]", sSettings.powerSave ? "X" : "  "),
                         String.format("Resolution [%dx%d]", sSettings.width, sSettings.height),
                         String.format("Framerate [%d]", sSettings.rateShell),
                         String.format("Borderless [%s]", sSettings.borderless ? "X" : "  "),
@@ -394,7 +394,25 @@ public class uiMenus {
                 MENU_MAIN
         ),
         new uiMenu("Theme", getThemeMenuItems(),  MENU_PROFILE),
-        new uiMenu("Bots", getBotMenuItems(), MENU_NEWGAME)
+        new uiMenu("Bots", getBotMenuItems(), MENU_NEWGAME),
+        new uiMenu(
+                "Power",
+                new uiMenuItem[] {
+                        new uiMenuItem(String.format("Enable Low Power Mode [%s]", sSettings.powerSave ? "X" : "   ")) {
+                            public void doItem() {
+                                xMain.shellLogic.clientVars.put("powersave", sSettings.powerSave ? "0" : "1");
+                                menuSelection[MENU_POWER].refresh();
+                            }
+                        }
+                },
+                MENU_OPTIONS
+        ) {
+            public void refresh() {
+                setMenuItemTexts(new String[] {
+                        String.format("Enable Low Power Mode [%s]", sSettings.powerSave ? "X" : "   ")
+                });
+            }
+        }
     };
 
     private static uiMenuItem[] getBotMenuItems() {
@@ -523,11 +541,11 @@ public class uiMenus {
 
     private static uiMenuItem[] getControlMenuItems() {
         return new uiMenuItem[] {
-                new uiMenuItem("throw rock: MOUSE_LEFT"),
-                new uiMenuItem("move up: "+KeyEvent.getKeyText(xMain.shellLogic.console.getKeyCodeForComm("playerup"))),
-                new uiMenuItem("move down: "+KeyEvent.getKeyText(xMain.shellLogic.console.getKeyCodeForComm("playerdown"))),
-                new uiMenuItem("move left: "+KeyEvent.getKeyText(xMain.shellLogic.console.getKeyCodeForComm("playerleft"))),
-                new uiMenuItem("move right: "+KeyEvent.getKeyText(xMain.shellLogic.console.getKeyCodeForComm("playerright"))),
+                new uiMenuItem("throw rock: Left Click"),
+                new uiMenuItem("move up: "+KeyEvent.getKeyText(xMain.shellLogic.console.getKeyCodeForComm("playerup"))+" or ↑"),
+                new uiMenuItem("move down: "+KeyEvent.getKeyText(xMain.shellLogic.console.getKeyCodeForComm("playerdown"))+" or ↓"),
+                new uiMenuItem("move left: "+KeyEvent.getKeyText(xMain.shellLogic.console.getKeyCodeForComm("playerleft"))+" or ←"),
+                new uiMenuItem("move right: "+KeyEvent.getKeyText(xMain.shellLogic.console.getKeyCodeForComm("playerright"))+" or →"),
                 new uiMenuItem("show scoreboard: "+ KeyEvent.getKeyText(xMain.shellLogic.console.getKeyCodeForComm("showscore"))),
                 new uiMenuItem("chat: "+KeyEvent.getKeyText(xMain.shellLogic.console.getKeyCodeForComm("chat")))
         };
