@@ -241,7 +241,7 @@ public class dScreenMessages {
         g.setColor(Color.WHITE);
         g.drawRect(0, alignY - sSettings.width/60, sSettings.width, sSettings.height/30);
         g.setColor(Color.GRAY);
-        g.drawString(crumbString.toString(), 5 * sSettings.width / 16, alignY);
+        g.drawString("/" + crumbString, sSettings.width / 16, alignY);
 
         dFonts.setFontColor(g, "clrf_normal");
 //        g.drawLine(0, alignY + sSettings.height/258, sSettings.width, alignY + sSettings.height/258);
@@ -281,8 +281,8 @@ public class dScreenMessages {
         }
         if(!uiMenus.gobackSelected && sel == 0 && xMain.shellLogic.frame.getCursor() != Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR))
             xMain.shellLogic.frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-        g.drawString("←",9 * sSettings.width / 32, alignY);
-        g.drawRect(9 * sSettings.width / 32, alignY - sSettings.width/60, sSettings.width / 32, sSettings.height/30);
+        g.drawString("←",sSettings.width / 32, alignY);
+        g.drawRect(sSettings.width / 32, alignY - sSettings.width/60, sSettings.width / 32, sSettings.height/30);
     }
 
     private static void drawHUD(Graphics g) {
