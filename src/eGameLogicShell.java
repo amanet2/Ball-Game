@@ -444,20 +444,45 @@ public class eGameLogicShell extends eGameLogicAdapter {
         {
             public void windowClosing(WindowEvent e)
             {
-                xMain.shellLogic.console.ex("quit");
+                console.ex("quit");
             }
         });
         frame.setUndecorated(sSettings.borderless);
-        if(sSettings.show_mapmaker_ui) {
-            uiEditorMenus.setupMapMakerWindow();
-            xMain.shellLogic.console.ex(String.format("cl_execpreview prefabs/%s 0 0 12500 5600", sSettings.clientNewPrefabName));
-        }
+        //create menubar here
+
         frame.setResizable(false);
         contentPane.setPreferredSize(new Dimension(sSettings.width,sSettings.height));
         createPanels();
         frame.setContentPane(contentPane);
         frame.pack();
         frame.setLocationRelativeTo(null);
+
+        //experiment with creating menubar here
+        if(sSettings.show_mapmaker_ui) {
+            uiEditorMenus.setupMapMakerWindow();
+            console.ex(String.format("cl_execpreview prefabs/%s 0 0 12500 5600", sSettings.clientNewPrefabName));
+        }
+//        else {
+//            JMenuBar menubar = new JMenuBar();
+//            frame.setJMenuBar(menubar);
+//            for(String t : new String[]{"Host", "Join", "Settings", "Quit"}) {
+//                uiEditorMenus.createNewMenu(t);
+//            }
+//            uiEditorMenus.addMenuItem("Host", "START");
+//            uiEditorMenus.addMenu("Host", "Map");
+//            uiEditorMenus.addMenuItem("Map", "random");
+//            uiEditorMenus.addMenuItem("Host", "Bots");
+////            uiEditorMenus.addCheckBoxMenuItem("Bots", "0");
+////            uiEditorMenus.addCheckBoxMenuItem("Bots", "1");
+////            uiEditorMenus.addCheckBoxMenuItem("Bots", "2");
+////            uiEditorMenus.addCheckBoxMenuItem("Bots", "3");
+//            uiEditorMenus.addMenuItem("Join", "START");
+//            uiEditorMenus.addMenuItem("Join", "IP");
+////            uiEditorMenus.addMenuItem("IP", "localhost");
+//            uiEditorMenus.addMenuItem("Join", "Port");
+////            uiEditorMenus.addMenuItem("Port", "5555");
+//        }
+
         frame.setVisible(true);
         //add listeners
         frame.addKeyListener(iInput.keyboardInput);
@@ -657,18 +682,21 @@ public class eGameLogicShell extends eGameLogicAdapter {
     public synchronized void getUIMenuItemUnderMouse() {
         if(!sSettings.hideMouseUI) {
             int[] mc = getMouseCoordinates();
-            int[] xBounds = new int[]{0, sSettings.width / 4};
+            int[] xBounds = new int[]{sSettings.width / 32, sSettings.width / 16};
             int[] yBounds = sSettings.borderless
-                    ? new int[]{14 * sSettings.height / 16, sSettings.height}
-                    : new int[]{15 * sSettings.height / 16, 17 * sSettings.height / 16};
+                    ? new int[]{19*sSettings.height/60, 22*sSettings.height/60}
+                    : new int[]{21*sSettings.height/60, 24*sSettings.height/60};
+            //go back button
             if ((mc[0] >= xBounds[0] && mc[0] <= xBounds[1]) && (mc[1] >= yBounds[0] && mc[1] <= yBounds[1])) {
                 if (!uiMenus.gobackSelected) {
                     uiMenus.gobackSelected = true;
                     uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem = -1;
                 }
                 return;
-            } else
+            }
+            else
                 uiMenus.gobackSelected = false;
+            //menus
             if (uiMenus.selectedMenu != uiMenus.MENU_CONTROLS) {
                 for (int i = 0; i < uiMenus.menuSelection[uiMenus.selectedMenu].items.length; i++) {
                     xBounds = new int[]{sSettings.width / 2 - sSettings.width / 8,

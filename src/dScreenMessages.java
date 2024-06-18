@@ -12,12 +12,7 @@ public class dScreenMessages {
         expireTimes.add(sSettings.gameTime + sSettings.screenMessageFadeTime);
     }
 
-    public static void displayScreenMessages(Graphics g, long gameTimeMillis) {
-        //expired msgs
-        if(expireTimes.size() > 0 && expireTimes.peek() != null && expireTimes.peek() < gameTimeMillis) {
-            messagesOnScreen.remove(0);
-            expireTimes.remove();
-        }
+    private static void showDebugInfo(Graphics g) {
         //start displaying
         dFonts.setFontSmall(g);
         //scale
@@ -52,9 +47,17 @@ public class dScreenMessages {
         }
         if(sSettings.showplayer && xMain.shellLogic.getUserPlayer() != null) {
             dFonts.drawRightJustifiedString(g, String.format("Player: %d,%d",
-                    xMain.shellLogic.getUserPlayer().coords[0],
-                    xMain.shellLogic.getUserPlayer().coords[1]),
+                            xMain.shellLogic.getUserPlayer().coords[0],
+                            xMain.shellLogic.getUserPlayer().coords[1]),
                     63*sSettings.width/64,10*sSettings.height/64);
+        }
+    }
+
+    public static void displayScreenMessages(Graphics g, long gameTimeMillis) {
+        //expired msgs
+        if(expireTimes.size() > 0 && expireTimes.peek() != null && expireTimes.peek() < gameTimeMillis) {
+            messagesOnScreen.remove(0);
+            expireTimes.remove();
         }
         //ingame messages
         dFonts.setFontColor(g, "clrf_normal");
@@ -74,9 +77,6 @@ public class dScreenMessages {
         if(!sSettings.inplay) {
             if(!sSettings.show_mapmaker_ui) {
                 showPauseMenu(g);
-                if(uiMenus.gobackSelected)
-                    g.setColor(Color.WHITE);
-                g.drawString("<<< GO BACK",0,31*sSettings.height/32);
             }
             else if(sSettings.clientMapLoaded){
                 String newThingString = sSettings.clientNewPrefabName;
@@ -217,6 +217,8 @@ public class dScreenMessages {
         if(xMain.shellLogic.enteringMessage)
             g.drawString(String.format("%s: %s", xMain.shellLogic.prompt, xMain.shellLogic.msgInProgress),
                     0,25 * sSettings.height/32);
+        //show fps, etc.
+        showDebugInfo(g);
     }
 
     public static void refreshLogos() {
@@ -228,16 +230,21 @@ public class dScreenMessages {
         dFonts.setFontColor(g, "clrf_scoreboardbg");
         g.fillRect(0,0,sSettings.width,sSettings.height);
         g.drawImage(logoimg,0,0,null);
-        g.setColor(Color.GRAY);
         StringBuilder crumbString = new StringBuilder(uiMenus.menuSelection[uiMenus.selectedMenu].title);
         int crumbParent = uiMenus.menuSelection[uiMenus.selectedMenu].parentMenu;
         while(crumbParent > -1) {
             crumbString.insert(0, uiMenus.menuSelection[crumbParent].title + "/");
             crumbParent = uiMenus.menuSelection[crumbParent].parentMenu;
         }
-        dFonts.drawCenteredString(g, crumbString.toString(), sSettings.width/2,10*sSettings.height/30);
+        int alignX = sSettings.width/2;
+        int alignY = 21*sSettings.height/60;
+        g.setColor(Color.WHITE);
+        g.drawRect(0, alignY - sSettings.width/60, sSettings.width, sSettings.height/30);
+        g.setColor(Color.GRAY);
+        g.drawString("/" + crumbString, sSettings.width / 16, alignY);
+
         dFonts.setFontColor(g, "clrf_normal");
-        g.drawLine(2*sSettings.width/5, 21*sSettings.height/60, 3*sSettings.width/5, 21*sSettings.height/60);
+//        g.drawLine(0, alignY + sSettings.height/258, sSettings.width, alignY + sSettings.height/258);
         int ctr = 0;
         int sel = 0;
         for(uiMenuItem i : uiMenus.menuSelection[uiMenus.selectedMenu].items){
@@ -246,7 +253,7 @@ public class dScreenMessages {
                 String input = i.text.split(":")[1];
                 dFonts.drawRightJustifiedString(g," "+action,
                         sSettings.width/2, 12*sSettings.height/30+ctr%16*sSettings.height/30);
-                g.drawString(" "+input,
+                g.drawString( " "+input,
                         sSettings.width/2, 12*sSettings.height/30+ctr%16*sSettings.height/30);
             }
             else if(uiMenus.selectedMenu != uiMenus.MENU_CREDITS && ctr == uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem) {
@@ -254,21 +261,28 @@ public class dScreenMessages {
                 if(uiMenus.selectedMenu == uiMenus.MENU_COLOR && !xMain.shellLogic.console.ex("cl_setvar clrp_" + i.text).contains("null"))
                     dFonts.setFontColor(g, "clrp_" + i.text);
                 else
-                    g.setColor(Color.WHITE);
-                dFonts.drawCenteredString(g,i.text,
-                        sSettings.width/2,12*sSettings.height/30+ctr*sSettings.height/30);
+//                    g.setColor(Color.WHITE);
+                    dFonts.setFontColor(g, "clrp_" + sSettings.clientPlayerColor);
+                dFonts.drawCenteredString(g,i.text, alignX,12*sSettings.height/30+ctr*sSettings.height/30);
                 dFonts.setFontColor(g, "clrf_normal");
                 if(xMain.shellLogic.frame.getCursor() != Cursor.getPredefinedCursor(Cursor.HAND_CURSOR))
                     xMain.shellLogic.frame.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             }
             else {
-                dFonts.drawCenteredString(g,i.text,
-                        sSettings.width/2,12*sSettings.height/30+ctr*sSettings.height/30);
+                dFonts.drawCenteredString(g, i.text, alignX,12*sSettings.height/30+ctr*sSettings.height/30);
             }
             ctr++;
         }
-        if(sel == 0 && xMain.shellLogic.frame.getCursor() != Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR))
+        if(uiMenus.gobackSelected) {
+//            g.setColor(Color.WHITE);
+            dFonts.setFontColor(g, "clrp_" + sSettings.clientPlayerColor);
+            if(xMain.shellLogic.frame.getCursor() != Cursor.getPredefinedCursor(Cursor.HAND_CURSOR))
+                xMain.shellLogic.frame.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        }
+        if(!uiMenus.gobackSelected && sel == 0 && xMain.shellLogic.frame.getCursor() != Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR))
             xMain.shellLogic.frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        g.drawString("←",sSettings.width / 32, alignY);
+        g.drawRect(sSettings.width / 32, alignY - sSettings.width/60, sSettings.width / 32, sSettings.height/30);
     }
 
     private static void drawHUD(Graphics g) {
@@ -279,7 +293,8 @@ public class dScreenMessages {
         if(userState == null)
             return;
         int ctr = 0;
-        int hpbarwidth = sSettings.width/8;
+        boolean smallMode = clStateMap.keys().size() > 7;
+        int hpbarwidth = smallMode ? sSettings.width/16 : sSettings.width/8;
         int marginX = sSettings.width/2 - clStateMap.keys().size()*(hpbarwidth/2 + sSettings.width/128);
         for(String id : clStateMap.keys()) {
             nState clState = clStateMap.get(id);
@@ -293,7 +308,10 @@ public class dScreenMessages {
                         hpbarwidth*Integer.parseInt(clState.get("hp"))/ sSettings.clientMaxHP,
                         sSettings.height/24);
             //name
-            dFonts.setFontNormal(g);
+            if(smallMode)
+                dFonts.setFontSmall(g);
+            else
+                dFonts.setFontNormal(g);
             g.setColor(Color.BLACK);
             g.drawString(clState.get("name"),
                     marginX + ctr*(hpbarwidth + sSettings.width/64) + 3, 55*sSettings.height/64 + 3);
@@ -303,7 +321,10 @@ public class dScreenMessages {
             g.drawString(clState.get("name"),
                     marginX + ctr*(hpbarwidth + sSettings.width/64), 55*sSettings.height/64);
             //score
-            dFonts.setFontLarge(g);
+            if(smallMode)
+                dFonts.setFontNormal(g);
+            else
+                dFonts.setFontLarge(g);
             if(clState.contains("score")) {
                 g.setColor(Color.BLACK);
                 g.drawString(clState.get("score").split(":")[1],

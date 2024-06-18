@@ -21,6 +21,7 @@ public class uiMenus {
     static final int MENU_DISCONNECT = 15;
     static final int MENU_THEME = 16;
     static final int MENU_BOTS = 17;
+    static final int MENU_POWER = 18;
 
     static int selectedMenu = MENU_MAIN;
 
@@ -30,12 +31,12 @@ public class uiMenus {
                 new uiMenuItem[]{
                         new uiMenuItem("Host Game") {
                             public void doItem(){
-                                selectedMenu = (MENU_NEWGAME);
+                                selectedMenu = MENU_NEWGAME;
                             }
                         },
                         new uiMenuItem("Join Game") {
                             public void doItem(){
-                                selectedMenu = (MENU_JOINGAME);
+                                selectedMenu = MENU_JOINGAME;
                             }
                         },
                         new uiMenuItem("Disconnect") {
@@ -45,12 +46,12 @@ public class uiMenus {
                         },
                         new uiMenuItem("Options") {
                             public void doItem(){
-                                selectedMenu = (MENU_OPTIONS);
+                                selectedMenu = MENU_OPTIONS;
                             }
                         },
                         new uiMenuItem("Credits") {
                             public void doItem(){
-                                selectedMenu = (MENU_CREDITS);
+                                selectedMenu = MENU_CREDITS;
                             }
                         },
                         new uiMenuItem("Quit") {
@@ -101,7 +102,13 @@ public class uiMenus {
                         new uiMenuItem("Profile") {
                             public void doItem(){
                                 menuSelection[MENU_PROFILE].refresh();
-                                selectedMenu = (MENU_PROFILE);
+                                selectedMenu = MENU_PROFILE;
+                            }
+                        },
+                        new uiMenuItem("Power") {
+                            public void doItem(){
+                                menuSelection[MENU_POWER].refresh();
+                                selectedMenu = MENU_POWER;
                             }
                         }
                 },
@@ -115,12 +122,6 @@ public class uiMenus {
         new uiMenu(
                 "Video",
                 new uiMenuItem[]{
-                        new uiMenuItem(String.format("Power Save [%s]", sSettings.powerSave ? "X" : "   ")) {
-                            public void doItem() {
-                                xMain.shellLogic.clientVars.put("powersave", sSettings.powerSave ? "0" : "1");
-                                menuSelection[MENU_VIDEO].refresh();
-                            }
-                        },
                         new uiMenuItem(String.format("Resolution [%dx%d]",sSettings.width,sSettings.height)) {
                             public void doItem() {
                                 selectedMenu = MENU_RESOLUTION;
@@ -171,7 +172,6 @@ public class uiMenus {
         ) {
             public void refresh() {
                 setMenuItemTexts(new String[]{
-                        String.format("Power Save [%s]", sSettings.powerSave ? "X" : "  "),
                         String.format("Resolution [%dx%d]", sSettings.width, sSettings.height),
                         String.format("Framerate [%d]", sSettings.rateShell),
                         String.format("Borderless [%s]", sSettings.borderless ? "X" : "  "),
@@ -196,7 +196,7 @@ public class uiMenus {
                                 selectedMenu = MENU_MAP;
                             }
                         },
-                        new uiMenuItem(String.format("Number of Bots [%d]", sSettings.botCount)){
+                        new uiMenuItem(String.format("Bots [%d]", sSettings.botCount)){
                             public void doItem() {
                                 selectedMenu = MENU_BOTS;
                             }
@@ -209,7 +209,7 @@ public class uiMenus {
                         "-Start-",
                         String.format("Map [%s]", eManager.mapSelectionIndex < 0 ? "random"
                                 : eManager.mapsFileSelection[eManager.mapSelectionIndex]),
-                        String.format("Number of Bots [%d]", sSettings.botCount),
+                        String.format("Bots [%d]", sSettings.botCount),
                 });
             }
         },
@@ -222,12 +222,12 @@ public class uiMenus {
                                 selectedMenu = MENU_MAIN;
                             }
                         },
-                        new uiMenuItem("Join IP []") {
+                        new uiMenuItem("IP []") {
                             public void doItem() {
                                 xMain.shellLogic.console.ex("e_changejoinip");
                             }
                         },
-                        new uiMenuItem("Join Port []") {
+                        new uiMenuItem("Port []") {
                             public void doItem() {
                                 xMain.shellLogic.console.ex("e_changejoinport");
                             }
@@ -238,8 +238,8 @@ public class uiMenus {
             public void refresh() {
                 setMenuItemTexts(new String[]{
                         "-Start-",
-                        String.format("Join IP [%s]", xMain.shellLogic.console.ex("cl_setvar joinip")),
-                        String.format("Join Port [%s]", xMain.shellLogic.console.ex("cl_setvar joinport"))
+                        String.format("IP [%s]", xMain.shellLogic.console.ex("cl_setvar joinip")),
+                        String.format("Port [%s]", xMain.shellLogic.console.ex("cl_setvar joinport"))
                 });
             }
         },
@@ -365,7 +365,7 @@ public class uiMenus {
         new uiMenu(
                 "Credits",
                 new uiMenuItem[] {
-                        new uiMenuItem("Ballmaster 2021-2024"),
+                        new uiMenuItem("Ballmaster 2021"),
                         new uiMenuItem("Created by stallionusa (stallionusa.itch.io)"),
                         new uiMenuItem("Programming by stallionusa (stallionusa.itch.io)"),
                         new uiMenuItem("VFX by drummyfish (opengameart.org)"),
@@ -393,8 +393,26 @@ public class uiMenus {
                 },
                 MENU_MAIN
         ),
-        new uiMenu("Theme", getThemeMenuItems(),  MENU_MAIN),
-        new uiMenu("Bots", getBotMenuItems(), MENU_NEWGAME)
+        new uiMenu("Theme", getThemeMenuItems(),  MENU_PROFILE),
+        new uiMenu("Bots", getBotMenuItems(), MENU_NEWGAME),
+        new uiMenu(
+                "Power",
+                new uiMenuItem[] {
+                        new uiMenuItem(String.format("Enable Low Power Mode [%s]", sSettings.powerSave ? "X" : "   ")) {
+                            public void doItem() {
+                                xMain.shellLogic.clientVars.put("powersave", sSettings.powerSave ? "0" : "1");
+                                menuSelection[MENU_POWER].refresh();
+                            }
+                        }
+                },
+                MENU_OPTIONS
+        ) {
+            public void refresh() {
+                setMenuItemTexts(new String[] {
+                        String.format("Enable Low Power Mode [%s]", sSettings.powerSave ? "X" : "   ")
+                });
+            }
+        }
     };
 
     private static uiMenuItem[] getBotMenuItems() {
@@ -523,11 +541,11 @@ public class uiMenus {
 
     private static uiMenuItem[] getControlMenuItems() {
         return new uiMenuItem[] {
-                new uiMenuItem("throw rock: MOUSE_LEFT"),
-                new uiMenuItem("move up: "+KeyEvent.getKeyText(xMain.shellLogic.console.getKeyCodeForComm("playerup"))),
-                new uiMenuItem("move down: "+KeyEvent.getKeyText(xMain.shellLogic.console.getKeyCodeForComm("playerdown"))),
-                new uiMenuItem("move left: "+KeyEvent.getKeyText(xMain.shellLogic.console.getKeyCodeForComm("playerleft"))),
-                new uiMenuItem("move right: "+KeyEvent.getKeyText(xMain.shellLogic.console.getKeyCodeForComm("playerright"))),
+                new uiMenuItem("throw rock: Left Click"),
+                new uiMenuItem("move up: "+KeyEvent.getKeyText(xMain.shellLogic.console.getKeyCodeForComm("playerup"))+" or ↑"),
+                new uiMenuItem("move down: "+KeyEvent.getKeyText(xMain.shellLogic.console.getKeyCodeForComm("playerdown"))+" or ↓"),
+                new uiMenuItem("move left: "+KeyEvent.getKeyText(xMain.shellLogic.console.getKeyCodeForComm("playerleft"))+" or ←"),
+                new uiMenuItem("move right: "+KeyEvent.getKeyText(xMain.shellLogic.console.getKeyCodeForComm("playerright"))+" or →"),
                 new uiMenuItem("show scoreboard: "+ KeyEvent.getKeyText(xMain.shellLogic.console.getKeyCodeForComm("showscore"))),
                 new uiMenuItem("chat: "+KeyEvent.getKeyText(xMain.shellLogic.console.getKeyCodeForComm("chat")))
         };

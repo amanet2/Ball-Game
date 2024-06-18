@@ -557,7 +557,7 @@ public class dPanel extends JPanel {
         int window_offsety = xMain.shellLogic.frame.getLocationOnScreen().y;
         // -- selected prefab (blocks)
         g2.setStroke(dFonts.thickStroke);
-        for(String id : xMain.shellLogic.clientScene.getThingMap("THING_BLOCK").keySet()) { //TODO: concurrent excpetion occurred on this line
+        for(String id : xMain.shellLogic.clientScene.getThingMap("THING_BLOCK").keySet()) {
             gBlock block = (gBlock) xMain.shellLogic.clientScene.getThingMap("THING_BLOCK").get(id);
             if(xMain.shellLogic.getUserPlayer() == null && block.prefabId.equals(sSettings.clientSelectedPrefabId)) {
                 g2.setColor(gColors.getColorFromName("clrp_" + sSettings.clientPlayerColor));

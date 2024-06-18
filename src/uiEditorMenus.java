@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class uiEditorMenus {
-    static Map<String,JMenu> menus = new HashMap<>();
+    static Map<String, JMenu> menus = new HashMap<>();
     static int snapToX = 300;
     static int snapToY = 300;
     static String newitemname = "";
@@ -86,6 +86,21 @@ public class uiEditorMenus {
         return newItem;
     }
 
+    public static JMenu addMenu(String parentMenu, String menuText) {
+        JMenu newMenu = new JMenu(menuText);
+        newMenu.setFont(dFonts.fontNormal);
+        menus.get(parentMenu).add(newMenu);
+        menus.put(menuText, newMenu);
+        return newMenu;
+    }
+
+    public static JCheckBoxMenuItem addCheckBoxMenuItem(String parentMenu, String text) {
+        JCheckBoxMenuItem newItem = new JCheckBoxMenuItem(text);
+        newItem.setFont(dFonts.fontNormal);
+        menus.get(parentMenu).add(newItem);
+        return newItem;
+    }
+
     public static void resetThemeCheckBoxMenuItem(JCheckBoxMenuItem checkBoxMenuItem) {
         checkBoxMenuItem.setSelected(sSettings.mapThemes[Integer.parseInt(xMain.shellLogic.console.ex("cl_setvar maptheme"))].equalsIgnoreCase(checkBoxMenuItem.getText()));
     }
@@ -105,13 +120,9 @@ public class uiEditorMenus {
     public static void setupMapMakerWindow() {
         JMenuBar menubar = new JMenuBar();
         xMain.shellLogic.frame.setJMenuBar(menubar);
-        createNewMenu("File");
-        createNewMenu("Multiplayer");
-        createNewMenu("Prefabs");
-        createNewMenu("Items");
-        createNewMenu("Gametype");
-        createNewMenu("Theme");
-        createNewMenu("Settings");
+        for(String t : new String[]{"File", "Multiplayer", "Prefabs", "Items", "Gametype", "Theme", "Settings"}) {
+            createNewMenu(t);
+        }
         JMenuItem newtopmap = addMenuItem("File", "New");
         JMenuItem open = addMenuItem("File", "Open");
         JMenuItem saveas = addMenuItem("File", "Save As...");
@@ -368,14 +379,14 @@ public class uiEditorMenus {
         }
     }
 
-    private static void createNewMenu(String title) {
+    public static void createNewMenu(String title) {
         JMenu newmenu = new JMenu(title);
         newmenu.setFont(dFonts.fontNormal);
         menus.put(title, newmenu);
         xMain.shellLogic.frame.getJMenuBar().add(newmenu);
     }
 
-    private static void createNewSubmenu(String title, String subtitle) {
+    public static void createNewSubmenu(String title, String subtitle) {
         JMenu newmenu = new JMenu(subtitle);
               newmenu.setFont(dFonts.fontNormal);
         menus.put(subtitle,newmenu);
