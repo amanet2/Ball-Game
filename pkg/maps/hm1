@@ -1,24 +1,56 @@
 load
 gamemode 8
-putfloor 68 9 2700 -600
-putfloor 58 7 -900 -1800
-putfloor 36 3 1500 1800
 putfloor 48 5 2700 600
-putfloor 29 2 300 1800
 putfloor 191 31 300 -3000
-putfloor 182 30 1500 600
-putfloor 173 29 300 600
-putfloor 133 22 1500 -1800
-putfloor 144 22 300 -1800
-putfloor 134 22 300 -600
+putfloor 233 37 -2100 -5400
+putfloor 234 37 -900 -5400
+putfloor 235 37 -2100 -4200
+putfloor 236 37 -900 -4200
+putfloor 237 38 2700 -5400
+putfloor 238 38 3900 -5400
+putfloor 239 38 2700 -4200
+putfloor 53 6 -900 -600
+putfloor 58 7 -900 -1800
+putfloor 240 38 3900 -4200
+putfloor 241 39 -3300 -3000
+putfloor 242 39 -2100 -3000
+putfloor 243 39 -3300 -1800
 putfloor 200 32 1500 -3000
-putfloor 135 22 1500 -600
-putfloor 214 34 2700 -3000
-putfloor 226 36 1500 -4200
-putfloor 219 35 300 -4200
+putfloor 244 39 -2100 -1800
+putfloor 245 40 -3300 -600
+putfloor 246 40 -2100 -600
+putfloor 247 40 -3300 600
+putfloor 248 40 -2100 600
+putfloor 249 41 -2100 1800
 putfloor 209 33 -900 -3000
 putfloor 63 8 2700 -1800
-putfloor 53 6 -900 -600
+putfloor 68 9 2700 -600
+putfloor 29 2 300 1800
+putfloor 173 29 300 600
+putfloor 250 41 -900 1800
+putfloor 251 41 -2100 3000
+putfloor 252 41 -900 3000
+putfloor 253 42 2700 1800
+putfloor 133 22 1500 -1800
+putfloor 254 42 3900 1800
+putfloor 134 22 300 -600
+putfloor 255 42 2700 3000
+putfloor 135 22 1500 -600
+putfloor 256 42 3900 3000
+putfloor 257 43 3900 -600
+putfloor 214 34 2700 -3000
+putfloor 258 43 5100 -600
+putfloor 259 43 3900 600
+putfloor 219 35 300 -4200
+putfloor 36 3 1500 1800
+putfloor 182 30 1500 600
+putfloor 260 43 5100 600
+putfloor 261 44 3900 -3000
+putfloor 262 44 5100 -3000
+putfloor 263 44 3900 -1800
+putfloor 264 44 5100 -1800
+putfloor 144 22 300 -1800
+putfloor 226 36 1500 -4200
 putfloor 43 4 -900 600
 putcube 44 4 -900 450 1200 450 150 300
 putcube 45 4 0 600 300 1350 1050 300
@@ -98,9 +130,9 @@ putcollision 196 31 300 -2950 300 150
 putcollision 153 22 2400 -550 300 150
 putcollision 197 31 1200 -2950 300 150
 putcollision 230 36 1500 -4150 300 150
-putcollision 154 22 300 -550 300 150
-putcollision 198 31 300 -1900 300 150
 putcollision 231 36 2400 -4150 300 150
+putcollision 198 31 300 -1900 300 150
+putcollision 154 22 300 -550 300 150
 putcollision 155 22 2400 -700 300 150
 putcollision 199 31 1200 -1900 300 150
 putcollision 232 36 1500 -3100 1200 150

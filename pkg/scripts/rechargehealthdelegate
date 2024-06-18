@@ -1,4 +1,4 @@
-setvar rechargehp 1
+setvar rechargehp 2
 getres playerhp setnstate $plid hp
 testresn $playerhp null getres newhp sumint $playerhp $rechargehp
 testresn $playerhp null getres toohealthy gte $newhp $maxhp

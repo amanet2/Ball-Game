@@ -4,12 +4,7 @@ import java.util.HashMap;
 public class gColors {
     private static final HashMap<String, Color> colorMap = new HashMap<>();
 
-    public static int hpAlpha = 230;
-
     public static Color getColorFromName(String name) {
-//        //return color if in the map SHIT: this makes only the first value set count
-//        if(colorMap.containsKey(name))
-//            return colorMap.get(name);
         //not in the map, check our cvars for color info
         String s = xMain.shellLogic.clientVars.get(name);
         //if not in cvars, return default white
@@ -20,23 +15,23 @@ public class gColors {
         if(args.length < 3)
             return Color.WHITE;
         //color without alpha
-        if(args.length < 4) {
-            Color c = new Color(
-                    Integer.parseInt(args[0]),
-                    Integer.parseInt(args[1]),
-                    Integer.parseInt(args[2])
-            );
+        if(!colorMap.containsKey(name)) {
+            Color c;
+            if(args.length < 4)
+                c = new Color(
+                        Integer.parseInt(args[0]),
+                        Integer.parseInt(args[1]),
+                        Integer.parseInt(args[2])
+                );
+            else
+                c = new Color(
+                        Integer.parseInt(args[0]),
+                        Integer.parseInt(args[1]),
+                        Integer.parseInt(args[2]),
+                        Integer.parseInt(args[3])
+                );
             colorMap.put(name, c);
-            return colorMap.get(name);
         }
-        //color with alpha
-        Color c = new Color(
-                Integer.parseInt(args[0]),
-                Integer.parseInt(args[1]),
-                Integer.parseInt(args[2]),
-                Integer.parseInt(args[3])
-        );
-        colorMap.put(name, c);
         return colorMap.get(name);
     }
 }

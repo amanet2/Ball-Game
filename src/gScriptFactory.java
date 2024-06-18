@@ -17,7 +17,6 @@ public class gScriptFactory {
             sSettings.prefab_titles[prefabFileCtr++] = prefabName;
         }
         initScriptSelectionDelegate(eManager.scriptFilesSelection, "scripts");
-        initScriptSelectionDelegate(eManager.itemFilesSelection, "items");
         initScriptSelectionDelegate(eManager.configFileSelection, "config");
         initScriptSelectionDelegate(eManager.mapsFileSelection, "maps");
         initScriptSelectionDelegate(eManager.prefabFileSelection, "prefabs");

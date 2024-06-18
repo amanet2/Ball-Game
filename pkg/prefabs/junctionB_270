@@ -1,0 +1,7 @@
+getres idmod1 sumint $1 1
+getres idmod2 sumint $1 2
+getres ymod1 sumint $4 -150
+getres ymod3 sumint $4 50
+putfloor $1 $2 $3 $4
+putcube $idmod1 $2 $3 $ymod1 300 1500 1200 300
+putcollision $idmod2 $2 $3 $ymod3 300 1200

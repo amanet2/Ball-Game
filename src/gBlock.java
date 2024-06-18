@@ -1,5 +1,3 @@
-import java.awt.*;
-
 public class gBlock extends gThing {
     String prefabId;
 
@@ -12,14 +10,6 @@ public class gBlock extends gThing {
         coords[1] = y;
         dims[0] = w;
         dims[1] = h;
-    }
-
-    public void draw(Graphics2D g2) {
-        //to be overridden
-    }
-
-    public void drawPreview(Graphics2D g2) {
-        //to be overridden
     }
 
     public void addToScene(gScene scene) {

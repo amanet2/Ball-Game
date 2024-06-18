@@ -1,7 +1,11 @@
 import javax.imageio.ImageIO;
 import javax.sound.sampled.Clip;
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -12,7 +16,8 @@ public class eGameLogicShell extends eGameLogicAdapter {
     gArgSet serverVars;
     gArgSet clientVars;
     gScriptFactory scriptFactory;
-    oDisplay displayPane;
+    JFrame frame;
+    JLayeredPane contentPane;
     xCon console;
     gScene serverScene;
     gScene clientScene;
@@ -21,9 +26,20 @@ public class eGameLogicShell extends eGameLogicAdapter {
     eGameLogicSimulation serverSimulationThread;
     public eGameLogicServer serverNetThread;
     eGameLogicClient clientNetThread;
+    BufferedImage[] floorTextureSourceImages;
+    BufferedImage[] wallTextureSourceImages;
+    BufferedImage[] topTextureSourceImages;
     TexturePaint[] floorTextures;
     TexturePaint[] wallTextures;
     TexturePaint[] topTextures;
+    boolean enteringMessage = false;
+    String msgInProgress = "";
+    String prompt = "SAY";
+
+    public void cancelEnterMessage() {
+        msgInProgress = "";
+        enteringMessage = false;
+    }
 
 
     public eGameLogicShell() {
@@ -31,7 +47,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
         serverVars = new gArgSet();
         clientVars = new gArgSet();
         scriptFactory = new gScriptFactory();
-        displayPane = new oDisplay();
+        contentPane = new JLayeredPane();
         console = new xCon();
         scheduledEvents = new gScheduler();
     }
@@ -116,9 +132,9 @@ public class eGameLogicShell extends eGameLogicAdapter {
         clientVars.putArg(new gArg("width", "1920") {
             public void onChange() {
                 sSettings.width = Integer.parseInt(value);
-                if(displayPane.frame != null) {
-                    displayPane.refreshResolution();
-                    dMenus.refreshLogos();
+                if(frame != null) {
+                    refreshResolution();
+                    dScreenMessages.refreshLogos();
                 }
             }
         });
@@ -126,9 +142,9 @@ public class eGameLogicShell extends eGameLogicAdapter {
             public void onChange() {
                 sSettings.height = Integer.parseInt(value);
                 dFonts.refreshFonts();
-                if(displayPane.frame != null) {
-                    displayPane.refreshResolution();
-                    dMenus.refreshLogos();
+                if(frame != null) {
+                    refreshResolution();
+                    dScreenMessages.refreshLogos();
                 }
             }
         });
@@ -141,7 +157,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
         clientVars.putArg(new gArg("audioenabled", "1") {
             public void onChange() {
                 sSettings.audioenabled = Integer.parseInt(value) > 0;
-                if(!sSettings.audioenabled) {
+                if(!sSettings.audioenabled && clientScene != null) {
                     for(Clip c : clientScene.soundClips) {
                         c.stop();
                     }
@@ -157,6 +173,8 @@ public class eGameLogicShell extends eGameLogicAdapter {
         clientVars.putArg(new gArg("showmapmakerui", "0") {
             public void onChange() {
                 sSettings.show_mapmaker_ui = Integer.parseInt(value) > 0;
+                if(sSettings.show_mapmaker_ui)
+                    sSettings.culling = false;
             }
         });
         clientVars.putArg(new gArg("debuglog", "0") {
@@ -182,10 +200,15 @@ public class eGameLogicShell extends eGameLogicAdapter {
         clientVars.putArg(new gArg("borderless", "0") {
             public void onChange() {
                 sSettings.borderless = value.equalsIgnoreCase("true") || value.equals("1");
-                if(displayPane.frame != null) {
-                    displayPane.createPanels();
-                    displayPane.showFrame();
+                if(frame != null) {
+                    createPanels();
+                    showFrame();
                 }
+            }
+        });
+        clientVars.putArg(new gArg("culling", "1") {
+            public void onChange() {
+                sSettings.culling = value.equalsIgnoreCase("true") || value.equals("1");
             }
         });
         clientVars.putArg(new gArg("vfxenableanimations", "1"){
@@ -229,6 +252,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 for(int i = 0; i < toks.length; i++) {
                     sSettings.mapThemes[i] = toks[i].strip();
                 }
+                uiMenus.menuSelection[uiMenus.MENU_THEME].items = uiMenus.getThemeMenuItems();
             }
         });
         clientVars.putArg(new gArg("maptheme", Integer.toString(sSettings.mapTheme)) {
@@ -237,10 +261,23 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 if(sSettings.mapThemes.length > requestedTheme)
                     sSettings.mapTheme = requestedTheme;
             }
+
+            public String getValue() {
+                return Integer.toString(sSettings.mapTheme);
+            }
         });
         clientVars.putArg(new gArg("maxhp", "500") {
             public void onChange() {
                 sSettings.clientMaxHP = Integer.parseInt(value);
+            }
+        });
+        clientVars.putArg(new gArg("powersave", sSettings.powerSave ? "1" : "0") {
+            public void onChange() {
+                sSettings.powerSave = value.equals("1");
+            }
+
+            public String getValue() {
+                return sSettings.powerSave ? "1" : "0";
             }
         });
         clientVars.putArg(new gArg("velocityplayerbase", Integer.toString(sSettings.clientVelocityPlayerBase)) {
@@ -331,6 +368,9 @@ public class eGameLogicShell extends eGameLogicAdapter {
             sSettings.showscale = true;
         }
         try {
+            floorTextureSourceImages = new BufferedImage[sSettings.mapThemes.length];
+            wallTextureSourceImages = new BufferedImage[sSettings.mapThemes.length];
+            topTextureSourceImages = new BufferedImage[sSettings.mapThemes.length];
             floorTextures = new TexturePaint[sSettings.mapThemes.length];
             wallTextures = new TexturePaint[sSettings.mapThemes.length];
             topTextures = new TexturePaint[sSettings.mapThemes.length];
@@ -338,18 +378,21 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 String floorPath = eManager.getPath(String.format("tiles/floor/%s.png", sSettings.mapThemes[i]));
                 String wallPath = eManager.getPath(String.format("tiles/wall/%s.png", sSettings.mapThemes[i]));
                 String topPath = eManager.getPath(String.format("tiles/top/%s.png", sSettings.mapThemes[i]));
-                floorTextures[i] = new TexturePaint(ImageIO.read(new File(floorPath)),
+                floorTextureSourceImages[i] = ImageIO.read(new File(floorPath));
+                wallTextureSourceImages[i] = ImageIO.read(new File(wallPath));
+                topTextureSourceImages[i] = ImageIO.read(new File(topPath));
+                floorTextures[i] = new TexturePaint(floorTextureSourceImages[i],
                         new Rectangle2D.Double(0,0,300, 300));
-                wallTextures[i] = new TexturePaint(ImageIO.read(new File(wallPath)),
+                wallTextures[i] = new TexturePaint(wallTextureSourceImages[i],
                         new Rectangle2D.Double(0,0, 300, 300));
-                topTextures[i] = new TexturePaint(ImageIO.read(new File(topPath)),
+                topTextures[i] = new TexturePaint(topTextureSourceImages[i],
                         new Rectangle2D.Double(0,0, 300, 300));
             }
         }
         catch (IOException err) {
             err.printStackTrace();
         }
-        displayPane.showFrame();
+        showFrame();
         gAnimations.init();
     }
 
@@ -366,7 +409,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
         if(sSettings.IS_CLIENT) {
             clientVars.put("gametimemillis", Long.toString(gameTimeMillis));
             scheduledEvents.executeCommands();
-            if(displayPane.frame.isVisible()) {
+            if(frame.isVisible()) {
                 if(getUserPlayer() != null)
                    pointPlayerAtMousePointer();
                 else if(sSettings.show_mapmaker_ui)
@@ -381,7 +424,81 @@ public class eGameLogicShell extends eGameLogicAdapter {
     }
 
     public gPlayer getUserPlayer() {
-        return clientScene.getPlayerById(sSettings.uuid);
+        if(clientScene != null)
+            return clientScene.getPlayerById(sSettings.uuid);
+        return null;
+    }
+
+    public void refreshResolution() {
+        showFrame();
+        createPanels();
+        gTextures.refreshObjectSprites();
+    }
+
+    public void showFrame() {
+        if(frame != null)
+            frame.dispose();
+        frame = new JFrame(String.format("Ball Game%s", sSettings.show_mapmaker_ui ? " [EDITOR]" : ""));
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        frame.addWindowListener(new WindowAdapter()
+        {
+            public void windowClosing(WindowEvent e)
+            {
+                console.ex("quit");
+            }
+        });
+        frame.setUndecorated(sSettings.borderless);
+        //create menubar here
+
+        frame.setResizable(false);
+        contentPane.setPreferredSize(new Dimension(sSettings.width,sSettings.height));
+        createPanels();
+        frame.setContentPane(contentPane);
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+
+        //experiment with creating menubar here
+        if(sSettings.show_mapmaker_ui) {
+            uiEditorMenus.setupMapMakerWindow();
+            console.ex(String.format("cl_execpreview prefabs/%s 0 0 12500 5600", sSettings.clientNewPrefabName));
+        }
+//        else {
+//            JMenuBar menubar = new JMenuBar();
+//            frame.setJMenuBar(menubar);
+//            for(String t : new String[]{"Host", "Join", "Settings", "Quit"}) {
+//                uiEditorMenus.createNewMenu(t);
+//            }
+//            uiEditorMenus.addMenuItem("Host", "START");
+//            uiEditorMenus.addMenu("Host", "Map");
+//            uiEditorMenus.addMenuItem("Map", "random");
+//            uiEditorMenus.addMenuItem("Host", "Bots");
+////            uiEditorMenus.addCheckBoxMenuItem("Bots", "0");
+////            uiEditorMenus.addCheckBoxMenuItem("Bots", "1");
+////            uiEditorMenus.addCheckBoxMenuItem("Bots", "2");
+////            uiEditorMenus.addCheckBoxMenuItem("Bots", "3");
+//            uiEditorMenus.addMenuItem("Join", "START");
+//            uiEditorMenus.addMenuItem("Join", "IP");
+////            uiEditorMenus.addMenuItem("IP", "localhost");
+//            uiEditorMenus.addMenuItem("Join", "Port");
+////            uiEditorMenus.addMenuItem("Port", "5555");
+//        }
+
+        frame.setVisible(true);
+        //add listeners
+        frame.addKeyListener(iInput.keyboardInput);
+        frame.addMouseListener(iInput.mouseInput);
+        frame.addMouseMotionListener(iInput.mouseInput);
+        frame.addMouseWheelListener(iInput.mouseInput);
+        frame.setFocusTraversalKeysEnabled(false);
+    }
+
+    public void createPanels() {
+        contentPane.removeAll();
+        contentPane.setBackground(gColors.getColorFromName("clrf_background"));
+        dPanel vfxPanel = new dPanel();
+        vfxPanel.setBounds(0, 0, sSettings.width, sSettings.height);
+        contentPane.setOpaque(true);
+        contentPane.add(vfxPanel, 0, 0);
     }
 
     private void checkAudio() {
@@ -545,10 +662,66 @@ public class eGameLogicShell extends eGameLogicAdapter {
         return (gPlayer) clientScene.getThingMap("THING_PLAYER").get(id);
     }
 
+    public int[] getMouseCoordinates() {
+        return new int[]{
+                MouseInfo.getPointerInfo().getLocation().x - xMain.shellLogic.frame.getLocationOnScreen().x,
+                MouseInfo.getPointerInfo().getLocation().y - xMain.shellLogic.frame.getLocationOnScreen().y
+        };
+    }
+
+    public int[] getPlaceObjCoords() {
+        int[] mc = getMouseCoordinates();
+        int[] fabdims = uiEditorMenus.getNewPrefabDims();
+        int pfx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0])+(int) gCamera.coords[0] - fabdims[0]/2,
+                uiEditorMenus.snapToX);
+        int pfy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1])+(int) gCamera.coords[1] - fabdims[1]/2,
+                uiEditorMenus.snapToY);
+        return new int[]{pfx, pfy};
+    }
+
+    public synchronized void getUIMenuItemUnderMouse() {
+        if(!sSettings.hideMouseUI) {
+            int[] mc = getMouseCoordinates();
+            int[] xBounds = new int[]{sSettings.width / 32, sSettings.width / 16};
+            int[] yBounds = sSettings.borderless
+                    ? new int[]{19*sSettings.height/60, 22*sSettings.height/60}
+                    : new int[]{21*sSettings.height/60, 24*sSettings.height/60};
+            //go back button
+            if ((mc[0] >= xBounds[0] && mc[0] <= xBounds[1]) && (mc[1] >= yBounds[0] && mc[1] <= yBounds[1])) {
+                if (!uiMenus.gobackSelected) {
+                    uiMenus.gobackSelected = true;
+                    uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem = -1;
+                }
+                return;
+            }
+            else
+                uiMenus.gobackSelected = false;
+            //menus
+            if (uiMenus.selectedMenu != uiMenus.MENU_CONTROLS) {
+                for (int i = 0; i < uiMenus.menuSelection[uiMenus.selectedMenu].items.length; i++) {
+                    xBounds = new int[]{sSettings.width / 2 - sSettings.width / 8,
+                            sSettings.width / 2 + sSettings.width / 8};
+                    yBounds = new int[]{11 * sSettings.height / 30 + i * sSettings.height / 30,
+                            11 * sSettings.height / 30 + (i + 1) * sSettings.height / 30};
+                    if (!sSettings.borderless) {
+                        yBounds[0] += 40;
+                        yBounds[1] += 40;
+                    }
+                    if ((mc[0] >= xBounds[0] && mc[0] <= xBounds[1]) && (mc[1] >= yBounds[0] && mc[1] <= yBounds[1])) {
+                        if (uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem != i)
+                            uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem = i;
+                        return;
+                    }
+                }
+            }
+            uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem = -1;
+        }
+    }
+
     private void selectThingUnderMouse() {
         if(!sSettings.clientMapLoaded)
             return;
-        int[] mc = uiInterface.getMouseCoordinates();
+        int[] mc = getMouseCoordinates();
         for(String id : clientScene.getThingMap("THING_ITEM").keySet()) {
             gThing item = clientScene.getThingMap("THING_ITEM").get(id);
             if(item.coordsWithinBounds(mc[0], mc[1])) {
@@ -587,7 +760,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
 
     private void pointPlayerAtMousePointer() {
         gPlayer p = getUserPlayer();
-        int[] mc = uiInterface.getMouseCoordinates();
+        int[] mc = getMouseCoordinates();
         double dx = mc[0] - eUtils.scaleInt(p.coords[0] + p.dims[0]/2 - (int) gCamera.coords[0]);
         double dy = mc[1] - eUtils.scaleInt(p.coords[1] + p.dims[1]/2 - (int) gCamera.coords[1]);
         double angle = Math.atan2(dy, dx);
@@ -600,7 +773,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
 
     @Override
     public void render() {
-        displayPane.frame.repaint();
+        frame.repaint();
         long gameTimeMillis = sSettings.gameTime;
         if (frameCounterTime < gameTimeMillis) {
             sSettings.fpsReport = sSettings.frames;

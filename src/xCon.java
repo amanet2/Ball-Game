@@ -4,13 +4,14 @@ import javax.sound.sampled.FloatControl;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
-import java.awt.Cursor;
-import java.awt.Font;
+import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.*;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -251,16 +252,16 @@ public class xCon {
         commands.put("chat", new gDoable() {
             public String doCommand(String fullCommand) {
                 String[] args = fullCommand.split(" ");
-                gMessages.enteringMessage = true;
+                xMain.shellLogic.enteringMessage = true;
                 if(args.length > 1) {
                     StringBuilder sb = new StringBuilder();
                     for(int i = 1; i < args.length; i++) {
                         sb.append(" ").append(args[i]);
                     }
-                    gMessages.prompt = sb.substring(1);
+                    xMain.shellLogic.prompt = sb.substring(1);
                 }
-                else if(!gMessages.prompt.equals("SAY"))
-                    gMessages.prompt = "SAY";
+                else if(!xMain.shellLogic.prompt.equals("SAY"))
+                    xMain.shellLogic.prompt = "SAY";
                 return fullCommand;
             }
         });
@@ -343,7 +344,7 @@ public class xCon {
                         if(shooterid.length() < 1)
                             shooterid = "null";
                         ex("deleteplayer " + id + " " + shooterid);
-                        int animInd = gAnimations.ANIM_EXPLOSION_REG;
+                        int animInd = gAnimations.ANIM_EXPLOSION_BLUE;
                         String colorName = playerState.get("color");
                         if(gAnimations.colorNameToExplosionAnimMap.containsKey(colorName))
                             animInd = gAnimations.colorNameToExplosionAnimMap.get(colorName);
@@ -393,7 +394,7 @@ public class xCon {
                 String[] toks = fullCommand.split(" ");
                 if(toks.length > 1) {
                     String id = toks[1];
-                    String kid = "";
+                    String kid = "null";
                     if(toks.length > 2)
                         kid = toks[2];
                     ex("exec scripts/sv_handledeleteplayer " + id + " " + kid);
@@ -482,7 +483,7 @@ public class xCon {
         commands.put("cl_echo", new gDoable() {
             public String doCommand(String fullCommand) {
                 String rs = fullCommand.substring(fullCommand.indexOf(" ")+1);
-                gMessages.addScreenMessage(rs);
+                dScreenMessages.addMessage(rs);
                 return rs;
             }
         });
@@ -591,7 +592,7 @@ public class xCon {
         });
         commands.put("e_showlossalert", new gDoable() {
             public  String doCommand(String fullcomm) {
-                return Integer.toString(JOptionPane.showConfirmDialog(xMain.shellLogic.displayPane.contentPane,
+                return Integer.toString(JOptionPane.showConfirmDialog(xMain.shellLogic.contentPane,
                         "Any unsaved changes will be lost...", "Are You Sure?", JOptionPane.YES_NO_OPTION));
             }
         });
@@ -624,6 +625,22 @@ public class xCon {
                 }
                 moddedScript.callScriptClientPreview(callArgs);
                 return "execpreview";
+            }
+        });
+        commands.put("exportprefab", new gDoable() {
+            public String doCommand(String fullCommand) {
+                JFileChooser fileChooser = new JFileChooser();
+                uiEditorMenus.setFileChooserFont(fileChooser.getComponents());
+                File workingDirectory = new File("prefabs");
+                fileChooser.setCurrentDirectory(workingDirectory);
+                if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+                    File file = fileChooser.getSelectedFile();
+                    String filename = file.getName();
+                    String foldername = file.getParent();
+                    xMain.shellLogic.clientScene.saveAsPrefab(filename, foldername);
+                    return "exported " + file.getPath();
+                }
+                return "failed to export prefab";
             }
         });
         commands.put("fireweapon", new gDoable() {
@@ -826,8 +843,8 @@ public class xCon {
                             ex("pause");
                     }
                     else {
-                        if(gMessages.enteringMessage)
-                            gMessages.cancelEnterMessage();
+                        if(xMain.shellLogic.enteringMessage)
+                            xMain.shellLogic.cancelEnterMessage();
                         uiMenus.selectedMenu = uiMenus.menuSelection[uiMenus.selectedMenu].parentMenu;
                         ex("playsound sounds/bfg2.wav");
                     }
@@ -893,14 +910,14 @@ public class xCon {
         });
         commands.put("mouseleft", new gDoable() {
             public String doCommand(String fullCommand) {
-                if(xMain.shellLogic.displayPane.frame.hasFocus()) {
+                if(xMain.shellLogic.frame.hasFocus()) {
                     if (sSettings.inplay)
                         iMouse.holdingMouseLeft = true;
                     else {
                         if(sSettings.show_mapmaker_ui && sSettings.clientMapLoaded) {
-                            int[] mc = uiInterface.getMouseCoordinates();
+                            int[] mc = xMain.shellLogic.getMouseCoordinates();
                             if(sSettings.clientNewPrefabName.length() > 0) {
-                                int[] pfd = dHUD.getNewPrefabDims();
+                                int[] pfd = uiEditorMenus.getNewPrefabDims();
                                 int w = pfd[0];
                                 int h = pfd[1];
                                 int pfx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0]) + (int) gCamera.coords[0] - w / 2,
@@ -954,9 +971,9 @@ public class xCon {
         commands.put("pause", new gDoable() {
             public String doCommand(String fullCommand) {
                 sSettings.inplay = !sSettings.inplay;
-                xMain.shellLogic.displayPane.frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                xMain.shellLogic.frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                 if(sSettings.inplay) {
-                    xMain.shellLogic.displayPane.frame.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+                    xMain.shellLogic.frame.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
                     if(sSettings.show_mapmaker_ui)
                         xMain.shellLogic.clientNetThread.addNetCmd("respawnnetplayer " + sSettings.uuid);
                 }
@@ -1141,7 +1158,36 @@ public class xCon {
                 String[] toks = fullCommand.split(" ");
                 if(toks.length < 9)
                     return "usage: cl_putcube <id> <prefabid> <x> <y> <w> <y> <top_height> <wall_height>";
-                putCubeDelegate(toks, xMain.shellLogic.clientScene);
+                gBlockCube cube = new gBlockCube(
+                        toks[1], toks[2],
+                        Integer.parseInt(toks[3]),
+                        Integer.parseInt(toks[4]),
+                        Integer.parseInt(toks[5]),
+                        Integer.parseInt(toks[6]),
+                        Integer.parseInt(toks[7]),
+                        Integer.parseInt(toks[8])
+                );
+                if(cube.wallh < 300) {
+                    cube.shadingOverlay = new GradientPaint(
+                            cube.coords[0] + cube.dims[0] / 2, cube.coords [1] + cube.toph ,
+                            gColors.getColorFromName("clrw_walllowshading1"),
+                            cube.coords[0] + cube.dims[0] / 2, cube.coords [1] + cube.dims[1],
+                            gColors.getColorFromName("clrw_walllowshading2"));
+                }
+                else {
+                    cube.shadingOverlay = new GradientPaint(
+                            cube.coords [0] + cube.dims[0] / 2, cube.coords [1] + cube.toph ,
+                            gColors.getColorFromName("clrw_wallshading1"),
+                            cube.coords [0] + cube.dims[0] / 2, cube.coords [1] + cube.dims[1],
+                            gColors.getColorFromName("clrw_wallshading2")
+                    );
+                }
+                cube.shadowOverlay = new GradientPaint(
+                        cube.coords[0] + cube.dims[0]/2,cube.coords[1] + cube.dims[1], gColors.getColorFromName("clrw_shadow1"),
+                        cube.coords[0] + cube.dims[0]/2, cube.coords[1] + cube.dims[1] + (int)((cube.wallh)*sSettings.vfxshadowfactor),
+                        gColors.getColorFromName("clrw_shadow2")
+                );
+                cube.addToScene(xMain.shellLogic.clientScene);
                 return "put cube client";
             }
         });
@@ -1219,7 +1265,7 @@ public class xCon {
                     String msg = sSettings.clientPlayerName + "#"+ sSettings.clientPlayerColor +": "
                             + fullCommand.substring(fullCommand.indexOf(" ") + 1);
                     xMain.shellLogic.clientNetThread.addNetCmd("echo " + msg);
-                    gMessages.msgInProgress = "";
+                    xMain.shellLogic.msgInProgress = "";
                 }
                 return "said enough";
             }
@@ -1389,6 +1435,23 @@ public class xCon {
                 else
                     xMain.shellLogic.clientVars.put(tk, tv);
                 return xMain.shellLogic.clientVars.get(tk);
+            }
+        });
+        commands.put("cl_scenebrightness", new gDoable() {
+            public String doCommand(String fullCommand) {
+                String[] toks = fullCommand.split(" ");
+                if (toks.length > 1) {
+                    String rawBrightness = toks[1];
+                    try {
+                        int newBrightness = Integer.parseInt(rawBrightness);
+                        if(newBrightness > -1 && newBrightness < 101)
+                            xMain.shellLogic.clientScene.brightnessLevel = newBrightness;
+                    }
+                    catch(Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                return Integer.toString(xMain.shellLogic.clientScene.brightnessLevel);
             }
         });
         commands.put("cl_shake", new gDoable() {
@@ -1627,12 +1690,12 @@ public class xCon {
         });
         commands.put("zoom", new gDoable() {
             public String doCommand(String fullCommand) {
-                if(sSettings.show_mapmaker_ui)
+//                if(sSettings.show_mapmaker_ui)
                     sSettings.zoomLevel = Math.min(1.5, sSettings.zoomLevel + 0.25);
                 return "zoom in";
             }
             public String undoCommand(String fullCommand) {
-                if(sSettings.show_mapmaker_ui)
+//                if(sSettings.show_mapmaker_ui)
                     sSettings.zoomLevel = Math.max(0.25, sSettings.zoomLevel - 0.25);
                 return "zoom out";
             }
@@ -1679,7 +1742,7 @@ public class xCon {
     }
 
     private void putCubeDelegate(String[] toks, gScene scene) {
-        new gBlockCube(
+        gBlockCube cube = new gBlockCube(
                 toks[1], toks[2],
                 Integer.parseInt(toks[3]),
                 Integer.parseInt(toks[4]),
@@ -1687,7 +1750,8 @@ public class xCon {
                 Integer.parseInt(toks[6]),
                 Integer.parseInt(toks[7]),
                 Integer.parseInt(toks[8])
-        ).addToScene(scene);
+        );
+        cube.addToScene(scene);
     }
 
     private void putItemDelegate(String[] toks, gScene scene) {

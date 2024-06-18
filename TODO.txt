@@ -1,5 +1,23 @@
+* GAME: picking up weapon after emptying a previous weapoin of same type gives only 1 ammo
+* UI: combine disconnect into quit menu
+* maybe try the top bar from mapmaker for regular pause menu
+* Revamp main menu to have 3+ columns showing menu options
+* CRITICAL: whats with the camera shaking when it centers on player @ 240hz and lower
+* VFX: using gradient inside the texture makes performance much better on macbook
+    -> but the texture tiling doesnt line up exactly at some points
+* BUG: flag disappeared during flagmaster game
+* CRITICAL: client.bs gets cleared out randomly?
+* hud player healthbars and names need to scale when not enough screen space to show all players
+* make created prefabs available right away without having to restart game
+    -> can add the new prefab's script into the prefab map at some point
+* include items in prefab export
+* come up with better way to create and place map geometry where we dont have to define rotations manually
+    -> use java polygons
+        -> but might as well start a new 3d engine
+* Make Camera scriptable with 'setcam' console command
+* ITEM: boost pad that gives high player velocity in a certain direction
+* EXCEPTION: weird exception when pressing ESC in mapmaker without any player spawns
 * create onShot script capability for items and players when they get hit by bullet object
-* for goldmaster and pointmaster have a way to replace botbehavior without interrupting regularly scheduled behavior
 * replace all usages of "Math.Random()" with threadlocal random
 * IDEA: separate weapon spawns maybe
 * IDEA: glowing light that follows around the player character
@@ -15,10 +33,6 @@
 * Client, Server interp
     -> everytime client receives from server it sets "coords"
     -> create some config value that will set this to only occur every X milliseconds
-* CLEANUP:
-    -> investigate exceptions
-    -> create console command to pause bots
-        -> sSettings.botsSleep
 * COMMANDS:
     -> server var to not allow movement for ID or all
     -> add race gamemode
@@ -36,14 +50,10 @@
     -> it screws up building hashmap from received data
 * IDEA: multi-line for loops in scripting language
     -> QUESTION: am i making a game here or a scripting language???
-    -> iterate over lines in gScript
-    -> "for" should trigger a function that gets all line #'s of the script to loop over
-    -> we can pass all loop lines to a function which then does the for i in range code in java
-    -> when the forloop delegate completes, we jump ahead the parent script iterator by X lines
-    -> remember to properly parse and fill in args and global variables for each line in loop
-        -> same code as we currently have in gScript
 * GENERAL: if a client is also running the server, cl_setthing can be called by the server thread if server not ignored (bad)
-* GENERAL: increase map streaming speed by batching lines (see commented code in sendmap)
+* GENERAL: increase map streaming speed
+    -> OPTION: batching lines
+    -> OPTION: change the client rate when downloading map
 * BUG: teleporters delay affects different colors i.e. blue teles are affected by red tele delay and vice versa
 * create a client var for player id to track with the camera
 * fix the bug where players pop out on top of walls they shouldnt be visible behind
@@ -54,7 +64,6 @@
     -> on server close, save to file: setvar unban_<id> <time_millis>
 * dont draw blocks that cant be seen on screen
 * when someones pc sleeps/closes, the client loses connection then rejoins on wake as "null"
-* change the client rate when downloading map
 * git reset --hard <last_working_commit_id>
     -> git push --force
     -> git push --set-upstream origin <branch_name> --force

@@ -21,9 +21,7 @@ public class sSettings {
 	static int width = 1920;
 	static int height = 1080;
 	static boolean borderless = false;
-	static int vfxfactor = 144;
-	static int vfxfactordiv = 8;
-	static double vfxshadowfactor = 0.3;
+	static double vfxshadowfactor = 0.1;
 	static boolean drawhitboxes = false;
 	static boolean drawmapmakergrid = false;
 	static boolean vfxenableshading = true;
@@ -61,6 +59,7 @@ public class sSettings {
 	static int botThinkTimeDelay = 150;
 	static int botShootRange = 1200;
 	static int botCount = 0;
+	static int botCountMax = 3;
 	static int botsPaused = 0;
 
 	//client
@@ -107,4 +106,6 @@ public class sSettings {
 	static int screenMessageFadeTime = 10000;
 	static String[] mapThemes = {"dungeon"};
 	static int mapTheme = 0;
+	static boolean powerSave = true;
+	static boolean culling = true;
 }

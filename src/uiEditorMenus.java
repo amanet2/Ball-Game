@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class uiEditorMenus {
-    static Map<String,JMenu> menus = new HashMap<>();
+    static Map<String, JMenu> menus = new HashMap<>();
     static int snapToX = 300;
     static int snapToY = 300;
     static String newitemname = "";
@@ -23,6 +23,21 @@ public class uiEditorMenus {
     private static final ArrayList<JCheckBoxMenuItem> gametypeCheckBoxMenuItems = new ArrayList<>();
     private static final ArrayList<JCheckBoxMenuItem> themeCheckBoxMenuItems = new ArrayList<>();
     private static final ArrayList<JCheckBoxMenuItem> colorCheckBoxMenuItems = new ArrayList<>();
+
+    public static int[] getNewPrefabDims() {
+        //TODO: this sucks, find a better way to set size
+        if(sSettings.clientNewPrefabName.contains("_large"))
+            return new int[]{2400, 2400};
+        else if(sSettings.clientNewPrefabName.contains("cubeB"))
+            return new int[]{300, 450};
+        else if(sSettings.clientNewPrefabName.contains("cubeC") && (sSettings.clientNewPrefabName.contains("000") || sSettings.clientNewPrefabName.contains("180")))
+            return new int[]{1200, 300};
+        else if(sSettings.clientNewPrefabName.contains("cubeC") && (sSettings.clientNewPrefabName.contains("090") || sSettings.clientNewPrefabName.contains("270")))
+            return new int[]{300, 1200};
+        else if(sSettings.clientNewPrefabName.contains("cube"))
+            return new int[]{300, 300};
+        return new int[]{1200, 1200};
+    }
 
     public static void refreshCheckBoxItems() {
         if(sSettings.clientNewPrefabName.contains("cube") || newitemname.length() > 0) {
@@ -71,6 +86,21 @@ public class uiEditorMenus {
         return newItem;
     }
 
+    public static JMenu addMenu(String parentMenu, String menuText) {
+        JMenu newMenu = new JMenu(menuText);
+        newMenu.setFont(dFonts.fontNormal);
+        menus.get(parentMenu).add(newMenu);
+        menus.put(menuText, newMenu);
+        return newMenu;
+    }
+
+    public static JCheckBoxMenuItem addCheckBoxMenuItem(String parentMenu, String text) {
+        JCheckBoxMenuItem newItem = new JCheckBoxMenuItem(text);
+        newItem.setFont(dFonts.fontNormal);
+        menus.get(parentMenu).add(newItem);
+        return newItem;
+    }
+
     public static void resetThemeCheckBoxMenuItem(JCheckBoxMenuItem checkBoxMenuItem) {
         checkBoxMenuItem.setSelected(sSettings.mapThemes[Integer.parseInt(xMain.shellLogic.console.ex("cl_setvar maptheme"))].equalsIgnoreCase(checkBoxMenuItem.getText()));
     }
@@ -89,19 +119,16 @@ public class uiEditorMenus {
 
     public static void setupMapMakerWindow() {
         JMenuBar menubar = new JMenuBar();
-        xMain.shellLogic.displayPane.frame.setJMenuBar(menubar);
-        createNewMenu("File");
-        createNewMenu("Multiplayer");
-        createNewMenu("Prefabs");
-        createNewMenu("Items");
-        createNewMenu("Gametype");
-        createNewMenu("Theme");
-        createNewMenu("Settings");
+        xMain.shellLogic.frame.setJMenuBar(menubar);
+        for(String t : new String[]{"File", "Multiplayer", "Prefabs", "Items", "Gametype", "Theme", "Settings"}) {
+            createNewMenu(t);
+        }
         JMenuItem newtopmap = addMenuItem("File", "New");
         JMenuItem open = addMenuItem("File", "Open");
         JMenuItem saveas = addMenuItem("File", "Save As...");
+        JMenuItem saveprefab = addMenuItem("File", "Save As Prefab...");
         saveas.setEnabled(false);
-//        JMenuItem exportasprefab = addMenuItem("File", "Export as Prefab");
+        saveprefab.setEnabled(false);
         JMenuItem exit = addMenuItem("File", "Exit");
         JMenuItem join = addMenuItem("Multiplayer", "Join Game");
         JMenuItem joinip = addMenuItem("Multiplayer", "Address: " + xMain.shellLogic.console.ex("cl_setvar joinip"));
@@ -128,6 +155,7 @@ public class uiEditorMenus {
                 if(!sSettings.clientMapLoaded || xMain.shellLogic.console.ex("e_showlossalert").equals("0"))
                     delegate();
                 saveas.setEnabled(true);
+                saveprefab.setEnabled(true);
             }
 
             private void delegate() {
@@ -146,6 +174,7 @@ public class uiEditorMenus {
             newtopmap.setEnabled(false);
             open.setEnabled(false);
             saveas.setEnabled(true);
+            saveprefab.setEnabled(true);
         });
 
         joinip.addActionListener(e -> xMain.shellLogic.console.ex("e_changejoinip"));
@@ -157,11 +186,11 @@ public class uiEditorMenus {
         open.addActionListener(e -> {
             xMain.shellLogic.console.ex("e_openfile");
             saveas.setEnabled(true);
+            saveprefab.setEnabled(true);
         });
 
         saveas.addActionListener(e -> xMain.shellLogic.console.ex("e_saveas"));
-
-//        exportasprefab.addActionListener(e -> xMain.shellLogic.console.ex("exportasprefab"));
+        saveprefab.addActionListener(e -> xMain.shellLogic.console.ex("exportprefab"));
 
         //fill prefabs menu
         ArrayList<String> allPrefabFiles = new ArrayList<>(Arrays.asList(sSettings.prefab_titles));
@@ -350,14 +379,14 @@ public class uiEditorMenus {
         }
     }
 
-    private static void createNewMenu(String title) {
+    public static void createNewMenu(String title) {
         JMenu newmenu = new JMenu(title);
         newmenu.setFont(dFonts.fontNormal);
         menus.put(title, newmenu);
-        xMain.shellLogic.displayPane.frame.getJMenuBar().add(newmenu);
+        xMain.shellLogic.frame.getJMenuBar().add(newmenu);
     }
 
-    private static void createNewSubmenu(String title, String subtitle) {
+    public static void createNewSubmenu(String title, String subtitle) {
         JMenu newmenu = new JMenu(subtitle);
               newmenu.setFont(dFonts.fontNormal);
         menus.put(subtitle,newmenu);

@@ -16,6 +16,9 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class gScene {
     final ConcurrentHashMap<String, ConcurrentHashMap<String, gThing>> objectMaps;
     final ConcurrentLinkedQueue<Clip> soundClips;
+    int brightnessLevel = 100;
+
+
 
 	public gScene() {
         objectMaps = new ConcurrentHashMap<>();
@@ -68,6 +71,115 @@ public class gScene {
             }
         }
         return visualQueue;
+    }
+
+    public void saveAsPrefab(String filename, String foldername) {
+        if(foldername == null || foldername.strip().length() < 1)
+            foldername="prefabs";
+        try (Writer writer = new BufferedWriter(new OutputStreamWriter(
+                new FileOutputStream(foldername + "/" + filename), StandardCharsets.UTF_8))) {
+            ArrayList<String> buildStrings = new ArrayList<>();
+            ConcurrentHashMap<String, gThing> floorMap = getThingMap("BLOCK_FLOOR");
+            ConcurrentHashMap<String, gThing> cubeMap = getThingMap("BLOCK_CUBE");
+            ConcurrentHashMap<String, gThing> collisionMap = getThingMap("BLOCK_COLLISION");
+            int idctr = 0;
+            int modxctr = 0;
+            int modyctr = 0;
+
+            for(String id : floorMap.keySet()) {
+                gThing block = floorMap.get(id);
+
+                String modxstr = "$3";
+                int modx = block.coords[0];
+                if(modx != 0) {
+                    modxctr++;
+                    modxstr = "$xmod"+modxctr;
+                    buildStrings.add(String.format("getres xmod%d sumint $3 %d", modxctr, modx));
+                }
+
+                String modystr = "$4";
+                int mody = block.coords[1];
+                if(mody != 0) {
+                    modyctr++;
+                    modystr = "$ymod"+modyctr;
+                    buildStrings.add(String.format("getres ymod%d sumint $4 %d", modyctr, mody));
+                }
+
+                String modidstr = "$1";
+                if(idctr > 0) {
+                    modidstr = "$idmod" + idctr;
+                    buildStrings.add(String.format("getres idmod%d sumint $1 %d", idctr, idctr));
+                }
+                buildStrings.add(String.format("putfloor %s $2 %s %s", modidstr, modxstr, modystr));
+
+                idctr++;
+            }
+
+            for(String id : cubeMap.keySet()) {
+                gBlockCube block = (gBlockCube) cubeMap.get(id);
+
+                String modxstr = "$3";
+                int modx = block.coords[0];
+                if(modx != 0) {
+                    modxctr++;
+                    modxstr = "$xmod"+modxctr;
+                    buildStrings.add(String.format("getres xmod%d sumint $3 %d", modxctr, modx));
+                }
+
+                String modystr = "$4";
+                int mody = block.coords[1];
+                if(mody != 0) {
+                    modyctr++;
+                    modystr = "$ymod"+modyctr;
+                    buildStrings.add(String.format("getres ymod%d sumint $4 %d", modyctr, mody));
+                }
+
+                String modidstr = "$1";
+                if(idctr > 0) {
+                    modidstr = "$idmod" + idctr;
+                    buildStrings.add(String.format("getres idmod%d sumint $1 %d", idctr, idctr));
+                }
+                buildStrings.add(String.format("putcube %s $2 %s %s %d %d %d %d", modidstr, modxstr, modystr, block.dims[0], block.dims[1], block.toph, block.wallh));
+
+                idctr++;
+            }
+
+            for(String id : collisionMap.keySet()) {
+                gThing block = collisionMap.get(id);
+
+                String modxstr = "$3";
+                int modx = block.coords[0];
+                if(modx != 0) {
+                    modxctr++;
+                    modxstr = "$xmod"+modxctr;
+                    buildStrings.add(String.format("getres xmod%d sumint $3 %d", modxctr, modx));
+                }
+
+                String modystr = "$4";
+                int mody = block.coords[1];
+                if(mody != 0) {
+                    modyctr++;
+                    modystr = "$ymod"+modyctr;
+                    buildStrings.add(String.format("getres ymod%d sumint $4 %d", modyctr, mody));
+                }
+
+                String modidstr = "$1";
+                if(idctr > 0) {
+                    modidstr = "$idmod" + idctr;
+                    buildStrings.add(String.format("getres idmod%d sumint $1 %d", idctr, idctr));
+                }
+                buildStrings.add(String.format("putcollision %s $2 %s %s %s %s", modidstr, modxstr, modystr, block.dims[0], block.dims[1]));
+
+                idctr++;
+            }
+
+            for(String buildString : buildStrings) {
+                writer.write(buildString + "\n");
+            }
+        } catch (IOException e) {
+            xMain.shellLogic.console.logException(e);
+            e.printStackTrace();
+        }
     }
 
     public void saveAs(String filename, String foldername) {

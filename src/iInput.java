@@ -134,46 +134,46 @@ public class iInput {
                 xMain.shellLogic.console.cursorIndex++;
             }
         }
-	    else if(gMessages.enteringMessage) {
+	    else if(xMain.shellLogic.enteringMessage) {
 	        if(iKeyboard.shiftMode || Toolkit.getDefaultToolkit().getLockingKeyState(KeyEvent.VK_CAPS_LOCK)) {
                 String key = iKeyboard.getShiftKeyForCode(command);
                 if(key != null) {
-                    gMessages.msgInProgress += key;
+                    xMain.shellLogic.msgInProgress += key;
                     return;
                 }
             }
             String specialKey = iKeyboard.getSpecialKeyForCode(command);
             if (specialKey != null) {
-                    gMessages.msgInProgress += specialKey;
+                    xMain.shellLogic.msgInProgress += specialKey;
                     return;
             }
             switch (command) {
                 case KeyEvent.VK_BACK_SPACE -> {
-                    if (gMessages.msgInProgress.length() > 0)
-                        gMessages.msgInProgress = gMessages.msgInProgress.substring(0,
-                                gMessages.msgInProgress.length() - 1);
+                    if (xMain.shellLogic.msgInProgress.length() > 0)
+                        xMain.shellLogic.msgInProgress = xMain.shellLogic.msgInProgress.substring(0,
+                                xMain.shellLogic.msgInProgress.length() - 1);
                     return;
                 }
                 case KeyEvent.VK_ENTER -> {
-                    switch (gMessages.prompt) {
+                    switch (xMain.shellLogic.prompt) {
                         case "Enter New Name" -> {
-                            xMain.shellLogic.clientVars.put("playername", gMessages.msgInProgress);
+                            xMain.shellLogic.clientVars.put("playername", xMain.shellLogic.msgInProgress);
                             uiMenus.menuSelection[uiMenus.MENU_PROFILE].refresh();
                             if (sSettings.show_mapmaker_ui)
                                 uiEditorMenus.menus.get("Settings").getItem(0).setText("Name: " + sSettings.clientPlayerName);
-                            gMessages.msgInProgress = "";
+                            xMain.shellLogic.msgInProgress = "";
                         }
                         case "Enter New IP Address" -> {
-                            xMain.shellLogic.clientVars.put("joinip", gMessages.msgInProgress);
-                            gMessages.msgInProgress = "";
+                            xMain.shellLogic.clientVars.put("joinip", xMain.shellLogic.msgInProgress);
+                            xMain.shellLogic.msgInProgress = "";
                         }
                         case "Enter New Port" -> {
-                            xMain.shellLogic.clientVars.put("joinport", gMessages.msgInProgress);
-                            gMessages.msgInProgress = "";
+                            xMain.shellLogic.clientVars.put("joinport", xMain.shellLogic.msgInProgress);
+                            xMain.shellLogic.msgInProgress = "";
                         }
-                        default -> xMain.shellLogic.console.ex(String.format("say %s", gMessages.msgInProgress));
+                        default -> xMain.shellLogic.console.ex(String.format("say %s", xMain.shellLogic.msgInProgress));
                     }
-                    gMessages.enteringMessage = false;
+                    xMain.shellLogic.enteringMessage = false;
                     return;
                 }
                 case KeyEvent.VK_SHIFT -> {
@@ -183,8 +183,8 @@ public class iInput {
                 default -> {
                 }
             }
-            if(gMessages.msgInProgress.length() < 64){
-                gMessages.msgInProgress += KeyEvent.getKeyText(command).toLowerCase().contains("numpad")
+            if(xMain.shellLogic.msgInProgress.length() < 64){
+                xMain.shellLogic.msgInProgress += KeyEvent.getKeyText(command).toLowerCase().contains("numpad")
                     ? KeyEvent.getKeyText(command).toLowerCase().replace("numpad",
                     "").replace("-","").replace(" ", "")
                     : iKeyboard.shiftMode || Toolkit.getDefaultToolkit().getLockingKeyState(KeyEvent.VK_CAPS_LOCK)
@@ -206,10 +206,10 @@ public class iInput {
                 }
             }
         }
-        else if(gMessages.enteringMessage) {
+        else if(xMain.shellLogic.enteringMessage) {
             switch (command) {
                 case KeyEvent.VK_ESCAPE -> {
-                    gMessages.cancelEnterMessage();
+                    xMain.shellLogic.cancelEnterMessage();
                 }
                 case KeyEvent.VK_SHIFT -> iKeyboard.shiftMode = false;
                 default -> {
