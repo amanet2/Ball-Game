@@ -293,7 +293,8 @@ public class dScreenMessages {
         if(userState == null)
             return;
         int ctr = 0;
-        int hpbarwidth = sSettings.width/8;
+        boolean smallMode = clStateMap.keys().size() > 7;
+        int hpbarwidth = smallMode ? sSettings.width/16 : sSettings.width/8;
         int marginX = sSettings.width/2 - clStateMap.keys().size()*(hpbarwidth/2 + sSettings.width/128);
         for(String id : clStateMap.keys()) {
             nState clState = clStateMap.get(id);
@@ -307,7 +308,10 @@ public class dScreenMessages {
                         hpbarwidth*Integer.parseInt(clState.get("hp"))/ sSettings.clientMaxHP,
                         sSettings.height/24);
             //name
-            dFonts.setFontNormal(g);
+            if(smallMode)
+                dFonts.setFontSmall(g);
+            else
+                dFonts.setFontNormal(g);
             g.setColor(Color.BLACK);
             g.drawString(clState.get("name"),
                     marginX + ctr*(hpbarwidth + sSettings.width/64) + 3, 55*sSettings.height/64 + 3);
@@ -317,7 +321,10 @@ public class dScreenMessages {
             g.drawString(clState.get("name"),
                     marginX + ctr*(hpbarwidth + sSettings.width/64), 55*sSettings.height/64);
             //score
-            dFonts.setFontLarge(g);
+            if(smallMode)
+                dFonts.setFontNormal(g);
+            else
+                dFonts.setFontLarge(g);
             if(clState.contains("score")) {
                 g.setColor(Color.BLACK);
                 g.drawString(clState.get("score").split(":")[1],

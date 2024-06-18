@@ -31,12 +31,12 @@ public class uiMenus {
                 new uiMenuItem[]{
                         new uiMenuItem("Host Game") {
                             public void doItem(){
-                                selectedMenu = (MENU_NEWGAME);
+                                selectedMenu = MENU_NEWGAME;
                             }
                         },
                         new uiMenuItem("Join Game") {
                             public void doItem(){
-                                selectedMenu = (MENU_JOINGAME);
+                                selectedMenu = MENU_JOINGAME;
                             }
                         },
                         new uiMenuItem("Disconnect") {
@@ -46,12 +46,12 @@ public class uiMenus {
                         },
                         new uiMenuItem("Options") {
                             public void doItem(){
-                                selectedMenu = (MENU_OPTIONS);
+                                selectedMenu = MENU_OPTIONS;
                             }
                         },
                         new uiMenuItem("Credits") {
                             public void doItem(){
-                                selectedMenu = (MENU_CREDITS);
+                                selectedMenu = MENU_CREDITS;
                             }
                         },
                         new uiMenuItem("Quit") {
