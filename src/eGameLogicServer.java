@@ -20,8 +20,23 @@ public class eGameLogicServer extends eGameLogicAdapter {
     private final HashMap<String, gDoable> clientCmdDoables; //doables for handling client cmds
     private final ArrayList<String> voteSkipList;
 
+    private final Queue<String> cmdQueue; //local cmd queue for server
+    final gScheduler scheduledEvents;
+
+    public void addLocalCmd(String cmd) {
+        cmdQueue.add(cmd);
+    }
+
+    public void checkLocalCmds() {
+        if(cmdQueue.peek() != null)
+            xMain.shellLogic.console.ex(cmdQueue.remove());
+    }
+
     public eGameLogicServer() {
         super();
+        cmdQueue = new LinkedList<>();
+        scheduledEvents = new gScheduler();
+
         masterStateMap = new nStateMap();
         clientCheckinMap = new HashMap<>();
         clientCmdDoables = new HashMap<>();
@@ -138,7 +153,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
     public void addNetCmd(String id, String cmd) {
         xMain.shellLogic.console.debug("SERVER_ADDCOM_" + id + ": " + cmd);
         if(id.equalsIgnoreCase("server"))
-            xMain.shellLogic.serverSimulationThread.addLocalCmd(cmd);
+            addLocalCmd(cmd);
         else
             addNetSendData(id, cmd);
     }
@@ -177,8 +192,10 @@ public class eGameLogicServer extends eGameLogicAdapter {
         HashMap<String, String> netVars = new HashMap<>();
         netVars.put("cmd", "");
         netVars.put("time", Long.toString(sSettings.serverTimeLeft));
-        if(clientNetCmdMap.containsKey(clientid) && clientNetCmdMap.get(clientid).size() > 0)
+        if(clientNetCmdMap.containsKey(clientid) && clientNetCmdMap.get(clientid).size() > 0) {
+            // TODO: find way to batch commands and handle cmdReceived for multiple Cmds
             netVars.put("cmd", clientNetCmdMap.get(clientid).peek());
+        }
         nStateMap deltaStateMap = new nStateMap(masterStateSnapshot);
         //add server vars to the sending map
         deltaStateMap.put("server", new nState());
@@ -408,6 +425,8 @@ public class eGameLogicServer extends eGameLogicAdapter {
             return;
         super.update();
         try {
+            checkLocalCmds();
+            scheduledEvents.executeCommands();
             checkForUnhandledQuitters();
             byte[] receiveData = new byte[sSettings.rcvbytesserver];
             DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
