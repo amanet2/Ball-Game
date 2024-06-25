@@ -15,6 +15,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
     private final DatagramSocket serverSocket;
     private final Queue<String> quitClientIds;
     private final HashMap<String, Queue<String>> clientNetCmdMap;
+    private final HashMap<String, String> clientNetCmdBatchMap; // hold batched cmds and try/retry/await this str
     private final nStateMap masterStateMap; //will be the source of truth for game state, messages, and console comms
     private final HashMap<String, String> clientCheckinMap; //track the timestamp of last received packet of a client
     private final HashMap<String, gDoable> clientCmdDoables; //doables for handling client cmds
@@ -42,6 +43,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
         clientCmdDoables = new HashMap<>();
         quitClientIds = new LinkedList<>();
         clientNetCmdMap = new HashMap<>();
+        clientNetCmdBatchMap = new HashMap<>();
         masterStateSnapshot = "{}";
         voteSkipList = new ArrayList<>();
         //init doables
@@ -161,7 +163,9 @@ public class eGameLogicServer extends eGameLogicAdapter {
     public void addNetCmd(String cmd) {
         xMain.shellLogic.console.debug("SERVER_ADDCOM_ALL: " + cmd);
         xMain.shellLogic.console.ex(cmd);
-        addNetSendData(cmd);
+        for(String id: clientNetCmdMap.keySet()) {
+            addNetSendData(id, cmd);
+        }
     }
 
     private void addNetSendData(String id, String data) {
@@ -169,20 +173,23 @@ public class eGameLogicServer extends eGameLogicAdapter {
             clientNetCmdMap.get(id).add(data);
     }
 
-    private void addNetSendData(String data) {
-        for(String id: clientNetCmdMap.keySet()) {
-            addNetSendData( id, data);
-        }
-    }
-
     public void clientReceivedCmd(String id) {
-        if(clientNetCmdMap.get(id).size() > 0) {
+//        if(clientNetCmdMap.get(id).size() > 0) {
+//            try { //needed here
+//                clientNetCmdMap.get(id).remove();
+//            }
+//            catch(Exception cre) {
+//                cre.printStackTrace();
+//                clientNetCmdMap.get(id).clear();
+//            }
+//        }
+        if(clientNetCmdBatchMap.get(id).length() > 0) {
             try { //needed here
-                clientNetCmdMap.get(id).remove();
+                clientNetCmdBatchMap.put(id, "");
             }
             catch(Exception cre) {
                 cre.printStackTrace();
-                clientNetCmdMap.get(id).clear();
+                clientNetCmdBatchMap.put(id, "");
             }
         }
     }
@@ -194,7 +201,16 @@ public class eGameLogicServer extends eGameLogicAdapter {
         netVars.put("time", Long.toString(sSettings.serverTimeLeft));
         if(clientNetCmdMap.containsKey(clientid) && clientNetCmdMap.get(clientid).size() > 0) {
             // TODO: find way to batch commands and handle cmdReceived for multiple Cmds
-            netVars.put("cmd", clientNetCmdMap.get(clientid).peek());
+            //            netVars.put("cmd", clientNetCmdMap.get(clientid).peek());
+
+            StringBuilder currentBatchCmd = new StringBuilder(clientNetCmdBatchMap.get(clientid));
+            while(currentBatchCmd.toString().split(";").length < 5) { // TODO: parameterize
+                if(clientNetCmdMap.get(clientid).size() < 1)
+                    break;
+                currentBatchCmd.append(currentBatchCmd.length() < 1 ? "" : ";").append(clientNetCmdMap.get(clientid).remove());
+            }
+            clientNetCmdBatchMap.put(clientid, currentBatchCmd.toString());
+            netVars.put("cmd", currentBatchCmd.toString());
         }
         nStateMap deltaStateMap = new nStateMap(masterStateSnapshot);
         //add server vars to the sending map
@@ -210,6 +226,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
         clientCheckinMap.remove(id);
         masterStateMap.remove(id);
         clientNetCmdMap.remove(id);
+        clientNetCmdBatchMap.remove(id);
         gScoreboard.scoresMap.remove(id);
         xMain.shellLogic.console.ex("deleteplayer " + id);
     }
@@ -252,8 +269,10 @@ public class eGameLogicServer extends eGameLogicAdapter {
             xMain.shellLogic.console.ex(String.format("echo %s#%s joined the game", botName, botColor));
         }
 
-        if(!id.startsWith("bot"))
+        if(!id.startsWith("bot")) {
             clientNetCmdMap.put(id, new LinkedList<>());
+            clientNetCmdBatchMap.put(id, "");
+        }
         gScoreboard.addId(id);
         if(!id.startsWith("bot")) {
             sendMapAndRespawn(id);
