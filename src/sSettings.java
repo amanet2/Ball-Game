@@ -2,9 +2,9 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class sSettings {
     // sources
-	static String CONFIG_FILE_LOCATION_SERVER = "config/server.bs";
-	static String CONFIG_FILE_LOCATION_CLIENT = "config/client.bs";
-	static String CONFIG_FILE_LOCATION_GAME = "config/game.bs";
+	static String CONFIG_FILE_LOCATION_SERVER = "config/server.txt";
+	static String CONFIG_FILE_LOCATION_CLIENT = "config/client.txt";
+	static String CONFIG_FILE_LOCATION_GAME = "config/game.txt";
 	static String CONSOLE_LOG_LOCATION = "_console_log";
 	static String datapath = "assets";
 	public static boolean show_mapmaker_ui = false;
@@ -44,6 +44,7 @@ public class sSettings {
 	static int rateserver = 100000; //server rate to poll for packet (<= 0 means unlimited)
 	static int rateclient = 30; //client net rate to request update from server
 	static int rateShell = 1000; //desktop window rate like input, visual update
+	static int serverNetCmdBatchSize = 5;
 
 	// server
 	static int serverTimeLimit = 180000;

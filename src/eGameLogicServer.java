@@ -174,17 +174,8 @@ public class eGameLogicServer extends eGameLogicAdapter {
     }
 
     public void clientReceivedCmd(String id) {
-//        if(clientNetCmdMap.get(id).size() > 0) {
-//            try { //needed here
-//                clientNetCmdMap.get(id).remove();
-//            }
-//            catch(Exception cre) {
-//                cre.printStackTrace();
-//                clientNetCmdMap.get(id).clear();
-//            }
-//        }
         if(clientNetCmdBatchMap.get(id).length() > 0) {
-            try { //needed here
+            try {
                 clientNetCmdBatchMap.put(id, "");
             }
             catch(Exception cre) {
@@ -200,11 +191,8 @@ public class eGameLogicServer extends eGameLogicAdapter {
         netVars.put("cmd", "");
         netVars.put("time", Long.toString(sSettings.serverTimeLeft));
         if(clientNetCmdMap.containsKey(clientid) && clientNetCmdMap.get(clientid).size() > 0) {
-            // TODO: find way to batch commands and handle cmdReceived for multiple Cmds
-            //            netVars.put("cmd", clientNetCmdMap.get(clientid).peek());
-
             StringBuilder currentBatchCmd = new StringBuilder(clientNetCmdBatchMap.get(clientid));
-            while(currentBatchCmd.toString().split(";").length < 5) { // TODO: parameterize
+            while(currentBatchCmd.toString().split(";").length < sSettings.serverNetCmdBatchSize) {
                 if(clientNetCmdMap.get(clientid).size() < 1)
                     break;
                 currentBatchCmd.append(currentBatchCmd.length() < 1 ? "" : ";").append(clientNetCmdMap.get(clientid).remove());

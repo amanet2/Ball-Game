@@ -8,7 +8,7 @@
 * VFX: using gradient inside the texture makes performance much better on macbook
     -> but the texture tiling doesnt line up exactly at some points
 * BUG: flag disappeared during flagmaster game
-* CRITICAL: client.bs gets cleared out randomly?
+* CRITICAL: client.txt gets cleared out randomly?
 * make created prefabs available right away without having to restart game
     -> can add the new prefab's script into the prefab map at some point
 * include items in prefab export
