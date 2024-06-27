@@ -14,7 +14,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
     public String masterStateSnapshot; //what we want publicly accessible
     private final DatagramSocket serverSocket;
     private final Queue<String> quitClientIds;
-    private final HashMap<String, Queue<String>> clientNetCmdMap;
+    private final ConcurrentHashMap<String, Queue<String>> clientNetCmdMap;
     private final HashMap<String, String> clientNetCmdBatchMap; // hold batched cmds and try/retry/await this str
     private final nStateMap masterStateMap; //will be the source of truth for game state, messages, and console comms
     private final HashMap<String, String> clientCheckinMap; //track the timestamp of last received packet of a client
@@ -42,7 +42,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
         clientCheckinMap = new HashMap<>();
         clientCmdDoables = new HashMap<>();
         quitClientIds = new LinkedList<>();
-        clientNetCmdMap = new HashMap<>();
+        clientNetCmdMap = new ConcurrentHashMap<>();
         clientNetCmdBatchMap = new HashMap<>();
         masterStateSnapshot = "{}";
         voteSkipList = new ArrayList<>();
@@ -168,7 +168,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
         }
     }
 
-    private void addNetSendData(String id, String data) {
+    private synchronized void addNetSendData(String id, String data) {
         if(clientNetCmdMap.containsKey(id))
             clientNetCmdMap.get(id).add(data);
     }
@@ -185,7 +185,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
         }
     }
 
-    private String createSendDataString(String clientid) {
+    private synchronized String createSendDataString(String clientid) {
         //create response
         HashMap<String, String> netVars = new HashMap<>();
         netVars.put("cmd", "");
