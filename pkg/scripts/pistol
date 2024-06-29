@@ -1,9 +1,35 @@
-getres pw setthing THING_PLAYER $2 weapon
-testresn $pw 1 getres dwd setthing THING_PLAYER $2 dropweapondelay
-testresn $pw 1 getres dodw gte $gametimemillis $dwd
-testresn $pw 1 testres $dodw 1 exec scripts/handleplayerweapondrop $2
-testresn $pw 1 testres $dodw 1 getres ammodrop setthing THING_ITEM $1 ammo
-testresn $pw 1 testres $dodw 1 deleteitem $1
-testresn $pw 1 testres $dodw 1 setnplayer $2 weapon 1
-testresn $pw 1 testres $dodw 1 testres $ammodrop 0 setnplayer $2 ammo 5
-testresn $pw 1 testres $dodw 1 testresn $ammodrop 0 setnplayer $2 ammo $ammodrop
+REM get item details
+getres ammodrop setthing THING_ITEM $1 ammo
+
+REM get current weapon
+getres currweap setthing THING_PLAYER $2 weapon
+
+REM if we have a pistol we can refill ammo
+testres $currentweap 1 setnplayer $2 ammo 5
+
+REM if we have a weapon but not pistol check if we can switch weapons
+testres $currentweap 0
+REM TODO
+
+REM if we have no weapon at all give us a pistol and full ammo
+setvar setusup 0
+testres $currentweap 0 setvar setusup 1
+testres $setusup 1 setnplayer $2 weapon 1
+testres $setusup 1 setnplayer $2 ammo 5
+
+REM delete item
+deleteitem $1
+
+REM old and broke below but contains valuable code
+REM check whether we should drop weapon if needed
+REM getres dropdel setthing THING_PLAYER $2 dropweapondelay
+REM getres dodrop gte $gametimemillis $dwd
+REM getres ammodrop setthing THING_ITEM $1 ammo
+REM testresn $currweap 1 exec scripts/handleplayerweapondrop $2
+REM deleteitem $1
+REM setnplayer $2 weapon 1
+REM getres currentammo setnplayer $2 ammo
+REM getres newammo sumint $ammodrop $currentammo
+REM getres toomuch gte $newammo 5
+REM testres $toomuch 1 setvar newammo 5
+REM setnplayer $2 ammo $newammo
