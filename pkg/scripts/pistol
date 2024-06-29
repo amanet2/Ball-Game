@@ -5,15 +5,17 @@ REM get current weapon
 getres currweap setthing THING_PLAYER $2 weapon
 
 REM if we have a pistol we can refill ammo
-testres $currentweap 1 setnplayer $2 ammo 5
+testres $currweap 1 setnplayer $2 ammo 5
 
 REM if we have a weapon but not pistol check if we can switch weapons
-testres $currentweap 0
+setvar tryswap 0
+setvar doswap 0
+testresn $currweap 0 testresn $currweap 1 setvar tryswap 1
 REM TODO
 
 REM if we have no weapon at all give us a pistol and full ammo
 setvar setusup 0
-testres $currentweap 0 setvar setusup 1
+testres $currweap 0 setvar setusup 1
 testres $setusup 1 setnplayer $2 weapon 1
 testres $setusup 1 setnplayer $2 ammo 5
 
