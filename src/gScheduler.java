@@ -2,12 +2,13 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class gScheduler {
     protected final ConcurrentHashMap<String, Queue<gDoable>> events;
-    protected Queue<gDoable> eventQueue;
+    protected ConcurrentLinkedQueue<gDoable> eventQueue;
 
-    public void executeCommands() {
+    public synchronized void executeCommands() {
         long gtime = sSettings.gameTime;
         ArrayList<String> toRemoveIds = new ArrayList<>();
         for (String timestampkey : events.keySet()) {
@@ -26,18 +27,18 @@ public class gScheduler {
         }
     }
 
-    public void put(String key, gDoable event) {
+    public synchronized void put(String key, gDoable event) {
         events.putIfAbsent(key, new LinkedList<>());
         events.get(key).add(event);
     }
 
-    public void clear() {
+    public synchronized void clear() {
         events.clear();
         eventQueue.clear();
     }
 
     public gScheduler() {
         events = new ConcurrentHashMap<>();
-        eventQueue = new LinkedList<>();
+        eventQueue = new ConcurrentLinkedQueue<>();
     }
 }

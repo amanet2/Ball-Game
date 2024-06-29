@@ -2,9 +2,9 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class sSettings {
     // sources
-	static String CONFIG_FILE_LOCATION_SERVER = "config/server.bs";
-	static String CONFIG_FILE_LOCATION_CLIENT = "config/client.bs";
-	static String CONFIG_FILE_LOCATION_GAME = "config/game.bs";
+	static String CONFIG_FILE_LOCATION_SERVER = "config/server.txt";
+	static String CONFIG_FILE_LOCATION_CLIENT = "config/client.txt";
+	static String CONFIG_FILE_LOCATION_GAME = "config/game.txt";
 	static String CONSOLE_LOG_LOCATION = "_console_log";
 	static String datapath = "assets";
 	public static boolean show_mapmaker_ui = false;
@@ -38,12 +38,13 @@ public class sSettings {
 
 	// net
 	static int max_packet_size = 1200;
-	static int rcvbytesclient = 2048;
-	static int rcvbytesserver = 512;
+	static int rcvbytesclient = 8192;
+	static int rcvbytesserver = 8192;
 	static int ratesimulation = 60; //server internal game rate for simulation
-	static int rateserver = 1000; //server rate to poll for packet (<= 0 means unlimited)
+	static int rateserver = 100000; //server rate to poll for packet (<= 0 means unlimited)
 	static int rateclient = 30; //client net rate to request update from server
 	static int rateShell = 1000; //desktop window rate like input, visual update
+	static int serverNetCmdBatchSize = 5;
 
 	// server
 	static int serverTimeLimit = 180000;
@@ -59,7 +60,7 @@ public class sSettings {
 	static int botThinkTimeDelay = 150;
 	static int botShootRange = 1200;
 	static int botCount = 0;
-	static int botCountMax = 3;
+	static int botCountMax = 7;
 	static int botsPaused = 0;
 
 	//client

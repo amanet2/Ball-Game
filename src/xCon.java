@@ -195,7 +195,7 @@ public class xCon {
                     return "usage: changemap <path_to_mapfile>";
                 String mapPath = fullCommand.split(" ").length > 1 ? fullCommand.split(" ")[1] : "";
                 gScoreboard.resetScoresMap();
-                xMain.shellLogic.serverSimulationThread.scheduledEvents.clear();
+                xMain.shellLogic.serverNetThread.scheduledEvents.clear();
                 ex("loadingscreen");
                 ex("exec " + mapPath); //by exec'ing the map, server is actively streaming blocks
                 ex("-loadingscreen");
@@ -208,14 +208,14 @@ public class xCon {
                     long starttime = sSettings.gameTime;
                     for (long t = starttime + 1000; t <= starttime + sSettings.serverTimeLimit; t += 1000) {
                         long lastT = t;
-                        xMain.shellLogic.serverSimulationThread.scheduledEvents.put(Long.toString(t), new gDoable() {
+                        xMain.shellLogic.serverNetThread.scheduledEvents.put(Long.toString(t), new gDoable() {
                             public void doCommand() {
                                 if (sSettings.serverTimeLimit > 0)
                                     sSettings.serverTimeLeft =  Math.max(0, (starttime + sSettings.serverTimeLimit) - lastT);
                             }
                         });
                     }
-                    xMain.shellLogic.serverSimulationThread.scheduledEvents.put(Long.toString(starttime + sSettings.serverTimeLimit), new gDoable() {
+                    xMain.shellLogic.serverNetThread.scheduledEvents.put(Long.toString(starttime + sSettings.serverTimeLimit), new gDoable() {
                         public void doCommand() {
                             //select winner and run postgame script
                             String winid = gScoreboard.getWinnerId();
@@ -230,7 +230,7 @@ public class xCon {
                             ex("exec scripts/sv_endgame");
                         }
                     });
-                    xMain.shellLogic.serverSimulationThread.scheduledEvents.put(Long.toString(starttime + 8000), new gDoable() {
+                    xMain.shellLogic.serverNetThread.scheduledEvents.put(Long.toString(starttime + 8000), new gDoable() {
                         public void doCommand() {
                             ex("pausebots 0");
                         }
@@ -1283,7 +1283,7 @@ public class xCon {
                 }
                 String timeToExec = args[1];
                 String actStr = act.substring(1);
-                xMain.shellLogic.serverSimulationThread.scheduledEvents.put(timeToExec,
+                xMain.shellLogic.serverNetThread.scheduledEvents.put(timeToExec,
                         new gDoable() {
                             public void doCommand() {
                                 ex(actStr);

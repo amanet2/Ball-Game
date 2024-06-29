@@ -2,23 +2,13 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class eGameLogicSimulation extends eGameLogicAdapter {
-    private final Queue<String> cmdQueue; //local cmd queue for server
-    final gScheduler scheduledEvents;
 
     public eGameLogicSimulation() {
         super();
-        cmdQueue = new LinkedList<>();
-        scheduledEvents = new gScheduler();
+
     }
 
-    public void addLocalCmd(String cmd) {
-        cmdQueue.add(cmd);
-    }
 
-    public void checkLocalCmds() {
-        if(cmdQueue.peek() != null)
-            xMain.shellLogic.console.ex(cmdQueue.remove());
-    }
 
     public void update() {
         super.update();
@@ -26,8 +16,6 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
             return;
         long gameTimeMillis = sSettings.gameTime;
         xMain.shellLogic.serverVars.put("gametimemillis", Long.toString(gameTimeMillis));
-        checkLocalCmds();
-        scheduledEvents.executeCommands();
         xMain.shellLogic.console.ex("exec scripts/sv_checkgamestate");
         checkGameItems();
         updateEntityPositions(gameTimeMillis);
