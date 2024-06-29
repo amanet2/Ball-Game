@@ -38,7 +38,10 @@ public class eGameLogicClient extends eGameLogicAdapter {
                 if(value.length() > 0) {
                     xMain.shellLogic.console.debug("FROM_SERVER: " + value);
                     cmdReceived = true;
-                    xMain.shellLogic.console.ex(value);
+                    String[] batchCommands = value.split(";");
+                    for(String comm : batchCommands) {
+                        xMain.shellLogic.console.ex(comm);
+                    }
                 }
             }
         });
