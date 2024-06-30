@@ -89,10 +89,15 @@ setvar ITEM_PLAYERSPAWN_dimh 300
 setvar ITEM_PLAYERSPAWN_script exec scripts/playerspawn
 setvar weap_none 0
 setvar weap_pistol 1
+setvar weap_pistol_ammo 5
 setvar weap_shotgun 2
+setvar weap_shotgun_ammo 3
 setvar weap_autorifle 3
+setvar weap_autorifle_ammo 19
 setvar weap_launcher 4
+setvar weap_launcher_ammo 1
 setvar weap_gloves 5
+setvar weap_gloves_ammo 0
 setvar WEAPON_NONE_dmg 200
 setvar WEAPON_NONE_delay 500
 setvar WEAPON_NONE_vel 30
