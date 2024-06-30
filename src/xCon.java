@@ -1364,10 +1364,14 @@ public class xCon {
             public String doCommand(String fullCommand) {
                 //synchronized between server and clients
                 String[] args = xMain.shellLogic.serverVars.parseScriptArgs(fullCommand);
-                if(args.length < 4)
-                    return "usage: setnplayer <player_id> <var_name> <var_value>";
+                if(args.length < 2)
+                    return "null";
                 String pid = args[1];
                 String varname = args[2];
+                if(args.length < 4) {
+                    String giveString = String.format("setthing THING_PLAYER %s %s", pid, varname);
+                    return ex(giveString);
+                }
                 String varval = args[3];
                 String giveString = String.format("setthing THING_PLAYER %s %s %s", pid, varname, varval);
                 String res = ex(giveString);

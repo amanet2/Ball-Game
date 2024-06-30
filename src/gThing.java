@@ -41,7 +41,7 @@ public class gThing {
         gThing parent = this;
         //args are bindings for what scripts can use
         args.putArg(new gArg("ammo", "0") {
-            public void onChange() {
+            public void onUpdate() {
                 parent.ammo = Integer.parseInt(value);
             }
 
