@@ -2,32 +2,35 @@ REM get item details
 getres ammodrop setthing THING_ITEM $1 ammo
 testres $ammodrop 0 setvar ammodrop 5
 
-REM get current weapon
+REM get current weapon details
 getres currweap setthing THING_PLAYER $2 weapon
+getres dropdel setthing THING_PLAYER $2 dropweapondelay
 
-REM if we have a pistol we can refill ammo
+REM if we have a pistol we can pick up and get ammo
 setvar pickupammo 0
 testres $currweap 1 setvar pickupammo 1
 testres $pickupammo 1 getres currammo setnplayer $2 ammo
 testres $pickupammo 1 getres newammo sumint $ammodrop $currammo
 testres $pickupammo 1 setnplayer $2 ammo $newammo
+testres $pickupammo 1 deleteitem $1
 
 REM if we have a weapon but not pistol check if we can switch weapons and get the ammo
 REM TODO finish this
 setvar tryswap 0
 setvar doswap 0
 testresn $currweap 0 testresn $currweap 1 setvar tryswap 1
+testres $tryswap 1 getres doswap gte $gametimemillis $dropdel
+testres $doswap 1 exec scripts/handleplayerweapondrop $2
+testres $doswap 1 setnplayer $2 weapon 1
+testres $doswap 1 deleteitem $1
 
-
-REM if we have no weapon at all give us a pistol and full ammo
+REM if we have no weapon at all give us the pistol and full ammo
 setvar setusup 0
 testres $currweap 0 setvar setusup 1
 testres $setusup 1 setnplayer $2 ammo $ammodrop
 testres $setusup 1 setnplayer $2 weapon 1
+testres $setusup 1 deleteitem $1
 
-
-REM delete item
-deleteitem $1
 
 REM old and broke below but contains valuable code
 REM check whether we should drop weapon if needed
