@@ -1,0 +1,6 @@
+# DEFAULT
+.idea*
+*.iml
+out/*
+runtime/*
+*.jar
