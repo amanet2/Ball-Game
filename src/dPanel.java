@@ -265,14 +265,14 @@ public class dPanel extends JPanel {
             gThing thing = visualQueue.remove();
             //check if on screen
             //have special modifier which is the shadows for cubes, use placeholder 300 for wallheight value
-            if(thing.isOnScreen()) {
+//            if(thing.isOnScreen()) {  // TODO: is this redundant because of fix in scene.getWallsSorted?
                 if (thing.type.equals("THING_PLAYER"))
                     drawPlayer(g2, (gPlayer) thing);
                 else if (thing.type.startsWith("ITEM_"))
                     drawItem(g2, (gItem) thing);
                 else if (thing.type.contains("CUBE"))
                     drawCube(g2, (gBlockCube) thing);
-            }
+//            }
         }
         for(String tag : scene.getThingMap("BLOCK_FLOOR").keySet()) {
             gThing floor = scene.getThingMap("BLOCK_FLOOR").get(tag);

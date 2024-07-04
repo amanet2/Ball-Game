@@ -17,5 +17,5 @@ testresn $1 null testres $gamemode $mode_vipmaster testres $k1flag 1 givepoint $
 testres $gamemode $mode_virus getres wasvirus setnstate $1 virus
 testres $gamemode $mode_virus setnstate $1 virus 1
 testres $gamemode $mode_virus testres $wasvirus 0 echo $vvstr was infected
-testresn $gamemode $mode_virus testres $2 null echo World destroyed $vvstr
-testresn $gamemode $mode_virus testresn $2 null echo $kstr destroyed $vvstr
+testresn $gamemode $mode_virus testres $2 null echo World got $vvstr
+testresn $gamemode $mode_virus testresn $2 null echo $kstr got $vvstr

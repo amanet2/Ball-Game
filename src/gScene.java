@@ -45,13 +45,21 @@ public class gScene {
     public Queue<gThing> getWallsAndPlayersSortedByCoordY() {
         Queue<gThing> visualQueue = new LinkedList<>();
         ConcurrentHashMap<String, gThing> playerMap = new ConcurrentHashMap<>(getThingMap("THING_PLAYER"));
-        ConcurrentHashMap<String, gThing> combinedMap = new ConcurrentHashMap<>(getThingMap("BLOCK_CUBE"));
+        ConcurrentHashMap<String, gThing> blockMap = new ConcurrentHashMap<>(getThingMap("BLOCK_CUBE"));
+        ConcurrentHashMap<String, gThing> combinedMap = new ConcurrentHashMap<>();
+//        ConcurrentHashMap<String, gThing> combinedMap = new ConcurrentHashMap<>(getThingMap("BLOCK_CUBE"));
         ConcurrentHashMap<String, gThing> itemMap = new ConcurrentHashMap<>(getThingMap("THING_ITEM"));
+        for(String id : blockMap.keySet()) {
+            if(blockMap.get(id).isOnScreen())
+                combinedMap.put(id, blockMap.get(id));
+        }
         for(String id : playerMap.keySet()) {
-            combinedMap.put(id, playerMap.get(id));
+            if(playerMap.get(id).isOnScreen())
+                combinedMap.put(id, playerMap.get(id));
         }
         for(String id : itemMap.keySet()) {
-            combinedMap.put(id+"_1", itemMap.get(id)); //avoid overlap with any tiles
+            if(itemMap.get(id).isOnScreen())
+                combinedMap.put(id+"_1", itemMap.get(id)); //avoid overlap with any tiles
         }
         boolean sorted = false;
         while(!sorted) {

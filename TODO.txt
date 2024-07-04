@@ -1,9 +1,8 @@
-* GAME: breaks down at ~8 players
-    -> is it CMD rate or packet size or what?
-* GAME: picking up weapon after emptying a previous weapoin of same type gives only 1 ammo
+* OPTIMIZE: only sort things by Y coord if they appear on screen
+* ITEM: boost pad that gives high player velocity in a certain direction
 * UI: combine disconnect into quit menu
 * maybe try the top bar from mapmaker for regular pause menu
-* Revamp main menu to have 3+ columns showing menu options
+* Revamp main menu
 * CRITICAL: whats with the camera shaking when it centers on player @ 240hz and lower
 * VFX: using gradient inside the texture makes performance much better on macbook
     -> but the texture tiling doesnt line up exactly at some points
@@ -16,7 +15,6 @@
     -> use java polygons
         -> but might as well start a new 3d engine
 * Make Camera scriptable with 'setcam' console command
-* ITEM: boost pad that gives high player velocity in a certain direction
 * create onShot script capability for items and players when they get hit by bullet object
 * replace all usages of "Math.Random()" with threadlocal random
 * IDEA: separate weapon spawns maybe
