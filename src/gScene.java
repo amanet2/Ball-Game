@@ -47,7 +47,6 @@ public class gScene {
         ConcurrentHashMap<String, gThing> playerMap = new ConcurrentHashMap<>(getThingMap("THING_PLAYER"));
         ConcurrentHashMap<String, gThing> blockMap = new ConcurrentHashMap<>(getThingMap("BLOCK_CUBE"));
         ConcurrentHashMap<String, gThing> combinedMap = new ConcurrentHashMap<>();
-//        ConcurrentHashMap<String, gThing> combinedMap = new ConcurrentHashMap<>(getThingMap("BLOCK_CUBE"));
         ConcurrentHashMap<String, gThing> itemMap = new ConcurrentHashMap<>(getThingMap("THING_ITEM"));
         for(String id : blockMap.keySet()) {
             if(blockMap.get(id).isOnScreen())
