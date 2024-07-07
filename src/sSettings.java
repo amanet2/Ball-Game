@@ -13,7 +13,7 @@ public class sSettings {
 	static String[] colorSelection = {"blue", "green", "orange", "pink", "purple", "red", "teal", "yellow"};
 	static String[] resolutions = {"640x480", "800x600", "1024x768", "1280x720", "1600x900", "1920x1080", "2560x1440", "3840x2160"};
 	static int[] framerates = {30, 60, 75, 120, 240, 360, 540, 1000};
-	public static String[] object_titles = new String[]{};
+	public static String[] object_titles;
 	public static String[] prefab_titles;
 
 	// vfx

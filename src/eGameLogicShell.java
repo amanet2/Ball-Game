@@ -54,12 +54,19 @@ public class eGameLogicShell extends eGameLogicAdapter {
 
     private void initGameObjectsAndScenes() {
         console.ex("exec " + sSettings.CONFIG_FILE_LOCATION_GAME);
-        int ctr = 0;
+        ArrayList<String> prefabTypes = new ArrayList<>();
         ArrayList<String> thingTypes = new ArrayList<>();
+        int ctr = 0;
+        while(!console.ex("setvar PREFAB_"+ctr).equals("null")) {
+            prefabTypes.add(console.ex("setvar PREFAB_"+ctr));
+            ctr++;
+        }
+        ctr = 0;
         while(!console.ex("setvar THING_"+ctr).equals("null")) {
             thingTypes.add(console.ex("setvar THING_"+ctr));
             ctr++;
         }
+        sSettings.prefab_titles = prefabTypes.toArray(String[]::new);
         sSettings.object_titles = thingTypes.toArray(String[]::new);
         clientScene = new gScene();
         clientPreviewScene = new gScene();
