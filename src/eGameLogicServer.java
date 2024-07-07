@@ -457,8 +457,8 @@ public class eGameLogicServer extends eGameLogicAdapter {
                 serverSocket.send(new DatagramPacket(sendData, sendData.length, addr, port));
                 xMain.shellLogic.console.debug("SERVER_STATE_" + clientId + " [" + masterStateSnapshot + "]");
                 xMain.shellLogic.console.debug("SERVER_SEND_" + clientId + " [" + sendDataString.length() + "]: " + sendDataString);
-                if(sendDataString.length() > sSettings.max_packet_size)
-                    System.out.println("*WARNING* PACKET LENGTH EXCEED " + sSettings.max_packet_size + " BYTES: "
+                if(sendDataString.length() > sSettings.sndbytesserver_warn)
+                    xMain.shellLogic.console.debug("*WARNING* PACKET LENGTH EXCEED " + sSettings.sndbytesserver_warn + " BYTES: "
                             + "SERVER_SEND_" + clientId + " [" + sendDataString.length() + "]: " + sendDataString);
             }
             catch (Exception e) {

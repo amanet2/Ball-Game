@@ -48,17 +48,21 @@ public class gScene {
         ConcurrentHashMap<String, gThing> blockMap = new ConcurrentHashMap<>(getThingMap("BLOCK_CUBE"));
         ConcurrentHashMap<String, gThing> combinedMap = new ConcurrentHashMap<>();
         ConcurrentHashMap<String, gThing> itemMap = new ConcurrentHashMap<>(getThingMap("THING_ITEM"));
+        gThing ptr = null;
         for(String id : blockMap.keySet()) {
-            if(blockMap.get(id).isOnScreen())
-                combinedMap.put(id, blockMap.get(id));
+            ptr = blockMap.get(id);
+            if(ptr.isOnScreen())
+                combinedMap.put(id, ptr);
         }
         for(String id : playerMap.keySet()) {
-            if(playerMap.get(id).isOnScreen())
-                combinedMap.put(id, playerMap.get(id));
+            ptr = playerMap.get(id);
+            if(ptr.isOnScreen())
+                combinedMap.put(id, ptr);
         }
         for(String id : itemMap.keySet()) {
-            if(itemMap.get(id).isOnScreen())
-                combinedMap.put(id+"_1", itemMap.get(id)); //avoid overlap with any tiles
+            ptr = itemMap.get(id);
+            if(ptr.isOnScreen())
+                combinedMap.put(id+"_1", ptr); //avoid overlap with anything that can share an id
         }
         boolean sorted = false;
         while(!sorted) {

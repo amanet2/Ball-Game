@@ -37,7 +37,7 @@ public class sSettings {
 	static double clientVolume = 100.0;
 
 	// net
-	static int max_packet_size = 1200;
+	static int sndbytesserver_warn = 2048;
 	static int rcvbytesclient = 8192;
 	static int rcvbytesserver = 8192;
 	static int ratesimulation = 60; //server internal game rate for simulation
