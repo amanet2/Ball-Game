@@ -1,5 +1,6 @@
 load
 gamemode 5
+gametheme 2
 putfloor 48 5 -600 0
 putfloor 350 94 600 -1200
 putfloor 351 95 -3000 -2100

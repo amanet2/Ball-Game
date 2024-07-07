@@ -64,7 +64,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
             });
         for(String rcs : new String[]{
                 "respawnnetplayer", "setnstate", "putitem", "deleteblock", "deleteitem",
-                "gamemode", "deleteprefab"
+                "gamemode", "deleteprefab", "gametheme"
         }) {
             clientCmdDoables.put(rcs,
                     new gDoable() {
@@ -346,8 +346,8 @@ public class eGameLogicServer extends eGameLogicAdapter {
         // MANUALLY streams map to joiner, needs all raw vars, can NOT use console comms like 'loadingscreen' to sync
         //these three are always here
         ArrayList<String> maplines = new ArrayList<>();
-        maplines.add(String.format("cl_setvar velocityplayerbase %s;cl_setvar maploaded 0;cl_setvar gamemode %d\n",
-                sSettings.serverVelocityPlayerBase, sSettings.serverGameMode));
+        maplines.add(String.format("cl_setvar velocityplayerbase %s;cl_setvar maploaded 0;cl_setvar gamemode %d;cl_setvar gametheme %d\n",
+                sSettings.serverVelocityPlayerBase, sSettings.serverGameMode, sSettings.serverGameTheme));
         ConcurrentHashMap<String, gThing> floorMap = xMain.shellLogic.serverScene.getThingMap("BLOCK_FLOOR");
         ConcurrentHashMap<String, gThing> cubeMap = xMain.shellLogic.serverScene.getThingMap("BLOCK_CUBE");
         ConcurrentHashMap<String, gThing> collisionMap = xMain.shellLogic.serverScene.getThingMap("BLOCK_COLLISION");

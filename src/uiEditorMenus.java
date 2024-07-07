@@ -102,7 +102,7 @@ public class uiEditorMenus {
     }
 
     public static void resetThemeCheckBoxMenuItem(JCheckBoxMenuItem checkBoxMenuItem) {
-        checkBoxMenuItem.setSelected(sSettings.mapThemes[Integer.parseInt(xMain.shellLogic.console.ex("cl_setvar maptheme"))].equalsIgnoreCase(checkBoxMenuItem.getText()));
+        checkBoxMenuItem.setSelected(sSettings.clientGameThemes[sSettings.clientGameTheme].equalsIgnoreCase(checkBoxMenuItem.getText()));
     }
 
     public static void resetThemeCheckBoxMenuItems() {
@@ -263,10 +263,7 @@ public class uiEditorMenus {
             resetGametypeCheckBoxMenuItem(gametypeMenuItem);
             int mygameType = gtr;
             gametypeMenuItem.addActionListener(e -> {
-                if(sSettings.IS_SERVER)
-                    xMain.shellLogic.console.ex("gamemode " + mygameType);
-                else
-                    xMain.shellLogic.clientNetThread.addNetCmd("gamemode " + mygameType);
+                xMain.shellLogic.clientNetThread.addNetCmd("gamemode " + mygameType);
                 refreshGametypeCheckBoxMenuItems();
             });
             gametypeCheckBoxMenuItems.add(gametypeMenuItem);
@@ -274,14 +271,14 @@ public class uiEditorMenus {
         }
 
         //fill themes menu
-        for(int i = 0; i < sSettings.mapThemes.length; i++) {
-            String themeTitle = sSettings.mapThemes[i];
+        for(int i = 0; i < sSettings.clientGameThemes.length; i++) {
+            String themeTitle = sSettings.clientGameThemes[i];
             JCheckBoxMenuItem themeMenuItem = new JCheckBoxMenuItem(themeTitle);
             themeMenuItem.setFont(dFonts.fontNormal);
             resetThemeCheckBoxMenuItem(themeMenuItem);
             int finalI = i;
             themeMenuItem.addActionListener(e -> {
-                xMain.shellLogic.console.ex("cl_setvar maptheme " + finalI);
+                xMain.shellLogic.clientNetThread.addNetCmd("gametheme " + finalI);
                 resetThemeCheckBoxMenuItems();
             });
             themeCheckBoxMenuItems.add(themeMenuItem);

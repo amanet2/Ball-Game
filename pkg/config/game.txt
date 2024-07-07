@@ -7,6 +7,10 @@ setvar mode_vipmaster 5
 setvar mode_capmaster 6
 setvar mode_bringmaster 7
 setvar mode_holdmaster 8
+setvar THEME_0 forest
+setvar THEME_1 desert
+setvar THEME_2 snow
+setvar THEME_3 wood
 setvar PREFAB_0 corner_000
 setvar PREFAB_1 corner_090
 setvar PREFAB_2 corner_180

@@ -199,7 +199,7 @@ public class gScene {
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(
                 new FileOutputStream(foldername + "/" + filename), StandardCharsets.UTF_8))) {
             //these three are always here
-            writer.write(String.format("load\ngamemode %d\n", sSettings.clientGameMode));
+            writer.write(String.format("load\ngamemode %d\ngametheme %d\n", sSettings.clientGameMode, sSettings.clientGameTheme));
             ConcurrentHashMap<String, gThing> floorMap = getThingMap("BLOCK_FLOOR");
             ConcurrentHashMap<String, gThing> cubeMap = getThingMap("BLOCK_CUBE");
             ConcurrentHashMap<String, gThing> collisionMap = getThingMap("BLOCK_COLLISION");

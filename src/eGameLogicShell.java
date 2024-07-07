@@ -56,6 +56,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
         console.ex("exec " + sSettings.CONFIG_FILE_LOCATION_GAME);
         ArrayList<String> prefabTypes = new ArrayList<>();
         ArrayList<String> thingTypes = new ArrayList<>();
+        ArrayList<String> themes = new ArrayList<>();
         int ctr = 0;
         while(!console.ex("setvar PREFAB_"+ctr).equals("null")) {
             prefabTypes.add(console.ex("setvar PREFAB_"+ctr));
@@ -66,8 +67,14 @@ public class eGameLogicShell extends eGameLogicAdapter {
             thingTypes.add(console.ex("setvar THING_"+ctr));
             ctr++;
         }
+        ctr = 0;
+        while(!console.ex("setvar THEME_"+ctr).equals("null")) {
+            themes.add(console.ex("setvar THEME_"+ctr));
+            ctr++;
+        }
         sSettings.prefab_titles = prefabTypes.toArray(String[]::new);
         sSettings.object_titles = thingTypes.toArray(String[]::new);
+        sSettings.clientGameThemes = themes.toArray(String[]::new);
         clientScene = new gScene();
         clientPreviewScene = new gScene();
         serverScene = new gScene();
@@ -93,6 +100,11 @@ public class eGameLogicShell extends eGameLogicAdapter {
         serverVars.putArg(new gArg("gamemode", "0") {
             public void onChange() {
                 sSettings.serverGameMode = Integer.parseInt(value);
+            }
+        });
+        serverVars.putArg(new gArg("gametheme", "0") {
+            public void onChange() {
+                sSettings.serverGameTheme = Integer.parseInt(value);
             }
         });
         serverVars.putArg(new gArg("maxhp", Integer.toString(sSettings.serverMaxHP)) {
@@ -247,30 +259,14 @@ public class eGameLogicShell extends eGameLogicAdapter {
                     uiEditorMenus.refreshGametypeCheckBoxMenuItems();
             }
         });
+        clientVars.putArg(new gArg("gametheme", "0") {
+            public void onChange() {
+                sSettings.clientGameTheme = Integer.parseInt(value);
+            }
+        });
         clientVars.putArg(new gArg("maploaded", "0") {
             public void onChange() {
                 sSettings.clientMapLoaded = Integer.parseInt(value) > 0;
-            }
-        });
-        clientVars.putArg(new gArg("mapthemes", sSettings.mapThemes[sSettings.mapTheme]) {
-            public void onChange() {
-                String[] toks = value.split(",");
-                sSettings.mapThemes = new String[toks.length];
-                for(int i = 0; i < toks.length; i++) {
-                    sSettings.mapThemes[i] = toks[i].strip();
-                }
-                uiMenus.menuSelection[uiMenus.MENU_THEME].items = uiMenus.getThemeMenuItems();
-            }
-        });
-        clientVars.putArg(new gArg("maptheme", Integer.toString(sSettings.mapTheme)) {
-            public void onChange() {
-                int requestedTheme = Integer.parseInt(value);
-                if(sSettings.mapThemes.length > requestedTheme)
-                    sSettings.mapTheme = requestedTheme;
-            }
-
-            public String getValue() {
-                return Integer.toString(sSettings.mapTheme);
             }
         });
         clientVars.putArg(new gArg("maxhp", "500") {
@@ -368,6 +364,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
         clientVars.loadFromLaunchArgs(xMain.launchArgs);
         
         initGameObjectsAndScenes();
+
         if(sSettings.show_mapmaker_ui) {
             sSettings.drawhitboxes = true;
             sSettings.drawmapmakergrid = true;
@@ -375,16 +372,17 @@ public class eGameLogicShell extends eGameLogicAdapter {
             sSettings.showscale = true;
         }
         try {
-            floorTextureSourceImages = new BufferedImage[sSettings.mapThemes.length];
-            wallTextureSourceImages = new BufferedImage[sSettings.mapThemes.length];
-            topTextureSourceImages = new BufferedImage[sSettings.mapThemes.length];
-            floorTextures = new TexturePaint[sSettings.mapThemes.length];
-            wallTextures = new TexturePaint[sSettings.mapThemes.length];
-            topTextures = new TexturePaint[sSettings.mapThemes.length];
-            for(int i = 0; i < sSettings.mapThemes.length; i++) {
-                String floorPath = eManager.getPath(String.format("tiles/floor/%s.png", sSettings.mapThemes[i]));
-                String wallPath = eManager.getPath(String.format("tiles/wall/%s.png", sSettings.mapThemes[i]));
-                String topPath = eManager.getPath(String.format("tiles/top/%s.png", sSettings.mapThemes[i]));
+            int themeCount = sSettings.clientGameThemes.length;
+            floorTextureSourceImages = new BufferedImage[themeCount];  // TODO: parameterize
+            wallTextureSourceImages = new BufferedImage[themeCount];   // ..
+            topTextureSourceImages = new BufferedImage[themeCount];    // ..
+            floorTextures = new TexturePaint[floorTextureSourceImages.length];
+            wallTextures = new TexturePaint[wallTextureSourceImages.length];
+            topTextures = new TexturePaint[topTextureSourceImages.length];
+            for(int i = 0; i < themeCount; i++) {
+                String floorPath = eManager.getPath(String.format("tiles/floor/%s.png", sSettings.clientGameThemes[i]));
+                String wallPath = eManager.getPath(String.format("tiles/wall/%s.png", sSettings.clientGameThemes[i]));
+                String topPath = eManager.getPath(String.format("tiles/top/%s.png", sSettings.clientGameThemes[i]));
                 floorTextureSourceImages[i] = ImageIO.read(new File(floorPath));
                 wallTextureSourceImages[i] = ImageIO.read(new File(wallPath));
                 topTextureSourceImages[i] = ImageIO.read(new File(topPath));
