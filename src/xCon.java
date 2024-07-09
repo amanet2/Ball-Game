@@ -747,6 +747,19 @@ public class xCon {
                 return "changed game mode to " + xMain.shellLogic.serverVars.get("gamemode");
             }
         });
+        commands.put("gametheme", new gDoable() {
+            public String doCommand(String fullCommand) {
+                if(!sSettings.IS_SERVER)
+                    return "only server can do 'gametheme'";
+                String[] args = xMain.shellLogic.serverVars.parseScriptArgs(fullCommand);
+                if(args.length < 2)
+                    return xMain.shellLogic.serverVars.get("gametheme");
+                String setmode = args[1];
+                xMain.shellLogic.serverVars.put("gametheme", setmode);
+                xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_setvar gametheme " + setmode);
+                return "changed game theme to " + xMain.shellLogic.serverVars.get("gametheme");
+            }
+        });
         commands.put("getnewitemid", new gDoable() {
             public String doCommand(String fullCommand) {
                 int itemId = 0;
@@ -879,6 +892,7 @@ public class xCon {
                 //load the most basic blank map
                 gTextures.clear();
                 ex("setvar gamemode 0");
+                ex("setvar gametheme 0");
                 xMain.shellLogic.serverScene = null;
                 xMain.shellLogic.serverScene = new gScene();
                 if(sSettings.IS_SERVER)
@@ -891,6 +905,7 @@ public class xCon {
                 //load the most basic blank map
                 gTextures.clear();
                 ex("cl_setvar gamemode 0");
+                ex("cl_setvar gametheme 0");
                 xMain.shellLogic.clientScene = null;
                 xMain.shellLogic.clientScene = new gScene();
                 return "";

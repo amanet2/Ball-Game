@@ -13,7 +13,7 @@ public class sSettings {
 	static String[] colorSelection = {"blue", "green", "orange", "pink", "purple", "red", "teal", "yellow"};
 	static String[] resolutions = {"640x480", "800x600", "1024x768", "1280x720", "1600x900", "1920x1080", "2560x1440", "3840x2160"};
 	static int[] framerates = {30, 60, 75, 120, 240, 360, 540, 1000};
-	public static String[] object_titles = new String[]{};
+	public static String[] object_titles;
 	public static String[] prefab_titles;
 
 	// vfx
@@ -37,7 +37,7 @@ public class sSettings {
 	static double clientVolume = 100.0;
 
 	// net
-	static int max_packet_size = 1200;
+	static int sndbytesserver_warn = 2048;
 	static int rcvbytesclient = 8192;
 	static int rcvbytesserver = 8192;
 	static int ratesimulation = 60; //server internal game rate for simulation
@@ -52,6 +52,7 @@ public class sSettings {
 	static int serverListenPort = 5555;
 	static boolean serverLoadingFromHDD = false;
 	static int serverGameMode = 0;
+	static int serverGameTheme = 0;
 	static int serverVoteSkipLimit = 2;
 	static int serverRespawnDelay = 3000;
 	static int serverMaxHP = 500;
@@ -74,6 +75,7 @@ public class sSettings {
 	static boolean clientDebugLog = false;
 	static String clientNewPrefabName = "room";
 	static int clientGameMode = 0;
+	static int clientGameTheme = 0;
 	static String clientGameModeTitle = "Rock Master";
 	static String clientGameModeText = "Rock Other Players";
 	static boolean clientMapLoaded = false;
@@ -105,8 +107,7 @@ public class sSettings {
     static boolean showtick = false;
     static boolean showscale = false;
 	static int screenMessageFadeTime = 10000;
-	static String[] mapThemes = {"dungeon"};
-	static int mapTheme = 0;
+	static String[] clientGameThemes = {"forest"};
 	static boolean powerSave = true;
 	static boolean culling = true;
 }

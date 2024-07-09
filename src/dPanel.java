@@ -299,7 +299,7 @@ public class dPanel extends JPanel {
                     cube.coords[0], cube.coords[1] + cube.dims[1], cube.dims[0], (int)(cube.wallh*sSettings.vfxshadowfactor)
             );
         }
-        g2.setPaint(xMain.shellLogic.wallTextures[sSettings.mapTheme]);
+        g2.setPaint(xMain.shellLogic.wallTextures[sSettings.clientGameTheme]);
         g2.fillRect(cube.coords[0], cube.coords[1] + cube.toph, cube.dims[0], cube.wallh);
         if (sSettings.vfxenableshading) {
             if (cube.wallh > 0) {
@@ -307,7 +307,7 @@ public class dPanel extends JPanel {
                 g2.fillRect(cube.coords[0], cube.coords[1] + cube.toph, cube.dims[0], cube.wallh);
             }
         }
-        g2.setPaint(xMain.shellLogic.topTextures[sSettings.mapTheme]);
+        g2.setPaint(xMain.shellLogic.topTextures[sSettings.clientGameTheme]);
         g2.fillRect(cube.coords[0], cube.coords[1], cube.dims[0], cube.toph);
         if(!sSettings.vfxenableshading)
             return;
@@ -399,7 +399,7 @@ public class dPanel extends JPanel {
             gThing floor = scene.getThingMap("BLOCK_FLOOR").get(tag);
             //on-screen check
             if(floor.isOnScreen()) {
-                g2.setPaint(xMain.shellLogic.floorTextures[sSettings.mapTheme]);
+                g2.setPaint(xMain.shellLogic.floorTextures[sSettings.clientGameTheme]);
                 g2.fillRect(floor.coords[0], floor.coords[1], floor.dims[0], floor.dims[1]);
                 if (!sSettings.vfxenableshading)
                     continue;

@@ -64,7 +64,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
             });
         for(String rcs : new String[]{
                 "respawnnetplayer", "setnstate", "putitem", "deleteblock", "deleteitem",
-                "gamemode", "deleteprefab"
+                "gamemode", "deleteprefab", "gametheme"
         }) {
             clientCmdDoables.put(rcs,
                     new gDoable() {
@@ -346,8 +346,8 @@ public class eGameLogicServer extends eGameLogicAdapter {
         // MANUALLY streams map to joiner, needs all raw vars, can NOT use console comms like 'loadingscreen' to sync
         //these three are always here
         ArrayList<String> maplines = new ArrayList<>();
-        maplines.add(String.format("cl_setvar velocityplayerbase %s;cl_setvar maploaded 0;cl_setvar gamemode %d\n",
-                sSettings.serverVelocityPlayerBase, sSettings.serverGameMode));
+        maplines.add(String.format("cl_setvar velocityplayerbase %s;cl_setvar maploaded 0;cl_setvar gamemode %d;cl_setvar gametheme %d\n",
+                sSettings.serverVelocityPlayerBase, sSettings.serverGameMode, sSettings.serverGameTheme));
         ConcurrentHashMap<String, gThing> floorMap = xMain.shellLogic.serverScene.getThingMap("BLOCK_FLOOR");
         ConcurrentHashMap<String, gThing> cubeMap = xMain.shellLogic.serverScene.getThingMap("BLOCK_CUBE");
         ConcurrentHashMap<String, gThing> collisionMap = xMain.shellLogic.serverScene.getThingMap("BLOCK_COLLISION");
@@ -457,8 +457,8 @@ public class eGameLogicServer extends eGameLogicAdapter {
                 serverSocket.send(new DatagramPacket(sendData, sendData.length, addr, port));
                 xMain.shellLogic.console.debug("SERVER_STATE_" + clientId + " [" + masterStateSnapshot + "]");
                 xMain.shellLogic.console.debug("SERVER_SEND_" + clientId + " [" + sendDataString.length() + "]: " + sendDataString);
-                if(sendDataString.length() > sSettings.max_packet_size)
-                    System.out.println("*WARNING* PACKET LENGTH EXCEED " + sSettings.max_packet_size + " BYTES: "
+                if(sendDataString.length() > sSettings.sndbytesserver_warn)
+                    xMain.shellLogic.console.debug("*WARNING* PACKET LENGTH EXCEED " + sSettings.sndbytesserver_warn + " BYTES: "
                             + "SERVER_SEND_" + clientId + " [" + sendDataString.length() + "]: " + sendDataString);
             }
             catch (Exception e) {
