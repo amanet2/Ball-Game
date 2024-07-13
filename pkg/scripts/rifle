@@ -1,9 +1,32 @@
-getres pw setthing THING_PLAYER $2 weapon
-testresn $pw 3 getres dwd setthing THING_PLAYER $2 dropweapondelay
-testresn $pw 3 getres dodw gte $gametimemillis $dwd
-testresn $pw 3 testres $dodw 1 exec scripts/handleplayerweapondrop $2
-testresn $pw 1 testres $dodw 1 getres ammodrop setthing THING_ITEM $1 ammo
-testresn $pw 3 testres $dodw 1 deleteitem $1
-testresn $pw 3 testres $dodw 1 setnplayer $2 weapon 3
-testresn $pw 1 testres $dodw 1 testres $ammodrop 0 setnplayer $2 ammo 19
-testresn $pw 1 testres $dodw 1 testresn $ammodrop 0 setnplayer $2 ammo $ammodrop
+REM get item details
+getres ammodrop setthing THING_ITEM $1 ammo
+testres $ammodrop 0 setvar ammodrop $weap_autorifle_ammo
+
+REM get current weapon details
+getres currweap setthing THING_PLAYER $2 weapon
+getres dropdel setthing THING_PLAYER $2 dropweapondelay
+
+REM if we have a autorifle we can pick up and get ammo
+setvar pickupammo 0
+testres $currweap $weap_autorifle setvar pickupammo 1
+testres $pickupammo 1 getres currammo setnplayer $2 ammo
+testres $pickupammo 1 getres newammo sumint $ammodrop $currammo
+testres $pickupammo 1 setnplayer $2 ammo $newammo
+testres $pickupammo 1 deleteitem $1
+
+REM if we have a weapon but not autorifle check if we can switch weapons and get the ammo
+setvar tryswap 0
+setvar doswap 0
+testresn $currweap 0 testresn $currweap $weap_autorifle setvar tryswap 1
+testres $tryswap 1 getres doswap gte $gametimemillis $dropdel
+testres $doswap 1 exec scripts/handleplayerweapondrop $2
+testres $doswap 1 setnplayer $2 weapon $weap_autorifle
+testres $doswap 1 setnplayer $2 ammo $ammodrop
+testres $doswap 1 deleteitem $1
+
+REM if we have no weapon at all give us the autorifle and full ammo
+setvar setusup 0
+testres $currweap 0 setvar setusup 1
+testres $setusup 1 setnplayer $2 ammo $ammodrop
+testres $setusup 1 setnplayer $2 weapon $weap_autorifle
+testres $setusup 1 deleteitem $1

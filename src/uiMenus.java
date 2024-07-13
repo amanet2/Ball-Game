@@ -19,9 +19,8 @@ public class uiMenus {
     static final int MENU_COLOR = 13;
     static final int MENU_CREDITS = 14;
     static final int MENU_DISCONNECT = 15;
-    static final int MENU_THEME = 16;
-    static final int MENU_BOTS = 17;
-    static final int MENU_POWER = 18;
+    static final int MENU_BOTS = 16;
+    static final int MENU_POWER = 17;
 
     static int selectedMenu = MENU_MAIN;
 
@@ -256,11 +255,6 @@ public class uiMenus {
                                 selectedMenu = MENU_COLOR;
                             }
                         },
-                        new uiMenuItem(String.format("Theme [%s]", sSettings.mapThemes[sSettings.mapTheme])) {
-                            public void doItem() {
-                                selectedMenu = MENU_THEME;
-                            }
-                        },
                 },
                 MENU_OPTIONS
         ) {
@@ -268,7 +262,6 @@ public class uiMenus {
                 setMenuItemTexts(new String[]{
                         String.format("Name [%s]", sSettings.clientPlayerName),
                         String.format("Color [%s]", sSettings.clientPlayerColor),
-                        String.format("Theme [%s]", sSettings.mapThemes[sSettings.mapTheme]),
                 });
             }
         },
@@ -393,7 +386,6 @@ public class uiMenus {
                 },
                 MENU_MAIN
         ),
-        new uiMenu("Theme", getThemeMenuItems(),  MENU_PROFILE),
         new uiMenu("Bots", getBotMenuItems(), MENU_NEWGAME),
         new uiMenu(
                 "Power",
@@ -441,21 +433,6 @@ public class uiMenus {
             menuSelection[selectedMenu].selectedItem--;
         else
             menuSelection[selectedMenu].selectedItem = menuSelection[selectedMenu].items.length-1;
-    }
-
-    public static uiMenuItem[] getThemeMenuItems() {
-        uiMenuItem[] menuItems = new uiMenuItem[sSettings.mapThemes.length];
-        for(int i = 0; i < sSettings.mapThemes.length; i++) {
-            int j = i;
-            menuItems[i] = new uiMenuItem(sSettings.mapThemes[j]) {
-                public void doItem() {
-                    sSettings.mapTheme = j;
-                    menuSelection[MENU_PROFILE].refresh();
-                    selectedMenu = MENU_PROFILE;
-                }
-            };
-        }
-        return menuItems;
     }
 
     private static uiMenuItem[] getMapMenuItems() {

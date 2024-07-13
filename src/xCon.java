@@ -195,7 +195,7 @@ public class xCon {
                     return "usage: changemap <path_to_mapfile>";
                 String mapPath = fullCommand.split(" ").length > 1 ? fullCommand.split(" ")[1] : "";
                 gScoreboard.resetScoresMap();
-                xMain.shellLogic.serverSimulationThread.scheduledEvents.clear();
+                xMain.shellLogic.serverNetThread.scheduledEvents.clear();
                 ex("loadingscreen");
                 ex("exec " + mapPath); //by exec'ing the map, server is actively streaming blocks
                 ex("-loadingscreen");
@@ -208,14 +208,14 @@ public class xCon {
                     long starttime = sSettings.gameTime;
                     for (long t = starttime + 1000; t <= starttime + sSettings.serverTimeLimit; t += 1000) {
                         long lastT = t;
-                        xMain.shellLogic.serverSimulationThread.scheduledEvents.put(Long.toString(t), new gDoable() {
+                        xMain.shellLogic.serverNetThread.scheduledEvents.put(Long.toString(t), new gDoable() {
                             public void doCommand() {
                                 if (sSettings.serverTimeLimit > 0)
                                     sSettings.serverTimeLeft =  Math.max(0, (starttime + sSettings.serverTimeLimit) - lastT);
                             }
                         });
                     }
-                    xMain.shellLogic.serverSimulationThread.scheduledEvents.put(Long.toString(starttime + sSettings.serverTimeLimit), new gDoable() {
+                    xMain.shellLogic.serverNetThread.scheduledEvents.put(Long.toString(starttime + sSettings.serverTimeLimit), new gDoable() {
                         public void doCommand() {
                             //select winner and run postgame script
                             String winid = gScoreboard.getWinnerId();
@@ -230,7 +230,7 @@ public class xCon {
                             ex("exec scripts/sv_endgame");
                         }
                     });
-                    xMain.shellLogic.serverSimulationThread.scheduledEvents.put(Long.toString(starttime + 8000), new gDoable() {
+                    xMain.shellLogic.serverNetThread.scheduledEvents.put(Long.toString(starttime + 8000), new gDoable() {
                         public void doCommand() {
                             ex("pausebots 0");
                         }
@@ -747,6 +747,19 @@ public class xCon {
                 return "changed game mode to " + xMain.shellLogic.serverVars.get("gamemode");
             }
         });
+        commands.put("gametheme", new gDoable() {
+            public String doCommand(String fullCommand) {
+                if(!sSettings.IS_SERVER)
+                    return "only server can do 'gametheme'";
+                String[] args = xMain.shellLogic.serverVars.parseScriptArgs(fullCommand);
+                if(args.length < 2)
+                    return xMain.shellLogic.serverVars.get("gametheme");
+                String setmode = args[1];
+                xMain.shellLogic.serverVars.put("gametheme", setmode);
+                xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_setvar gametheme " + setmode);
+                return "changed game theme to " + xMain.shellLogic.serverVars.get("gametheme");
+            }
+        });
         commands.put("getnewitemid", new gDoable() {
             public String doCommand(String fullCommand) {
                 int itemId = 0;
@@ -879,6 +892,7 @@ public class xCon {
                 //load the most basic blank map
                 gTextures.clear();
                 ex("setvar gamemode 0");
+                ex("setvar gametheme 0");
                 xMain.shellLogic.serverScene = null;
                 xMain.shellLogic.serverScene = new gScene();
                 if(sSettings.IS_SERVER)
@@ -891,6 +905,7 @@ public class xCon {
                 //load the most basic blank map
                 gTextures.clear();
                 ex("cl_setvar gamemode 0");
+                ex("cl_setvar gametheme 0");
                 xMain.shellLogic.clientScene = null;
                 xMain.shellLogic.clientScene = new gScene();
                 return "";
@@ -1283,7 +1298,7 @@ public class xCon {
                 }
                 String timeToExec = args[1];
                 String actStr = act.substring(1);
-                xMain.shellLogic.serverSimulationThread.scheduledEvents.put(timeToExec,
+                xMain.shellLogic.serverNetThread.scheduledEvents.put(timeToExec,
                         new gDoable() {
                             public void doCommand() {
                                 ex(actStr);
@@ -1364,10 +1379,14 @@ public class xCon {
             public String doCommand(String fullCommand) {
                 //synchronized between server and clients
                 String[] args = xMain.shellLogic.serverVars.parseScriptArgs(fullCommand);
-                if(args.length < 4)
-                    return "usage: setnplayer <player_id> <var_name> <var_value>";
+                if(args.length < 2)
+                    return "null";
                 String pid = args[1];
                 String varname = args[2];
+                if(args.length < 4) {
+                    String giveString = String.format("setthing THING_PLAYER %s %s", pid, varname);
+                    return ex(giveString);
+                }
                 String varval = args[3];
                 String giveString = String.format("setthing THING_PLAYER %s %s %s", pid, varname, varval);
                 String res = ex(giveString);

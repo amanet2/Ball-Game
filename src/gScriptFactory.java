@@ -10,12 +10,6 @@ public class gScriptFactory {
     }
 
     public void init() {
-        //init prefabs
-        sSettings.prefab_titles = new String[eManager.prefabFileSelection.length];
-        int prefabFileCtr = 0;
-        for(String prefabName : eManager.prefabFileSelection) {
-            sSettings.prefab_titles[prefabFileCtr++] = prefabName;
-        }
         initScriptSelectionDelegate(eManager.scriptFilesSelection, "scripts");
         initScriptSelectionDelegate(eManager.configFileSelection, "config");
         initScriptSelectionDelegate(eManager.mapsFileSelection, "maps");

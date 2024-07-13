@@ -45,13 +45,24 @@ public class gScene {
     public Queue<gThing> getWallsAndPlayersSortedByCoordY() {
         Queue<gThing> visualQueue = new LinkedList<>();
         ConcurrentHashMap<String, gThing> playerMap = new ConcurrentHashMap<>(getThingMap("THING_PLAYER"));
-        ConcurrentHashMap<String, gThing> combinedMap = new ConcurrentHashMap<>(getThingMap("BLOCK_CUBE"));
+        ConcurrentHashMap<String, gThing> blockMap = new ConcurrentHashMap<>(getThingMap("BLOCK_CUBE"));
+        ConcurrentHashMap<String, gThing> combinedMap = new ConcurrentHashMap<>();
         ConcurrentHashMap<String, gThing> itemMap = new ConcurrentHashMap<>(getThingMap("THING_ITEM"));
+        gThing ptr = null;
+        for(String id : blockMap.keySet()) {
+            ptr = blockMap.get(id);
+            if(ptr.isOnScreen())
+                combinedMap.put(id, ptr);
+        }
         for(String id : playerMap.keySet()) {
-            combinedMap.put(id, playerMap.get(id));
+            ptr = playerMap.get(id);
+            if(ptr.isOnScreen())
+                combinedMap.put(id, ptr);
         }
         for(String id : itemMap.keySet()) {
-            combinedMap.put(id+"_1", itemMap.get(id)); //avoid overlap with any tiles
+            ptr = itemMap.get(id);
+            if(ptr.isOnScreen())
+                combinedMap.put(id+"_1", ptr); //avoid overlap with anything that can share an id
         }
         boolean sorted = false;
         while(!sorted) {
@@ -188,7 +199,7 @@ public class gScene {
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(
                 new FileOutputStream(foldername + "/" + filename), StandardCharsets.UTF_8))) {
             //these three are always here
-            writer.write(String.format("load\ngamemode %d\n", sSettings.clientGameMode));
+            writer.write(String.format("load\ngamemode %d\ngametheme %d\n", sSettings.clientGameMode, sSettings.clientGameTheme));
             ConcurrentHashMap<String, gThing> floorMap = getThingMap("BLOCK_FLOOR");
             ConcurrentHashMap<String, gThing> cubeMap = getThingMap("BLOCK_CUBE");
             ConcurrentHashMap<String, gThing> collisionMap = getThingMap("BLOCK_COLLISION");

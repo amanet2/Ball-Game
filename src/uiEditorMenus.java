@@ -102,7 +102,7 @@ public class uiEditorMenus {
     }
 
     public static void resetThemeCheckBoxMenuItem(JCheckBoxMenuItem checkBoxMenuItem) {
-        checkBoxMenuItem.setSelected(sSettings.mapThemes[Integer.parseInt(xMain.shellLogic.console.ex("cl_setvar maptheme"))].equalsIgnoreCase(checkBoxMenuItem.getText()));
+        checkBoxMenuItem.setSelected(sSettings.clientGameThemes[sSettings.clientGameTheme].equalsIgnoreCase(checkBoxMenuItem.getText()));
     }
 
     public static void resetThemeCheckBoxMenuItems() {
@@ -192,15 +192,14 @@ public class uiEditorMenus {
         saveas.addActionListener(e -> xMain.shellLogic.console.ex("e_saveas"));
         saveprefab.addActionListener(e -> xMain.shellLogic.console.ex("exportprefab"));
 
-        //fill prefabs menu
-        ArrayList<String> allPrefabFiles = new ArrayList<>(Arrays.asList(sSettings.prefab_titles));
+        // fill prefabs menu
         ArrayList<String> allPrefabs = new ArrayList<>();
         ArrayList<String> allPrefabsRotate = new ArrayList<>();
-        for(String s : allPrefabFiles) {
-            String rs = s;
+        for(String objTitle : sSettings.prefab_titles) {
+            String rs = objTitle;
             for(String rt : new String[]{"_000", "_090", "_180", "_270"}) {
-                if(s.contains(rt)) {
-                    rs = s.split(rt)[0];
+                if(objTitle.contains(rt)) {
+                    rs = objTitle.split(rt)[0];
                     if(!allPrefabsRotate.contains(rs))
                         allPrefabsRotate.add(rs);
                     break;
@@ -228,6 +227,7 @@ public class uiEditorMenus {
             prefabCheckboxMenuItems.add(prefabmenuitem);
             menus.get("Prefabs").add(prefabmenuitem);
         }
+
         //fill items menu
         StringBuilder sb = new StringBuilder();
         for(String tt : sSettings.object_titles) {
@@ -248,6 +248,7 @@ public class uiEditorMenus {
             itemCheckBoxMenuItems.add(itemMenuItem);
             menus.get("Items").add(itemMenuItem);
         }
+
         //fill gametypes menu
         int ctr = 0;
         ArrayList<String> gameTypeTitles = new ArrayList<>();
@@ -262,29 +263,28 @@ public class uiEditorMenus {
             resetGametypeCheckBoxMenuItem(gametypeMenuItem);
             int mygameType = gtr;
             gametypeMenuItem.addActionListener(e -> {
-                if(sSettings.IS_SERVER)
-                    xMain.shellLogic.console.ex("gamemode " + mygameType);
-                else
-                    xMain.shellLogic.clientNetThread.addNetCmd("gamemode " + mygameType);
+                xMain.shellLogic.clientNetThread.addNetCmd("gamemode " + mygameType);
                 refreshGametypeCheckBoxMenuItems();
             });
             gametypeCheckBoxMenuItems.add(gametypeMenuItem);
             menus.get("Gametype").add(gametypeMenuItem);
         }
+
         //fill themes menu
-        for(int i = 0; i < sSettings.mapThemes.length; i++) {
-            String themeTitle = sSettings.mapThemes[i];
+        for(int i = 0; i < sSettings.clientGameThemes.length; i++) {
+            String themeTitle = sSettings.clientGameThemes[i];
             JCheckBoxMenuItem themeMenuItem = new JCheckBoxMenuItem(themeTitle);
             themeMenuItem.setFont(dFonts.fontNormal);
             resetThemeCheckBoxMenuItem(themeMenuItem);
             int finalI = i;
             themeMenuItem.addActionListener(e -> {
-                xMain.shellLogic.console.ex("cl_setvar maptheme " + finalI);
+                xMain.shellLogic.clientNetThread.addNetCmd("gametheme " + finalI);
                 resetThemeCheckBoxMenuItems();
             });
             themeCheckBoxMenuItems.add(themeMenuItem);
             menus.get("Theme").add(themeMenuItem);
         }
+
         //fill colors menu
         for(String color : sSettings.colorSelection) {
             JCheckBoxMenuItem colorMenuItem = new JCheckBoxMenuItem(color);
@@ -298,6 +298,7 @@ public class uiEditorMenus {
             colorCheckBoxMenuItems.add(colorMenuItem);
             menus.get("Color").add(colorMenuItem);
         }
+
         //fill overlays menu
         HashMap<String, gDoable> overlaySelectionActionMap = new HashMap<>();
         overlaySelectionActionMap.put("drawhitboxes",
