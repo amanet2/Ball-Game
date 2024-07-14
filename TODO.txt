@@ -1,4 +1,7 @@
-* UI: remake UI using JButtons
+* NET, UI: have client time out when connection is lost
+    -> Multipurpose for A losing connection to game
+    -> and B trying to join a server that cant be reached
+* UI: remake UI using JButtons?
     -> create the buttons on startup and resolution changes
         -> dynamically sized and positioned per resolution
     -> will have functionality for enable/disable built-in
