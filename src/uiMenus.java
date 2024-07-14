@@ -358,7 +358,7 @@ public class uiMenus {
         new uiMenu(
                 "Credits",
                 new uiMenuItem[] {
-                        new uiMenuItem("Ballmaster 2021"),
+                        new uiMenuItem("Ballmaster 2021-???"),
                         new uiMenuItem("Created by stallionusa (stallionusa.itch.io)"),
                         new uiMenuItem("Programming by stallionusa (stallionusa.itch.io)"),
                         new uiMenuItem("VFX by drummyfish (opengameart.org)"),
