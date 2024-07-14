@@ -704,6 +704,8 @@ public class eGameLogicShell extends eGameLogicAdapter {
             //menus
             if (uiMenus.selectedMenu != uiMenus.MENU_CONTROLS) {
                 for (int i = 0; i < uiMenus.menuSelection[uiMenus.selectedMenu].items.length; i++) {
+                    if(uiMenus.selectedMenu == uiMenus.MENU_MAIN && !sSettings.IS_CLIENT && i == 2)
+                        continue;
                     xBounds = new int[]{sSettings.width / 2 - sSettings.width / 8,
                             sSettings.width / 2 + sSettings.width / 8};
                     yBounds = new int[]{11 * sSettings.height / 30 + i * sSettings.height / 30,

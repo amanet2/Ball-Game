@@ -261,7 +261,6 @@ public class dScreenMessages {
                 if(uiMenus.selectedMenu == uiMenus.MENU_COLOR && !xMain.shellLogic.console.ex("cl_setvar clrp_" + i.text).contains("null"))
                     dFonts.setFontColor(g, "clrp_" + i.text);
                 else
-//                    g.setColor(Color.WHITE);
                     dFonts.setFontColor(g, "clrp_" + sSettings.clientPlayerColor);
                 dFonts.drawCenteredString(g,i.text, alignX,12*sSettings.height/30+ctr*sSettings.height/30);
                 dFonts.setFontColor(g, "clrf_normal");
@@ -269,7 +268,10 @@ public class dScreenMessages {
                     xMain.shellLogic.frame.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             }
             else {
+                if(uiMenus.selectedMenu == uiMenus.MENU_MAIN && !sSettings.IS_CLIENT && ctr == 2)
+                    g.setColor(Color.GRAY);
                 dFonts.drawCenteredString(g, i.text, alignX,12*sSettings.height/30+ctr*sSettings.height/30);
+                dFonts.setFontColor(g, "clrf_normal");
             }
             ctr++;
         }
