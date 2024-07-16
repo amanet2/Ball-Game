@@ -282,8 +282,8 @@ public class dScreenMessages {
         }
         if(!uiMenus.gobackSelected && sel == 0 && xMain.shellLogic.frame.getCursor() != Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR))
             xMain.shellLogic.frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-        g.drawString("←",sSettings.width / 4, alignY);
-        g.drawRect(sSettings.width / 4, alignY - sSettings.width/60, sSettings.width / 32, sSettings.height/30);
+        g.drawString("←",9 * sSettings.width / 32, alignY);
+        g.drawRect(9 * sSettings.width / 32, alignY - sSettings.width/60, sSettings.width / 32, sSettings.height/30);
     }
 
     private static void drawHUD(Graphics g) {
