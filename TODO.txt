@@ -1,3 +1,5 @@
+* BUG, UI: maps dont fit on selection screen
+* GFX: make the flagdeposits do a color effect
 * NET, UI: have client time out when connection is lost
     -> Multipurpose for A losing connection to game
     -> and B trying to join a server that cant be reached

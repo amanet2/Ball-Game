@@ -243,7 +243,6 @@ public class dScreenMessages {
         g.setColor(Color.GRAY);
         dFonts.drawCenteredString(g,crumbString.toString(), sSettings.width / 2, alignY);
         dFonts.setFontColor(g, "clrf_normal");
-//        g.drawLine(0, alignY + sSettings.height/258, sSettings.width, alignY + sSettings.height/258);
         int ctr = 0;
         int sel = 0;
         for(uiMenuItem i : uiMenus.menuSelection[uiMenus.selectedMenu].items){
@@ -275,7 +274,6 @@ public class dScreenMessages {
             ctr++;
         }
         if(uiMenus.gobackSelected) {
-//            g.setColor(Color.WHITE);
             dFonts.setFontColor(g, "clrp_" + sSettings.clientPlayerColor);
             if(xMain.shellLogic.frame.getCursor() != Cursor.getPredefinedCursor(Cursor.HAND_CURSOR))
                 xMain.shellLogic.frame.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
