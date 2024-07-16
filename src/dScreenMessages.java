@@ -239,10 +239,9 @@ public class dScreenMessages {
         int alignX = sSettings.width/2;
         int alignY = 21*sSettings.height/60;
         g.setColor(Color.WHITE);
-        g.drawRect(0, alignY - sSettings.width/60, sSettings.width, sSettings.height/30);
+        g.drawLine(0, alignY + sSettings.height/60, sSettings.width, alignY + sSettings.height/60);
         g.setColor(Color.GRAY);
-        g.drawString("/" + crumbString, sSettings.width / 16, alignY);
-
+        dFonts.drawCenteredString(g,crumbString.toString(), sSettings.width / 2, alignY);
         dFonts.setFontColor(g, "clrf_normal");
 //        g.drawLine(0, alignY + sSettings.height/258, sSettings.width, alignY + sSettings.height/258);
         int ctr = 0;
@@ -261,7 +260,6 @@ public class dScreenMessages {
                 if(uiMenus.selectedMenu == uiMenus.MENU_COLOR && !xMain.shellLogic.console.ex("cl_setvar clrp_" + i.text).contains("null"))
                     dFonts.setFontColor(g, "clrp_" + i.text);
                 else
-//                    g.setColor(Color.WHITE);
                     dFonts.setFontColor(g, "clrp_" + sSettings.clientPlayerColor);
                 dFonts.drawCenteredString(g,i.text, alignX,12*sSettings.height/30+ctr*sSettings.height/30);
                 dFonts.setFontColor(g, "clrf_normal");
@@ -269,7 +267,10 @@ public class dScreenMessages {
                     xMain.shellLogic.frame.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             }
             else {
+                if(uiMenus.selectedMenu == uiMenus.MENU_MAIN && !sSettings.IS_CLIENT && ctr == 2)
+                    g.setColor(Color.GRAY);
                 dFonts.drawCenteredString(g, i.text, alignX,12*sSettings.height/30+ctr*sSettings.height/30);
+                dFonts.setFontColor(g, "clrf_normal");
             }
             ctr++;
         }
@@ -281,8 +282,8 @@ public class dScreenMessages {
         }
         if(!uiMenus.gobackSelected && sel == 0 && xMain.shellLogic.frame.getCursor() != Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR))
             xMain.shellLogic.frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-        g.drawString("←",sSettings.width / 32, alignY);
-        g.drawRect(sSettings.width / 32, alignY - sSettings.width/60, sSettings.width / 32, sSettings.height/30);
+        g.drawString("←",9 * sSettings.width / 32, alignY);
+        g.drawRect(9 * sSettings.width / 32, alignY - sSettings.width/60, sSettings.width / 32, sSettings.height/30);
     }
 
     private static void drawHUD(Graphics g) {
