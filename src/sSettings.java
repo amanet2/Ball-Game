@@ -78,8 +78,8 @@ public class sSettings {
 	static int clientGameMode = 0;
 	static int clientGameTheme = 0;
 	static String clientMapName = "map0";
-	static String clientGameModeTitle = "Rock Master";
-	static String clientGameModeText = "Rock Other Players";
+	static String clientGameModeTitle = "Ball Master";
+	static String clientGameModeText = "Defeat Other Balls";
 	static boolean clientMapLoaded = false;
 	static int clientPrevX = 0;
 	static int clientPrevY = 0;

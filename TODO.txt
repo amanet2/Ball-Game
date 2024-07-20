@@ -1,4 +1,10 @@
+* sort scoreboard players tiebreaker by score
+* BUG: mapname and mapmode being null
 * enable mapName the same way as gametheme and gamemode
+    -> setvar mapname, cl_setvar mapname
+    -> default to the filename if unset
+        -> for new maps, use "map0"
+    -> need a dialog/entry form in mapmaker editor
 * BUG, UI: maps dont fit on selection screen
 * GFX: make the flagdeposits do a color effect
 * NET, UI: have client time out when connection is lost

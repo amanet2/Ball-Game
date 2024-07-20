@@ -296,7 +296,8 @@ public class dScreenMessages {
         boolean smallMode = clStateMap.keys().size() > 7;
         int hpbarwidth = smallMode ? sSettings.width/16 : sSettings.width/8;
         int marginX = sSettings.width/2 - clStateMap.keys().size()*(hpbarwidth/2 + sSettings.width/128);
-        for(String id : clStateMap.keys()) {
+        String[] sortedScoreIds = getSortedScoreIds(clStateMap, 1);
+        for(String id : sortedScoreIds) {
             nState clState = clStateMap.get(id);
             //healthbar
             g.setColor(Color.black);
@@ -312,13 +313,14 @@ public class dScreenMessages {
                 dFonts.setFontSmall(g);
             else
                 dFonts.setFontNormal(g);
+            String hudName = String.format("%d. %s", ctr+1, clState.get("name"));
             g.setColor(Color.BLACK);
-            g.drawString(clState.get("name"),
-                    marginX + ctr*(hpbarwidth + sSettings.width/64) + 3, 55*sSettings.height/64 + 3);
+            g.drawString(hudName,
+                    marginX + ctr*(hpbarwidth + sSettings.width/64) + (smallMode ? 1 : 3), 55*sSettings.height/64 + (smallMode ? 1 : 3));
             g.setColor(gColors.getColorFromName("clrp_" + clState.get("color")));
             if(xMain.shellLogic.clientScene.getPlayerById(id) == null)
                 g.setColor(Color.GRAY);
-            g.drawString(clState.get("name"),
+            g.drawString(hudName,
                     marginX + ctr*(hpbarwidth + sSettings.width/64), 55*sSettings.height/64);
             //score
             if(smallMode)
@@ -337,6 +339,27 @@ public class dScreenMessages {
             }
             ctr++;
         }
+    }
+
+    private static String[] getSortedScoreIds(nStateMap clStateMap, int scoreIndex) {
+        StringBuilder sortedScoreIds = new StringBuilder();
+        boolean sorted = false;
+        while(!sorted) {
+            sorted = true;
+            int topscore = -1;
+            String topid = "";
+            for (String id : clStateMap.keys()) {
+                if(!sortedScoreIds.toString().contains(id) && clStateMap.get(id).contains("score")) {
+                    if(Integer.parseInt(clStateMap.get(id).get("score").split(":")[scoreIndex]) > topscore) {
+                        topscore = Integer.parseInt(clStateMap.get(id).get("score").split(":")[scoreIndex]);
+                        topid = id;
+                        sorted = false;
+                    }
+                }
+            }
+            sortedScoreIds.append(topid).append(",");
+        }
+        return sortedScoreIds.toString().split(",");
     }
 
     private static void showScoreBoard(Graphics g) {
@@ -362,31 +385,15 @@ public class dScreenMessages {
         g.drawString("                                       Score",sSettings.width/3,5*spriteRad);
         g.drawString("_______________________", sSettings.width/3, 11*sSettings.height/60);
 
-        StringBuilder sortedScoreIds = new StringBuilder();
-        boolean sorted = false;
-        while(!sorted) {
-            sorted = true;
-            int topscore = -1;
-            String topid = "";
-            for (String id : clStateMap.keys()) {
-                if(!sortedScoreIds.toString().contains(id) && clStateMap.get(id).contains("score")) {
-                    if(Integer.parseInt(clStateMap.get(id).get("score").split(":")[1]) > topscore) {
-                        topscore = Integer.parseInt(clStateMap.get(id).get("score").split(":")[1]);
-                        topid = id;
-                        sorted = false;
-                    }
-                }
-            }
-            sortedScoreIds.append(topid).append(",");
-        }
+        String[] sortedScoreIds = getSortedScoreIds(clStateMap, 0);
         int ctr = 0;
         int place = 1;
         int prevscore = -1;
         boolean isMe = false;
-        for(String id : sortedScoreIds.toString().split(",")) {
+        for(String id : sortedScoreIds) {
             if(id.equals(sSettings.uuid))
                 isMe = true;
-            if(Integer.parseInt(clStateMap.get(id).get("score").split(":")[1]) < prevscore)
+            if(Integer.parseInt(clStateMap.get(id).get("score").split(":")[0]) < prevscore)
                 place++;
             String hudName = place + "." + clStateMap.get(id).get("name");
             int coordx = sSettings.width/3;

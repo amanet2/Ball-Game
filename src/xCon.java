@@ -874,7 +874,7 @@ public class xCon {
                         "pause"
                 });
                 for(int i = 0; i < sSettings.botCount; i++) {
-                    ex(String.format("scheduleevent %d addbot", sSettings.gameTime + 7000 + i*2000));
+                    ex(String.format("scheduleevent %d addbot", sSettings.gameTime + 2000 + i*2000));
                 }
                 return "hosting game on port " + sSettings.serverListenPort;
             }
