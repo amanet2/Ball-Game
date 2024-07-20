@@ -218,7 +218,8 @@ public class dScreenMessages {
             g.drawString(String.format("%s: %s", xMain.shellLogic.prompt, xMain.shellLogic.msgInProgress),
                     0,25 * sSettings.height/32);
         //show fps, etc.
-        showDebugInfo(g);
+        if(sSettings.showdebug)
+            showDebugInfo(g);
     }
 
     public static void refreshLogos() {

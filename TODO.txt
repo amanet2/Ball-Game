@@ -1,3 +1,4 @@
+* enable mapName the same way as gametheme and gamemode
 * BUG, UI: maps dont fit on selection screen
 * GFX: make the flagdeposits do a color effect
 * NET, UI: have client time out when connection is lost

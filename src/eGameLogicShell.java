@@ -107,6 +107,11 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 sSettings.serverGameTheme = Integer.parseInt(value);
             }
         });
+        serverVars.putArg(new gArg("mapname", "map0") {
+            public void onChange() {
+                sSettings.serverMapName = value;
+            }
+        });
         serverVars.putArg(new gArg("maxhp", Integer.toString(sSettings.serverMaxHP)) {
             public void onChange() {
                 sSettings.serverMaxHP = Integer.parseInt(value);
@@ -264,6 +269,11 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 sSettings.clientGameTheme = Integer.parseInt(value);
             }
         });
+        clientVars.putArg(new gArg("mapname", "map0") {
+            public void onChange() {
+                sSettings.clientMapName = value;
+            }
+        });
         clientVars.putArg(new gArg("maploaded", "0") {
             public void onChange() {
                 sSettings.clientMapLoaded = Integer.parseInt(value) > 0;
@@ -310,6 +320,11 @@ public class eGameLogicShell extends eGameLogicAdapter {
             }
         });
         clientVars.putArg(new gArg("fontui", "None"));
+        clientVars.putArg(new gArg("showdebug", sSettings.showdebug ? "1" : "0"){
+            public void onChange() {
+                sSettings.showdebug = value.equals("1");
+            }
+        });
         clientVars.putArg(new gArg("showfps", "0"){
             public void onChange() {
                 sSettings.showfps = value.equals("1");
