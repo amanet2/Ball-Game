@@ -28,7 +28,7 @@ public class dFonts {
     public static void drawCenteredString(Graphics g, String s, int x, int y) {
         Color savedColor = g.getColor();
         g.setColor(Color.BLACK);
-        g.drawString(s,x-(int)g.getFont().getStringBounds(s, fontrendercontext).getWidth()/2+3,y+3);
+        g.drawString(s,x-(int)g.getFont().getStringBounds(s, fontrendercontext).getWidth()/2+1,y+1);
         g.setColor(savedColor);
         g.drawString(s,x-(int)g.getFont().getStringBounds(s, fontrendercontext).getWidth()/2,y);
     }

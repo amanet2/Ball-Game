@@ -67,9 +67,9 @@ public class dScreenMessages {
         dFonts.setFontLarge(g);
         if(sSettings.inplay && sSettings.clientMapLoaded) {
             g.setColor(Color.BLACK);
-            g.drawString(eUtils.getTimeString(sSettings.clientTimeLeft), sSettings.width / 128 + 2, sSettings.height / 12 + 2);
+            g.drawString(eUtils.getTimeString(sSettings.clientTimeLeft), sSettings.width / 128 + 1, sSettings.height / 12 + 1);
             dFonts.setFontLarge(g);
-//            g.setColor(gColors.getColorFromName("clrp_" + sSettings.clientPlayerColor));
+            g.setColor(gColors.getColorFromName("clrp_" + sSettings.clientPlayerColor));
             g.drawString(eUtils.getTimeString(sSettings.clientTimeLeft), sSettings.width / 128, sSettings.height / 12);
         }
         //menus
@@ -184,9 +184,9 @@ public class dScreenMessages {
                         else if(gColors.getColorFromName("clrp_" + word.split("#")[1].replace(":","")) != null){
                             g.setColor(Color.BLACK);
                             g.drawString(word.split("#")[0]+" ",
-                                    dFonts.getStringWidth(g, ts.toString())+3,
+                                    dFonts.getStringWidth(g, ts.toString())+1,
                                     24*sSettings.height/32-(messagesOnScreen.size()*(sSettings.height/32))
-                                            +(i*(sSettings.height/32))+3);
+                                            +(i*(sSettings.height/32))+1);
                             g.setColor(gColors.getColorFromName("clrp_" + word.split("#")[1].replace(":","")));
                             g.drawString(word.split("#")[0]+" ",
                                     dFonts.getStringWidth(g, ts.toString()),
@@ -199,9 +199,9 @@ public class dScreenMessages {
                     }
                     g.setColor(Color.BLACK);
                     g.drawString(word+" ",
-                            dFonts.getStringWidth(g, ts.toString())+3,
+                            dFonts.getStringWidth(g, ts.toString())+1,
                             24*sSettings.height/32-(messagesOnScreen.size()*(sSettings.height/32))
-                                    +(i*(sSettings.height/32))+3);
+                                    +(i*(sSettings.height/32))+1);
                     dFonts.setFontColor(g, "clrf_normal");
                     g.drawString(word+" ",
                             dFonts.getStringWidth(g, ts.toString()),
@@ -301,7 +301,7 @@ public class dScreenMessages {
             nState clState = clStateMap.get(id);
             //healthbar
             g.setColor(Color.black);
-            g.fillRect(marginX + ctr*(hpbarwidth + sSettings.width/64)+3,28 * sSettings.height/32+3,hpbarwidth,
+            g.fillRect(marginX + ctr*(hpbarwidth + sSettings.width/64)+1,28 * sSettings.height/32+1,hpbarwidth,
                     sSettings.height/24);
             g.setColor(gColors.getColorFromName("clrp_" + clState.get("color")));
             if(Integer.parseInt(clState.get("hp")) > 0 && xMain.shellLogic.getPlayerById(id) != null)
@@ -316,7 +316,7 @@ public class dScreenMessages {
             String hudName = String.format("%d. %s", ctr+1, clState.get("name"));
             g.setColor(Color.BLACK);
             g.drawString(hudName,
-                    marginX + ctr*(hpbarwidth + sSettings.width/64) + (smallMode ? 1 : 3), 55*sSettings.height/64 + (smallMode ? 1 : 3));
+                    marginX + ctr*(hpbarwidth + sSettings.width/64) + 1, 55*sSettings.height/64 + 1);
             g.setColor(gColors.getColorFromName("clrp_" + clState.get("color")));
             if(xMain.shellLogic.clientScene.getPlayerById(id) == null)
                 g.setColor(Color.GRAY);
@@ -330,7 +330,7 @@ public class dScreenMessages {
             if(clState.contains("score")) {
                 g.setColor(Color.BLACK);
                 g.drawString(clState.get("score").split(":")[1],
-                        marginX + ctr*(hpbarwidth + sSettings.width/64) + 3, 63*sSettings.height/64 + 3);
+                        marginX + ctr*(hpbarwidth + sSettings.width/64) + 1, 63*sSettings.height/64 + 1);
                 g.setColor(gColors.getColorFromName("clrp_" + clState.get("color")));
                 if(xMain.shellLogic.clientScene.getPlayerById(id) == null)
                     g.setColor(Color.GRAY);

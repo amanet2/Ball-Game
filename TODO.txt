@@ -1,3 +1,6 @@
+* show tiny img of weapon that killed player
+    -> cancel sign for the landmine
+    -> the echo cmd is invoked in a script
 * sort scoreboard players tiebreaker by score
 * BUG: mapname and mapmode being null
 * enable mapName the same way as gametheme and gamemode
