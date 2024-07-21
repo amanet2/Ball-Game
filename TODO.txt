@@ -1,6 +1,8 @@
 * fix the bug where players pop out on top of walls they shouldnt be visible behind
     -> detect tops for tall blocks and ALWAYS show these above any player maybe?
         -> low tops still need to be sorted w/ players
+        -> so draw walls in the normal way, skip the tops
+        -> draw all tops at the end of the drawWallsAndPlayers() func
 * show tiny img of weapon that killed player
     -> cancel sign for the landmine
     -> the echo cmd is invoked in a script
