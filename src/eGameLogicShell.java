@@ -256,7 +256,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
             }
         });
         clientVars.putArg(new gArg("gamemode", "0") {
-            public void onChange() {
+            public void onUpdate() {
                 sSettings.clientGameMode = Integer.parseInt(value);
                 sSettings.clientGameModeTitle = console.ex("cl_setvar GAMETYPE_"+value+"_title");
                 sSettings.clientGameModeText = console.ex("cl_setvar GAMETYPE_"+value+"_text");
