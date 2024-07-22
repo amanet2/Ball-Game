@@ -1,3 +1,8 @@
+* BUG: fix the bug where players pop out on top of walls and tops they shouldnt be visible behind
+    -> TRIED THE BELOW, DIDN'T WORK (because the walls still let players show through sometimes)
+        -> detect tops for tall blocks and ALWAYS show these above any player
+        -> low tops still need to be sorted w/ players
+        -> so draw walls the normal way, draw all tops at end of drawWallsAndPlayers()
 * UI: show tiny img of weapon that killed player
     -> cancel sign for the landmine
     -> the echo cmd for "X got Y" is in a script

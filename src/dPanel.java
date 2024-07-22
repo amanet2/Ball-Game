@@ -271,13 +271,13 @@ public class dPanel extends JPanel {
             else if (thing.type.contains("CUBE"))
                 drawCube(g2, (gBlockCube) thing);
         }
-        for(String cubeId : scene.getThingMapIds("BLOCK_CUBE")) {
-            gBlockCube cube = (gBlockCube) scene.getThingMap("BLOCK_CUBE").get(cubeId);
-            if(cube.wallh == 300) {
-                g2.setPaint(xMain.shellLogic.topTextures[sSettings.clientGameTheme]);
-                g2.fillRect(cube.coords[0], cube.coords[1], cube.dims[0], cube.toph);
-            }
-        }
+//        for(String cubeId : scene.getThingMapIds("BLOCK_CUBE")) {
+//            gBlockCube cube = (gBlockCube) scene.getThingMap("BLOCK_CUBE").get(cubeId);
+//            if(cube.wallh == 300) {
+//                g2.setPaint(xMain.shellLogic.topTextures[sSettings.clientGameTheme]);
+//                g2.fillRect(cube.coords[0], cube.coords[1], cube.dims[0], cube.toph);
+//            }
+//        }
         for(String tag : scene.getThingMap("BLOCK_FLOOR").keySet()) {
             gThing floor = scene.getThingMap("BLOCK_FLOOR").get(tag);
             //flashlight
@@ -321,12 +321,11 @@ public class dPanel extends JPanel {
             }
         }
         //top
-        //only draw low tops here
+        g2.setPaint(xMain.shellLogic.topTextures[sSettings.clientGameTheme]);
+        g2.fillRect(cube.coords[0], cube.coords[1], cube.dims[0], cube.toph);
+        if(!sSettings.vfxenableshading)
+            return;
         if(cube.wallh > 0 && cube.wallh < 300) {
-            g2.setPaint(xMain.shellLogic.topTextures[sSettings.clientGameTheme]);
-            g2.fillRect(cube.coords[0], cube.coords[1], cube.dims[0], cube.toph);
-            if(!sSettings.vfxenableshading)
-                return;
             g2.setColor(gColors.getColorFromName("clrw_wallshading1"));
             g2.fillRect(cube.coords[0], cube.coords[1], cube.dims[0], cube.toph);
         }
