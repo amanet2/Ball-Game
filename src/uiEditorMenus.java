@@ -137,7 +137,7 @@ public class uiEditorMenus {
         createNewSubmenu("Settings", "Color");
         createNewSubmenu("Settings", "Controls");
         createNewSubmenu("Settings", "Overlays");
-        addSubMenuLabel("Controls", " MOUSE_LEFT : throw rock");
+        addSubMenuLabel("Controls", " MOUSE_LEFT : action");
         addSubMenuLabel("Controls", " W : move up ");
         addSubMenuLabel("Controls", " S : move down ");
         addSubMenuLabel("Controls", " A : move left ");

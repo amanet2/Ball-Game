@@ -518,7 +518,7 @@ public class uiMenus {
 
     private static uiMenuItem[] getControlMenuItems() {
         return new uiMenuItem[] {
-                new uiMenuItem("throw rock: Left Click"),
+                new uiMenuItem("action: Left Click"),
                 new uiMenuItem("move up: "+KeyEvent.getKeyText(xMain.shellLogic.console.getKeyCodeForComm("playerup"))+" or ↑"),
                 new uiMenuItem("move down: "+KeyEvent.getKeyText(xMain.shellLogic.console.getKeyCodeForComm("playerdown"))+" or ↓"),
                 new uiMenuItem("move left: "+KeyEvent.getKeyText(xMain.shellLogic.console.getKeyCodeForComm("playerleft"))+" or ←"),

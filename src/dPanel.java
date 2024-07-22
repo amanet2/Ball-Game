@@ -30,6 +30,8 @@ public class dPanel extends JPanel {
         g2.scale(sSettings.zoomLevel, sSettings.zoomLevel);
         g2.translate(-sSettings.width / 2, -sSettings.height / 2);
         gScene scene = xMain.shellLogic.clientScene;
+        if(scene == null)
+            return;
         g2.scale(
                 ((1.0 / sSettings.gamescale) * (double) sSettings.height),
                 ((1.0 / sSettings.gamescale) * (double) sSettings.height)
@@ -299,6 +301,7 @@ public class dPanel extends JPanel {
                     cube.coords[0], cube.coords[1] + cube.dims[1], cube.dims[0], (int)(cube.wallh*sSettings.vfxshadowfactor)
             );
         }
+        //wall
         g2.setPaint(xMain.shellLogic.wallTextures[sSettings.clientGameTheme]);
         g2.fillRect(cube.coords[0], cube.coords[1] + cube.toph, cube.dims[0], cube.wallh);
         if (sSettings.vfxenableshading) {
@@ -307,6 +310,7 @@ public class dPanel extends JPanel {
                 g2.fillRect(cube.coords[0], cube.coords[1] + cube.toph, cube.dims[0], cube.wallh);
             }
         }
+        //top
         g2.setPaint(xMain.shellLogic.topTextures[sSettings.clientGameTheme]);
         g2.fillRect(cube.coords[0], cube.coords[1], cube.dims[0], cube.toph);
         if(!sSettings.vfxenableshading)
@@ -617,7 +621,6 @@ public class dPanel extends JPanel {
             }
         }
     }
-
 
     public dPanel() {
         super();

@@ -27,6 +27,7 @@ cl_setvar refresh 360
 REM available resolutions
 cl_setvar resolutions 640x480,800x600,1024x768,1280x720,1600x900,1920x1080,2560x1440,3840x2160
 REM show frames per second
+cl_setvar showdebug 1
 cl_setvar showfps 1
 cl_setvar showcam 1
 cl_setvar showmouse 1
@@ -73,8 +74,8 @@ bind y chat
 -bind right -playerright
 -bind r e_rotthing
 REM strings
-cl_setvar GAMETYPE_0_title Rock Master
-cl_setvar GAMETYPE_0_text Defeat Other Players in Combat
+cl_setvar GAMETYPE_0_title Ball Master
+cl_setvar GAMETYPE_0_text Defeat Other Balls in Combat
 cl_setvar GAMETYPE_1_title Virus Master
 cl_setvar GAMETYPE_1_text Remain uninfected to score points
 cl_setvar GAMETYPE_2_title Flag Master

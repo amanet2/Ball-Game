@@ -67,9 +67,9 @@ public class dScreenMessages {
         dFonts.setFontLarge(g);
         if(sSettings.inplay && sSettings.clientMapLoaded) {
             g.setColor(Color.BLACK);
-            g.drawString(eUtils.getTimeString(sSettings.clientTimeLeft), sSettings.width / 128 + 2, sSettings.height / 12 + 2);
+            g.drawString(eUtils.getTimeString(sSettings.clientTimeLeft), sSettings.width / 128 + 1, sSettings.height / 12 + 1);
             dFonts.setFontLarge(g);
-//            g.setColor(gColors.getColorFromName("clrp_" + sSettings.clientPlayerColor));
+            g.setColor(gColors.getColorFromName("clrp_" + sSettings.clientPlayerColor));
             g.drawString(eUtils.getTimeString(sSettings.clientTimeLeft), sSettings.width / 128, sSettings.height / 12);
         }
         //menus
@@ -184,9 +184,9 @@ public class dScreenMessages {
                         else if(gColors.getColorFromName("clrp_" + word.split("#")[1].replace(":","")) != null){
                             g.setColor(Color.BLACK);
                             g.drawString(word.split("#")[0]+" ",
-                                    dFonts.getStringWidth(g, ts.toString())+3,
+                                    dFonts.getStringWidth(g, ts.toString())+1,
                                     24*sSettings.height/32-(messagesOnScreen.size()*(sSettings.height/32))
-                                            +(i*(sSettings.height/32))+3);
+                                            +(i*(sSettings.height/32))+1);
                             g.setColor(gColors.getColorFromName("clrp_" + word.split("#")[1].replace(":","")));
                             g.drawString(word.split("#")[0]+" ",
                                     dFonts.getStringWidth(g, ts.toString()),
@@ -199,9 +199,9 @@ public class dScreenMessages {
                     }
                     g.setColor(Color.BLACK);
                     g.drawString(word+" ",
-                            dFonts.getStringWidth(g, ts.toString())+3,
+                            dFonts.getStringWidth(g, ts.toString())+1,
                             24*sSettings.height/32-(messagesOnScreen.size()*(sSettings.height/32))
-                                    +(i*(sSettings.height/32))+3);
+                                    +(i*(sSettings.height/32))+1);
                     dFonts.setFontColor(g, "clrf_normal");
                     g.drawString(word+" ",
                             dFonts.getStringWidth(g, ts.toString()),
@@ -218,7 +218,8 @@ public class dScreenMessages {
             g.drawString(String.format("%s: %s", xMain.shellLogic.prompt, xMain.shellLogic.msgInProgress),
                     0,25 * sSettings.height/32);
         //show fps, etc.
-        showDebugInfo(g);
+        if(sSettings.showdebug)
+            showDebugInfo(g);
     }
 
     public static void refreshLogos() {
@@ -243,7 +244,6 @@ public class dScreenMessages {
         g.setColor(Color.GRAY);
         dFonts.drawCenteredString(g,crumbString.toString(), sSettings.width / 2, alignY);
         dFonts.setFontColor(g, "clrf_normal");
-//        g.drawLine(0, alignY + sSettings.height/258, sSettings.width, alignY + sSettings.height/258);
         int ctr = 0;
         int sel = 0;
         for(uiMenuItem i : uiMenus.menuSelection[uiMenus.selectedMenu].items){
@@ -275,7 +275,6 @@ public class dScreenMessages {
             ctr++;
         }
         if(uiMenus.gobackSelected) {
-//            g.setColor(Color.WHITE);
             dFonts.setFontColor(g, "clrp_" + sSettings.clientPlayerColor);
             if(xMain.shellLogic.frame.getCursor() != Cursor.getPredefinedCursor(Cursor.HAND_CURSOR))
                 xMain.shellLogic.frame.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -297,11 +296,12 @@ public class dScreenMessages {
         boolean smallMode = clStateMap.keys().size() > 7;
         int hpbarwidth = smallMode ? sSettings.width/16 : sSettings.width/8;
         int marginX = sSettings.width/2 - clStateMap.keys().size()*(hpbarwidth/2 + sSettings.width/128);
-        for(String id : clStateMap.keys()) {
+        String[] sortedScoreIds = getSortedScoreIds(clStateMap, 1);
+        for(String id : sortedScoreIds) {
             nState clState = clStateMap.get(id);
             //healthbar
             g.setColor(Color.black);
-            g.fillRect(marginX + ctr*(hpbarwidth + sSettings.width/64)+3,28 * sSettings.height/32+3,hpbarwidth,
+            g.fillRect(marginX + ctr*(hpbarwidth + sSettings.width/64)+1,28 * sSettings.height/32+1,hpbarwidth,
                     sSettings.height/24);
             g.setColor(gColors.getColorFromName("clrp_" + clState.get("color")));
             if(Integer.parseInt(clState.get("hp")) > 0 && xMain.shellLogic.getPlayerById(id) != null)
@@ -313,13 +313,14 @@ public class dScreenMessages {
                 dFonts.setFontSmall(g);
             else
                 dFonts.setFontNormal(g);
+            String hudName = String.format("%d. %s", ctr+1, clState.get("name"));
             g.setColor(Color.BLACK);
-            g.drawString(clState.get("name"),
-                    marginX + ctr*(hpbarwidth + sSettings.width/64) + 3, 55*sSettings.height/64 + 3);
+            g.drawString(hudName,
+                    marginX + ctr*(hpbarwidth + sSettings.width/64) + 1, 55*sSettings.height/64 + 1);
             g.setColor(gColors.getColorFromName("clrp_" + clState.get("color")));
             if(xMain.shellLogic.clientScene.getPlayerById(id) == null)
                 g.setColor(Color.GRAY);
-            g.drawString(clState.get("name"),
+            g.drawString(hudName,
                     marginX + ctr*(hpbarwidth + sSettings.width/64), 55*sSettings.height/64);
             //score
             if(smallMode)
@@ -329,7 +330,7 @@ public class dScreenMessages {
             if(clState.contains("score")) {
                 g.setColor(Color.BLACK);
                 g.drawString(clState.get("score").split(":")[1],
-                        marginX + ctr*(hpbarwidth + sSettings.width/64) + 3, 63*sSettings.height/64 + 3);
+                        marginX + ctr*(hpbarwidth + sSettings.width/64) + 1, 63*sSettings.height/64 + 1);
                 g.setColor(gColors.getColorFromName("clrp_" + clState.get("color")));
                 if(xMain.shellLogic.clientScene.getPlayerById(id) == null)
                     g.setColor(Color.GRAY);
@@ -338,6 +339,27 @@ public class dScreenMessages {
             }
             ctr++;
         }
+    }
+
+    private static String[] getSortedScoreIds(nStateMap clStateMap, int scoreIndex) {
+        StringBuilder sortedScoreIds = new StringBuilder();
+        boolean sorted = false;
+        while(!sorted) {
+            sorted = true;
+            int topscore = -1;
+            String topid = "";
+            for (String id : clStateMap.keys()) {
+                if(!sortedScoreIds.toString().contains(id) && clStateMap.get(id).contains("score")) {
+                    if(Integer.parseInt(clStateMap.get(id).get("score").split(":")[scoreIndex]) > topscore) {
+                        topscore = Integer.parseInt(clStateMap.get(id).get("score").split(":")[scoreIndex]);
+                        topid = id;
+                        sorted = false;
+                    }
+                }
+            }
+            sortedScoreIds.append(topid).append(",");
+        }
+        return sortedScoreIds.toString().split(",");
     }
 
     private static void showScoreBoard(Graphics g) {
@@ -363,31 +385,15 @@ public class dScreenMessages {
         g.drawString("                                       Score",sSettings.width/3,5*spriteRad);
         g.drawString("_______________________", sSettings.width/3, 11*sSettings.height/60);
 
-        StringBuilder sortedScoreIds = new StringBuilder();
-        boolean sorted = false;
-        while(!sorted) {
-            sorted = true;
-            int topscore = -1;
-            String topid = "";
-            for (String id : clStateMap.keys()) {
-                if(!sortedScoreIds.toString().contains(id) && clStateMap.get(id).contains("score")) {
-                    if(Integer.parseInt(clStateMap.get(id).get("score").split(":")[1]) > topscore) {
-                        topscore = Integer.parseInt(clStateMap.get(id).get("score").split(":")[1]);
-                        topid = id;
-                        sorted = false;
-                    }
-                }
-            }
-            sortedScoreIds.append(topid).append(",");
-        }
+        String[] sortedScoreIds = getSortedScoreIds(clStateMap, 0);
         int ctr = 0;
         int place = 1;
         int prevscore = -1;
         boolean isMe = false;
-        for(String id : sortedScoreIds.toString().split(",")) {
+        for(String id : sortedScoreIds) {
             if(id.equals(sSettings.uuid))
                 isMe = true;
-            if(Integer.parseInt(clStateMap.get(id).get("score").split(":")[1]) < prevscore)
+            if(Integer.parseInt(clStateMap.get(id).get("score").split(":")[0]) < prevscore)
                 place++;
             String hudName = place + "." + clStateMap.get(id).get("name");
             int coordx = sSettings.width/3;

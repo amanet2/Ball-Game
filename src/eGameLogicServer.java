@@ -348,6 +348,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
         ArrayList<String> maplines = new ArrayList<>();
         maplines.add(String.format("cl_setvar velocityplayerbase %s;cl_setvar maploaded 0;cl_setvar gamemode %d;cl_setvar gametheme %d\n",
                 sSettings.serverVelocityPlayerBase, sSettings.serverGameMode, sSettings.serverGameTheme));
+        maplines.add(String.format("cl_setvar mapname %s\n", sSettings.serverMapName));
         ConcurrentHashMap<String, gThing> floorMap = xMain.shellLogic.serverScene.getThingMap("BLOCK_FLOOR");
         ConcurrentHashMap<String, gThing> cubeMap = xMain.shellLogic.serverScene.getThingMap("BLOCK_CUBE");
         ConcurrentHashMap<String, gThing> collisionMap = xMain.shellLogic.serverScene.getThingMap("BLOCK_COLLISION");

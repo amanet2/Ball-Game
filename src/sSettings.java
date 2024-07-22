@@ -53,6 +53,7 @@ public class sSettings {
 	static boolean serverLoadingFromHDD = false;
 	static int serverGameMode = 0;
 	static int serverGameTheme = 0;
+	static String serverMapName = "map0";
 	static int serverVoteSkipLimit = 2;
 	static int serverRespawnDelay = 3000;
 	static int serverMaxHP = 500;
@@ -76,8 +77,9 @@ public class sSettings {
 	static String clientNewPrefabName = "room";
 	static int clientGameMode = 0;
 	static int clientGameTheme = 0;
-	static String clientGameModeTitle = "Rock Master";
-	static String clientGameModeText = "Rock Other Players";
+	static String clientMapName = "map0";
+	static String clientGameModeTitle = "Ball Master";
+	static String clientGameModeText = "Defeat Other Balls";
 	static boolean clientMapLoaded = false;
 	static int clientPrevX = 0;
 	static int clientPrevY = 0;
@@ -99,6 +101,7 @@ public class sSettings {
     static String uuid = Integer.toString(ThreadLocalRandom.current().nextInt(11111111, 99999999));
     static boolean hideMouseUI = false;
     static boolean showscore = false;
+	static boolean showdebug = false;
     static boolean showfps = false;
     static boolean showcam = false;
     static boolean showmouse = false;

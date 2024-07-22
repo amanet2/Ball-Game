@@ -1,16 +1,30 @@
+* fix the bug where players pop out on top of walls they shouldnt be visible behind
+    -> detect tops for tall blocks and ALWAYS show these above any player maybe?
+        -> low tops still need to be sorted w/ players
+        -> so draw walls in the normal way, skip the tops
+        -> draw all tops at the end of the drawWallsAndPlayers() func
+* show tiny img of weapon that killed player
+    -> cancel sign for the landmine
+    -> the echo cmd is invoked in a script
+* sort scoreboard players tiebreaker by score
+* BUG: mapname and mapmode being null
+* enable mapName the same way as gametheme and gamemode
+    -> setvar mapname, cl_setvar mapname
+    -> default to the filename if unset
+        -> for new maps, use "map0"
+    -> need a dialog/entry form in mapmaker editor
+* BUG, UI: maps dont fit on selection screen
+* GFX: make the flagdeposits do a color effect
 * NET, UI: have client time out when connection is lost
     -> Multipurpose for A losing connection to game
     -> and B trying to join a server that cant be reached
-* UI: remake UI using JButtons?
-    -> create the buttons on startup and resolution changes
-        -> dynamically sized and positioned per resolution
-    -> will have functionality for enable/disable built-in
+    -> echo some message on screen for this
 * ITEM: boost pad that gives high player velocity in a certain direction
-* UI: combine disconnect into quit menu
 * CRITICAL: whats with the jittering when framerate isnt 360fps?
 * VFX: using gradient inside the texture makes performance much better on macbook
-    -> but the texture tiling doesnt line up exactly at some points
+    -> but the tiling doesnt line up exactly at some points
 * BUG: flag disappeared during flagmaster game
+* BUG: extra flags appearing during flagmaster game
 * CRITICAL: client.txt gets cleared out randomly?
 * make created prefabs available right away without having to restart game
     -> can add the new prefab's script into the prefab map at some point
@@ -19,7 +33,6 @@
 * Make Camera scriptable with 'setcam' console command
 * create onShot script capability for items and players when they get hit by bullet object
 * replace all usages of "Math.Random()" with threadlocal random
-* IDEA: glowing light that follows around the player character
 * BUG VIDEO:
     -> uiMenus framerate selection needs to update with the client vars file
 * MEMORY LEAK
@@ -34,10 +47,7 @@
     -> create some config value that will set this to only occur every X milliseconds
 * COMMANDS:
     -> server var to not allow movement for ID or all
-    -> add race gamemode
-* NETWORK: add retry limit to gamelogicclient so we disconnect and cl_echo when remote server becomes unreachable
-* CONSOLE: refresh scripts from disk when loading map
-    -> verify scripts aren't running when map is loading
+* add race gamemode
 * GIT: want to go back in time
     -> git checkout <old working commit>
     -> git checkout -b <new branch>
@@ -47,17 +57,9 @@
 * Engine: xCon console should be split up into server and client
 * BUG: Escape comma ',' characters that appear in net values
     -> it screws up building hashmap from received data
-* IDEA: multi-line for loops in scripting language
-    -> QUESTION: am i making a game here or a scripting language???
 * GENERAL: if a client is also running the server, cl_setthing can be called by the server thread if server not ignored (bad)
 * BUG: teleporters delay affects different colors i.e. blue teles are affected by red tele delay and vice versa
 * create a client var for player id to track with the camera
-* fix the bug where players pop out on top of walls they shouldnt be visible behind
-* create ban system using timeevents and saving timestamps to a file on close and loading
-    -> on server start, check for unban vars in config file, load ids into ban map
-    -> loop: check if any ban times have expire and remove player from ban map
-    -> console command: banid will schedule the event to unban (remove from list of banned ids) and create svar
-    -> on server close, save to file: setvar unban_<id> <time_millis>
 * BUG: when someones pc sleeps/closes, the client loses connection then rejoins on wake as "null"
 * git reset --hard <last_working_commit_id>
     -> git push --force
@@ -67,8 +69,6 @@
 * NET: The maximum safe UDP payload is ??? bytes
 * add cod zombies-style gametype, bots will be unarmed but real players will always have weapons
     -> or moving items can act as zombies
-* powerups
-    -> an egg you pick it up and it expands until explosion
 * GAME: bring back squish effect for movement/momentum changes and bounces
 * new Item: destructible box/crate
     -> get itemvar "health" to 0 and it should exec spawnpointgiverbonus script
@@ -81,5 +81,3 @@
 * PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
 * add "disable attacks" option
 * make players eyes blink
-* Create a server browser program w/ flask or something
-* add voip
