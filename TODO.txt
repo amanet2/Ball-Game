@@ -1,12 +1,14 @@
-* fix the bug where players pop out on top of walls they shouldnt be visible behind
-    -> detect tops for tall blocks and ALWAYS show these above any player maybe?
+* BUG: fix the bug where players pop out on top of walls they shouldnt be visible behind
+    -> detect tops for tall blocks and ALWAYS show these above any player
         -> low tops still need to be sorted w/ players
-        -> so draw walls in the normal way, skip the tops
-        -> draw all tops at the end of the drawWallsAndPlayers() func
-* show tiny img of weapon that killed player
+        -> so draw walls the normal way, draw all tops at end of drawWallsAndPlayers()
+* UI: show tiny img of weapon that killed player
     -> cancel sign for the landmine
-    -> the echo cmd is invoked in a script
+    -> the echo cmd for "X got Y" is in a script
+    -> make a new token '&' that's like '#'
+        -> but instead of a color it speicifies a killfeed icon
 * sort scoreboard players tiebreaker by score
+    -> or dont show score on TAB scoreboard
 * BUG: mapname and mapmode being null
 * enable mapName the same way as gametheme and gamemode
     -> setvar mapname, cl_setvar mapname

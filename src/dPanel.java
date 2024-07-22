@@ -1,7 +1,6 @@
 import javax.swing.JPanel;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -263,7 +262,7 @@ public class dPanel extends JPanel {
 
     private void drawBlockWallsAndPlayers(Graphics2D g2, gScene scene) {
         Queue<gThing> visualQueue = scene.getWallsAndPlayersSortedByCoordY();
-        while(visualQueue.size() > 0) {
+        while(!visualQueue.isEmpty()) {
             gThing thing = visualQueue.remove();
             if (thing.type.equals("THING_PLAYER"))
                 drawPlayer(g2, (gPlayer) thing);
@@ -272,18 +271,18 @@ public class dPanel extends JPanel {
             else if (thing.type.contains("CUBE"))
                 drawCube(g2, (gBlockCube) thing);
         }
+        for(String cubeId : scene.getThingMapIds("BLOCK_CUBE")) {
+            gBlockCube cube = (gBlockCube) scene.getThingMap("BLOCK_CUBE").get(cubeId);
+            if(cube.wallh == 300) {
+                g2.setPaint(xMain.shellLogic.topTextures[sSettings.clientGameTheme]);
+                g2.fillRect(cube.coords[0], cube.coords[1], cube.dims[0], cube.toph);
+            }
+        }
         for(String tag : scene.getThingMap("BLOCK_FLOOR").keySet()) {
             gThing floor = scene.getThingMap("BLOCK_FLOOR").get(tag);
             //flashlight
             if(xMain.shellLogic.getUserPlayer() != null) {
-                int aimerx = eUtils.unscaleInt(xMain.shellLogic.getMouseCoordinates()[0]);
-                int aimery = eUtils.unscaleInt(xMain.shellLogic.getMouseCoordinates()[1]);
-                int snapX = aimerx + (int) gCamera.coords[0];
-                int snapY = aimery + (int) gCamera.coords[1];
-                RadialGradientPaint df = new RadialGradientPaint(new Point(snapX, snapY), 600,
-                        new float[]{0f, 1f}, new Color[]{new Color(0,0,0,0), new Color(0, 0, 0,255 - (int) (255*(xMain.shellLogic.clientScene.brightnessLevel*0.01)))}
-                );
-                g2.setPaint(df);
+                g2.setPaint(getFlashlightPaint());
                 g2.fillRect(floor.coords[0], floor.coords[1], floor.dims[0], floor.dims[1]);
             }
             else {
@@ -291,6 +290,17 @@ public class dPanel extends JPanel {
                 g2.fillRect(floor.coords[0], floor.coords[1], floor.dims[0], floor.dims[1]);
             }
         }
+    }
+
+    private static RadialGradientPaint getFlashlightPaint() {
+        int aimerx = eUtils.unscaleInt(xMain.shellLogic.getMouseCoordinates()[0]);
+        int aimery = eUtils.unscaleInt(xMain.shellLogic.getMouseCoordinates()[1]);
+        int snapX = aimerx + (int) gCamera.coords[0];
+        int snapY = aimery + (int) gCamera.coords[1];
+        RadialGradientPaint df = new RadialGradientPaint(new Point(snapX, snapY), 600,
+                new float[]{0f, 1f}, new Color[]{new Color(0,0,0,0), new Color(0, 0, 0,255 - (int) (255*(xMain.shellLogic.clientScene.brightnessLevel*0.01)))}
+        );
+        return df;
     }
 
     private void drawCube(Graphics2D g2, gBlockCube cube) {
@@ -311,11 +321,12 @@ public class dPanel extends JPanel {
             }
         }
         //top
-        g2.setPaint(xMain.shellLogic.topTextures[sSettings.clientGameTheme]);
-        g2.fillRect(cube.coords[0], cube.coords[1], cube.dims[0], cube.toph);
-        if(!sSettings.vfxenableshading)
-            return;
+        //only draw low tops here
         if(cube.wallh > 0 && cube.wallh < 300) {
+            g2.setPaint(xMain.shellLogic.topTextures[sSettings.clientGameTheme]);
+            g2.fillRect(cube.coords[0], cube.coords[1], cube.dims[0], cube.toph);
+            if(!sSettings.vfxenableshading)
+                return;
             g2.setColor(gColors.getColorFromName("clrw_wallshading1"));
             g2.fillRect(cube.coords[0], cube.coords[1], cube.dims[0], cube.toph);
         }
@@ -576,7 +587,7 @@ public class dPanel extends JPanel {
         // -- preview rect
         int w = 300;
         int h = 300;
-        if(sSettings.clientNewPrefabName.length() > 0) {
+        if(!sSettings.clientNewPrefabName.isEmpty()) {
             int[] pfd = uiEditorMenus.getNewPrefabDims();
             w = pfd[0];
             h = pfd[1];
