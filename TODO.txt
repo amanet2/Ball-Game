@@ -1,3 +1,4 @@
+* UI: show arrow over user's HUD hp & score
 * UI: show tiny img of weapon that killed player
     -> cancel sign for the landmine
     -> the echo cmd for "X got Y" is in a script

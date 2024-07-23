@@ -366,24 +366,24 @@ public class dScreenMessages {
         if(!sSettings.IS_CLIENT)
             return;
         int spriteRad = sSettings.height/30;
+        int alignX = 9*sSettings.width/24;
         nStateMap clStateMap = new nStateMap(xMain.shellLogic.clientNetThread.clientStateSnapshot);
         dFonts.setFontColor(g, "clrf_scoreboardbg");
         g.fillRect(0,0,sSettings.width,sSettings.height);
         dFonts.setFontColor(g, "clrf_normal");
         dFonts.drawCenteredString(g, sSettings.clientGameModeTitle + " - " + sSettings.clientGameModeText, sSettings.width/2, 2*spriteRad);
         g.setColor(Color.BLACK);
-        g.drawString(clStateMap.keys().size() + " players", sSettings.width/3+3,5*spriteRad+3);
+        g.drawString(clStateMap.keys().size() + " players", alignX+1,5*spriteRad+1);
         dFonts.setFontColor(g, "clrf_normal");
-        g.drawString(clStateMap.keys().size() + " players", sSettings.width/3,5*spriteRad);
+        g.drawString(clStateMap.keys().size() + " players", alignX,5*spriteRad);
         g.setColor(Color.BLACK);
-        g.drawString("                           Wins",sSettings.width/3+3,5*spriteRad+3);
+        g.drawString("                           Wins",alignX+1,5*spriteRad+1);
         dFonts.setFontColor(g, "clrf_normal");
-        g.drawString("                           Wins",sSettings.width/3,5*spriteRad);
+        g.drawString("                           Wins",alignX,5*spriteRad);
         g.setColor(Color.BLACK);
-        g.drawString("                                       Score",sSettings.width/3+3,5*spriteRad+3);
+        g.drawString("_________________", alignX+1, 11*sSettings.height/60+1);
         dFonts.setFontColor(g, "clrf_normal");
-        g.drawString("                                       Score",sSettings.width/3,5*spriteRad);
-        g.drawString("_______________________", sSettings.width/3, 11*sSettings.height/60);
+        g.drawString("_________________", alignX, 11*sSettings.height/60);
 
         String[] sortedScoreIds = getSortedScoreIds(clStateMap, 0);
         int ctr = 0;
@@ -396,34 +396,30 @@ public class dScreenMessages {
             if(Integer.parseInt(clStateMap.get(id).get("score").split(":")[0]) < prevscore)
                 place++;
             String hudName = place + "." + clStateMap.get(id).get("name");
-            int coordx = sSettings.width/3;
             int coordy = 7 * sSettings.height / 30 + ctr * sSettings.height / 30;
             int height = sSettings.height / 30;
             String ck = clStateMap.get(id).get("color");
             Color color = gColors.getColorFromName("clrp_" + ck);
             if(xMain.shellLogic.clientScene.getPlayerById(id) == null)
                 color = Color.GRAY;
-            dFonts.drawScoreBoardPlayerLine(g, hudName, coordx, coordy, color);
+            dFonts.drawScoreBoardPlayerLine(g, hudName, alignX, coordy, color);
             g.setColor(color);
             if(isMe) {
                 Polygon myArrow = new Polygon(
-                        new int[] {coordx - height, coordx, coordx - height},
+                        new int[] {alignX - height, alignX-height/2, alignX - height},
                         new int[]{coordy - height, coordy - height/2, coordy},
                         3
                 );
-                myArrow.translate(3,3);
+                myArrow.translate(1,1);
                 g.setColor(Color.BLACK);
                 g.fillPolygon(myArrow);
-                myArrow.translate(-3,-3);
+                myArrow.translate(-1,-1);
                 g.setColor(color);
                 g.fillPolygon(myArrow);
             }
             dFonts.drawScoreBoardPlayerLine(g,
-                    "                           " + clStateMap.get(id).get("score").split(":")[0],
-                    sSettings.width/3, coordy, color);
-            dFonts.drawScoreBoardPlayerLine(g,
-                    "                                       " + clStateMap.get(id).get("score").split(":")[1],
-                    sSettings.width/3, coordy, color);
+                    "                             " + clStateMap.get(id).get("score").split(":")[0],
+                    alignX, coordy, color);
             dFonts.setFontColor(g, "clrf_normal");
             if(isMe)
                 isMe = false;

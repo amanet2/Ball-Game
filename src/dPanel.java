@@ -614,15 +614,8 @@ public class dPanel extends JPanel {
             dFonts.setFontGNormal(g2);
             g2.setColor(gColors.getColorFromName("clrp_" + cs));
             g2.drawString(nm, Integer.parseInt(pxs), Integer.parseInt(pys));
-            if(id.equals(sSettings.uuid)) { //draw arrow over our own preview box
-                Polygon pg = getPolygon(Integer.parseInt(pxs), Integer.parseInt(pys) - 200);
-                Color color = gColors.getColorFromName("clrp_" + cs);
-                g2.setStroke(dFonts.thickStroke);
-                dFonts.setFontColor(g2, "clrf_normaltransparent");
-                g2.drawPolygon(pg);
-                g2.setColor(color);
-                g2.fillPolygon(pg);
-            }
+            if(id.equals(sSettings.uuid)) //draw arrow over our own preview box
+                g2.fillPolygon(getPolygon(Integer.parseInt(pxs), Integer.parseInt(pys) - 200));
         }
     }
 
