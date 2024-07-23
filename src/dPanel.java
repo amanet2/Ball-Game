@@ -286,14 +286,15 @@ public class dPanel extends JPanel {
     }
 
     private static RadialGradientPaint getFlashlightPaint() {
-        int aimerx = eUtils.unscaleInt(xMain.shellLogic.getMouseCoordinates()[0]);
-        int aimery = eUtils.unscaleInt(xMain.shellLogic.getMouseCoordinates()[1]);
-        int snapX = aimerx + (int) gCamera.coords[0];
-        int snapY = aimery + (int) gCamera.coords[1];
-        RadialGradientPaint df = new RadialGradientPaint(new Point(snapX, snapY), 600,
-                new float[]{0f, 1f}, new Color[]{new Color(0,0,0,0), new Color(0, 0, 0,255 - (int) (255*(xMain.shellLogic.clientScene.brightnessLevel*0.01)))}
+        return new RadialGradientPaint(
+                new Point(eUtils.unscaleInt(xMain.shellLogic.getMouseCoordinates()[0]) + (int) gCamera.coords[0],
+                        eUtils.unscaleInt(xMain.shellLogic.getMouseCoordinates()[1]) + (int) gCamera.coords[1]),
+                600, new float[]{0f, 1f},
+                new Color[]{
+                    new Color(0,0,0,0),
+                    new Color(0, 0, 0,255 - (int) (255*(xMain.shellLogic.clientScene.brightnessLevel*0.01)))
+                }
         );
-        return df;
     }
 
     private void drawCube(Graphics2D g2, gBlockCube cube) {
