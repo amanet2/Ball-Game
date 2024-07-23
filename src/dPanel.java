@@ -512,17 +512,6 @@ public class dPanel extends JPanel {
             g2.drawString(name,coordx + p.dims[0]/2 - (int)g2.getFont().getStringBounds(name, dFonts.fontrendercontext).getWidth()/2 + 3, coordy + 3);
             g2.setColor(color);
             g2.drawString(name,coordx + p.dims[0]/2 - (int)g2.getFont().getStringBounds(name, dFonts.fontrendercontext).getWidth()/2, coordy);
-            int[] bounds = {
-                    coordx + p.dims[0]/2-(int)g2.getFont().getStringBounds(name, dFonts.fontrendercontext).getWidth()/2
-                            - eUtils.unscaleInt(5*sSettings.height/128),
-                    coordy - eUtils.unscaleInt(sSettings.height/32),
-                    eUtils.unscaleInt(sSettings.height/32),
-                    eUtils.unscaleInt(sSettings.height/32)
-            };
-            g2.setColor(Color.BLACK);
-            g2.fillOval(bounds[0]+3, bounds[1]+3, bounds[2], bounds[3]);
-            g2.setColor(color);
-            g2.fillOval(bounds[0], bounds[1], bounds[2], bounds[3]);
         }
     }
 

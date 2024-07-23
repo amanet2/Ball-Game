@@ -299,29 +299,36 @@ public class dScreenMessages {
         String[] sortedScoreIds = getSortedScoreIds(clStateMap, 1);
         for(String id : sortedScoreIds) {
             nState clState = clStateMap.get(id);
+            int alignX = marginX + ctr*(hpbarwidth + sSettings.width/64);
+            Color color = gColors.getColorFromName("clrp_" + clState.get("color"));
             //healthbar
             g.setColor(Color.black);
-            g.fillRect(marginX + ctr*(hpbarwidth + sSettings.width/64)+1,28 * sSettings.height/32+1,hpbarwidth,
-                    sSettings.height/24);
-            g.setColor(gColors.getColorFromName("clrp_" + clState.get("color")));
+            g.fillRect(alignX+1,28 * sSettings.height/32+1,hpbarwidth, sSettings.height/24);
+            g.setColor(color);
             if(Integer.parseInt(clState.get("hp")) > 0 && xMain.shellLogic.getPlayerById(id) != null)
-                g.fillRect(marginX + ctr*(hpbarwidth + sSettings.width/64),28 * sSettings.height/32,
+                g.fillRect(alignX,28 * sSettings.height/32,
                         hpbarwidth*Integer.parseInt(clState.get("hp"))/ sSettings.clientMaxHP,
                         sSettings.height/24);
+            //small circle next to name
+            int[] bounds = { alignX - 3,
+                    smallMode ? 55*sSettings.height/64 : 53*sSettings.height/64,
+                    smallMode ? sSettings.height/64 : sSettings.height/32,
+                    smallMode ? sSettings.height/64 : sSettings.height/32};
+            g.setColor(Color.BLACK);
+            g.fillOval(bounds[0]+1, bounds[1]+1, bounds[2], bounds[3]);
+            g.setColor(color);
+            g.fillOval(bounds[0], bounds[1], bounds[2], bounds[3]);
             //name
             if(smallMode)
                 dFonts.setFontSmall(g);
             else
                 dFonts.setFontNormal(g);
-            String hudName = String.format("%d. %s", ctr+1, clState.get("name"));
             g.setColor(Color.BLACK);
-            g.drawString(hudName,
-                    marginX + ctr*(hpbarwidth + sSettings.width/64) + 1, 55*sSettings.height/64 + 1);
+            g.drawString(clState.get("name"), alignX + bounds[2] + 1, 55*sSettings.height/64 + 1);
             g.setColor(gColors.getColorFromName("clrp_" + clState.get("color")));
             if(xMain.shellLogic.clientScene.getPlayerById(id) == null)
                 g.setColor(Color.GRAY);
-            g.drawString(hudName,
-                    marginX + ctr*(hpbarwidth + sSettings.width/64), 55*sSettings.height/64);
+            g.drawString(clState.get("name"), alignX + bounds[2], 55*sSettings.height/64);
             //score
             if(smallMode)
                 dFonts.setFontNormal(g);
@@ -389,7 +396,7 @@ public class dScreenMessages {
                 isMe = true;
             if(Integer.parseInt(clStateMap.get(id).get("score").split(":")[0]) < prevscore)
                 place++;
-            String hudName = place + "." + clStateMap.get(id).get("name");
+            String hudName = clStateMap.get(id).get("name");
             int coordy = 7 * sSettings.height / 30 + ctr * sSettings.height / 30;
             int height = sSettings.height / 30;
             String ck = clStateMap.get(id).get("color");
@@ -397,20 +404,25 @@ public class dScreenMessages {
             if(xMain.shellLogic.clientScene.getPlayerById(id) == null)
                 color = Color.GRAY;
             dFonts.drawScoreBoardPlayerLine(g, hudName, alignX, coordy, color);
-            g.setColor(color);
             if(isMe) {
-                Polygon myArrow = new Polygon(
-                        new int[] {alignX - height, alignX-height/2, alignX - height},
-                        new int[]{coordy - height, coordy - height/2, coordy},
-                        3
-                );
-                myArrow.translate(1,1);
                 g.setColor(Color.BLACK);
-                g.fillPolygon(myArrow);
-                myArrow.translate(-1,-1);
+                dFonts.drawRightJustifiedString(g, ">", alignX, coordy);
                 g.setColor(color);
-                g.fillPolygon(myArrow);
+                dFonts.drawRightJustifiedString(g, ">", alignX, coordy);
             }
+//            if(isMe) {
+//                Polygon myArrow = new Polygon(
+//                        new int[] {alignX - height, alignX-height/2, alignX - height},
+//                        new int[]{coordy - height, coordy - height/2, coordy},
+//                        3
+//                );
+//                myArrow.translate(1,1);
+//                g.setColor(Color.BLACK);
+//                g.fillPolygon(myArrow);
+//                myArrow.translate(-1,-1);
+//                g.setColor(color);
+//                g.fillPolygon(myArrow);
+//            }
             g.setColor(Color.BLACK);
             dFonts.drawRightJustifiedString(g, clStateMap.get(id).get("score").split(":")[0],
                     alignX + sSettings.width/4 + 1, coordy + 1);
