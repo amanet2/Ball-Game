@@ -306,7 +306,7 @@ public class dScreenMessages {
             g.fillRect(alignX+1,smallMode ? 29*sSettings.height/32 : 28 * sSettings.height/32 + 1,hpbarwidth, sSettings.height/24);
             g.setColor(color);
             if(Integer.parseInt(clState.get("hp")) > 0 && xMain.shellLogic.getPlayerById(id) != null)
-                g.fillRect(alignX,smallMode ? 29*sSettings.height/32 : 28 * sSettings.height/3,
+                g.fillRect(alignX, smallMode ? 29*sSettings.height/32 : 28 * sSettings.height/32,
                         hpbarwidth*Integer.parseInt(clState.get("hp"))/ sSettings.clientMaxHP,
                         sSettings.height/24);
             //small circle next to name
