@@ -372,8 +372,6 @@ public class dScreenMessages {
         g.fillRect(0,0,sSettings.width,sSettings.height);
         dFonts.setFontColor(g, "clrf_normal");
         dFonts.drawCenteredString(g, sSettings.clientGameModeTitle + " - " + sSettings.clientGameModeText, sSettings.width/2, 2*spriteRad);
-        g.setColor(Color.BLACK);
-        dFonts.drawCenteredString(g, clStateMap.keys().size() + " players", sSettings.width/2+1,5*spriteRad+1);
         dFonts.setFontColor(g, "clrf_normal");
         dFonts.drawCenteredString(g, clStateMap.keys().size() + " players", sSettings.width/2,5*spriteRad);
         g.setColor(Color.BLACK);
