@@ -35,7 +35,7 @@ public class dFonts {
 
     public static void drawScoreBoardPlayerLine(Graphics g, String s, int x, int y, Color color) {
         g.setColor(Color.BLACK);
-        g.drawString(s,x+3,y+3);
+        g.drawString(s,x+1,y+1);
         g.setColor(color);
         g.drawString(s,x,y);
     }

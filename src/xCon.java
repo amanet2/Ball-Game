@@ -874,7 +874,7 @@ public class xCon {
                         "pause"
                 });
                 for(int i = 0; i < sSettings.botCount; i++) {
-                    ex(String.format("scheduleevent %d addbot", sSettings.gameTime + 2000 + i*2000));
+                    ex(String.format("scheduleevent %d addbot", sSettings.gameTime + 2000 + i*1000));
                 }
                 return "hosting game on port " + sSettings.serverListenPort;
             }
@@ -1709,12 +1709,12 @@ public class xCon {
         });
         commands.put("zoom", new gDoable() {
             public String doCommand(String fullCommand) {
-//                if(sSettings.show_mapmaker_ui)
+                if(sSettings.show_mapmaker_ui)
                     sSettings.zoomLevel = Math.min(1.5, sSettings.zoomLevel + 0.25);
                 return "zoom in";
             }
             public String undoCommand(String fullCommand) {
-//                if(sSettings.show_mapmaker_ui)
+                if(sSettings.show_mapmaker_ui)
                     sSettings.zoomLevel = Math.max(0.25, sSettings.zoomLevel - 0.25);
                 return "zoom out";
             }
