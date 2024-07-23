@@ -1,19 +1,17 @@
-* fix the bug where players pop out on top of walls they shouldnt be visible behind
-    -> detect tops for tall blocks and ALWAYS show these above any player maybe?
-        -> low tops still need to be sorted w/ players
-        -> so draw walls in the normal way, skip the tops
-        -> draw all tops at the end of the drawWallsAndPlayers() func
-* show tiny img of weapon that killed player
+* UI: show tiny img of weapon that killed player
     -> cancel sign for the landmine
-    -> the echo cmd is invoked in a script
+    -> the echo cmd for "X got Y" is in a script
+    -> make a new token '&' that's like '#'
+        -> but instead of a color it speicifies a killfeed icon
 * sort scoreboard players tiebreaker by score
+    -> or dont show score on TAB scoreboard
 * enable mapName the same way as gametheme and gamemode
     -> setvar mapname, cl_setvar mapname
     -> default to the filename if unset
         -> for new maps, use "map0"
     -> need a dialog/entry form in mapmaker editor
 * BUG, UI: maps dont fit on selection screen
-* GFX: make the flagdeposits do a color effect
+* GFX: make the flagdeposits and scorepoints do a color effect
 * NET, UI: have client time out when connection is lost
     -> Multipurpose for A losing connection to game
     -> and B trying to join a server that cant be reached

@@ -1,7 +1,6 @@
 import javax.swing.JPanel;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -263,7 +262,7 @@ public class dPanel extends JPanel {
 
     private void drawBlockWallsAndPlayers(Graphics2D g2, gScene scene) {
         Queue<gThing> visualQueue = scene.getWallsAndPlayersSortedByCoordY();
-        while(visualQueue.size() > 0) {
+        while(!visualQueue.isEmpty()) {
             gThing thing = visualQueue.remove();
             if (thing.type.equals("THING_PLAYER"))
                 drawPlayer(g2, (gPlayer) thing);
@@ -276,14 +275,7 @@ public class dPanel extends JPanel {
             gThing floor = scene.getThingMap("BLOCK_FLOOR").get(tag);
             //flashlight
             if(xMain.shellLogic.getUserPlayer() != null) {
-                int aimerx = eUtils.unscaleInt(xMain.shellLogic.getMouseCoordinates()[0]);
-                int aimery = eUtils.unscaleInt(xMain.shellLogic.getMouseCoordinates()[1]);
-                int snapX = aimerx + (int) gCamera.coords[0];
-                int snapY = aimery + (int) gCamera.coords[1];
-                RadialGradientPaint df = new RadialGradientPaint(new Point(snapX, snapY), 600,
-                        new float[]{0f, 1f}, new Color[]{new Color(0,0,0,0), new Color(0, 0, 0,255 - (int) (255*(xMain.shellLogic.clientScene.brightnessLevel*0.01)))}
-                );
-                g2.setPaint(df);
+                g2.setPaint(getFlashlightPaint());
                 g2.fillRect(floor.coords[0], floor.coords[1], floor.dims[0], floor.dims[1]);
             }
             else {
@@ -291,6 +283,18 @@ public class dPanel extends JPanel {
                 g2.fillRect(floor.coords[0], floor.coords[1], floor.dims[0], floor.dims[1]);
             }
         }
+    }
+
+    private static RadialGradientPaint getFlashlightPaint() {
+        return new RadialGradientPaint(
+                new Point(eUtils.unscaleInt(xMain.shellLogic.getMouseCoordinates()[0]) + (int) gCamera.coords[0],
+                        eUtils.unscaleInt(xMain.shellLogic.getMouseCoordinates()[1]) + (int) gCamera.coords[1]),
+                600, new float[]{0f, 1f},
+                new Color[]{
+                    new Color(0,0,0,0),
+                    new Color(0, 0, 0,255 - (int) (255*(xMain.shellLogic.clientScene.brightnessLevel*0.01)))
+                }
+        );
     }
 
     private void drawCube(Graphics2D g2, gBlockCube cube) {
@@ -576,7 +580,7 @@ public class dPanel extends JPanel {
         // -- preview rect
         int w = 300;
         int h = 300;
-        if(sSettings.clientNewPrefabName.length() > 0) {
+        if(!sSettings.clientNewPrefabName.isEmpty()) {
             int[] pfd = uiEditorMenus.getNewPrefabDims();
             w = pfd[0];
             h = pfd[1];
