@@ -62,7 +62,7 @@ public class sSettings {
 	static int botThinkTimeDelay = 150;
 	static int botShootRange = 1200;
 	static int botCount = 0;
-	static int botCountMax = 7;
+	static int botCountMax = 11;
 	static int botsPaused = 0;
 
 	//client

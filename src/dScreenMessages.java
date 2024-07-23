@@ -317,7 +317,27 @@ public class dScreenMessages {
             g.setColor(Color.BLACK);
             g.fillOval(bounds[0]+1, bounds[1]+1, bounds[2], bounds[3]);
             g.setColor(color);
+            if(xMain.shellLogic.clientScene.getPlayerById(id) == null)
+                g.setColor(Color.GRAY);
             g.fillOval(bounds[0], bounds[1], bounds[2], bounds[3]);
+            //small triangle above name
+            if(id.equals(sSettings.uuid)) {
+                Polygon triangle = new Polygon(
+                        new int[]{bounds[0], bounds[0] + bounds[2], bounds[0] + bounds[2] / 2},
+                        new int[]{bounds[1] - bounds[3]/2, bounds[1] - bounds[3]/2, bounds[1]},
+                        3);
+                Polygon shadow = new Polygon(
+                        new int[]{bounds[0]+1, bounds[0] + bounds[2]+1, bounds[0] + bounds[2] / 2 + 1},
+                        new int[]{bounds[1] - bounds[3]/2 + 1, bounds[1] - bounds[3]/2 + 1, bounds[1] + 1},
+                        3);
+                g.setColor(Color.BLACK);
+                g.fillPolygon(shadow);
+                g.setColor(color);
+                if(xMain.shellLogic.clientScene.getPlayerById(id) == null)
+                    g.setColor(Color.GRAY);
+                g.fillPolygon(triangle);
+
+            }
             //name
             if(smallMode)
                 dFonts.setFontSmall(g);
