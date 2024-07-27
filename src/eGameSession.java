@@ -45,7 +45,7 @@ public class eGameSession extends Thread implements Runnable {
                         }
                     }
                 }
-                else if(tickRate > 0) {
+                else {
                     while (nextFrameTimeNanos > System.nanoTime()) {
                         //do nothing
                     }

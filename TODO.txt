@@ -1,3 +1,4 @@
+* CRITICAL: whats with the jittering when framerate isnt 360fps?
 * MENU: ability to set time from new game menu
 * UI: show tiny img of weapon that killed player
     -> the echo cmd for "X got Y" is in a script
@@ -15,7 +16,7 @@
     -> and B trying to join a server that cant be reached
     -> echo some message on screen for this
 * ITEM: boost pad that gives high player velocity in a certain direction
-* CRITICAL: whats with the jittering when framerate isnt 360fps?
+* GFX: enable unlimited fps
 * VFX: using gradient inside the texture makes performance much better on macbook
     -> but the tiling doesnt line up in some spots
 * BUG: flag disappeared during flagmaster game
