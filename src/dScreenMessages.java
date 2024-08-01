@@ -67,10 +67,10 @@ public class dScreenMessages {
         dFonts.setFontLarge(g);
         if(sSettings.inplay && sSettings.clientMapLoaded) {
             g.setColor(Color.BLACK);
-            g.drawString(eUtils.getTimeString(sSettings.clientTimeLeft), sSettings.width / 128 + 1, sSettings.height / 12 + 1);
+            dFonts.drawCenteredString(g, eUtils.getTimeString(sSettings.clientTimeLeft), sSettings.width / 2 + 1, sSettings.height / 12 + 1);
             dFonts.setFontLarge(g);
             g.setColor(gColors.getColorFromName("clrp_" + sSettings.clientPlayerColor));
-            g.drawString(eUtils.getTimeString(sSettings.clientTimeLeft), sSettings.width / 128, sSettings.height / 12);
+            dFonts.drawCenteredString(g, eUtils.getTimeString(sSettings.clientTimeLeft), sSettings.width / 2, sSettings.height / 12);
         }
         //menus
         dFonts.setFontNormal(g);

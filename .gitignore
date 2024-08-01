@@ -1,6 +1,7 @@
 # DEFAULT
-.idea*
+.idea
+.vscode
 *.iml
-out/*
-runtime/*
+out
+runtime
 *.jar

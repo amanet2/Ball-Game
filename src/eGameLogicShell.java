@@ -1,6 +1,3 @@
-import javax.imageio.ImageIO;
-import javax.sound.sampled.Clip;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -10,6 +7,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import javax.imageio.ImageIO;
+import javax.sound.sampled.Clip;
+import javax.swing.*;
 
 public class eGameLogicShell extends eGameLogicAdapter {
     private long frameCounterTime = -1;
@@ -482,26 +482,6 @@ public class eGameLogicShell extends eGameLogicAdapter {
             uiEditorMenus.setupMapMakerWindow();
             console.ex(String.format("cl_execpreview prefabs/%s 0 0 12500 5600", sSettings.clientNewPrefabName));
         }
-//        else {
-//            JMenuBar menubar = new JMenuBar();
-//            frame.setJMenuBar(menubar);
-//            for(String t : new String[]{"Host", "Join", "Settings", "Quit"}) {
-//                uiEditorMenus.createNewMenu(t);
-//            }
-//            uiEditorMenus.addMenuItem("Host", "START");
-//            uiEditorMenus.addMenu("Host", "Map");
-//            uiEditorMenus.addMenuItem("Map", "random");
-//            uiEditorMenus.addMenuItem("Host", "Bots");
-////            uiEditorMenus.addCheckBoxMenuItem("Bots", "0");
-////            uiEditorMenus.addCheckBoxMenuItem("Bots", "1");
-////            uiEditorMenus.addCheckBoxMenuItem("Bots", "2");
-////            uiEditorMenus.addCheckBoxMenuItem("Bots", "3");
-//            uiEditorMenus.addMenuItem("Join", "START");
-//            uiEditorMenus.addMenuItem("Join", "IP");
-////            uiEditorMenus.addMenuItem("IP", "localhost");
-//            uiEditorMenus.addMenuItem("Join", "Port");
-////            uiEditorMenus.addMenuItem("Port", "5555");
-//        }
 
         frame.setVisible(true);
         //add listeners
@@ -770,7 +750,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
     }
 
     private void checkPlayerFire() {
-        if(getUserPlayer() != null && iMouse.holdingMouseLeft) {
+        if(getUserPlayer() != null && iInput.mouseInput.holdingMouseLeft) {
             gPlayer player = getUserPlayer();
             int weapint = player.weapon;
             long gametimemillis = sSettings.gameTime;

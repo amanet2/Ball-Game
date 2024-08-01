@@ -1,11 +1,4 @@
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.FloatControl;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.text.NumberFormat;
@@ -14,6 +7,11 @@ import java.util.*;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadLocalRandom;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 public class xCon {
     static int maxlinelength = 128;
@@ -927,7 +925,7 @@ public class xCon {
             public String doCommand(String fullCommand) {
                 if(xMain.shellLogic.frame.hasFocus()) {
                     if (sSettings.inplay)
-                        iMouse.holdingMouseLeft = true;
+                        iInput.mouseInput.holdingMouseLeft = true;
                     else {
                         if(sSettings.show_mapmaker_ui && sSettings.clientMapLoaded) {
                             int[] mc = xMain.shellLogic.getMouseCoordinates();
@@ -979,7 +977,7 @@ public class xCon {
             }
 
             public String undoCommand(String fullCommand) {
-                iMouse.holdingMouseLeft = false;
+                iInput.mouseInput.holdingMouseLeft = false;
                 return fullCommand;
             }
         });
@@ -1889,6 +1887,11 @@ public class xCon {
         }
         catch (Exception ee) {
             ee.printStackTrace();
+            // TODO: log stuff here
+            if(sSettings.IS_SERVER)
+                ex("echo Exception caused by line: " + s);
+            else if(sSettings.IS_CLIENT)
+                ex("cl_echo Exception caused by line: " + s);
             return "Exception caused by line: " + s;
         }
     }
@@ -1952,7 +1955,7 @@ public class xCon {
     }
 
     public Integer getKeyCodeForComm(String comm) {
-        if(comm.length() > 0) {
+        if(!comm.isEmpty()) {
             if(comm.charAt(0) == '-') {
                 for(Integer j : releaseBinds.keySet()) {
                     if(releaseBinds.get(j).equals(comm))
@@ -1968,7 +1971,7 @@ public class xCon {
     }
 
     private String doCommand(String fullCommand) {
-        if(fullCommand.length() > 0) {
+        if(!fullCommand.isEmpty()) {
             String[] args = fullCommand.trim().split(" ");
             for(int i = 0; i < args.length; i++) {
                 if(args[i].startsWith("$") && xMain.shellLogic.serverVars.contains(args[i].substring(1)))
@@ -1986,11 +1989,7 @@ public class xCon {
                     realcom.append(" ").append(arg);
                 }
                 String comstring = realcom.substring(1);
-//                stringLines.add(String.format("console:~$ %s", comstring));
                 String result = comstring.charAt(0) == '-' ? cp.undoCommand(comstring) : cp.doCommand(comstring);
-//                if (result.length() > 0)
-//                    stringLines.add(result);
-//                linesToShowStart = Math.max(0, stringLines.size() - linesToShow);
                 while (stringLines.size() > 1024) {
                     stringLines.remove(0);
                 }
