@@ -18,7 +18,6 @@
 * ITEM: boost pad that gives high player velocity in a certain direction
 * GFX: enable unlimited fps
 * VFX: using gradient inside the texture makes performance much better on macbook
-    -> but the tiling doesnt line up in some spots
 * BUG: flag disappeared during flagmaster game
 * BUG: extra flags appearing during flagmaster game
 * CRITICAL: client.txt gets cleared out randomly?
@@ -44,29 +43,30 @@
     -> server var to not allow attacks for IDs or all
     -> 'cl_setcam' console command to set cam position
     -> client var for player id to track with the camera
-* NEW MODE: add race gamemode
-* GIT: want to go back in time
-    -> git checkout <old working commit>
-    -> git checkout -b <new branch>
-    -> push this branch then retarget the older branch into this new stable branch, stable branch targets main now
-* TWO COMMITS TANGLED UP
-    -> on target: git config pull.rebase true && git pull && git config pull.rebase false
+* GAME: add race gamemode
 * Engine: xCon console should be split up into server and client
 * BUG: Escape comma ',' characters that appear in net values
     -> it screws up building hashmap from received data
 * GENERAL: if a client is also running the server, cl_setthing can be called by the server thread if server not ignored (bad)
 * BUG: teleporters delay affects different colors i.e. blue teles are affected by red tele delay and vice versa
 * BUG: when someones pc sleeps/closes, the client loses connection then rejoins on wake as "null"
-* git reset --hard <last_working_commit_id>
-    -> git push --force
-    -> git push --set-upstream origin <branch_name> --force
-    -> see for remotes: git reset --hard origin/<branch_name>
 * NET: Have server not send any other clients' vars if the client is still loading
 * NET: The maximum safe UDP payload is ??? bytes
-* add cod zombies-style gametype, bots will be unarmed but real players will always have weapons
+* GAME: add cod zombies-style gametype, bots will be unarmed but real players will always have weapons
     -> or moving items can act as zombies
 * GAME: bring back squish effect for movement/momentum changes and bounces
-* COMMIT SPOT CHECKS
-    -> GO TO COMMIT: git checkout <commit>
-    -> GO BACK: git checkout <branch_name>
 * AUDIO: PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
+* GIT TIPS:
+    -> COMMIT SPOT CHECKS
+        -> GO TO COMMIT: git checkout <commit>
+        -> GO BACK: git checkout <branch_name>
+    -> git reset --hard <last_working_commit_id>
+        -> git push --force
+        -> git push --set-upstream origin <branch_name> --force
+        -> see for remotes: git reset --hard origin/<branch_name>
+    -> want to go back in time
+        -> git checkout <old working commit>
+        -> git checkout -b <new branch>
+        -> push this branch then retarget the older branch into this new stable branch, stable branch targets main now
+    -> TWO COMMITS TANGLED UP
+        -> on target: git config pull.rebase true && git pull && git config pull.rebase false
