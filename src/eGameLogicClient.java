@@ -8,8 +8,8 @@ import java.util.*;
 public class eGameLogicClient extends eGameLogicAdapter {
     private Queue<String> netSendCmds;
     private DatagramSocket clientSocket;
-    private nStateMap clientStateMap; //hold net player vars
-    private gArgSet receivedArgsServer;
+    private final nStateMap clientStateMap; //hold net player vars
+    private final gArgSet receivedArgsServer;
     private boolean cmdReceived;
     public String clientStateSnapshot; //hold snapshot of clientStateMap
 
@@ -23,17 +23,18 @@ public class eGameLogicClient extends eGameLogicAdapter {
         }
         catch (SocketException e) {
             xMain.shellLogic.console.logException(e);
-            e.printStackTrace();
         }
         clientStateMap = new nStateMap();
         clientStateSnapshot = "{}";
         receivedArgsServer = new gArgSet();
         receivedArgsServer.putArg(new gArg("time", Long.toString(sSettings.gameTime)) {
+            @Override
             public void onChange() {
                 sSettings.clientTimeLeft = Long.parseLong(value);
             }
         });
         receivedArgsServer.putArg(new gArg("cmd", "") {
+            @Override
             public void onUpdate() {
                 if(value.length() > 0) {
                     xMain.shellLogic.console.debug("FROM_SERVER: " + value);
@@ -84,7 +85,7 @@ public class eGameLogicClient extends eGameLogicAdapter {
             if(!foundIds.contains(k))
                 toRemove.add(k);
         }
-        while(toRemove.size() > 0) {
+        while(!toRemove.isEmpty()) {
             clientStateMap.remove(toRemove.remove());
         }
         clientStateSnapshot = clientStateMap.toString().replace(", ", ",");
@@ -135,7 +136,7 @@ public class eGameLogicClient extends eGameLogicAdapter {
             sSettings.clientNetSendTime = System.currentTimeMillis();
             xMain.shellLogic.console.debug("CLIENT SND [" + clientSendData.length + "]:" + sendDataString);
         } catch (IOException e) {
-            e.printStackTrace();
+            xMain.shellLogic.console.logException(e);
         }
     }
 
@@ -175,7 +176,7 @@ public class eGameLogicClient extends eGameLogicAdapter {
     }
 
     private String dequeueNetCmd() {
-        if(netSendCmds.size() > 0) {
+        if(!netSendCmds.isEmpty()) {
             String cmdString = netSendCmds.peek();
             // user's client-side firing
             if(cmdString.startsWith("fireweapon"))

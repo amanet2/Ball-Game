@@ -616,7 +616,6 @@ public class xCon {
                     }
                 }
                 gScript moddedScript = new gScript("tmp_script", moddedScriptContentBuilder.substring(1));
-//                System.out.println("CL_EXECPREVIEW: " + moddedScript.lines);
                 String[] callArgs = new String[args.length - 2];
                 for(int i = 0; i < callArgs.length; i++) {
                     callArgs[i] = args[i+2];
@@ -952,7 +951,7 @@ public class xCon {
                                 xMain.shellLogic.clientNetThread.addNetCmd(cmd);
                                 return "put prefab " + sSettings.clientNewPrefabName;
                             }
-                            if(uiEditorMenus.newitemname.length() > 0) {
+                            if(!uiEditorMenus.newitemname.isEmpty()) {
                                 int iw = 300;
                                 int ih = 300;
                                 int ix = eUtils.roundToNearest(eUtils.unscaleInt(mc[0]) + (int) gCamera.coords[0] - iw/2,

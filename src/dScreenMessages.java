@@ -66,11 +66,12 @@ public class dScreenMessages {
         //timer
         dFonts.setFontLarge(g);
         if(sSettings.inplay && sSettings.clientMapLoaded) {
+            String timeString = eUtils.getTimeString(sSettings.clientTimeLeft);
             g.setColor(Color.BLACK);
-            dFonts.drawCenteredString(g, eUtils.getTimeString(sSettings.clientTimeLeft), sSettings.width / 2 + 1, sSettings.height / 12 + 1);
+            dFonts.drawCenteredString(g, timeString, sSettings.width / 2 + 1, sSettings.height / 12 + 1);
             dFonts.setFontLarge(g);
             g.setColor(gColors.getColorFromName("clrp_" + sSettings.clientPlayerColor));
-            dFonts.drawCenteredString(g, eUtils.getTimeString(sSettings.clientTimeLeft), sSettings.width / 2, sSettings.height / 12);
+            dFonts.drawCenteredString(g, timeString, sSettings.width / 2, sSettings.height / 12);
         }
         //menus
         dFonts.setFontNormal(g);
@@ -397,10 +398,11 @@ public class dScreenMessages {
         nStateMap clStateMap = new nStateMap(xMain.shellLogic.clientNetThread.clientStateSnapshot);
         dFonts.setFontColor(g, "clrf_scoreboardbg");
         g.fillRect(0,0,sSettings.width,sSettings.height);
+//        dFonts.setFontColor(g, "clrf_normal");
+//        dFonts.drawCenteredString(g, sSettings.clientGameModeTitle + " - " + sSettings.clientGameModeText, sSettings.width/2, 5*spriteRad);
         dFonts.setFontColor(g, "clrf_normal");
-        dFonts.drawCenteredString(g, sSettings.clientGameModeTitle + " - " + sSettings.clientGameModeText, sSettings.width/2, 2*spriteRad);
-        dFonts.setFontColor(g, "clrf_normal");
-        dFonts.drawCenteredString(g, clStateMap.keys().size() + " players", sSettings.width/2,5*spriteRad);
+        dFonts.drawCenteredString(g, String.format("%d ball - %s", clStateMap.keys().size(), sSettings.clientGameModeText), sSettings.width/2,5*spriteRad);
+//        dFonts.drawCenteredString(g, clStateMap.keys().size() + " players", sSettings.width/2, 5*spriteRad);
         g.setColor(Color.BLACK);
         g.drawLine(3*sSettings.width/8+1, 11*sSettings.height/60+1, 5*sSettings.width/8+1, 11*sSettings.height/60+1);
         dFonts.setFontColor(g, "clrf_normal");

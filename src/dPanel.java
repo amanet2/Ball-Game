@@ -1,14 +1,15 @@
-import javax.swing.JPanel;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
+import javax.swing.JPanel;
 
 /**
  * JPanel
  * displays image on the screen
  */
 public class dPanel extends JPanel {
+    @Override
     public void paintComponent(Graphics g){
         removeAll();
         Graphics2D g2v = (Graphics2D) g.create();
@@ -141,6 +142,7 @@ public class dPanel extends JPanel {
             else {
                 xMain.shellLogic.scheduledEvents.put(
                         Long.toString(sSettings.gameTime + 500), new gDoable() {
+                            @Override
                             public void doCommand() {
                                 xMain.shellLogic.clientScene.getThingMap("THING_ANIMATION").remove(id);
                             }

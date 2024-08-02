@@ -19,8 +19,8 @@ public class eGameSession extends Thread implements Runnable {
             long snapshotTimeNanos = System.nanoTime();
             long tickTimeNanos = snapshotTimeNanos;
             long nextFrameTimeNanos;
-            long sleepForMillis = 0; //millis to sleep
-            int sleepForNanos = 0; //nano time remainder to sleep
+            long sleepForMillis; //millis to sleep
+            int sleepForNanos; //nano time remainder to sleep
             gameLogic.init();
             while (playing) {
                 snapshotTimeNanos = System.nanoTime();
