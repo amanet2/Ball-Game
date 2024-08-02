@@ -1897,8 +1897,8 @@ public class xCon {
     }
 
     public static int charlimit() {
-        return (int)((double)sSettings.width/new Font(dFonts.fontnameconsole, Font.PLAIN,
-                dFonts.size *sSettings.height/sSettings.gamescale/2).getStringBounds("_",
+        return (int)((double)sSettings.width/new Font(dFonts.FONTNAMECONSOLE, Font.PLAIN,
+                dFonts.SIZE *sSettings.height/sSettings.gamescale/2).getStringBounds("_",
                 dFonts.fontrendercontext).getWidth());
     }
 

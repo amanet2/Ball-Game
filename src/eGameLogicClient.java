@@ -97,7 +97,7 @@ public class eGameLogicClient extends eGameLogicAdapter {
             sendData();
             byte[] clientReceiveData = new byte[sSettings.rcvbytesclient];
             DatagramPacket receivePacket = new DatagramPacket(clientReceiveData, clientReceiveData.length);
-            clientSocket.receive(receivePacket);
+            clientSocket.receive(receivePacket);  // this fails when joining unreachable server
             readData(new String(receivePacket.getData()).trim());
             sSettings.clientNetRcvTime = System.currentTimeMillis();
             if(sSettings.clientNetRcvTime > sSettings.clientNetSendTime)

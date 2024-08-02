@@ -1,4 +1,8 @@
-* CRITICAL: whats with the jittering when framerate isnt 360fps?
+* NET, UI: have client time out when connection is lost
+    -> Multipurpose for A losing connection to game
+    -> and B trying to join a server that cant be reached
+    -> echo some message on screen for this
+* VFX: whats with the jittering when framerate isnt 360fps?
 * MENU: ability to set time from new game menu
 * UI: show tiny img of weapon that killed player
     -> the echo cmd for "X got Y" is in a script
@@ -11,10 +15,6 @@
     -> need a dialog/entry form in mapmaker editor
 * BUG, UI: maps dont fit on selection screen
 * GFX: make the flagdeposits and scorepoints do a color effect
-* NET, UI: have client time out when connection is lost
-    -> Multipurpose for A losing connection to game
-    -> and B trying to join a server that cant be reached
-    -> echo some message on screen for this
 * ITEM: boost pad that gives high player velocity in a certain direction
 * GFX: enable unlimited fps
 * VFX: using gradient inside the texture makes performance much better on macbook
