@@ -476,7 +476,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
             xMain.shellLogic.console.logException(e);
             e.printStackTrace();
         }
-        sSettings.tickReportServer = getTickReport();
+        sSettings.tickReportServer = tickReport;
     }
 
     @Override

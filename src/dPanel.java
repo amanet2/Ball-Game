@@ -24,7 +24,7 @@ public class dPanel extends JPanel {
     }
 
     private void drawFrame(Graphics2D g2) {
-        if(!sSettings.clientMapLoaded) // comment out for no loading screens
+        if(!sSettings.clientMapLoaded) // loading screen flag
             return;
         g2.translate(sSettings.width / 2, sSettings.height / 2);
         g2.scale(sSettings.zoomLevel, sSettings.zoomLevel);
@@ -576,9 +576,9 @@ public class dPanel extends JPanel {
             w = pfd[0];
             h = pfd[1];
         }
-        int px = eUtils.roundToNearest(eUtils.unscaleInt(mousex - window_offsetx)
+        int px = eUtils.roundTo(eUtils.unscaleInt(mousex - window_offsetx)
                 + (int) gCamera.coords[0] - w/2, uiEditorMenus.snapToX);
-        int py = eUtils.roundToNearest(eUtils.unscaleInt(mousey - window_offsety)
+        int py = eUtils.roundTo(eUtils.unscaleInt(mousey - window_offsety)
                 + (int) gCamera.coords[1] - h/2, uiEditorMenus.snapToY);
         sSettings.clientPrevX = px;
         sSettings.clientPrevY = py;

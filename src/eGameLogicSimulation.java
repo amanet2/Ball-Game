@@ -17,7 +17,7 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
         xMain.shellLogic.console.ex("exec scripts/sv_checkgamestate");
         checkGameItems();
         updateEntityPositions(gameTimeMillis);
-        sSettings.tickReportSimulation = getTickReport();
+        sSettings.tickReportSimulation = tickReport;
     }
 
     private void checkGameItems() {

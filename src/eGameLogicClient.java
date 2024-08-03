@@ -6,7 +6,7 @@ import java.net.SocketException;
 import java.util.*;
 
 public class eGameLogicClient extends eGameLogicAdapter {
-    private Queue<String> netSendCmds;
+    private final Queue<String> netSendCmds;
     private DatagramSocket clientSocket;
     private final nStateMap clientStateMap; //hold net player vars
     private final gArgSet receivedArgsServer;
@@ -113,7 +113,7 @@ public class eGameLogicClient extends eGameLogicAdapter {
             xMain.shellLogic.console.logException(e);
             e.printStackTrace();
         }
-        sSettings.tickReportClient = getTickReport();
+        sSettings.tickReportClient = tickReport;
     }
 
     public void addNetCmd(String cmd) {

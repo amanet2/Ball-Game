@@ -175,7 +175,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
         clientVars.putArg(new gArg("refresh", "60") {
             public void onChange() {
                 sSettings.rateShell = Integer.parseInt(value);
-                xMain.shellSession.tickRate = sSettings.rateShell;
+                parentSession.tickRate = sSettings.rateShell;
             }
         });
         clientVars.putArg(new gArg("audioenabled", "1") {
@@ -440,7 +440,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 checkPlayerFire();
             updateEntityPositions(gameTimeMillis);
         }
-        sSettings.tickReport = getTickReport();
+        sSettings.tickReport = tickReport;
     }
 
     public gPlayer getUserPlayer() {
@@ -672,9 +672,9 @@ public class eGameLogicShell extends eGameLogicAdapter {
     public int[] getPlaceObjCoords() {
         int[] mc = getMouseCoordinates();
         int[] fabdims = uiEditorMenus.getNewPrefabDims();
-        int pfx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0])+(int) gCamera.coords[0] - fabdims[0]/2,
+        int pfx = eUtils.roundTo(eUtils.unscaleInt(mc[0])+(int) gCamera.coords[0] - fabdims[0]/2,
                 uiEditorMenus.snapToX);
-        int pfy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1])+(int) gCamera.coords[1] - fabdims[1]/2,
+        int pfy = eUtils.roundTo(eUtils.unscaleInt(mc[1])+(int) gCamera.coords[1] - fabdims[1]/2,
                 uiEditorMenus.snapToY);
         return new int[]{pfx, pfy};
     }

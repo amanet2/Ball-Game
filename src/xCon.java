@@ -928,13 +928,13 @@ public class xCon {
                     else {
                         if(sSettings.show_mapmaker_ui && sSettings.clientMapLoaded) {
                             int[] mc = xMain.shellLogic.getMouseCoordinates();
-                            if(sSettings.clientNewPrefabName.length() > 0) {
+                            if(!sSettings.clientNewPrefabName.isEmpty()) {
                                 int[] pfd = uiEditorMenus.getNewPrefabDims();
                                 int w = pfd[0];
                                 int h = pfd[1];
-                                int pfx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0]) + (int) gCamera.coords[0] - w / 2,
+                                int pfx = eUtils.roundTo(eUtils.unscaleInt(mc[0]) + (int) gCamera.coords[0] - w / 2,
                                         uiEditorMenus.snapToX);
-                                int pfy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + (int) gCamera.coords[1] - h / 2,
+                                int pfy = eUtils.roundTo(eUtils.unscaleInt(mc[1]) + (int) gCamera.coords[1] - h / 2,
                                         uiEditorMenus.snapToY);
                                 int bid = 0;
                                 int pid = 0;
@@ -952,16 +952,15 @@ public class xCon {
                                 return "put prefab " + sSettings.clientNewPrefabName;
                             }
                             if(!uiEditorMenus.newitemname.isEmpty()) {
-                                int iw = 300;
-                                int ih = 300;
-                                int ix = eUtils.roundToNearest(eUtils.unscaleInt(mc[0]) + (int) gCamera.coords[0] - iw/2,
-                                        uiEditorMenus.snapToX);
-                                int iy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + (int) gCamera.coords[1] - ih/2,
-                                        uiEditorMenus.snapToY);
-                                String cmd = String.format("putitem %s %d %d %d",
-                                        uiEditorMenus.newitemname, xMain.shellLogic.getNewItemIdClient(), ix, iy);
+                                String cmd = String.format(
+                                        "putitem %s %d %d %d",
+                                        uiEditorMenus.newitemname,
+                                        xMain.shellLogic.getNewItemIdClient(),
+                                        eUtils.roundTo(eUtils.unscaleInt(mc[0]) + (int) gCamera.coords[0] - 150, uiEditorMenus.snapToX),
+                                        eUtils.roundTo(eUtils.unscaleInt(mc[1]) + (int) gCamera.coords[1] - 150, uiEditorMenus.snapToY)
+                                );
                                 xMain.shellLogic.clientNetThread.addNetCmd(cmd);
-                                return "put item " + uiEditorMenus.newitemname;
+                                return "1";
                             }
                         }
                         else if(uiMenus.gobackSelected) {
@@ -1243,7 +1242,7 @@ public class xCon {
         });
         commands.put("REM", new gDoable() {
             public String doCommand(String fullCommand) {
-                return "comment";
+                return "1";
             }
         });
         commands.put("respawnnetplayer", new gDoable() {

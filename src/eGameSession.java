@@ -9,7 +9,7 @@ public class eGameSession extends Thread implements Runnable {
         gameLogic = logic;
         tickRate = rate;
         playing = true;
-        ((eGameLogicAdapter) logic).setParentSession(this);
+        ((eGameLogicAdapter) logic).parentSession = this;
         start();
     }
 
@@ -63,6 +63,6 @@ public class eGameSession extends Thread implements Runnable {
 
     public void destroy() {
         playing = false;
-        gameLogic.cleanup(); // if this is commented out server doesnt cleanly exit
+        gameLogic.cleanup();
     }
 }
