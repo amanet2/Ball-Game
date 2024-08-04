@@ -44,7 +44,6 @@ public class xCon {
             }
             catch (Exception e) {
                 logException(e);
-                e.printStackTrace();
             }
             ex("-loadingscreen");
             return "loaded map " + scriptId;
@@ -327,7 +326,7 @@ public class xCon {
                     nState playerState = new nStateMap(xMain.shellLogic.serverNetThread.masterStateSnapshot).get(id);
                     if(player == null || playerState == null)
                         return "no player found: " ;
-                    xMain.shellLogic.console.ex(String.format("spawnpopup %s %d", id, dmg));
+                    ex(String.format("spawnpopup %s %d", id, dmg));
                     int newhp = Integer.parseInt(playerState.get("hp")) - dmg;
                     xMain.shellLogic.serverNetThread.setClientState(id, "hp", Integer.toString(newhp));
                     double rand = Math.random()*3;
@@ -541,7 +540,7 @@ public class xCon {
                             try {
                                 Thread.sleep(500);
                             } catch (InterruptedException e) {
-                                e.printStackTrace();
+                                logException(e);
                             }
                         }
                         sSettings.serverLoadingFromHDD = true;
@@ -1094,7 +1093,7 @@ public class xCon {
                     }
                     xMain.shellLogic.clientScene.soundClips.add(clip);
                 } catch (Exception e){
-                    e.printStackTrace();
+                    logException(e);
                 }
                 return fullCommand;
             }
@@ -1463,7 +1462,7 @@ public class xCon {
                             xMain.shellLogic.clientScene.brightnessLevel = newBrightness;
                     }
                     catch(Exception e) {
-                        e.printStackTrace();
+                        logException(e);
                     }
                 }
                 return Integer.toString(xMain.shellLogic.clientScene.brightnessLevel);
@@ -1589,7 +1588,7 @@ public class xCon {
                     n1 = NumberFormat.getInstance().parse(args[1]);
                     n2 = NumberFormat.getInstance().parse(args[2]);
                 } catch (ParseException e) {
-                    e.printStackTrace();
+                    logException(e);
                     return "null";
                 }
                 boolean n1d = n1 instanceof Double;
@@ -1633,7 +1632,7 @@ public class xCon {
                     n1 = NumberFormat.getInstance().parse(tk);
                     n2 = NumberFormat.getInstance().parse(tv);
                 } catch (ParseException e) {
-                    e.printStackTrace();
+                    logException(e);
                 }
                 boolean n1d = n1 instanceof Double;
                 boolean n1l = n1 instanceof Long;
@@ -1722,6 +1721,7 @@ public class xCon {
         PrintWriter pw = new PrintWriter(sw);
         e.printStackTrace(pw);
         String sStackTrace = sw.toString(); // stack trace as a string
+        System.out.println(sStackTrace);
         ex("echo " + sStackTrace.split("\\n")[0]);
     }
 
@@ -1884,7 +1884,7 @@ public class xCon {
             return resultString.substring(0, resultString.length() - 1);
         }
         catch (Exception ee) {
-            ee.printStackTrace();
+            logException(ee);
             // TODO: log stuff here
             if(sSettings.IS_SERVER)
                 ex("echo Exception caused by line: " + s);
@@ -1928,7 +1928,6 @@ public class xCon {
             }
         } catch (IOException e) {
             logException(e);
-            e.printStackTrace();
         }
     }
 

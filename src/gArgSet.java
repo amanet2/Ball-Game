@@ -35,7 +35,6 @@ public class gArgSet {
         }
         catch (Exception e) {
             xMain.shellLogic.console.logException(e);
-            e.printStackTrace();
         }
     }
 
@@ -70,7 +69,6 @@ public class gArgSet {
             }
         } catch (Exception e) {
             xMain.shellLogic.console.logException(e);
-            e.printStackTrace();
         }
     }
 

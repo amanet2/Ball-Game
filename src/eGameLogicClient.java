@@ -106,12 +106,11 @@ public class eGameLogicClient extends eGameLogicAdapter {
         }
         catch (SocketException se) {
             //just to catch the closing
-            se.printStackTrace();
+            xMain.shellLogic.console.logException(se);
             return;
         }
         catch (Exception e) {
             xMain.shellLogic.console.logException(e);
-            e.printStackTrace();
         }
         sSettings.tickReportClient = tickReport;
     }

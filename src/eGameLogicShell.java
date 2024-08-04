@@ -388,9 +388,9 @@ public class eGameLogicShell extends eGameLogicAdapter {
         }
         try {
             int themeCount = sSettings.clientGameThemes.length;
-            floorTextureSourceImages = new BufferedImage[themeCount];  // TODO: parameterize
-            wallTextureSourceImages = new BufferedImage[themeCount];   // ..
-            topTextureSourceImages = new BufferedImage[themeCount];    // ..
+            floorTextureSourceImages = new BufferedImage[themeCount];
+            wallTextureSourceImages = new BufferedImage[themeCount];
+            topTextureSourceImages = new BufferedImage[themeCount];
             floorTextures = new TexturePaint[floorTextureSourceImages.length];
             wallTextures = new TexturePaint[wallTextureSourceImages.length];
             topTextures = new TexturePaint[topTextureSourceImages.length];
@@ -410,7 +410,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
             }
         }
         catch (IOException err) {
-            err.printStackTrace();
+            console.logException(err);
         }
         showFrame();
         gAnimations.init();
@@ -502,30 +502,19 @@ public class eGameLogicShell extends eGameLogicAdapter {
     }
 
     private void checkAudio() {
-        if(clientScene.soundClips.size() > 0){
+        if(!clientScene.soundClips.isEmpty()){
             ArrayList<Clip> tr = new ArrayList<>();
             for (Clip c : clientScene.soundClips) {
                 if(!c.isRunning()) {
-//                    System.out.println("REMOVE ACTIVE SOUND CLIP: " + c);
                     tr.add(c);
-//                    c.stop();
-//                    c.flush();
-//                    c.close();
-//                    System.out.println("REMOVED ACTIVE SOUND CLIP: " + c);
-//                    c = null;
-//                    System.out.println("CLIP SET TO NULL");
                 }
             }
             for (Clip c : tr) {
-//                System.out.println("REMOVE ACTIVE SOUND CLIP: " + c);
                 c.stop();
                 c.flush();
                 c.close();
                 c.drain();
                 clientScene.soundClips.remove(c);
-//                System.out.println("REMOVED ACTIVE SOUND CLIP: " + c);
-                c = null;
-//                System.out.println("CLIP SET TO NULL");
             }
         }
     }
@@ -563,13 +552,13 @@ public class eGameLogicShell extends eGameLogicAdapter {
                     updateThingPositionFromVelocity(thingMap.get(id), gWeapons.fromCode(thing.src).bulletVel);
                 }
                 checkBulletSplashes();
-//                //popups
+                //popups
                 thingMap = clientScene.getThingMap("THING_POPUP");
                 for (String id : thingMap.keySet()) {
                     updateThingPositionFromVelocity(thingMap.get(id), sSettings.velocity_popup);
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                console.logException(e);
             }
         }
     }
@@ -643,7 +632,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 }
             }
         }
-        if(grenadeSeeds.size() > 0) {
+        if(!grenadeSeeds.isEmpty()) {
             for(gThing pseed : grenadeSeeds) {
                 gWeapons.createGrenadeExplosion(pseed, clientScene);
             }
@@ -664,8 +653,8 @@ public class eGameLogicShell extends eGameLogicAdapter {
 
     public int[] getMouseCoordinates() {
         return new int[]{
-                MouseInfo.getPointerInfo().getLocation().x - xMain.shellLogic.frame.getLocationOnScreen().x,
-                MouseInfo.getPointerInfo().getLocation().y - xMain.shellLogic.frame.getLocationOnScreen().y
+                MouseInfo.getPointerInfo().getLocation().x - frame.getLocationOnScreen().x,
+                MouseInfo.getPointerInfo().getLocation().y - frame.getLocationOnScreen().y
         };
     }
 

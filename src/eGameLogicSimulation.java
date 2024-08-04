@@ -125,7 +125,7 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
             checkBulletSplashes();
         }
         catch (Exception e) {
-            e.printStackTrace();
+            xMain.shellLogic.console.logException(e);
         }
 
     }

@@ -194,7 +194,6 @@ public class gScene {
             }
         } catch (IOException e) {
             xMain.shellLogic.console.logException(e);
-            e.printStackTrace();
         }
     }
 
@@ -269,7 +268,6 @@ public class gScene {
             }
         } catch (IOException e) {
             xMain.shellLogic.console.logException(e);
-            e.printStackTrace();
         }
     }
 }

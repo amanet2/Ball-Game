@@ -174,12 +174,12 @@ public class eGameLogicServer extends eGameLogicAdapter {
     }
 
     public void clientReceivedCmd(String id) {
-        if(clientNetCmdBatchMap.get(id).length() > 0) {
+        if(!clientNetCmdBatchMap.get(id).isEmpty()) {
             try {
                 clientNetCmdBatchMap.put(id, "");
             }
             catch(Exception cre) {
-                cre.printStackTrace();
+                xMain.shellLogic.console.logException(cre);
                 clientNetCmdBatchMap.put(id, "");
             }
         }
@@ -464,17 +464,15 @@ public class eGameLogicServer extends eGameLogicAdapter {
             }
             catch (Exception e) {
                 xMain.shellLogic.console.logException(e);
-                e.printStackTrace();
             }
         }
         catch (SocketException se) {
             //just to catch the closing
-            se.printStackTrace();
+            xMain.shellLogic.console.logException(se);
             return;
         }
         catch (Exception e) {
             xMain.shellLogic.console.logException(e);
-            e.printStackTrace();
         }
         sSettings.tickReportServer = tickReport;
     }
