@@ -16,7 +16,7 @@ public class gThing {
     public String id;
     gArgSet args;
     int acceldelay = 32;
-    int interpDelay = 32;
+    int interpDelay = 24;
     int accelrate = 2;
     int decelrate = 1;
     String waypoint = "null";

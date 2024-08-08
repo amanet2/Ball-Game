@@ -407,11 +407,8 @@ public class dScreenMessages {
         nStateMap clStateMap = new nStateMap(xMain.shellLogic.clientNetThread.clientStateSnapshot);
         dFonts.setFontColor(g, "clrf_scoreboardbg");
         g.fillRect(0,0,sSettings.width,sSettings.height);
-//        dFonts.setFontColor(g, "clrf_normal");
-//        dFonts.drawCenteredString(g, sSettings.clientGameModeTitle + " - " + sSettings.clientGameModeText, sSettings.width/2, 5*spriteRad);
         dFonts.setFontColor(g, "clrf_normal");
-        dFonts.drawCenteredString(g, String.format("%d ball - %s", clStateMap.keys().size(), sSettings.clientGameModeText), sSettings.width/2,5*spriteRad);
-//        dFonts.drawCenteredString(g, clStateMap.keys().size() + " players", sSettings.width/2, 5*spriteRad);
+        dFonts.drawCenteredString(g, String.format("%d ball %s - %s", clStateMap.keys().size(), sSettings.clientGameModeTitle, sSettings.clientGameModeText), sSettings.width/2,5*spriteRad);
         g.setColor(Color.BLACK);
         g.drawLine(3*sSettings.width/8+1, 11*sSettings.height/60+1, 5*sSettings.width/8+1, 11*sSettings.height/60+1);
         dFonts.setFontColor(g, "clrf_normal");
