@@ -170,9 +170,9 @@ public class dScreenMessages {
             showScoreBoard(g);
         //loading
         if(sSettings.IS_CLIENT && !sSettings.clientMapLoaded)
-            dFonts.drawCenteredString(g, sSettings.clientGameModeTitle + " - " + sSettings.clientGameModeText, sSettings.width / 2, sSettings.height / 2);
+            dFonts.drawCenteredString(g, new nStateMap(xMain.shellLogic.clientNetThread.clientStateSnapshot).keys().size() + " ball - " + sSettings.clientGameModeText, sSettings.width / 2, sSettings.height / 2);
         //echo messages
-        if(messagesOnScreen.size() > 0) {
+        if(!messagesOnScreen.isEmpty()) {
             for(int i = 0; i < messagesOnScreen.size(); i++) {
                 String s = messagesOnScreen.get(i);
                 dFonts.setFontColor(g, "clrf_normal");

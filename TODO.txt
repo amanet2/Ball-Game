@@ -17,6 +17,7 @@
     -> need a dialog/entry form in mapmaker editor
 * BUG, UI: maps dont fit on selection screen
 * GFX: make the flagdeposits and scorepoints do a color effect
+    -> use color flare and color the shadow
 * ITEM: boost pad that gives high player velocity in a certain direction
 * GFX: enable unlimited fps
 * VFX: using gradient inside the texture makes performance much better on macbook
