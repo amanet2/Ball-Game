@@ -1,10 +1,10 @@
-* IDE: says i should replace e.prinstacktrace with my console logging
+* VFX: parameterize interp
 * BUG: whats with the freezes?
+    -> THEORY: thread-safe data structures overused and holding things up
 * NET, UI: have client time out when connection is lost
     -> Multipurpose for A losing connection to game
     -> and B trying to join a server that cant be reached
     -> echo some message on screen for this
-* VFX: whats with the jittering when framerate isnt 360fps?
 * MENU: ability to set time from new game menu
 * UI: show tiny img of weapon that killed player
     -> the echo cmd for "X got Y" is in a script
@@ -39,7 +39,6 @@
         -> try closing the audio line
     -> with animations?
         -> with muted audio and no animations, mem hovers around 300mb give or take
-* NET: Client, Server interp
 * COMMANDS and VARS:
     -> server var to not allow movement for IDs or all
     -> server var to not allow attacks for IDs or all

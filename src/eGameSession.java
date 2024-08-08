@@ -41,7 +41,7 @@ public class eGameSession extends Thread implements Runnable {
                             sleep(Math.max(0, sleepForMillis), Math.max(0, sleepForNanos));
                         }
                         catch (InterruptedException ie) {
-                            xMain.shellLogic.console.logException(ie);
+                            ie.printStackTrace();
                         }
                     }
                 }

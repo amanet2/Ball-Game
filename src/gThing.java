@@ -16,11 +16,13 @@ public class gThing {
     public String id;
     gArgSet args;
     int acceldelay = 32;
+    int interpDelay = 32;
     int accelrate = 2;
     int decelrate = 1;
     String waypoint = "null";
     long cooldown = 0;
     long acceltick = 0;
+    long interpTick = 0;
     double fv = 0.0;
     int vel0 = 0;
     int vel1 = 0;
@@ -50,7 +52,7 @@ public class gThing {
             }
         });
         args.putArg(new gArg("coords", "0:0") {
-            public void onUpdate() {
+            public void onChange() {
                 String[] argCoords = value.split(":");
                 parent.coords = new int[]{Integer.parseInt(argCoords[0]), Integer.parseInt(argCoords[1])};
             }
