@@ -170,7 +170,16 @@ public class dScreenMessages {
             showScoreBoard(g);
         //loading
         if(sSettings.IS_CLIENT && !sSettings.clientMapLoaded)
-            dFonts.drawCenteredString(g, new nStateMap(xMain.shellLogic.clientNetThread.clientStateSnapshot).keys().size() + " ball - " + sSettings.clientGameModeText, sSettings.width / 2, sSettings.height / 2);
+            dFonts.drawCenteredString(
+                    g,
+                    String.format("%d ball %s - %s",
+                            new nStateMap(xMain.shellLogic.clientNetThread.clientStateSnapshot).keys().size(),
+                            sSettings.clientGameModeTitle,
+                            sSettings.clientGameModeText
+                    ),
+                    sSettings.width / 2,
+                    sSettings.height / 2
+            );
         //echo messages
         if(!messagesOnScreen.isEmpty()) {
             for(int i = 0; i < messagesOnScreen.size(); i++) {
