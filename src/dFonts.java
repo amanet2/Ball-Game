@@ -16,6 +16,8 @@ public class dFonts {
             SIZE * sSettings.height / sSettings.gamescale);
     static Font fontLarge = new Font(xMain.shellLogic.clientVars.get("fontui"), Font.PLAIN,
             (SIZE * sSettings.height / sSettings.gamescale)*2);
+    static Font fontSuper = new Font(xMain.shellLogic.clientVars.get("fontui"), Font.PLAIN,
+            (SIZE * sSettings.height / sSettings.gamescale)*4);
     static Font fontGNormal = new Font(xMain.shellLogic.clientVars.get("fontui"), Font.PLAIN, SIZE);
     static Font fontSmall = new Font(xMain.shellLogic.clientVars.get("fontui"), Font.PLAIN,
             SIZE *sSettings.height/sSettings.gamescale/2);
@@ -23,6 +25,11 @@ public class dFonts {
 
     public static int getStringWidth(Graphics g, String s) {
         return (int)g.getFont().getStringBounds(s, fontrendercontext).getWidth();
+    }
+
+    public static void setFont(Graphics g, Font font) {
+        setFontColor(g, "clrf_normal");
+        g.setFont(font);
     }
 
     public static void drawCenteredString(Graphics g, String s, int x, int y) {

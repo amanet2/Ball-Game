@@ -240,7 +240,11 @@ public class dScreenMessages {
         xMain.shellLogic.getUIMenuItemUnderMouse();
         dFonts.setFontColor(g, "clrf_scoreboardbg");
         g.fillRect(0,0,sSettings.width,sSettings.height);
-        g.drawImage(logoimg,0,0,null);
+//        g.drawImage(logoimg,0,0,null);
+        dFonts.setFont(g, dFonts.fontSuper);
+        dFonts.setFontColor(g, "clrp_"+sSettings.clientPlayerColor);
+        dFonts.drawCenteredString(g, "BALLMASTER", sSettings.width/2, sSettings.height/4);
+        dFonts.setFontNormal(g);
         StringBuilder crumbString = new StringBuilder(uiMenus.menuSelection[uiMenus.selectedMenu].title);
         int crumbParent = uiMenus.menuSelection[uiMenus.selectedMenu].parentMenu;
         while(crumbParent > -1) {
