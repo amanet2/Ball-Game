@@ -101,7 +101,7 @@ public class sSettings {
     static String uuid = Integer.toString(ThreadLocalRandom.current().nextInt(11111111, 99999999));
     static boolean hideMouseUI = false;
     static boolean showscore = false;
-	static boolean showdebug = false;
+	static boolean showinfo = false;
     static boolean showfps = false;
     static boolean showcam = false;
     static boolean showmouse = false;

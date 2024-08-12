@@ -320,9 +320,9 @@ public class eGameLogicShell extends eGameLogicAdapter {
             }
         });
         clientVars.putArg(new gArg("fontui", "None"));
-        clientVars.putArg(new gArg("showdebug", sSettings.showdebug ? "1" : "0"){
+        clientVars.putArg(new gArg("showinfo", sSettings.showinfo ? "1" : "0"){
             public void onChange() {
-                sSettings.showdebug = value.equals("1");
+                sSettings.showinfo = value.equals("1");
             }
         });
         clientVars.putArg(new gArg("showfps", "0"){

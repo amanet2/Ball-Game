@@ -17,7 +17,7 @@ cl_setvar joinip localhost
 REM default net port
 cl_setvar joinport 5555
 REM player color
-cl_setvar playercolor pink
+cl_setvar playercolor blue
 REM player name
 cl_setvar playername player
 REM low power mode
@@ -27,7 +27,7 @@ cl_setvar refresh 540
 REM available resolutions
 cl_setvar resolutions 640x480,800x600,1024x768,1280x720,1600x900,1920x1080,2560x1440,3840x2160
 REM show frames per second
-cl_setvar showdebug 1
+cl_setvar showinfo 0
 cl_setvar showfps 1
 cl_setvar showcam 1
 cl_setvar showmouse 1
@@ -94,7 +94,7 @@ cl_setvar GAMETYPE_8_title Hold Master
 cl_setvar GAMETYPE_8_text Players without a flag will explode
 REM colors
 cl_setvar clrf_normal 250 250 250 200
-cl_setvar clrf_normaltransparent 255 255 255 75
+cl_setvar clrf_normaltransparent 255 255 255 125
 cl_setvar clrf_normaldark 200 200 200 255
 cl_setvar clrf_background 0 0 0 255
 cl_setvar clrf_scoreboardbg 0 0 0 100

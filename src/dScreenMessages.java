@@ -12,7 +12,7 @@ public class dScreenMessages {
         expireTimes.add(sSettings.gameTime + sSettings.screenMessageFadeTime);
     }
 
-    private static void showDebugInfo(Graphics g) {
+    private static void showInfo(Graphics g) {
         //start displaying
         dFonts.setFontSmall(g);
         //scale
@@ -228,8 +228,8 @@ public class dScreenMessages {
             g.drawString(String.format("%s: %s", xMain.shellLogic.prompt, xMain.shellLogic.msgInProgress),
                     0,25 * sSettings.height/32);
         //show fps, etc.
-        if(sSettings.showdebug)
-            showDebugInfo(g);
+        if(sSettings.showinfo)
+            showInfo(g);
     }
 
     public static void refreshLogos() {
