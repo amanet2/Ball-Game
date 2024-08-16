@@ -261,7 +261,21 @@ public class dScreenMessages {
         int ctr = 0;
         int sel = 0;
         for(uiMenuItem i : uiMenus.menuSelection[uiMenus.selectedMenu].items){
-            if(uiMenus.selectedMenu == uiMenus.MENU_CONTROLS) {
+            if(uiMenus.selectedMenu == uiMenus.MENU_MAP) {
+                int column_length = 16;
+                if(ctr == uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem) {
+                    sel = 1;
+                    dFonts.setFontColor(g, "clrp_" + sSettings.clientPlayerColor);
+                    if(xMain.shellLogic.frame.getCursor() != Cursor.getPredefinedCursor(Cursor.HAND_CURSOR))
+                        xMain.shellLogic.frame.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                }
+                if(ctr < column_length)
+                    dFonts.drawCenteredString(g, i.text, sSettings.width/3,12*sSettings.height/30+ctr*sSettings.height/30);
+                else
+                    dFonts.drawCenteredString(g, i.text, 2*sSettings.width/3,12*sSettings.height/30+(ctr - column_length)*sSettings.height/30);
+                dFonts.setFontColor(g, "clrf_normal");
+            }
+            else if(uiMenus.selectedMenu == uiMenus.MENU_CONTROLS) {
                 String action = i.text.split(":")[0];
                 String input = i.text.split(":")[1];
                 dFonts.drawRightJustifiedString(g," "+action,
