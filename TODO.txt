@@ -2,8 +2,6 @@
     -> Multipurpose for A) losing connection to game
     -> and B) trying to join a server that cant be reached
     -> echo some message on failure
-* BUG, UI: maps dont fit on selection screen
-    -> need two columns and special ui handling
 * BUG: whats with the freezes?
     -> THEORY: thread-safe data structures overused and holding things up
 * UI: show tiny img of weapon that killed player
