@@ -12,6 +12,7 @@ public class eGameLogicClient extends eGameLogicAdapter {
     private final gArgSet receivedArgsServer;
     private boolean cmdReceived;
     public String clientStateSnapshot; //hold snapshot of clientStateMap
+    private int failure_count = 0;
 
     public eGameLogicClient() {
         super();

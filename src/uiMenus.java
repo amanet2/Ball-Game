@@ -21,6 +21,7 @@ public class uiMenus {
     static final int MENU_DISCONNECT = 15;
     static final int MENU_BOTS = 16;
     static final int MENU_POWER = 17;
+    static final int MENU_TIME = 18;
 
     static int selectedMenu = MENU_MAIN;
 
@@ -190,14 +191,19 @@ public class uiMenus {
                                 selectedMenu = MENU_MAIN;
                             }
                         },
+                        new uiMenuItem(String.format("Bots [%d]", sSettings.botCount)){
+                            public void doItem() {
+                                selectedMenu = MENU_BOTS;
+                            }
+                        },
                         new uiMenuItem("MAP [random]"){
                             public void doItem() {
                                 selectedMenu = MENU_MAP;
                             }
                         },
-                        new uiMenuItem(String.format("Bots [%d]", sSettings.botCount)){
+                        new uiMenuItem(String.format("Time [%s]", eUtils.getTimeString((long)sSettings.serverTimeLimit))){
                             public void doItem() {
-                                selectedMenu = MENU_BOTS;
+                                selectedMenu = MENU_TIME;
                             }
                         }
                 },
@@ -206,9 +212,10 @@ public class uiMenus {
             public void refresh() {
                 setMenuItemTexts(new String[]{
                         "-Start-",
+                        String.format("Bots [%d]", sSettings.botCount),
                         String.format("Map [%s]", eManager.mapSelectionIndex < 0 ? "random"
                                 : eManager.mapsFileSelection[eManager.mapSelectionIndex]),
-                        String.format("Bots [%d]", sSettings.botCount),
+                        String.format("Time [%s]", eUtils.getTimeString((long)sSettings.serverTimeLimit))
                 });
             }
         },
@@ -404,7 +411,44 @@ public class uiMenus {
                         String.format("Enable Low Power Mode [%s]", sSettings.powerSave ? "X" : "   ")
                 });
             }
-        }
+        },
+        new uiMenu("Time", new uiMenuItem[]{
+                new uiMenuItem(eUtils.getTimeString((long) 60000)){
+                    public void doItem() {
+                        sSettings.serverTimeLimit = 60000;
+                        menuSelection[MENU_NEWGAME].refresh();
+                        selectedMenu = MENU_NEWGAME;
+                    }
+                },
+                new uiMenuItem(eUtils.getTimeString((long) 120000)){
+                    public void doItem() {
+                        sSettings.serverTimeLimit = 120000;
+                        menuSelection[MENU_NEWGAME].refresh();
+                        selectedMenu = MENU_NEWGAME;
+                    }
+                },
+                new uiMenuItem(eUtils.getTimeString((long) 180000)){
+                    public void doItem() {
+                        sSettings.serverTimeLimit = 180000;
+                        menuSelection[MENU_NEWGAME].refresh();
+                        selectedMenu = MENU_NEWGAME;
+                    }
+                },
+                new uiMenuItem(eUtils.getTimeString((long) 240000)){
+                    public void doItem() {
+                        sSettings.serverTimeLimit = 240000;
+                        menuSelection[MENU_NEWGAME].refresh();
+                        selectedMenu = MENU_NEWGAME;
+                    }
+                },
+                new uiMenuItem(eUtils.getTimeString((long) 300000)){
+                    public void doItem() {
+                        sSettings.serverTimeLimit = 300000;
+                        menuSelection[MENU_NEWGAME].refresh();
+                        selectedMenu = MENU_NEWGAME;
+                    }
+                }
+        }, MENU_NEWGAME)
     };
 
     private static uiMenuItem[] getBotMenuItems() {
