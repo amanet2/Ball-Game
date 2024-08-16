@@ -687,7 +687,30 @@ public class eGameLogicShell extends eGameLogicAdapter {
             else
                 uiMenus.gobackSelected = false;
             //menus
-            if (uiMenus.selectedMenu != uiMenus.MENU_CONTROLS) {
+            if(uiMenus.selectedMenu == uiMenus.MENU_MAP) {
+                for (int i = 0; i < uiMenus.menuSelection[uiMenus.selectedMenu].items.length; i++) {
+                    xBounds = new int[]{sSettings.width / 3 - sSettings.width / 8,
+                            sSettings.width / 3 + sSettings.width / 8};
+                    yBounds = new int[]{11 * sSettings.height / 30 + i * sSettings.height / 30,
+                            11 * sSettings.height / 30 + (i + 1) * sSettings.height / 30};
+                    if(i > 16) {
+                        xBounds = new int[]{2 * sSettings.width / 3 - sSettings.width / 8,
+                                2 * sSettings.width / 3 + sSettings.width / 8};
+                        yBounds = new int[]{11 * sSettings.height / 30 + (i - 16) * sSettings.height / 30,
+                                11 * sSettings.height / 30 + (i - 15) * sSettings.height / 30};
+                    }
+                    if (!sSettings.borderless) {
+                        yBounds[0] += 40;
+                        yBounds[1] += 40;
+                    }
+                    if ((mc[0] >= xBounds[0] && mc[0] <= xBounds[1]) && (mc[1] >= yBounds[0] && mc[1] <= yBounds[1])) {
+                        if (uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem != i)
+                            uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem = i;
+                        return;
+                    }
+                }
+            }
+            else if (uiMenus.selectedMenu != uiMenus.MENU_CONTROLS) {
                 for (int i = 0; i < uiMenus.menuSelection[uiMenus.selectedMenu].items.length; i++) {
                     if(uiMenus.selectedMenu == uiMenus.MENU_MAIN && !sSettings.IS_CLIENT && i == 2)
                         continue;
