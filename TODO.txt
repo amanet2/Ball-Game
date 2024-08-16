@@ -29,8 +29,6 @@
 * CRITICAL: client.txt gets cleared out randomly?
 * QOL: make created prefabs available right away without having to restart game
     -> can add the new prefab's script into the prefab map at some point
-* MAP: come up with better way to create and place map geometry where we dont have to define rotations manually
-    -> use java polygons
 * VIDEO:
     -> uiMenus framerate selection needs to update with client vars
 * MEMORY LEAK
@@ -45,7 +43,6 @@
     -> server var to not allow attacks for IDs or all
     -> 'cl_setcam' console command to set cam position
     -> client var for player id to track with the camera
-* GAME: add race gamemode
 * Engine: xCon console should be split up into server and client
 * BUG: Escape comma ',' characters that appear in net values
     -> it screws up building hashmap from received data
@@ -54,21 +51,5 @@
 * BUG: when someones pc sleeps/closes, the client loses connection then rejoins on wake as "null"
 * NET: Have server not send any other clients' vars if the client is still loading
 * NET: The maximum safe UDP payload is ??? bytes
-* GAME: add cod zombies-style gametype
-    -> maybe moving items can act as zombies
 * GAME: bring back squish effect for movement/momentum changes and bounces
 * AUDIO: PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
-* GIT TIPS:
-    -> COMMIT SPOT CHECKS
-        -> GO TO COMMIT: git checkout <commit>
-        -> GO BACK: git checkout <branch_name>
-    -> git reset --hard <last_working_commit_id>
-        -> git push --force
-        -> git push --set-upstream origin <branch_name> --force
-        -> see for remotes: git reset --hard origin/<branch_name>
-    -> want to go back in time
-        -> git checkout <old working commit>
-        -> git checkout -b <new branch>
-        -> push this branch then retarget the older branch into this new stable branch, stable branch targets main now
-    -> TWO COMMITS TANGLED UP
-        -> on target: git config pull.rebase true && git pull && git config pull.rebase false
