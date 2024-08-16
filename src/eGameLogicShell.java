@@ -693,7 +693,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
                             sSettings.width / 3 + sSettings.width / 8};
                     yBounds = new int[]{11 * sSettings.height / 30 + i * sSettings.height / 30,
                             11 * sSettings.height / 30 + (i + 1) * sSettings.height / 30};
-                    if(i > 16) {
+                    if(i > 15) {
                         xBounds = new int[]{2 * sSettings.width / 3 - sSettings.width / 8,
                                 2 * sSettings.width / 3 + sSettings.width / 8};
                         yBounds = new int[]{11 * sSettings.height / 30 + (i - 16) * sSettings.height / 30,
