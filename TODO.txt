@@ -1,13 +1,10 @@
 * BUG: whats with the freezes?
     -> THEORY: thread-safe data structures overused and holding things up
 * UI: show tiny img of weapon that killed player
-    -> the echo cmd for "X got Y" is in a script
-    -> make a new token '&' that specifies a killfeed icon
-        -> e.g. 'echo host#blue &pistol guest#pink'
+    -> make a new token e.g. 'echo host#blue &pistol guest#pink'
 * AI: bots need to go around obstacles
     -> detect if they have not moved enough X,Y and begin the 'go-around' behavior
-* GFX: make the flagdeposits and scorepoints do a color effect
-    -> use color flare and color the shadow
+* GFX: make the flagdeposits and scorepoints do a color effect, maybe colored shadow too
 * ITEM: create onShot script capability for items and players when they get hit by bullet object
     -> shoot landmines to disable them
     -> NEW ITEM: box that you break open for prizes
@@ -15,8 +12,7 @@
 * BUG: flags disappearing and extra flags appearing during flagmaster
 * CRITICAL: client.txt gets cleared out randomly?
 * QOL: make created prefabs available right away without having to restart game
-* VIDEO: uiMenus framerate selection needs to update with client vars
-    -> update the menu texts on the var change
+* VIDEO: uiMenus framerate selection needs to update with client var
 * CHECK FOR MEMORY LEAKS
 * COMMANDS and VARS:
     -> server var to not allow movement for IDs or all
