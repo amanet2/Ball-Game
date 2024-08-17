@@ -108,7 +108,7 @@ public class eGameLogicClient extends eGameLogicAdapter {
             return;
         }
         catch (SocketTimeoutException ste) {
-            if(failure_count++ >= 5) {
+            if(failure_count++ >= 10) {
                 xMain.shellLogic.console.ex("disconnect");
                 xMain.shellLogic.console.ex("cl_echo disconnected due to connection issues");
                 failure_count = 0;
