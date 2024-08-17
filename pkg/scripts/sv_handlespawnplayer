@@ -1,4 +1,5 @@
-setthing THING_PLAYER $1 teledelay $gametimemillis
+setthing THING_PLAYER $1 teledelayblue $gametimemillis
+setthing THING_PLAYER $1 teledelayred $gametimemillis
 setthing THING_PLAYER $1 dropweapondelay $gametimemillis
 setthing THING_PLAYER $1 bouncedelay $gametimemillis
 testres $mode_virus $gamemode getres iv setnstate $1 virus

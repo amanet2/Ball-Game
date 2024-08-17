@@ -1,28 +1,10 @@
-* BUG: whats with the freezes?
-    -> THEORY: thread-safe data structures overused and holding things up
-* UI: show tiny img of weapon that killed player
-    -> make a new token e.g. 'echo host#blue &pistol guest#pink'
+* FREEZING: major hitches randomly during gameplay
+    -> THEORY: thread-safe data structures overused and holding things up?
 * AI: bots need to go around obstacles
     -> detect if they have not moved enough X,Y and begin the 'go-around' behavior
-* GFX: make the flagdeposits and scorepoints do a color effect, maybe colored shadow too
-* ITEM: create onShot script capability for items and players when they get hit by bullet object
-    -> shoot landmines to disable them
-    -> NEW ITEM: box that you break open for prizes
-* BUG: flags disappearing and extra flags appearing during flagmaster
 * CRITICAL: client.txt gets cleared out randomly?
-* QOL: make created prefabs available right away without having to restart game
-* VIDEO: uiMenus framerate selection needs to update with client var
 * CHECK FOR MEMORY LEAKS
-* COMMANDS and VARS:
-    -> server var to not allow movement for IDs or all
-    -> server var to not allow attacks for IDs or all
-    -> client console command to set cam position
-    -> client var for player id to track with the camera
-    -> client var for interp
-    -> server and client vars for map name
 * BUG: Escape comma ',' characters that appear in net values
 * GENERAL: if a client is also running the server, cl_setthing can be called by the server thread if server not ignored (bad)
-* BUG: teleporters delay affects different colors i.e. blue teles are affected by red tele delay and vice versa
 * BUG: when someones pc sleeps/closes, the client loses connection then rejoins on wake as "null"
-* NET: Have server not send any other clients' vars if the client is still loading
 * AUDIO: PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
