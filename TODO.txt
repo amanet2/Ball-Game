@@ -1,5 +1,3 @@
-* NET, UI: have client disconnect itself when data not received for X seconds
-    -> echo some message on failure
 * BUG: whats with the freezes?
     -> THEORY: thread-safe data structures overused and holding things up
 * UI: show tiny img of weapon that killed player

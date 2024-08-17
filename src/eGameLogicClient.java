@@ -113,9 +113,7 @@ public class eGameLogicClient extends eGameLogicAdapter {
                 xMain.shellLogic.console.ex("cl_echo disconnected due to connection issues");
                 failure_count = 0;
             }
-            //just to catch the closing
             xMain.shellLogic.console.logException(ste);
-            return;
         }
         catch (Exception e) {
             xMain.shellLogic.console.logException(e);
