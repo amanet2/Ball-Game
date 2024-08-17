@@ -1,6 +1,4 @@
-* NET, UI: have client disconnect itself when connection is lost for X seconds
-    -> Multipurpose for A) losing connection to game
-    -> and B) trying to join a server that cant be reached
+* NET, UI: have client disconnect itself when data not received for X seconds
     -> echo some message on failure
 * BUG: whats with the freezes?
     -> THEORY: thread-safe data structures overused and holding things up
@@ -8,26 +6,20 @@
     -> the echo cmd for "X got Y" is in a script
     -> make a new token '&' that specifies a killfeed icon
         -> e.g. 'echo host#blue &pistol guest#pink'
+* AI: bots need to go around obstacles
+    -> detect if they have not moved enough X,Y and begin the 'go-around' behavior
 * GFX: make the flagdeposits and scorepoints do a color effect
     -> use color flare and color the shadow
 * ITEM: create onShot script capability for items and players when they get hit by bullet object
     -> shoot landmines to disable them
-    -> NEW ITEM: box that you break open for prize
+    -> NEW ITEM: box that you break open for prizes
 * ITEM: boost pad that gives high player velocity in a certain direction
-* BUG: flag disappeared during flagmaster game
-* BUG: extra flags appearing during flagmaster game
+* BUG: flags disappearing and extra flags appearing during flagmaster
 * CRITICAL: client.txt gets cleared out randomly?
 * QOL: make created prefabs available right away without having to restart game
-    -> can add the new prefab's script into the prefab map at some point
-* VIDEO:
-    -> uiMenus framerate selection needs to update with client vars
-* MEMORY LEAK
-    -> with sound?
-        -> even with sound muted I see memory going up in task manager
-        -> noticed shitload of threads being created when i enabled sounds
-        -> try closing the audio line
-    -> with animations?
-        -> with muted audio and no animations, mem hovers around 300mb give or take
+* VIDEO: uiMenus framerate selection needs to update with client vars
+    -> update the menu texts on the var change
+* CHECK FOR MEMORY LEAKS
 * COMMANDS and VARS:
     -> server var to not allow movement for IDs or all
     -> server var to not allow attacks for IDs or all
@@ -36,14 +28,9 @@
     -> client var for interp
     -> server var for map name
         -> client var to sync to this as well
-* Engine: xCon console should be split up into server and client
 * BUG: Escape comma ',' characters that appear in net values
-    -> it screws up building hashmap from received data
 * GENERAL: if a client is also running the server, cl_setthing can be called by the server thread if server not ignored (bad)
 * BUG: teleporters delay affects different colors i.e. blue teles are affected by red tele delay and vice versa
 * BUG: when someones pc sleeps/closes, the client loses connection then rejoins on wake as "null"
 * NET: Have server not send any other clients' vars if the client is still loading
-* NET: The maximum safe UDP payload is ??? bytes
-* GAME: bring back squish effect for movement/momentum changes and bounces
-    -> OR be able to squish on command
 * AUDIO: PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
