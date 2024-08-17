@@ -1,8 +1,5 @@
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
+import java.net.*;
 import java.util.*;
 
 public class eGameLogicClient extends eGameLogicAdapter {
@@ -20,7 +17,7 @@ public class eGameLogicClient extends eGameLogicAdapter {
         cmdReceived = false;
         try {
             clientSocket = new DatagramSocket();
-            clientSocket.setSoTimeout(500);
+            clientSocket.setSoTimeout(1000);
         }
         catch (SocketException e) {
             xMain.shellLogic.console.logException(e);
@@ -108,6 +105,16 @@ public class eGameLogicClient extends eGameLogicAdapter {
         catch (SocketException se) {
             //just to catch the closing
             xMain.shellLogic.console.logException(se);
+            return;
+        }
+        catch (SocketTimeoutException ste) {
+            if(failure_count++ >= 5) {
+                xMain.shellLogic.console.ex("disconnect");
+                xMain.shellLogic.console.ex("cl_echo disconnected due to connection issues");
+                failure_count = 0;
+            }
+            //just to catch the closing
+            xMain.shellLogic.console.logException(ste);
             return;
         }
         catch (Exception e) {

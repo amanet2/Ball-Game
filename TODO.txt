@@ -23,11 +23,10 @@
 * COMMANDS and VARS:
     -> server var to not allow movement for IDs or all
     -> server var to not allow attacks for IDs or all
-    -> 'cl_setcam' console command to set cam position
+    -> client console command to set cam position
     -> client var for player id to track with the camera
     -> client var for interp
-    -> server var for map name
-        -> client var to sync to this as well
+    -> server and client vars for map name
 * BUG: Escape comma ',' characters that appear in net values
 * GENERAL: if a client is also running the server, cl_setthing can be called by the server thread if server not ignored (bad)
 * BUG: teleporters delay affects different colors i.e. blue teles are affected by red tele delay and vice versa
