@@ -8,7 +8,6 @@
 * ITEM: create onShot script capability for items and players when they get hit by bullet object
     -> shoot landmines to disable them
     -> NEW ITEM: box that you break open for prizes
-* ITEM: boost pad that gives high player velocity in a certain direction
 * BUG: flags disappearing and extra flags appearing during flagmaster
 * CRITICAL: client.txt gets cleared out randomly?
 * QOL: make created prefabs available right away without having to restart game

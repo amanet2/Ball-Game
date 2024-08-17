@@ -61,6 +61,10 @@ setvar THING_19 ITEM_GLOVE
 setvar THING_20 ITEM_CAPTUREPOINT
 setvar THING_21 ITEM_FLAGDEPOSIT
 setvar THING_22 ITEM_PLAYERSPAWN
+setvar THING_23 ITEM_BOOSTUP
+setvar THING_24 ITEM_BOOSTDOWN
+setvar THING_25 ITEM_BOOSTLEFT
+setvar THING_26 ITEM_BOOSTRIGHT
 setvar ITEM_FLAG_dimw 200
 setvar ITEM_FLAG_dimh 300
 setvar ITEM_FLAG_sprite misc/flag.png
@@ -118,6 +122,22 @@ setvar ITEM_FLAGDEPOSIT_flare 255:255:255:255
 setvar ITEM_PLAYERSPAWN_dimw 300
 setvar ITEM_PLAYERSPAWN_dimh 300
 setvar ITEM_PLAYERSPAWN_script exec scripts/playerspawn
+setvar ITEM_BOOSTUP_dimw 300
+setvar ITEM_BOOSTUP_dimh 300
+setvar ITEM_BOOSTUP_sprite misc/boost_up.png
+setvar ITEM_BOOSTUP_script exec scripts/boost_up
+setvar ITEM_BOOSTDOWN_dimw 300
+setvar ITEM_BOOSTDOWN_dimh 300
+setvar ITEM_BOOSTDOWN_sprite misc/boost_down.png
+setvar ITEM_BOOSTDOWN_script exec scripts/boost_down
+setvar ITEM_BOOSTLEFT_dimw 300
+setvar ITEM_BOOSTLEFT_dimh 300
+setvar ITEM_BOOSTLEFT_sprite misc/boost_left.png
+setvar ITEM_BOOSTLEFT_script exec scripts/boost_left
+setvar ITEM_BOOSTRIGHT_dimw 300
+setvar ITEM_BOOSTRIGHT_dimh 300
+setvar ITEM_BOOSTRIGHT_sprite misc/boost_right.png
+setvar ITEM_BOOSTRIGHT_script exec scripts/boost_right
 setvar weap_none 0
 setvar weap_pistol 1
 setvar weap_pistol_ammo 5

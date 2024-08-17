@@ -1,0 +1,2 @@
+setnstate $2 mov0 0
+setnstate $2 mov1 1
