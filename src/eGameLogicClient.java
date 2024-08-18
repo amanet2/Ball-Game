@@ -34,7 +34,7 @@ public class eGameLogicClient extends eGameLogicAdapter {
         receivedArgsServer.putArg(new gArg("cmd", "") {
             @Override
             public void onUpdate() {
-                if(value.length() > 0) {
+                if(!value.isEmpty()) {
                     xMain.shellLogic.console.debug("FROM_SERVER: " + value);
                     cmdReceived = true;
                     String[] batchCommands = value.split(";");
@@ -148,12 +148,12 @@ public class eGameLogicClient extends eGameLogicAdapter {
     private HashMap<String, String> getNetVars() {
         HashMap<String, String> keys = new HashMap<>();
         String outgoingCmd = dequeueNetCmd(); //dequeues w/ every call so call once a tick
-        keys.put("cmd", outgoingCmd != null ? outgoingCmd : "");
+        keys.put("cmd", outgoingCmd != null ? outgoingCmd.replace(",", "COMMA") : "");
         keys.put("cmdrcv", cmdReceived ? "1" : "0");
         //update id in net args
         keys.put("id", sSettings.uuid);
         keys.put("color", sSettings.clientPlayerColor);
-        keys.put("name", sSettings.clientPlayerName);
+        keys.put("name", sSettings.clientPlayerName.replace(",", "COMMA"));
         gPlayer userPlayer = xMain.shellLogic.getUserPlayer();
         //userplayer vars like coords and dirs and weapon
         if(userPlayer != null) {

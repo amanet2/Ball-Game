@@ -1,7 +1,11 @@
+* NET: Escape commas in state values
+    -> should be done while client/server is writing its "sendString" payloads
+        -> Check the state(String) and stateMap(String) constructors
+        -> will have to detect commas and replace with something without commas
+            -> how about String.replace(",", "COMMA");
 * FREEZING: major hitches randomly during gameplay
     -> THEORY: thread-safe data structures holding things up?
 * AI: bots need to go around obstacles
     -> detect if they have not moved enough X,Y in a certain time frame and begin the 'go-around' behavior
-* NET: Escape commas in state values
 * NET: when someone's pc sleeps/closes, that client loses connection then rejoins on wake as "null"
 * AUDIO: PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
