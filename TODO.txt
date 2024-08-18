@@ -2,9 +2,6 @@
     -> THEORY: thread-safe data structures overused and holding things up?
 * AI: bots need to go around obstacles
     -> detect if they have not moved enough X,Y and begin the 'go-around' behavior
-* CRITICAL: client.txt gets cleared out randomly?
-* CHECK FOR MEMORY LEAKS
-* BUG: Escape comma ',' characters that appear in net values
-* GENERAL: if a client is also running the server, cl_setthing can be called by the server thread if server not ignored (bad)
-* BUG: when someones pc sleeps/closes, the client loses connection then rejoins on wake as "null"
+* NET: Escape commas in state values
+* NET: when someones pc sleeps/closes, the client loses connection then rejoins on wake as "null"
 * AUDIO: PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
