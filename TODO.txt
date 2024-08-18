@@ -1,7 +1,7 @@
 * FREEZING: major hitches randomly during gameplay
-    -> THEORY: thread-safe data structures overused and holding things up?
+    -> THEORY: thread-safe data structures holding things up?
 * AI: bots need to go around obstacles
-    -> detect if they have not moved enough X,Y and begin the 'go-around' behavior
+    -> detect if they have not moved enough X,Y in a certain time frame and begin the 'go-around' behavior
 * NET: Escape commas in state values
-* NET: when someones pc sleeps/closes, the client loses connection then rejoins on wake as "null"
+* NET: when someone's pc sleeps/closes, that client loses connection then rejoins on wake as "null"
 * AUDIO: PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
