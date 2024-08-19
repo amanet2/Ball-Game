@@ -4,4 +4,3 @@
     -> detect if they have not moved enough X,Y in a certain time frame and begin the 'go-around' behavior
 * NET: when someone's pc sleeps/closes, that client loses connection then rejoins on wake as "null"
     -> test with the macbook air and closing the lid
-* AUDIO: PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
