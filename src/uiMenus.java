@@ -196,7 +196,7 @@ public class uiMenus {
                                 selectedMenu = MENU_BOTS;
                             }
                         },
-                        new uiMenuItem("MAP [random]"){
+                        new uiMenuItem("Map [random]"){
                             public void doItem() {
                                 selectedMenu = MENU_MAP;
                             }
@@ -484,23 +484,20 @@ public class uiMenus {
             new uiMenuItem("random") {
                 public void doItem() {
                     eManager.mapSelectionIndex = -1;
-                    menuSelection[MENU_NEWGAME].items[1].text = "MAP [random]";
+                    menuSelection[MENU_NEWGAME].refresh();
                     selectedMenu = MENU_NEWGAME;
                 }
             }
         };
         for(int i = 0; i < eManager.mapsFileSelection.length; i++){
             items = Arrays.copyOf(items,items.length+1);
-            items[items.length-1] = new uiMenuItem(eManager.mapsFileSelection[i]){
+            items[items.length - 1] = new uiMenuItem(eManager.mapsFileSelection[i]){
                 public void doItem() {
                     for(int i = 0; i < eManager.mapsFileSelection.length; i++) {
                         if(eManager.mapsFileSelection[i].equals(text))
                             eManager.mapSelectionIndex = i;
                     }
-                    if(eManager.mapSelectionIndex > -1) {
-                        menuSelection[MENU_NEWGAME].items[1].text =
-                                String.format("Map [%s]", eManager.mapsFileSelection[eManager.mapSelectionIndex]);
-                    }
+                    menuSelection[MENU_NEWGAME].refresh();
                     selectedMenu = MENU_NEWGAME;
                 }
             };
