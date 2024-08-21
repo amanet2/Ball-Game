@@ -126,10 +126,6 @@ public class uiMenus {
                             public void doItem() {
                                 selectedMenu = MENU_RESOLUTION;
                             }
-
-                            public void refreshText() {
-                                text = String.format("Resolution: [%dx%d]", sSettings.width, sSettings.height);
-                            }
                         },
                         new uiMenuItem(String.format("Framerate [%d]",sSettings.rateShell)) {
                             public void doItem() {
@@ -139,32 +135,31 @@ public class uiMenus {
                         new uiMenuItem(String.format("Borderless [%s]", sSettings.borderless ? "X" : "  ")) {
                             public void doItem() {
                                 xMain.shellLogic.console.ex("cl_setvar borderless " + (sSettings.borderless ? "0" : "1"));
-                                text = String.format("Borderless [%s]", sSettings.borderless ? "X" : "  ");
+                                menuSelection[MENU_VIDEO].refresh();
                             }
                         },
                         new uiMenuItem(String.format("Animations [%s]", sSettings.vfxenableanimations ? "X" : "  ")){
                             public void doItem() {
-                                xMain.shellLogic.console.ex("cl_setvar vfxenableanimations "
-                                        + (sSettings.vfxenableanimations ? "0" : "1"));
-                                text = String.format("Animations [%s]", sSettings.vfxenableanimations ? "X" : "  ");
+                                xMain.shellLogic.console.ex("cl_setvar vfxenableanimations " + (sSettings.vfxenableanimations ? "0" : "1"));
+                                menuSelection[MENU_VIDEO].refresh();
                             }
                         },
                         new uiMenuItem(String.format("Flares [%s]", sSettings.vfxenableflares ? "X" : "  ")){
                             public void doItem() {
                                 xMain.shellLogic.console.ex("cl_setvar vfxenableflares " + (sSettings.vfxenableflares ? "0" : "1"));
-                                text = String.format("Flares [%s]", sSettings.vfxenableflares ? "X" : "  ");
+                                menuSelection[MENU_VIDEO].refresh();
                             }
                         },
                         new uiMenuItem(String.format("Shading [%s]", sSettings.vfxenableshading ? "X" : "  ")){
                             public void doItem() {
                                 xMain.shellLogic.console.ex("cl_setvar vfxenableshading " + (sSettings.vfxenableshading ? "0" : "1"));
-                                text = String.format("Shading [%s]", sSettings.vfxenableshading ? "X" : "  ");
+                                menuSelection[MENU_VIDEO].refresh();
                             }
                         },
                         new uiMenuItem(String.format("Shadows [%s]", sSettings.vfxenableshadows ? "X" : "  ")){
                             public void doItem() {
                                 xMain.shellLogic.console.ex("cl_setvar vfxenableshadows " + (sSettings.vfxenableshadows ? "0" : "1"));
-                                text = String.format("Shadows [%s]", sSettings.vfxenableshadows ? "X" : "  ");
+                                menuSelection[MENU_VIDEO].refresh();
                             }
                         }
                 },
@@ -528,16 +523,12 @@ public class uiMenus {
             items[i] = new uiMenuItem(Integer.toString(sSettings.framerates[i])){
                 public void doItem() {
                     xMain.shellLogic.console.ex("cl_setvar refresh " + text);
-                    selectFramerateAfterSubmit();
+                    menuSelection[MENU_VIDEO].refresh();
+                    selectedMenu = MENU_VIDEO;
                 }
             };
         }
         return items;
-    }
-    
-    private static void selectFramerateAfterSubmit() {
-        menuSelection[MENU_VIDEO].refresh();
-        selectedMenu = MENU_VIDEO;
     }
 
     private static uiMenuItem[] getColorMenuItems() {
