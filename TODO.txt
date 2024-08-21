@@ -1,4 +1,6 @@
 * BUG: teleporter doesnt work sometimes
+* CPU: cpu usage nearly 30% on 13700k
+    -> can some threads like client sleep instead of busy-wait?
 * FREEZING: major hitches randomly during gameplay
     -> THEORY: thread-safe data structures holding things up?
 * AI: bots need to go around obstacles
