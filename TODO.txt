@@ -1,4 +1,3 @@
-* BUG: teleporter doesnt work sometimes
 * FREEZING: major hitches randomly during gameplay
     -> THEORY: thread-safe data structures holding things up?
 * AI: bots need to go around obstacles
