@@ -9,7 +9,8 @@ public class gPlayer extends gThing {
     long botThinkTime = 0;
     long botShootTime = 0;
     boolean botGoAround = false;
-    int botGoAroundDelay = 1500;
+    int botGoAroundCheckDelay = 1500;
+    int botGoAroundDuration = 3000;
     long botGoAroundTick = 0;
     int[] botGoAroundLastCoords = coords.clone();
     int botGoAroundRadius = 600;
@@ -46,7 +47,7 @@ public class gPlayer extends gThing {
         }
         if(closest != null) {
             if(!botGoAround) {
-                if(Math.random() < 0.5) {
+                if(!closest.type.toLowerCase().contains("player") || Math.random() < 0.5) {
                     if (closest.coords[1] > coords[1]) {
                         mov0 = 0;
                         mov1 = 1;
@@ -58,7 +59,7 @@ public class gPlayer extends gThing {
                         mov1 = 0;
                     }
                 }
-                if(Math.random() < 0.5) {
+                if(!closest.type.toLowerCase().contains("player") || Math.random() < 0.5) {
                     if (closest.coords[0] > coords[0]) {
                         mov2 = 0;
                         mov3 = 1;
@@ -68,6 +69,55 @@ public class gPlayer extends gThing {
                     } else {
                         mov2 = 0;
                         mov3 = 0;
+                    }
+                }
+            }
+            else {
+                //bot go around
+                if(Math.random() < 0.5) {
+                    // clockwise 90
+                    if (closest.coords[1] > coords[1]) {
+                        mov2 = 1;
+                        mov3 = 0;
+                    } else if (closest.coords[1] < coords[1]) {
+                        mov2 = 0;
+                        mov3 = 1;
+                    } else {
+                        mov2 = 0;
+                        mov3 = 0;
+                    }
+                    if (closest.coords[0] > coords[0]) {
+                        mov0 = 0;
+                        mov1 = 1;
+                    } else if (closest.coords[0] < coords[0]) {
+                        mov0 = 1;
+                        mov1 = 0;
+                    } else {
+                        mov0 = 0;
+                        mov1 = 0;
+                    }
+                }
+                else {
+                    // c-clockwise 90
+                    if (closest.coords[1] > coords[1]) {
+                        mov2 = 0;
+                        mov3 = 1;
+                    } else if (closest.coords[1] < coords[1]) {
+                        mov2 = 1;
+                        mov3 = 0;
+                    } else {
+                        mov2 = 0;
+                        mov3 = 0;
+                    }
+                    if (closest.coords[0] > coords[0]) {
+                        mov0 = 1;
+                        mov1 = 0;
+                    } else if (closest.coords[0] < coords[0]) {
+                        mov0 = 0;
+                        mov1 = 1;
+                    } else {
+                        mov0 = 0;
+                        mov1 = 0;
                     }
                 }
             }
@@ -94,56 +144,11 @@ public class gPlayer extends gThing {
             double travelDist = Math.sqrt(Math.pow(coords[0] - botGoAroundLastCoords[0],2) + Math.pow(coords[1] - botGoAroundLastCoords[1],2));
             if(sSettings.gameTime > botGoAroundTick) {
                 botGoAround = false;
-                botGoAroundTick = sSettings.gameTime + botGoAroundDelay;
+                botGoAroundTick = sSettings.gameTime + botGoAroundCheckDelay;
                 botGoAroundLastCoords = coords.clone();
-                System.out.println("BOT_" + id + " traveled " + travelDist);
                 if(travelDist < botGoAroundRadius) {
                     botGoAround = true;
-                    System.out.println("BOT_" + id + " GO AROUND");
-                    if(Math.random() < 0.5) {
-                        if (closest.coords[1] > coords[1]) {
-                            mov0 = 0;
-                            mov1 = 1;
-                        } else if (closest.coords[1] < coords[1]) {
-                            mov0 = 1;
-                            mov1 = 0;
-                        } else {
-                            mov0 = 0;
-                            mov1 = 0;
-                        }
-                        if (closest.coords[0] > coords[0]) {
-                            mov2 = 1; //go around val
-                            mov3 = 0; //go around val
-                        } else if (closest.coords[0] < coords[0]) {
-                            mov2 = 0; //go around val
-                            mov3 = 1; //go around val
-                        } else {
-                            mov2 = 0;
-                            mov3 = 0;
-                        }
-                    }
-                    else {
-                        if (closest.coords[1] > coords[1]) {
-                            mov0 = 1; //go around val
-                            mov1 = 0; //go around val
-                        } else if (closest.coords[1] < coords[1]) {
-                            mov0 = 0; //go around val
-                            mov1 = 1; //go around val
-                        } else {
-                            mov0 = 0;
-                            mov1 = 0;
-                        }
-                        if (closest.coords[0] > coords[0]) {
-                            mov2 = 0;
-                            mov3 = 1;
-                        } else if (closest.coords[0] < coords[0]) {
-                            mov2 = 1;
-                            mov3 = 0;
-                        } else {
-                            mov2 = 0;
-                            mov3 = 0;
-                        }
-                    }
+                    botGoAroundTick = sSettings.gameTime + botGoAroundDuration;
                 }
             }
         }
