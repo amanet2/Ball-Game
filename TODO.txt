@@ -1,5 +1,3 @@
 * FREEZING: major hitches randomly during gameplay
     -> THEORY: thread-safe data structures holding things up?
-* AI: bots need to go around obstacles
-    -> detect if they have not moved enough X,Y in a certain time frame and begin the 'go-around' behavior
-        -> go-around behavior: turn 90 degrees left or right (randomly selected) and keep that movement for 2000ms
+    -> OBSERVATION: during a freeze it seems the camera moved up and had to travel back to player pos
