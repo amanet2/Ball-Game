@@ -41,7 +41,7 @@ public class sSettings {
 	static int rcvbytesclient = 8192;
 	static int rcvbytesserver = 8192;
 	static int ratesimulation = 60; //server internal game rate for simulation
-	static int rateserver = 100000; //server rate to poll for packet (<= 0 means unlimited)
+	static int rateserver = 100000; //server rate to poll for packet
 	static int rateclient = 30; //client net rate to request update from server
 	static int rateShell = 1000; //desktop window rate like input, visual update
 	static int serverNetCmdBatchSize = 5;
@@ -101,7 +101,7 @@ public class sSettings {
     static String uuid = Integer.toString(ThreadLocalRandom.current().nextInt(11111111, 99999999));
     static boolean hideMouseUI = false;
     static boolean showscore = false;
-	static boolean showdebug = false;
+	static boolean showinfo = false;
     static boolean showfps = false;
     static boolean showcam = false;
     static boolean showmouse = false;

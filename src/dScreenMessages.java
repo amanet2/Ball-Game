@@ -12,7 +12,7 @@ public class dScreenMessages {
         expireTimes.add(sSettings.gameTime + sSettings.screenMessageFadeTime);
     }
 
-    private static void showDebugInfo(Graphics g) {
+    private static void showInfo(Graphics g) {
         //start displaying
         dFonts.setFontSmall(g);
         //scale
@@ -66,11 +66,12 @@ public class dScreenMessages {
         //timer
         dFonts.setFontLarge(g);
         if(sSettings.inplay && sSettings.clientMapLoaded) {
+            String timeString = eUtils.getTimeString(sSettings.clientTimeLeft);
             g.setColor(Color.BLACK);
-            g.drawString(eUtils.getTimeString(sSettings.clientTimeLeft), sSettings.width / 128 + 1, sSettings.height / 12 + 1);
+            dFonts.drawCenteredString(g, timeString, sSettings.width / 2 + 1, sSettings.height / 12 + 1);
             dFonts.setFontLarge(g);
             g.setColor(gColors.getColorFromName("clrp_" + sSettings.clientPlayerColor));
-            g.drawString(eUtils.getTimeString(sSettings.clientTimeLeft), sSettings.width / 128, sSettings.height / 12);
+            dFonts.drawCenteredString(g, timeString, sSettings.width / 2, sSettings.height / 12);
         }
         //menus
         dFonts.setFontNormal(g);
@@ -169,9 +170,18 @@ public class dScreenMessages {
             showScoreBoard(g);
         //loading
         if(sSettings.IS_CLIENT && !sSettings.clientMapLoaded)
-            dFonts.drawCenteredString(g, sSettings.clientGameModeTitle + " - " + sSettings.clientGameModeText, sSettings.width / 2, sSettings.height / 2);
+            dFonts.drawCenteredString(
+                    g,
+                    String.format("%d ball %s - %s",
+                            new nStateMap(xMain.shellLogic.clientNetThread.clientStateSnapshot).keys().size(),
+                            sSettings.clientGameModeTitle,
+                            sSettings.clientGameModeText
+                    ),
+                    sSettings.width / 2,
+                    sSettings.height / 2
+            );
         //echo messages
-        if(messagesOnScreen.size() > 0) {
+        if(!messagesOnScreen.isEmpty()) {
             for(int i = 0; i < messagesOnScreen.size(); i++) {
                 String s = messagesOnScreen.get(i);
                 dFonts.setFontColor(g, "clrf_normal");
@@ -218,8 +228,8 @@ public class dScreenMessages {
             g.drawString(String.format("%s: %s", xMain.shellLogic.prompt, xMain.shellLogic.msgInProgress),
                     0,25 * sSettings.height/32);
         //show fps, etc.
-        if(sSettings.showdebug)
-            showDebugInfo(g);
+        if(sSettings.showinfo)
+            showInfo(g);
     }
 
     public static void refreshLogos() {
@@ -230,7 +240,11 @@ public class dScreenMessages {
         xMain.shellLogic.getUIMenuItemUnderMouse();
         dFonts.setFontColor(g, "clrf_scoreboardbg");
         g.fillRect(0,0,sSettings.width,sSettings.height);
-        g.drawImage(logoimg,0,0,null);
+//        g.drawImage(logoimg,0,0,null);
+        dFonts.setFont(g, dFonts.fontSuper);
+        dFonts.setFontColor(g, "clrp_"+sSettings.clientPlayerColor);
+        dFonts.drawCenteredString(g, "BALLMASTER", sSettings.width/2, sSettings.height/4);
+        dFonts.setFontNormal(g);
         StringBuilder crumbString = new StringBuilder(uiMenus.menuSelection[uiMenus.selectedMenu].title);
         int crumbParent = uiMenus.menuSelection[uiMenus.selectedMenu].parentMenu;
         while(crumbParent > -1) {
@@ -247,7 +261,21 @@ public class dScreenMessages {
         int ctr = 0;
         int sel = 0;
         for(uiMenuItem i : uiMenus.menuSelection[uiMenus.selectedMenu].items){
-            if(uiMenus.selectedMenu == uiMenus.MENU_CONTROLS) {
+            if(uiMenus.selectedMenu == uiMenus.MENU_MAP) {
+                int column_length = 16;
+                if(ctr == uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem) {
+                    sel = 1;
+                    dFonts.setFontColor(g, "clrp_" + sSettings.clientPlayerColor);
+                    if(xMain.shellLogic.frame.getCursor() != Cursor.getPredefinedCursor(Cursor.HAND_CURSOR))
+                        xMain.shellLogic.frame.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                }
+                if(ctr < column_length)
+                    dFonts.drawCenteredString(g, i.text, sSettings.width/3,12*sSettings.height/30+ctr*sSettings.height/30);
+                else
+                    dFonts.drawCenteredString(g, i.text, 2*sSettings.width/3,12*sSettings.height/30+(ctr - column_length)*sSettings.height/30);
+                dFonts.setFontColor(g, "clrf_normal");
+            }
+            else if(uiMenus.selectedMenu == uiMenus.MENU_CONTROLS) {
                 String action = i.text.split(":")[0];
                 String input = i.text.split(":")[1];
                 dFonts.drawRightJustifiedString(g," "+action,
@@ -398,9 +426,7 @@ public class dScreenMessages {
         dFonts.setFontColor(g, "clrf_scoreboardbg");
         g.fillRect(0,0,sSettings.width,sSettings.height);
         dFonts.setFontColor(g, "clrf_normal");
-        dFonts.drawCenteredString(g, sSettings.clientGameModeTitle + " - " + sSettings.clientGameModeText, sSettings.width/2, 2*spriteRad);
-        dFonts.setFontColor(g, "clrf_normal");
-        dFonts.drawCenteredString(g, clStateMap.keys().size() + " players", sSettings.width/2,5*spriteRad);
+        dFonts.drawCenteredString(g, String.format("%d ball %s - %s", clStateMap.keys().size(), sSettings.clientGameModeTitle, sSettings.clientGameModeText), sSettings.width/2,5*spriteRad);
         g.setColor(Color.BLACK);
         g.drawLine(3*sSettings.width/8+1, 11*sSettings.height/60+1, 5*sSettings.width/8+1, 11*sSettings.height/60+1);
         dFonts.setFontColor(g, "clrf_normal");

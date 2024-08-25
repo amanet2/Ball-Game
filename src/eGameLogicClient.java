@@ -1,17 +1,15 @@
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
+import java.net.*;
 import java.util.*;
 
 public class eGameLogicClient extends eGameLogicAdapter {
-    private Queue<String> netSendCmds;
+    private final Queue<String> netSendCmds;
     private DatagramSocket clientSocket;
-    private nStateMap clientStateMap; //hold net player vars
-    private gArgSet receivedArgsServer;
+    private final nStateMap clientStateMap; //hold net player vars
+    private final gArgSet receivedArgsServer;
     private boolean cmdReceived;
     public String clientStateSnapshot; //hold snapshot of clientStateMap
+    private int failure_count = 0;
 
     public eGameLogicClient() {
         super();
@@ -19,23 +17,24 @@ public class eGameLogicClient extends eGameLogicAdapter {
         cmdReceived = false;
         try {
             clientSocket = new DatagramSocket();
-            clientSocket.setSoTimeout(500);
+            clientSocket.setSoTimeout(1000);
         }
         catch (SocketException e) {
             xMain.shellLogic.console.logException(e);
-            e.printStackTrace();
         }
         clientStateMap = new nStateMap();
         clientStateSnapshot = "{}";
         receivedArgsServer = new gArgSet();
         receivedArgsServer.putArg(new gArg("time", Long.toString(sSettings.gameTime)) {
+            @Override
             public void onChange() {
                 sSettings.clientTimeLeft = Long.parseLong(value);
             }
         });
         receivedArgsServer.putArg(new gArg("cmd", "") {
+            @Override
             public void onUpdate() {
-                if(value.length() > 0) {
+                if(!value.isEmpty()) {
                     xMain.shellLogic.console.debug("FROM_SERVER: " + value);
                     cmdReceived = true;
                     String[] batchCommands = value.split(";");
@@ -84,7 +83,7 @@ public class eGameLogicClient extends eGameLogicAdapter {
             if(!foundIds.contains(k))
                 toRemove.add(k);
         }
-        while(toRemove.size() > 0) {
+        while(!toRemove.isEmpty()) {
             clientStateMap.remove(toRemove.remove());
         }
         clientStateSnapshot = clientStateMap.toString().replace(", ", ",");
@@ -97,7 +96,7 @@ public class eGameLogicClient extends eGameLogicAdapter {
             sendData();
             byte[] clientReceiveData = new byte[sSettings.rcvbytesclient];
             DatagramPacket receivePacket = new DatagramPacket(clientReceiveData, clientReceiveData.length);
-            clientSocket.receive(receivePacket);
+            clientSocket.receive(receivePacket);  // this fails when joining unreachable server
             readData(new String(receivePacket.getData()).trim());
             sSettings.clientNetRcvTime = System.currentTimeMillis();
             if(sSettings.clientNetRcvTime > sSettings.clientNetSendTime)
@@ -105,14 +104,21 @@ public class eGameLogicClient extends eGameLogicAdapter {
         }
         catch (SocketException se) {
             //just to catch the closing
-            se.printStackTrace();
+            xMain.shellLogic.console.logException(se);
             return;
+        }
+        catch (SocketTimeoutException ste) {
+            if(failure_count++ >= 10) {
+                xMain.shellLogic.console.ex("disconnect");
+                xMain.shellLogic.console.ex("cl_echo disconnected due to connection issues");
+                failure_count = 0;
+            }
+            xMain.shellLogic.console.logException(ste);
         }
         catch (Exception e) {
             xMain.shellLogic.console.logException(e);
-            e.printStackTrace();
         }
-        sSettings.tickReportClient = getTickReport();
+        sSettings.tickReportClient = tickReport;
     }
 
     public void addNetCmd(String cmd) {
@@ -135,19 +141,19 @@ public class eGameLogicClient extends eGameLogicAdapter {
             sSettings.clientNetSendTime = System.currentTimeMillis();
             xMain.shellLogic.console.debug("CLIENT SND [" + clientSendData.length + "]:" + sendDataString);
         } catch (IOException e) {
-            e.printStackTrace();
+            xMain.shellLogic.console.logException(e);
         }
     }
 
     private HashMap<String, String> getNetVars() {
         HashMap<String, String> keys = new HashMap<>();
         String outgoingCmd = dequeueNetCmd(); //dequeues w/ every call so call once a tick
-        keys.put("cmd", outgoingCmd != null ? outgoingCmd : "");
+        keys.put("cmd", outgoingCmd != null ? outgoingCmd.replace(",", "COMMA") : "");
         keys.put("cmdrcv", cmdReceived ? "1" : "0");
         //update id in net args
         keys.put("id", sSettings.uuid);
         keys.put("color", sSettings.clientPlayerColor);
-        keys.put("name", sSettings.clientPlayerName);
+        keys.put("name", sSettings.clientPlayerName.replace(",", "COMMA"));
         gPlayer userPlayer = xMain.shellLogic.getUserPlayer();
         //userplayer vars like coords and dirs and weapon
         if(userPlayer != null) {
@@ -175,7 +181,7 @@ public class eGameLogicClient extends eGameLogicAdapter {
     }
 
     private String dequeueNetCmd() {
-        if(netSendCmds.size() > 0) {
+        if(!netSendCmds.isEmpty()) {
             String cmdString = netSendCmds.peek();
             // user's client-side firing
             if(cmdString.startsWith("fireweapon"))

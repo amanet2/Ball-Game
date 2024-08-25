@@ -2,7 +2,6 @@ testresn $gamemode $mode_virus exec scripts/handleplayerweapondrop $1
 getres hadflag setnstate $1 flag
 testres $hadflag 1 exec scripts/dropitem ITEM_FLAG $1
 setnstate $1 flag 0
-# usage: handlekill $victimid $shooterid
 testresn $2 null getres kcolor setnstate $2 color
 testresn $2 null getres kname setnstate $2 name
 testresn $2 null getres kstr constr $kname # $kcolor
@@ -17,5 +16,5 @@ testresn $1 null testres $gamemode $mode_vipmaster testres $k1flag 1 givepoint $
 testres $gamemode $mode_virus getres wasvirus setnstate $1 virus
 testres $gamemode $mode_virus setnstate $1 virus 1
 testres $gamemode $mode_virus testres $wasvirus 0 echo $vvstr was infected
-testresn $gamemode $mode_virus testres $2 null echo World got $vvstr
-testresn $gamemode $mode_virus testresn $2 null echo $kstr got $vvstr
+testresn $gamemode $mode_virus testres $2 null echo X $vvstr
+testresn $gamemode $mode_virus testresn $2 null echo $kstr > $vvstr

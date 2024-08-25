@@ -12,7 +12,7 @@ public class eUtils {
 		return (int) ((((double) inputInt * sSettings.gamescale) / (double) sSettings.height));
 	}
 
-	public static int roundToNearest(int val, int snap) {
+	public static int roundTo(int val, int snap) {
 		return (Math.round(val/snap))*snap;
 	}
 

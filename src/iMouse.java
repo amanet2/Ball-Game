@@ -2,7 +2,7 @@ import javax.swing.SwingUtilities;
 import java.awt.event.*;
 
 public class iMouse implements MouseListener, MouseMotionListener, MouseWheelListener {
-    static boolean holdingMouseLeft;
+    boolean holdingMouseLeft;
 
     public void mousePressed(MouseEvent e) {
         if (SwingUtilities.isLeftMouseButton(e))

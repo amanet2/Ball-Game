@@ -1,11 +1,4 @@
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.FloatControl;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.text.NumberFormat;
@@ -14,6 +7,11 @@ import java.util.*;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadLocalRandom;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 public class xCon {
     static int maxlinelength = 128;
@@ -46,7 +44,6 @@ public class xCon {
             }
             catch (Exception e) {
                 logException(e);
-                e.printStackTrace();
             }
             ex("-loadingscreen");
             return "loaded map " + scriptId;
@@ -329,7 +326,7 @@ public class xCon {
                     nState playerState = new nStateMap(xMain.shellLogic.serverNetThread.masterStateSnapshot).get(id);
                     if(player == null || playerState == null)
                         return "no player found: " ;
-                    xMain.shellLogic.console.ex(String.format("spawnpopup %s %d", id, dmg));
+                    ex(String.format("spawnpopup %s %d", id, dmg));
                     int newhp = Integer.parseInt(playerState.get("hp")) - dmg;
                     xMain.shellLogic.serverNetThread.setClientState(id, "hp", Integer.toString(newhp));
                     double rand = Math.random()*3;
@@ -543,7 +540,7 @@ public class xCon {
                             try {
                                 Thread.sleep(500);
                             } catch (InterruptedException e) {
-                                e.printStackTrace();
+                                logException(e);
                             }
                         }
                         sSettings.serverLoadingFromHDD = true;
@@ -618,7 +615,6 @@ public class xCon {
                     }
                 }
                 gScript moddedScript = new gScript("tmp_script", moddedScriptContentBuilder.substring(1));
-//                System.out.println("CL_EXECPREVIEW: " + moddedScript.lines);
                 String[] callArgs = new String[args.length - 2];
                 for(int i = 0; i < callArgs.length; i++) {
                     callArgs[i] = args[i+2];
@@ -927,17 +923,17 @@ public class xCon {
             public String doCommand(String fullCommand) {
                 if(xMain.shellLogic.frame.hasFocus()) {
                     if (sSettings.inplay)
-                        iMouse.holdingMouseLeft = true;
+                        iInput.mouseInput.holdingMouseLeft = true;
                     else {
                         if(sSettings.show_mapmaker_ui && sSettings.clientMapLoaded) {
                             int[] mc = xMain.shellLogic.getMouseCoordinates();
-                            if(sSettings.clientNewPrefabName.length() > 0) {
+                            if(!sSettings.clientNewPrefabName.isEmpty()) {
                                 int[] pfd = uiEditorMenus.getNewPrefabDims();
                                 int w = pfd[0];
                                 int h = pfd[1];
-                                int pfx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0]) + (int) gCamera.coords[0] - w / 2,
+                                int pfx = eUtils.roundTo(eUtils.unscaleInt(mc[0]) + (int) gCamera.coords[0] - w / 2,
                                         uiEditorMenus.snapToX);
-                                int pfy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + (int) gCamera.coords[1] - h / 2,
+                                int pfy = eUtils.roundTo(eUtils.unscaleInt(mc[1]) + (int) gCamera.coords[1] - h / 2,
                                         uiEditorMenus.snapToY);
                                 int bid = 0;
                                 int pid = 0;
@@ -954,17 +950,16 @@ public class xCon {
                                 xMain.shellLogic.clientNetThread.addNetCmd(cmd);
                                 return "put prefab " + sSettings.clientNewPrefabName;
                             }
-                            if(uiEditorMenus.newitemname.length() > 0) {
-                                int iw = 300;
-                                int ih = 300;
-                                int ix = eUtils.roundToNearest(eUtils.unscaleInt(mc[0]) + (int) gCamera.coords[0] - iw/2,
-                                        uiEditorMenus.snapToX);
-                                int iy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + (int) gCamera.coords[1] - ih/2,
-                                        uiEditorMenus.snapToY);
-                                String cmd = String.format("putitem %s %d %d %d",
-                                        uiEditorMenus.newitemname, xMain.shellLogic.getNewItemIdClient(), ix, iy);
+                            if(!uiEditorMenus.newitemname.isEmpty()) {
+                                String cmd = String.format(
+                                        "putitem %s %d %d %d",
+                                        uiEditorMenus.newitemname,
+                                        xMain.shellLogic.getNewItemIdClient(),
+                                        eUtils.roundTo(eUtils.unscaleInt(mc[0]) + (int) gCamera.coords[0] - 150, uiEditorMenus.snapToX),
+                                        eUtils.roundTo(eUtils.unscaleInt(mc[1]) + (int) gCamera.coords[1] - 150, uiEditorMenus.snapToY)
+                                );
                                 xMain.shellLogic.clientNetThread.addNetCmd(cmd);
-                                return "put item " + uiEditorMenus.newitemname;
+                                return "1";
                             }
                         }
                         else if(uiMenus.gobackSelected) {
@@ -979,7 +974,7 @@ public class xCon {
             }
 
             public String undoCommand(String fullCommand) {
-                iMouse.holdingMouseLeft = false;
+                iInput.mouseInput.holdingMouseLeft = false;
                 return fullCommand;
             }
         });
@@ -1098,7 +1093,7 @@ public class xCon {
                     }
                     xMain.shellLogic.clientScene.soundClips.add(clip);
                 } catch (Exception e){
-                    e.printStackTrace();
+                    logException(e);
                 }
                 return fullCommand;
             }
@@ -1246,7 +1241,7 @@ public class xCon {
         });
         commands.put("REM", new gDoable() {
             public String doCommand(String fullCommand) {
-                return "comment";
+                return "1";
             }
         });
         commands.put("respawnnetplayer", new gDoable() {
@@ -1467,7 +1462,7 @@ public class xCon {
                             xMain.shellLogic.clientScene.brightnessLevel = newBrightness;
                     }
                     catch(Exception e) {
-                        e.printStackTrace();
+                        logException(e);
                     }
                 }
                 return Integer.toString(xMain.shellLogic.clientScene.brightnessLevel);
@@ -1593,7 +1588,7 @@ public class xCon {
                     n1 = NumberFormat.getInstance().parse(args[1]);
                     n2 = NumberFormat.getInstance().parse(args[2]);
                 } catch (ParseException e) {
-                    e.printStackTrace();
+                    logException(e);
                     return "null";
                 }
                 boolean n1d = n1 instanceof Double;
@@ -1637,7 +1632,7 @@ public class xCon {
                     n1 = NumberFormat.getInstance().parse(tk);
                     n2 = NumberFormat.getInstance().parse(tv);
                 } catch (ParseException e) {
-                    e.printStackTrace();
+                    logException(e);
                 }
                 boolean n1d = n1 instanceof Double;
                 boolean n1l = n1 instanceof Long;
@@ -1726,12 +1721,31 @@ public class xCon {
         PrintWriter pw = new PrintWriter(sw);
         e.printStackTrace(pw);
         String sStackTrace = sw.toString(); // stack trace as a string
+        System.out.println(sStackTrace);
         ex("echo " + sStackTrace.split("\\n")[0]);
     }
 
     private void playerMoveDelegate(int dir) {
         gPlayer p = xMain.shellLogic.getUserPlayer();
         if(p != null) {
+            //snaptap-like
+//            if(dir == 0) {
+//                p.mov1 = 0;
+//                p.mov0 = 1;
+//            }
+//            else if(dir == 1) {
+//                p.mov0 = 0;
+//                p.mov1 = 1;
+//            }
+//            else if(dir == 2) {
+//                p.mov3 = 0;
+//                p.mov2 = 1;
+//            }
+//            else if(dir == 3) {
+//                p.mov2 = 0;
+//                p.mov3 = 1;
+//            }
+            // original
             if(dir == 0)
                 p.mov0 = 1;
             else if(dir == 1)
@@ -1888,14 +1902,19 @@ public class xCon {
             return resultString.substring(0, resultString.length() - 1);
         }
         catch (Exception ee) {
-            ee.printStackTrace();
+            logException(ee);
+            // TODO: log stuff here
+            if(sSettings.IS_SERVER)
+                ex("echo Exception caused by line: " + s);
+            else if(sSettings.IS_CLIENT)
+                ex("cl_echo Exception caused by line: " + s);
             return "Exception caused by line: " + s;
         }
     }
 
     public static int charlimit() {
-        return (int)((double)sSettings.width/new Font(dFonts.fontnameconsole, Font.PLAIN,
-                dFonts.size *sSettings.height/sSettings.gamescale/2).getStringBounds("_",
+        return (int)((double)sSettings.width/new Font(dFonts.FONTNAMECONSOLE, Font.PLAIN,
+                dFonts.SIZE *sSettings.height/sSettings.gamescale/2).getStringBounds("_",
                 dFonts.fontrendercontext).getWidth());
     }
 
@@ -1927,7 +1946,6 @@ public class xCon {
             }
         } catch (IOException e) {
             logException(e);
-            e.printStackTrace();
         }
     }
 
@@ -1952,7 +1970,7 @@ public class xCon {
     }
 
     public Integer getKeyCodeForComm(String comm) {
-        if(comm.length() > 0) {
+        if(!comm.isEmpty()) {
             if(comm.charAt(0) == '-') {
                 for(Integer j : releaseBinds.keySet()) {
                     if(releaseBinds.get(j).equals(comm))
@@ -1968,7 +1986,7 @@ public class xCon {
     }
 
     private String doCommand(String fullCommand) {
-        if(fullCommand.length() > 0) {
+        if(!fullCommand.isEmpty()) {
             String[] args = fullCommand.trim().split(" ");
             for(int i = 0; i < args.length; i++) {
                 if(args[i].startsWith("$") && xMain.shellLogic.serverVars.contains(args[i].substring(1)))
@@ -1986,11 +2004,7 @@ public class xCon {
                     realcom.append(" ").append(arg);
                 }
                 String comstring = realcom.substring(1);
-//                stringLines.add(String.format("console:~$ %s", comstring));
                 String result = comstring.charAt(0) == '-' ? cp.undoCommand(comstring) : cp.doCommand(comstring);
-//                if (result.length() > 0)
-//                    stringLines.add(result);
-//                linesToShowStart = Math.max(0, stringLines.size() - linesToShow);
                 while (stringLines.size() > 1024) {
                     stringLines.remove(0);
                 }

@@ -223,7 +223,7 @@ public class gWeapons {
 	}
 
 	public static void createGrenadeExplosion(gThing seed, gScene scene) {
-//		//launcher explosion
+		// launcher explosion
 		int np = 8;
 		for (int i = 0; i < np; i++) {
 			gThing bullet = new gThing();
