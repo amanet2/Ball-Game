@@ -1,4 +1,2 @@
-* BOTS: need to go around obstacles
-    -> detect if lateral or vertical movement has been blocked same way radius is calc'd
 * FREEZING: major hitches randomly during gameplay
     -> THEORY: thread-safe data structures holding things up?
