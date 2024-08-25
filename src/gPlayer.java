@@ -8,6 +8,11 @@ public class gPlayer extends gThing {
     int weapon = gWeapons.none;
     long botThinkTime = 0;
     long botShootTime = 0;
+    boolean botGoAround = false;
+    int botGoAroundDelay = 2000;
+    long botGoAroundTick = 0;
+    int[] botGoAroundLastCoords = coords.clone();
+    int botGoAroundRadius = 600;
 
     public int getDistanceToThing(gThing target) {
         int x1 = coords[0];
@@ -82,6 +87,17 @@ public class gPlayer extends gThing {
                 botShootTime = sSettings.gameTime + gWeapons.fromCode(weapon).refiredelay;
                 xMain.shellLogic.serverNetThread.addNetCmd("server", String.format("fireweapon %s %d", id, weapon));
                 xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", String.format("cl_fireweapon %s %d", id, weapon));
+            }
+            //check go around
+            double travelDist = Math.sqrt(Math.pow(coords[0] - botGoAroundLastCoords[0],2) + Math.pow(coords[1] - botGoAroundLastCoords[1],2));
+            if(sSettings.gameTime > botGoAroundTick) {
+                botGoAroundTick = sSettings.gameTime + botGoAroundDelay;
+                botGoAroundLastCoords = coords.clone();
+                System.out.println("BOT_" + id + " traveled " + travelDist);
+                if(travelDist < botGoAroundRadius) {
+                    botGoAround = true;
+                    System.out.println("BOT_" + id + " GO AROUND");
+                }
             }
         }
     }
