@@ -14,13 +14,13 @@ public class gScript {
 //        System.out.printf("CREATED SCRIPT: id=%s, contents=%s%n", id, content.replace("\n", "\\n"));
     }
 
-    public void callScript(String[] args) {
+    public String callScript(String[] args) {
         argSet.put("$0", id);
         int argCtr = 1;
         for(String arg : args) {
             argSet.put("$" + argCtr++, arg);
         }
-//        System.out.println("SCRIPT CALLED: " + argSet.toString());
+        String result = "null";
         for(String line : lines) {
             String[] lineArgCallTokens = line.trim().split(" ");
             for(int i = 0; i < lineArgCallTokens.length; i++) {
@@ -40,9 +40,9 @@ public class gScript {
             for(String lineArgtoken : lineArgCallTokens) {
                 execStringBuilder.append(" ").append(lineArgtoken);
             }
-//            System.out.println("SCRIPT LINE:" + execStringBuilder);
-            xMain.shellLogic.console.ex(execStringBuilder.substring(1));
+            result = xMain.shellLogic.console.ex(execStringBuilder.substring(1));
         }
+        return result;
     }
 
     public void callScriptClientPreview(String[] args) {

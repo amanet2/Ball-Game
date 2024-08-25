@@ -61,11 +61,10 @@ public class xCon {
                         callArgs[i] = xMain.shellLogic.serverVars.get(tokenKey);
                 }
             }
-            theScript.callScript(callArgs);
+            return theScript.callScript(callArgs);
         }
         else
-            theScript.callScript(new String[]{});
-        return "null";
+            return theScript.callScript(new String[]{});
     }
 
     public xCon() {

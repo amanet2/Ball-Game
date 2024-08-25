@@ -142,11 +142,13 @@ public class gPlayer extends gThing {
             }
             //check go around
             double travelDist = Math.sqrt(Math.pow(coords[0] - botGoAroundLastCoords[0],2) + Math.pow(coords[1] - botGoAroundLastCoords[1],2));
+            int travelLat = Math.abs(coords[0] - botGoAroundLastCoords[0]);
+            int travelVert = Math.abs(coords[1] - botGoAroundLastCoords[1]);
             if(sSettings.gameTime > botGoAroundTick) {
                 botGoAround = false;
                 botGoAroundTick = sSettings.gameTime + botGoAroundCheckDelay;
                 botGoAroundLastCoords = coords.clone();
-                if(travelDist < botGoAroundRadius) {
+                if(travelDist < botGoAroundRadius || travelLat < botGoAroundRadius || travelVert < botGoAroundRadius) {
                     botGoAround = true;
                     botGoAroundTick = sSettings.gameTime + botGoAroundDuration;
                 }
