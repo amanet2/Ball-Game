@@ -1,3 +1,4 @@
 * FREEZING: major hitches randomly during gameplay
     -> THEORY: thread-safe data structures holding things up?
     -> OBSERVATION: during a freeze it seems the camera moved up and had to travel back to player pos
+    -> QUESTION: does player count influence this? does it matter if the players are human or bots?
