@@ -9,7 +9,7 @@ public class gPlayer extends gThing {
     long botThinkTime = 0;
     long botShootTime = 0;
     boolean botGoAround = false;
-    int botGoAroundDelay = 2000;
+    int botGoAroundDelay = 1500;
     long botGoAroundTick = 0;
     int[] botGoAroundLastCoords = coords.clone();
     int botGoAroundRadius = 600;
@@ -45,29 +45,31 @@ public class gPlayer extends gThing {
             }
         }
         if(closest != null) {
-            if(closest.coords[1] > coords[1]) {
-                mov0 = 0;
-                mov1 = 1;
-            }
-            else if(closest.coords[1] < coords[1]){
-                mov0 = 1;
-                mov1 = 0;
-            }
-            else {
-                mov0 = 0;
-                mov1 = 0;
-            }
-            if(closest.coords[0] > coords[0]) {
-                mov2 = 0;
-                mov3 = 1;
-            }
-            else if(closest.coords[0] < coords[0]){
-                mov2 = 1;
-                mov3 = 0;
-            }
-            else {
-                mov2 = 0;
-                mov3 = 0;
+            if(!botGoAround) {
+                if(Math.random() < 0.5) {
+                    if (closest.coords[1] > coords[1]) {
+                        mov0 = 0;
+                        mov1 = 1;
+                    } else if (closest.coords[1] < coords[1]) {
+                        mov0 = 1;
+                        mov1 = 0;
+                    } else {
+                        mov0 = 0;
+                        mov1 = 0;
+                    }
+                }
+                if(Math.random() < 0.5) {
+                    if (closest.coords[0] > coords[0]) {
+                        mov2 = 0;
+                        mov3 = 1;
+                    } else if (closest.coords[0] < coords[0]) {
+                        mov2 = 1;
+                        mov3 = 0;
+                    } else {
+                        mov2 = 0;
+                        mov3 = 0;
+                    }
+                }
             }
             //point at target
             double bdx = closest.coords[0] + closest.dims[0]/2 - coords[0] + dims[0]/2;
@@ -91,12 +93,57 @@ public class gPlayer extends gThing {
             //check go around
             double travelDist = Math.sqrt(Math.pow(coords[0] - botGoAroundLastCoords[0],2) + Math.pow(coords[1] - botGoAroundLastCoords[1],2));
             if(sSettings.gameTime > botGoAroundTick) {
+                botGoAround = false;
                 botGoAroundTick = sSettings.gameTime + botGoAroundDelay;
                 botGoAroundLastCoords = coords.clone();
                 System.out.println("BOT_" + id + " traveled " + travelDist);
                 if(travelDist < botGoAroundRadius) {
                     botGoAround = true;
                     System.out.println("BOT_" + id + " GO AROUND");
+                    if(Math.random() < 0.5) {
+                        if (closest.coords[1] > coords[1]) {
+                            mov0 = 0;
+                            mov1 = 1;
+                        } else if (closest.coords[1] < coords[1]) {
+                            mov0 = 1;
+                            mov1 = 0;
+                        } else {
+                            mov0 = 0;
+                            mov1 = 0;
+                        }
+                        if (closest.coords[0] > coords[0]) {
+                            mov2 = 1; //go around val
+                            mov3 = 0; //go around val
+                        } else if (closest.coords[0] < coords[0]) {
+                            mov2 = 0; //go around val
+                            mov3 = 1; //go around val
+                        } else {
+                            mov2 = 0;
+                            mov3 = 0;
+                        }
+                    }
+                    else {
+                        if (closest.coords[1] > coords[1]) {
+                            mov0 = 1; //go around val
+                            mov1 = 0; //go around val
+                        } else if (closest.coords[1] < coords[1]) {
+                            mov0 = 0; //go around val
+                            mov1 = 1; //go around val
+                        } else {
+                            mov0 = 0;
+                            mov1 = 0;
+                        }
+                        if (closest.coords[0] > coords[0]) {
+                            mov2 = 0;
+                            mov3 = 1;
+                        } else if (closest.coords[0] < coords[0]) {
+                            mov2 = 1;
+                            mov3 = 0;
+                        } else {
+                            mov2 = 0;
+                            mov3 = 0;
+                        }
+                    }
                 }
             }
         }
