@@ -8,6 +8,12 @@ public class gPlayer extends gThing {
     int weapon = gWeapons.none;
     long botThinkTime = 0;
     long botShootTime = 0;
+    boolean botGoAround = false;
+    int botGoAroundCheckDelay = 1500;
+    int botGoAroundDuration = 3000;
+    long botGoAroundTick = 0;
+    int[] botGoAroundLastCoords = coords.clone();
+    int botGoAroundRadius = 600;
 
     public int getDistanceToThing(gThing target) {
         int x1 = coords[0];
@@ -40,29 +46,80 @@ public class gPlayer extends gThing {
             }
         }
         if(closest != null) {
-            if(closest.coords[1] > coords[1]) {
-                mov0 = 0;
-                mov1 = 1;
-            }
-            else if(closest.coords[1] < coords[1]){
-                mov0 = 1;
-                mov1 = 0;
+            if(!botGoAround) {
+                if(!closest.type.toLowerCase().contains("player") || Math.random() < 0.5) {
+                    if (closest.coords[1] > coords[1]) {
+                        mov0 = 0;
+                        mov1 = 1;
+                    } else if (closest.coords[1] < coords[1]) {
+                        mov0 = 1;
+                        mov1 = 0;
+                    } else {
+                        mov0 = 0;
+                        mov1 = 0;
+                    }
+                }
+                if(!closest.type.toLowerCase().contains("player") || Math.random() < 0.5) {
+                    if (closest.coords[0] > coords[0]) {
+                        mov2 = 0;
+                        mov3 = 1;
+                    } else if (closest.coords[0] < coords[0]) {
+                        mov2 = 1;
+                        mov3 = 0;
+                    } else {
+                        mov2 = 0;
+                        mov3 = 0;
+                    }
+                }
             }
             else {
-                mov0 = 0;
-                mov1 = 0;
-            }
-            if(closest.coords[0] > coords[0]) {
-                mov2 = 0;
-                mov3 = 1;
-            }
-            else if(closest.coords[0] < coords[0]){
-                mov2 = 1;
-                mov3 = 0;
-            }
-            else {
-                mov2 = 0;
-                mov3 = 0;
+                //bot go around
+                if(Math.random() < 0.5) {
+                    // clockwise 90
+                    if (closest.coords[1] > coords[1]) {
+                        mov2 = 1;
+                        mov3 = 0;
+                    } else if (closest.coords[1] < coords[1]) {
+                        mov2 = 0;
+                        mov3 = 1;
+                    } else {
+                        mov2 = 0;
+                        mov3 = 0;
+                    }
+                    if (closest.coords[0] > coords[0]) {
+                        mov0 = 0;
+                        mov1 = 1;
+                    } else if (closest.coords[0] < coords[0]) {
+                        mov0 = 1;
+                        mov1 = 0;
+                    } else {
+                        mov0 = 0;
+                        mov1 = 0;
+                    }
+                }
+                else {
+                    // c-clockwise 90
+                    if (closest.coords[1] > coords[1]) {
+                        mov2 = 0;
+                        mov3 = 1;
+                    } else if (closest.coords[1] < coords[1]) {
+                        mov2 = 1;
+                        mov3 = 0;
+                    } else {
+                        mov2 = 0;
+                        mov3 = 0;
+                    }
+                    if (closest.coords[0] > coords[0]) {
+                        mov0 = 1;
+                        mov1 = 0;
+                    } else if (closest.coords[0] < coords[0]) {
+                        mov0 = 0;
+                        mov1 = 1;
+                    } else {
+                        mov0 = 0;
+                        mov1 = 0;
+                    }
+                }
             }
             //point at target
             double bdx = closest.coords[0] + closest.dims[0]/2 - coords[0] + dims[0]/2;
@@ -82,6 +139,19 @@ public class gPlayer extends gThing {
                 botShootTime = sSettings.gameTime + gWeapons.fromCode(weapon).refiredelay;
                 xMain.shellLogic.serverNetThread.addNetCmd("server", String.format("fireweapon %s %d", id, weapon));
                 xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", String.format("cl_fireweapon %s %d", id, weapon));
+            }
+            //check go around
+            double travelDist = Math.sqrt(Math.pow(coords[0] - botGoAroundLastCoords[0],2) + Math.pow(coords[1] - botGoAroundLastCoords[1],2));
+            int travelLat = Math.abs(coords[0] - botGoAroundLastCoords[0]);
+            int travelVert = Math.abs(coords[1] - botGoAroundLastCoords[1]);
+            if(sSettings.gameTime > botGoAroundTick) {
+                botGoAround = false;
+                botGoAroundTick = sSettings.gameTime + botGoAroundCheckDelay;
+                botGoAroundLastCoords = coords.clone();
+                if(travelDist < botGoAroundRadius || travelLat < botGoAroundRadius || travelVert < botGoAroundRadius) {
+                    botGoAround = true;
+                    botGoAroundTick = sSettings.gameTime + botGoAroundDuration;
+                }
             }
         }
     }

@@ -61,11 +61,10 @@ public class xCon {
                         callArgs[i] = xMain.shellLogic.serverVars.get(tokenKey);
                 }
             }
-            theScript.callScript(callArgs);
+            return theScript.callScript(callArgs);
         }
         else
-            theScript.callScript(new String[]{});
-        return "null";
+            return theScript.callScript(new String[]{});
     }
 
     public xCon() {
@@ -1704,12 +1703,12 @@ public class xCon {
         });
         commands.put("zoom", new gDoable() {
             public String doCommand(String fullCommand) {
-                if(sSettings.show_mapmaker_ui)
+                if(sSettings.allowZoom)
                     sSettings.zoomLevel = Math.min(1.5, sSettings.zoomLevel + 0.25);
                 return "zoom in";
             }
             public String undoCommand(String fullCommand) {
-                if(sSettings.show_mapmaker_ui)
+                if(sSettings.allowZoom)
                     sSettings.zoomLevel = Math.max(0.25, sSettings.zoomLevel - 0.25);
                 return "zoom out";
             }

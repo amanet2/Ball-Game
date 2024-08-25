@@ -16,13 +16,11 @@ public class gThing {
     public String id;
     gArgSet args;
     int acceldelay = 32;
-    int interpDelay = 1;
     int accelrate = 2;
     int decelrate = 1;
     String waypoint = "null";
     long cooldown = 0;
     long acceltick = 0;
-    long interpTick = 0;
     double fv = 0.0;
     int vel0 = 0;
     int vel1 = 0;

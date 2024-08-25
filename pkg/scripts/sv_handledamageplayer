@@ -1,4 +1,5 @@
 setthing THING_PLAYER $1 hprechargetime $gametimemillis
 getres attack_duration sumlong $gametimemillis 5000
-foreachlong tv $gametimemillis $attack_duration 1000 scheduleevent $tv exec scripts/attackplayers_bot $1
+getres go_offense getrand 0 1
+testres $go_offense 1 foreachlong tv $gametimemillis $attack_duration 1000 scheduleevent $tv exec scripts/attackplayers_bot $1
 addcomx $1 cl_shake
