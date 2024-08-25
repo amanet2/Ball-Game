@@ -113,4 +113,5 @@ public class sSettings {
 	static String[] clientGameThemes = {"forest"};
 	static boolean powerSave = true;
 	static boolean culling = true;
+	static boolean allowZoom = false;
 }

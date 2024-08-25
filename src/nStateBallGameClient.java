@@ -17,12 +17,8 @@ public class nStateBallGameClient extends nState {
         map.putArg(new gArg("coords", "0:0") {
             public void onChange() {
                 gPlayer pl = xMain.shellLogic.getPlayerById(get("id"));
-                if(pl != null) {
-                    if (pl.interpTick < sSettings.gameTime) {
-                        pl.interpTick = sSettings.gameTime + pl.interpDelay;
-                        setPlayerVal("coords", value);
-                    }
-                }
+                if(pl != null)
+                    setPlayerVal("coords", value);
             }
         });
         map.putArg(new gArg("fv", "0") {
