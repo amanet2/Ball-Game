@@ -384,6 +384,8 @@ public class eGameLogicShell extends eGameLogicAdapter {
         });
         clientVars.loadFromFile(sSettings.CONFIG_FILE_LOCATION_CLIENT);
         clientVars.loadFromLaunchArgs(xMain.launchArgs);
+
+        console.ex("exec " + sSettings.CONFIG_FILE_LOCATION_AUTOEXEC);
         
         initGameObjectsAndScenes();
 
