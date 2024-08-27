@@ -2,3 +2,4 @@
     -> THEORY: thread-safe data structures holding things up?
     -> OBSERVATION: during a freeze it seems the camera moved up and had to travel back to player pos
     -> QUESTION: does player count influence this? does it matter if the players are human or bots?
+    -> IDEA: maybe make a queue of images to draw in the background, then draw from that queue?

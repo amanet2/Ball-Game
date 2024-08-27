@@ -1,5 +1,5 @@
-testresn $1 $telexid getres tex setthing THING_ITEM $telexid coordx
-testresn $1 $telexid getres tey setthing THING_ITEM $telexid coordy
+testresn $1 $telexid getres tex setthing ITEM_TELEPORTER_BLUE $telexid coordx
+testresn $1 $telexid getres tey setthing ITEM_TELEPORTER_BLUE $telexid coordy
 testresn $1 $telexid getres teledelayblue sumlong $gametimemillis 2000
 testresn $1 $telexid setthing THING_PLAYER $2 teledelayblue $teledelayblue
 testresn $1 $telexid getres exitcoords constr $tex : $tey
