@@ -92,13 +92,14 @@ public class eGameLogicClient extends eGameLogicAdapter {
     @Override
     public void update() {
         super.update();
+        long gameTimeMillis = System.currentTimeMillis();
         try {
             sendData();
             byte[] clientReceiveData = new byte[sSettings.rcvbytesclient];
             DatagramPacket receivePacket = new DatagramPacket(clientReceiveData, clientReceiveData.length);
             clientSocket.receive(receivePacket);  // this fails when joining unreachable server
             readData(new String(receivePacket.getData()).trim());
-            sSettings.clientNetRcvTime = System.currentTimeMillis();
+            sSettings.clientNetRcvTime = gameTimeMillis;
             if(sSettings.clientNetRcvTime > sSettings.clientNetSendTime)
                 sSettings.clientPing = (int) (sSettings.clientNetRcvTime - sSettings.clientNetSendTime);
         }
@@ -119,6 +120,7 @@ public class eGameLogicClient extends eGameLogicAdapter {
             xMain.shellLogic.console.logException(e);
         }
         sSettings.tickReportClient = tickReport;
+        System.out.println("client_update_"+gameTimeMillis);
     }
 
     public void addNetCmd(String cmd) {

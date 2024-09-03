@@ -804,6 +804,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
             sSettings.frames = 0;
             frameCounterTime = gameTimeMillis + 1000;
         }
+        System.out.println("shell_render_"+gameTimeMillis);
     }
 
     @Override
