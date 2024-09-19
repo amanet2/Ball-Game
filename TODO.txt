@@ -2,10 +2,11 @@
     -> THEORY: thread-safe data structures holding things up?
     -> IDEA: only worry about client and shell for handling the freeze issue
     -> OBSERVATION: during a freeze it seems the camera moved up and had to travel back to player position
-    -> QUESTION: does player count influence this? does it matter if the players are human or bots?
-    -> IDEA: make a table of every map vs number of bots and see if you can play a game without freezing
     -> OBSERVATION: "client_update" prints out while game was freezing and "shell_update" did not
         -> "shell_update" was not printing out at this time
             -> this means "shellLogic.render()" is not finishing
             -> "paintComponent" in dPanel used -concurrent- data structures
-    -> IDEA: add "server_update" and "sim_update"
+    -> OBSERVATION: freezes seem to happen when there are bots
+    -> OBSERVATION: from a pure client, I didn't see any freezing
+    -> IDEA: maybe a while() loop in the server is causing freezes
+        -> while loop is used to dequeue server cmds
