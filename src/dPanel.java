@@ -543,6 +543,8 @@ public class dPanel extends JPanel {
     }
 
     private void drawSelectionBoxes(Graphics2D g2) {
+        if(!sSettings.show_mapmaker_ui)
+            return;
         int mousex = MouseInfo.getPointerInfo().getLocation().x;
         int mousey = MouseInfo.getPointerInfo().getLocation().y;
         int window_offsetx = xMain.shellLogic.frame.getLocationOnScreen().x;
