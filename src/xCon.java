@@ -1727,24 +1727,6 @@ public class xCon {
     private void playerMoveDelegate(int dir) {
         gPlayer p = xMain.shellLogic.getUserPlayer();
         if(p != null) {
-            //snaptap-like
-//            if(dir == 0) {
-//                p.mov1 = 0;
-//                p.mov0 = 1;
-//            }
-//            else if(dir == 1) {
-//                p.mov0 = 0;
-//                p.mov1 = 1;
-//            }
-//            else if(dir == 2) {
-//                p.mov3 = 0;
-//                p.mov2 = 1;
-//            }
-//            else if(dir == 3) {
-//                p.mov2 = 0;
-//                p.mov3 = 1;
-//            }
-            // original
             if(dir == 0)
                 p.mov0 = 1;
             else if(dir == 1)

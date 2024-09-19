@@ -30,10 +30,6 @@ public class gScript {
                         lineArgCallTokens[i] = argSet.get(tokenKey);
                     else if(xMain.shellLogic.serverVars.contains(tokenKey.substring(1)))
                         lineArgCallTokens[i] = xMain.shellLogic.serverVars.get(tokenKey.substring(1));
-//                    else if(xMain.shellLogic.clientVars.contains(tokenKey.substring(1))) {
-//                        System.out.println("SCRIPT CALLED CLIENT VARS (thats bad): " + id);
-//                        lineArgCallTokens[i] = xMain.shellLogic.clientVars.get(tokenKey.substring(1));
-//                    }
                 }
             }
             StringBuilder execStringBuilder = new StringBuilder();
