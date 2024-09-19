@@ -30,6 +30,7 @@ public class dPanel extends JPanel {
         g2.scale(sSettings.zoomLevel, sSettings.zoomLevel);
         g2.translate(-sSettings.width / 2, -sSettings.height / 2);
         gScene scene = xMain.shellLogic.clientScene;
+//        gScene scene = new gScene(xMain.shellLogic.clientScene);
         if(scene == null)
             return;
         g2.scale(
@@ -37,7 +38,6 @@ public class dPanel extends JPanel {
                 ((1.0 / sSettings.gamescale) * (double) sSettings.height)
         );
         g2.translate(-gCamera.coords[0], -gCamera.coords[1]);
-//        synchronized (scene.objectMaps) {
             drawBlockFloors(g2, scene);
             drawBlockWallsAndPlayers(g2, scene);
             drawMapmakerOverlay(g2, scene);
@@ -48,7 +48,6 @@ public class dPanel extends JPanel {
             drawPlayerNames(g2);
             if (sSettings.show_mapmaker_ui)
                 drawSelectionBoxes(g2);
-//        }
     }
 
     private void drawFrameUI(Graphics2D g2, long gameTimeMillis) {

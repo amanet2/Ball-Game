@@ -32,7 +32,7 @@ public class xCon {
             return "usage: exec <script_id> <optional: args>";
         String scriptId = args[1];
         if(sSettings.serverLoadingFromHDD) { //detect loading from openFile
-            System.out.println("LOADING MAP FROM HDD");
+            debug("LOADING MAP FROM HDD");
             sSettings.serverLoadingFromHDD = false;
             ex("loadingscreen");
             try (BufferedReader br = new BufferedReader(new FileReader(scriptId))) {
@@ -1720,7 +1720,7 @@ public class xCon {
         PrintWriter pw = new PrintWriter(sw);
         e.printStackTrace(pw);
         String sStackTrace = sw.toString(); // stack trace as a string
-        System.out.println(sStackTrace);
+        debug(sStackTrace);
         ex("echo " + sStackTrace.split("\\n")[0]);
     }
 

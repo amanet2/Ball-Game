@@ -120,7 +120,6 @@ public class eGameLogicClient extends eGameLogicAdapter {
             xMain.shellLogic.console.logException(e);
         }
         sSettings.tickReportClient = tickReport;
-        System.out.println("client_update_"+gameTimeMillis);
     }
 
     public void addNetCmd(String cmd) {

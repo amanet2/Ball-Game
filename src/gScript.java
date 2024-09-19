@@ -30,10 +30,10 @@ public class gScript {
                         lineArgCallTokens[i] = argSet.get(tokenKey);
                     else if(xMain.shellLogic.serverVars.contains(tokenKey.substring(1)))
                         lineArgCallTokens[i] = xMain.shellLogic.serverVars.get(tokenKey.substring(1));
-                    else if(xMain.shellLogic.clientVars.contains(tokenKey.substring(1))) {
-                        System.out.println("SCRIPT CALLED CLIENT VARS (thats bad): " + id);
-                        lineArgCallTokens[i] = xMain.shellLogic.clientVars.get(tokenKey.substring(1));
-                    }
+//                    else if(xMain.shellLogic.clientVars.contains(tokenKey.substring(1))) {
+//                        System.out.println("SCRIPT CALLED CLIENT VARS (thats bad): " + id);
+//                        lineArgCallTokens[i] = xMain.shellLogic.clientVars.get(tokenKey.substring(1));
+//                    }
                 }
             }
             StringBuilder execStringBuilder = new StringBuilder();
@@ -51,7 +51,6 @@ public class gScript {
         for(String arg : args) {
             argSet.put("$" + argCtr++, arg);
         }
-//        System.out.println("CLIENTPREVIEW SCRIPT CALLED: " + argSet.toString());
         for(String line : lines) {
             String[] lineArgCallTokens = line.trim().split(" ");
             for(int i = 0; i < lineArgCallTokens.length; i++) {
@@ -67,7 +66,6 @@ public class gScript {
             for(String lineArgtoken : lineArgCallTokens) {
                 execStringBuilder.append(" ").append(lineArgtoken);
             }
-//            System.out.println("CLIENTPREVIEW SCRIPT LINE:" + execStringBuilder);
             xMain.shellLogic.console.ex(execStringBuilder.substring(1));
         }
     }
