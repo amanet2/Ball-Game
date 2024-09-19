@@ -2,6 +2,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class sSettings {
     // sources
+	static String CONFIG_FILE_LOCATION_AUTOEXEC = "config/autoexec.txt";
 	static String CONFIG_FILE_LOCATION_SERVER = "config/server.txt";
 	static String CONFIG_FILE_LOCATION_CLIENT = "config/client.txt";
 	static String CONFIG_FILE_LOCATION_GAME = "config/game.txt";

@@ -47,8 +47,6 @@ public class gWeapon {
             String cfg = xMain.shellLogic.console.ex(vk);
             if(!cfg.equalsIgnoreCase("null"))
                 argSet.put(s, cfg);
-            else
-                System.out.println("VALUE IS NULL: " + vk);
         }
         this.dims = dims;
         this.bulletSpritePath =  eManager.getPath(bulletSpritePath);
