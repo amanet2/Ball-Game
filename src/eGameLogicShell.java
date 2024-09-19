@@ -384,7 +384,10 @@ public class eGameLogicShell extends eGameLogicAdapter {
         });
         clientVars.loadFromFile(sSettings.CONFIG_FILE_LOCATION_CLIENT);
         clientVars.loadFromLaunchArgs(xMain.launchArgs);
-        
+
+        //run the autoexec
+        console.ex("exec " + sSettings.CONFIG_FILE_LOCATION_AUTOEXEC);
+
         initGameObjectsAndScenes();
 
         if(sSettings.show_mapmaker_ui) {
