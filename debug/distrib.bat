@@ -9,11 +9,11 @@ set out_dir=C:\Code\pkg_ballmaster
 set out_zip=C:\Code\pkg_ballmaster.zip
 set pkg_prefix=pkg
 set pkg_dir=%home_dir%\%pkg_prefix%
-set java_prefix=runtime\jdk-20.0.1
+set java_prefix=runtime\jdk-23
 set java_dir=%home_dir%\%java_prefix%
 set echo_c_script=%home_dir%\debug\echo_c.bat
-set echo_c_start_str="start ..\\runtime\\jdk-20.0.1\\bin\\javaw -Dsun.java2d.uiScale=1.0 -Dsun.java2d.opengl=true -jar BALL_GAME.jar "
-set echo_c_start_str_mapmaker="start ..\\runtime\\jdk-20.0.1\\bin\\javaw -Dsun.java2d.uiScale=1.0 -Dsun.java2d.opengl=true -jar BALL_GAME.jar showmapmakerui 1 "
+set echo_c_start_str="start ..\\runtime\\jdk-23\\bin\\javaw -Dsun.java2d.uiScale=1.0 -Dsun.java2d.opengl=true -jar BALL_GAME.jar "
+set echo_c_start_str_mapmaker="start ..\\runtime\\jdk-23\\bin\\javaw -Dsun.java2d.uiScale=1.0 -Dsun.java2d.opengl=true -jar BALL_GAME.jar showmapmakerui 1 "
 set echo_c_outfile=%tmp_dir%\ballmaster.c
 set echo_c_outfile_mapmaker=%tmp_dir%\ballmaster_editor.c
 set gcc_exe=C:\mingw64\bin\gcc.exe
