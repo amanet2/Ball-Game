@@ -1,15 +1,15 @@
-import javax.swing.JPanel;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
+import javax.swing.JPanel;
 
 /**
  * JPanel
  * displays image on the screen
  */
 public class dPanel extends JPanel {
+    @Override
     public void paintComponent(Graphics g){
         removeAll();
         Graphics2D g2v = (Graphics2D) g.create();
@@ -24,12 +24,14 @@ public class dPanel extends JPanel {
     }
 
     private void drawFrame(Graphics2D g2) {
-        if(!sSettings.clientMapLoaded) // comment out for no loading screens
+        if(!sSettings.clientMapLoaded) // loading screen flag
             return;
         g2.translate(sSettings.width / 2, sSettings.height / 2);
         g2.scale(sSettings.zoomLevel, sSettings.zoomLevel);
         g2.translate(-sSettings.width / 2, -sSettings.height / 2);
         gScene scene = xMain.shellLogic.clientScene;
+        if(scene == null)
+            return;
         g2.scale(
                 ((1.0 / sSettings.gamescale) * (double) sSettings.height),
                 ((1.0 / sSettings.gamescale) * (double) sSettings.height)
@@ -140,6 +142,7 @@ public class dPanel extends JPanel {
             else {
                 xMain.shellLogic.scheduledEvents.put(
                         Long.toString(sSettings.gameTime + 500), new gDoable() {
+                            @Override
                             public void doCommand() {
                                 xMain.shellLogic.clientScene.getThingMap("THING_ANIMATION").remove(id);
                             }
@@ -261,7 +264,7 @@ public class dPanel extends JPanel {
 
     private void drawBlockWallsAndPlayers(Graphics2D g2, gScene scene) {
         Queue<gThing> visualQueue = scene.getWallsAndPlayersSortedByCoordY();
-        while(visualQueue.size() > 0) {
+        while(!visualQueue.isEmpty()) {
             gThing thing = visualQueue.remove();
             if (thing.type.equals("THING_PLAYER"))
                 drawPlayer(g2, (gPlayer) thing);
@@ -274,14 +277,7 @@ public class dPanel extends JPanel {
             gThing floor = scene.getThingMap("BLOCK_FLOOR").get(tag);
             //flashlight
             if(xMain.shellLogic.getUserPlayer() != null) {
-                int aimerx = eUtils.unscaleInt(xMain.shellLogic.getMouseCoordinates()[0]);
-                int aimery = eUtils.unscaleInt(xMain.shellLogic.getMouseCoordinates()[1]);
-                int snapX = aimerx + (int) gCamera.coords[0];
-                int snapY = aimery + (int) gCamera.coords[1];
-                RadialGradientPaint df = new RadialGradientPaint(new Point(snapX, snapY), 600,
-                        new float[]{0f, 1f}, new Color[]{new Color(0,0,0,0), new Color(0, 0, 0,255 - (int) (255*(xMain.shellLogic.clientScene.brightnessLevel*0.01)))}
-                );
-                g2.setPaint(df);
+                g2.setPaint(getFlashlightPaint());
                 g2.fillRect(floor.coords[0], floor.coords[1], floor.dims[0], floor.dims[1]);
             }
             else {
@@ -289,6 +285,18 @@ public class dPanel extends JPanel {
                 g2.fillRect(floor.coords[0], floor.coords[1], floor.dims[0], floor.dims[1]);
             }
         }
+    }
+
+    private static RadialGradientPaint getFlashlightPaint() {
+        return new RadialGradientPaint(
+                new Point(eUtils.unscaleInt(xMain.shellLogic.getMouseCoordinates()[0]) + (int) gCamera.coords[0],
+                        eUtils.unscaleInt(xMain.shellLogic.getMouseCoordinates()[1]) + (int) gCamera.coords[1]),
+                600, new float[]{0f, 1f},
+                new Color[]{
+                    new Color(0,0,0,0),
+                    new Color(0, 0, 0,255 - (int) (255*(xMain.shellLogic.clientScene.brightnessLevel*0.01)))
+                }
+        );
     }
 
     private void drawCube(Graphics2D g2, gBlockCube cube) {
@@ -299,6 +307,7 @@ public class dPanel extends JPanel {
                     cube.coords[0], cube.coords[1] + cube.dims[1], cube.dims[0], (int)(cube.wallh*sSettings.vfxshadowfactor)
             );
         }
+        //wall
         g2.setPaint(xMain.shellLogic.wallTextures[sSettings.clientGameTheme]);
         g2.fillRect(cube.coords[0], cube.coords[1] + cube.toph, cube.dims[0], cube.wallh);
         if (sSettings.vfxenableshading) {
@@ -307,6 +316,7 @@ public class dPanel extends JPanel {
                 g2.fillRect(cube.coords[0], cube.coords[1] + cube.toph, cube.dims[0], cube.wallh);
             }
         }
+        //top
         g2.setPaint(xMain.shellLogic.topTextures[sSettings.clientGameTheme]);
         g2.fillRect(cube.coords[0], cube.coords[1], cube.dims[0], cube.toph);
         if(!sSettings.vfxenableshading)
@@ -504,17 +514,6 @@ public class dPanel extends JPanel {
             g2.drawString(name,coordx + p.dims[0]/2 - (int)g2.getFont().getStringBounds(name, dFonts.fontrendercontext).getWidth()/2 + 3, coordy + 3);
             g2.setColor(color);
             g2.drawString(name,coordx + p.dims[0]/2 - (int)g2.getFont().getStringBounds(name, dFonts.fontrendercontext).getWidth()/2, coordy);
-            int[] bounds = {
-                    coordx + p.dims[0]/2-(int)g2.getFont().getStringBounds(name, dFonts.fontrendercontext).getWidth()/2
-                            - eUtils.unscaleInt(5*sSettings.height/128),
-                    coordy - eUtils.unscaleInt(sSettings.height/32),
-                    eUtils.unscaleInt(sSettings.height/32),
-                    eUtils.unscaleInt(sSettings.height/32)
-            };
-            g2.setColor(Color.BLACK);
-            g2.fillOval(bounds[0]+3, bounds[1]+3, bounds[2], bounds[3]);
-            g2.setColor(color);
-            g2.fillOval(bounds[0], bounds[1], bounds[2], bounds[3]);
         }
     }
 
@@ -572,14 +571,14 @@ public class dPanel extends JPanel {
         // -- preview rect
         int w = 300;
         int h = 300;
-        if(sSettings.clientNewPrefabName.length() > 0) {
+        if(!sSettings.clientNewPrefabName.isEmpty()) {
             int[] pfd = uiEditorMenus.getNewPrefabDims();
             w = pfd[0];
             h = pfd[1];
         }
-        int px = eUtils.roundToNearest(eUtils.unscaleInt(mousex - window_offsetx)
+        int px = eUtils.roundTo(eUtils.unscaleInt(mousex - window_offsetx)
                 + (int) gCamera.coords[0] - w/2, uiEditorMenus.snapToX);
-        int py = eUtils.roundToNearest(eUtils.unscaleInt(mousey - window_offsety)
+        int py = eUtils.roundTo(eUtils.unscaleInt(mousey - window_offsety)
                 + (int) gCamera.coords[1] - h/2, uiEditorMenus.snapToY);
         sSettings.clientPrevX = px;
         sSettings.clientPrevY = py;
@@ -606,18 +605,10 @@ public class dPanel extends JPanel {
             dFonts.setFontGNormal(g2);
             g2.setColor(gColors.getColorFromName("clrp_" + cs));
             g2.drawString(nm, Integer.parseInt(pxs), Integer.parseInt(pys));
-            if(id.equals(sSettings.uuid)) { //draw arrow over our own preview box
-                Polygon pg = getPolygon(Integer.parseInt(pxs), Integer.parseInt(pys) - 200);
-                Color color = gColors.getColorFromName("clrp_" + cs);
-                g2.setStroke(dFonts.thickStroke);
-                dFonts.setFontColor(g2, "clrf_normaltransparent");
-                g2.drawPolygon(pg);
-                g2.setColor(color);
-                g2.fillPolygon(pg);
-            }
+            if(id.equals(sSettings.uuid)) //draw arrow over our own preview box
+                g2.fillPolygon(getPolygon(Integer.parseInt(pxs), Integer.parseInt(pys) - 200));
         }
     }
-
 
     public dPanel() {
         super();

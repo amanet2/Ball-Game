@@ -1,16 +1,15 @@
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 
 public class uiEditorMenus {
     static Map<String, JMenu> menus = new HashMap<>();
@@ -25,7 +24,7 @@ public class uiEditorMenus {
     private static final ArrayList<JCheckBoxMenuItem> colorCheckBoxMenuItems = new ArrayList<>();
 
     public static int[] getNewPrefabDims() {
-        //TODO: this sucks, find a better way to set size
+        //TODO: this sucks, find a better way to set SIZE
         if(sSettings.clientNewPrefabName.contains("_large"))
             return new int[]{2400, 2400};
         else if(sSettings.clientNewPrefabName.contains("cubeB"))
@@ -137,7 +136,7 @@ public class uiEditorMenus {
         createNewSubmenu("Settings", "Color");
         createNewSubmenu("Settings", "Controls");
         createNewSubmenu("Settings", "Overlays");
-        addSubMenuLabel("Controls", " MOUSE_LEFT : throw rock");
+        addSubMenuLabel("Controls", " MOUSE_LEFT : action");
         addSubMenuLabel("Controls", " W : move up ");
         addSubMenuLabel("Controls", " S : move down ");
         addSubMenuLabel("Controls", " A : move left ");

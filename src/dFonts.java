@@ -1,41 +1,48 @@
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.font.FontRenderContext;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Stroke;
+import java.awt.font.FontRenderContext;
 
 public class dFonts {
     static FontRenderContext fontrendercontext =
             new FontRenderContext(null, false, true);
     static Stroke defaultStroke = new BasicStroke(1);
     static Stroke thickStroke = new BasicStroke(eUtils.scaleInt(16));
-    static int size = 90;
-    static String fontnameconsole = "monospaced";
+    static final int SIZE = 90;
+    static final String FONTNAMECONSOLE = "monospaced";
     static Font fontNormal = new Font(xMain.shellLogic.clientVars.get("fontui"), Font.PLAIN,
-            size * sSettings.height / sSettings.gamescale);
+            SIZE * sSettings.height / sSettings.gamescale);
     static Font fontLarge = new Font(xMain.shellLogic.clientVars.get("fontui"), Font.PLAIN,
-            (size * sSettings.height / sSettings.gamescale)*2);
-    static Font fontGNormal = new Font(xMain.shellLogic.clientVars.get("fontui"), Font.PLAIN, size);
+            (SIZE * sSettings.height / sSettings.gamescale)*2);
+    static Font fontSuper = new Font(xMain.shellLogic.clientVars.get("fontui"), Font.PLAIN,
+            (SIZE * sSettings.height / sSettings.gamescale)*4);
+    static Font fontGNormal = new Font(xMain.shellLogic.clientVars.get("fontui"), Font.PLAIN, SIZE);
     static Font fontSmall = new Font(xMain.shellLogic.clientVars.get("fontui"), Font.PLAIN,
-            size *sSettings.height/sSettings.gamescale/2);
-    static Font fontConsole = new Font(fontnameconsole, Font.PLAIN, size *sSettings.height/sSettings.gamescale/2);
+            SIZE *sSettings.height/sSettings.gamescale/2);
+    static Font fontConsole = new Font(FONTNAMECONSOLE, Font.PLAIN, SIZE *sSettings.height/sSettings.gamescale/2);
 
     public static int getStringWidth(Graphics g, String s) {
         return (int)g.getFont().getStringBounds(s, fontrendercontext).getWidth();
     }
 
+    public static void setFont(Graphics g, Font font) {
+        setFontColor(g, "clrf_normal");
+        g.setFont(font);
+    }
+
     public static void drawCenteredString(Graphics g, String s, int x, int y) {
         Color savedColor = g.getColor();
         g.setColor(Color.BLACK);
-        g.drawString(s,x-(int)g.getFont().getStringBounds(s, fontrendercontext).getWidth()/2+3,y+3);
+        g.drawString(s,x-(int)g.getFont().getStringBounds(s, fontrendercontext).getWidth()/2+1,y+1);
         g.setColor(savedColor);
         g.drawString(s,x-(int)g.getFont().getStringBounds(s, fontrendercontext).getWidth()/2,y);
     }
 
     public static void drawScoreBoardPlayerLine(Graphics g, String s, int x, int y, Color color) {
         g.setColor(Color.BLACK);
-        g.drawString(s,x+3,y+3);
+        g.drawString(s,x+1,y+1);
         g.setColor(color);
         g.drawString(s,x,y);
     }
@@ -74,12 +81,12 @@ public class dFonts {
 
     public static void refreshFonts() {
         fontNormal = new Font(xMain.shellLogic.clientVars.get("fontui"), Font.PLAIN,
-                size * sSettings.height / sSettings.gamescale);
-        fontGNormal = new Font(xMain.shellLogic.clientVars.get("fontui"), Font.PLAIN, size);
+                SIZE * sSettings.height / sSettings.gamescale);
+        fontGNormal = new Font(xMain.shellLogic.clientVars.get("fontui"), Font.PLAIN, SIZE);
         fontSmall = new Font(xMain.shellLogic.clientVars.get("fontui"), Font.PLAIN,
-                size *sSettings.height/sSettings.gamescale/2);
-        fontConsole = new Font(fontnameconsole, Font.PLAIN, size *sSettings.height/sSettings.gamescale/2);
+                SIZE *sSettings.height/sSettings.gamescale/2);
+        fontConsole = new Font(FONTNAMECONSOLE, Font.PLAIN, SIZE *sSettings.height/sSettings.gamescale/2);
         fontLarge = new Font(xMain.shellLogic.clientVars.get("fontui"), Font.PLAIN,
-                (size * sSettings.height / sSettings.gamescale)*2);
+                (SIZE * sSettings.height / sSettings.gamescale)*2);
     }
 }

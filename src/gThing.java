@@ -50,7 +50,7 @@ public class gThing {
             }
         });
         args.putArg(new gArg("coords", "0:0") {
-            public void onUpdate() {
+            public void onChange() {
                 String[] argCoords = value.split(":");
                 parent.coords = new int[]{Integer.parseInt(argCoords[0]), Integer.parseInt(argCoords[1])};
             }

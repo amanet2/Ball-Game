@@ -15,8 +15,10 @@ public class nStateBallGameClient extends nState {
             }
         });
         map.putArg(new gArg("coords", "0:0") {
-            public void onUpdate() {
-                setPlayerVal("coords", value);
+            public void onChange() {
+                gPlayer pl = xMain.shellLogic.getPlayerById(get("id"));
+                if(pl != null)
+                    setPlayerVal("coords", value);
             }
         });
         map.putArg(new gArg("fv", "0") {

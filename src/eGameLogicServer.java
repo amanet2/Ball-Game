@@ -174,12 +174,12 @@ public class eGameLogicServer extends eGameLogicAdapter {
     }
 
     public void clientReceivedCmd(String id) {
-        if(clientNetCmdBatchMap.get(id).length() > 0) {
+        if(!clientNetCmdBatchMap.get(id).isEmpty()) {
             try {
                 clientNetCmdBatchMap.put(id, "");
             }
             catch(Exception cre) {
-                cre.printStackTrace();
+                xMain.shellLogic.console.logException(cre);
                 clientNetCmdBatchMap.put(id, "");
             }
         }
@@ -190,12 +190,12 @@ public class eGameLogicServer extends eGameLogicAdapter {
         HashMap<String, String> netVars = new HashMap<>();
         netVars.put("cmd", "");
         netVars.put("time", Long.toString(sSettings.serverTimeLeft));
-        if(clientNetCmdMap.containsKey(clientid) && clientNetCmdMap.get(clientid).size() > 0) {
+        if(clientNetCmdMap.containsKey(clientid) && !clientNetCmdMap.get(clientid).isEmpty()) {
             StringBuilder currentBatchCmd = new StringBuilder(clientNetCmdBatchMap.get(clientid));
             while(currentBatchCmd.toString().split(";").length < sSettings.serverNetCmdBatchSize) {
-                if(clientNetCmdMap.get(clientid).size() < 1)
+                if(clientNetCmdMap.get(clientid).isEmpty())
                     break;
-                currentBatchCmd.append(currentBatchCmd.length() < 1 ? "" : ";").append(clientNetCmdMap.get(clientid).remove());
+                currentBatchCmd.append(currentBatchCmd.isEmpty() ? "" : ";").append(clientNetCmdMap.get(clientid).remove());
             }
             clientNetCmdBatchMap.put(clientid, currentBatchCmd.toString());
             netVars.put("cmd", currentBatchCmd.toString());
@@ -204,7 +204,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
         //add server vars to the sending map
         deltaStateMap.put("server", new nState());
         for(String k : netVars.keySet()) {
-            deltaStateMap.get("server").put(k, netVars.get(k));
+            deltaStateMap.get("server").put(k, netVars.get(k).replace(",","COMMA"));
         }
         return deltaStateMap.toString().replace(", ", ",");
     }
@@ -348,6 +348,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
         ArrayList<String> maplines = new ArrayList<>();
         maplines.add(String.format("cl_setvar velocityplayerbase %s;cl_setvar maploaded 0;cl_setvar gamemode %d;cl_setvar gametheme %d\n",
                 sSettings.serverVelocityPlayerBase, sSettings.serverGameMode, sSettings.serverGameTheme));
+        maplines.add(String.format("cl_setvar mapname %s\n", sSettings.serverMapName));
         ConcurrentHashMap<String, gThing> floorMap = xMain.shellLogic.serverScene.getThingMap("BLOCK_FLOOR");
         ConcurrentHashMap<String, gThing> cubeMap = xMain.shellLogic.serverScene.getThingMap("BLOCK_CUBE");
         ConcurrentHashMap<String, gThing> collisionMap = xMain.shellLogic.serverScene.getThingMap("BLOCK_COLLISION");
@@ -463,19 +464,17 @@ public class eGameLogicServer extends eGameLogicAdapter {
             }
             catch (Exception e) {
                 xMain.shellLogic.console.logException(e);
-                e.printStackTrace();
             }
         }
         catch (SocketException se) {
             //just to catch the closing
-            se.printStackTrace();
+            xMain.shellLogic.console.logException(se);
             return;
         }
         catch (Exception e) {
             xMain.shellLogic.console.logException(e);
-            e.printStackTrace();
         }
-        sSettings.tickReportServer = getTickReport();
+        sSettings.tickReportServer = tickReport;
     }
 
     @Override

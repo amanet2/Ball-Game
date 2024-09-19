@@ -1,6 +1,3 @@
-import javax.imageio.ImageIO;
-import javax.sound.sampled.Clip;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -10,6 +7,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import javax.imageio.ImageIO;
+import javax.sound.sampled.Clip;
+import javax.swing.*;
 
 public class eGameLogicShell extends eGameLogicAdapter {
     private long frameCounterTime = -1;
@@ -107,6 +107,11 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 sSettings.serverGameTheme = Integer.parseInt(value);
             }
         });
+        serverVars.putArg(new gArg("mapname", "map0") {
+            public void onChange() {
+                sSettings.serverMapName = value;
+            }
+        });
         serverVars.putArg(new gArg("maxhp", Integer.toString(sSettings.serverMaxHP)) {
             public void onChange() {
                 sSettings.serverMaxHP = Integer.parseInt(value);
@@ -170,7 +175,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
         clientVars.putArg(new gArg("refresh", "60") {
             public void onChange() {
                 sSettings.rateShell = Integer.parseInt(value);
-                xMain.shellSession.tickRate = sSettings.rateShell;
+                parentSession.tickRate = sSettings.rateShell;
             }
         });
         clientVars.putArg(new gArg("audioenabled", "1") {
@@ -192,8 +197,10 @@ public class eGameLogicShell extends eGameLogicAdapter {
         clientVars.putArg(new gArg("showmapmakerui", "0") {
             public void onChange() {
                 sSettings.show_mapmaker_ui = Integer.parseInt(value) > 0;
-                if(sSettings.show_mapmaker_ui)
+                if(sSettings.show_mapmaker_ui) {
                     sSettings.culling = false;
+                    sSettings.allowZoom = true;
+                }
             }
         });
         clientVars.putArg(new gArg("debuglog", "0") {
@@ -230,6 +237,11 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 sSettings.culling = value.equalsIgnoreCase("true") || value.equals("1");
             }
         });
+        clientVars.putArg(new gArg("allowzoom", "0") {
+            public void onChange() {
+                sSettings.allowZoom = value.equalsIgnoreCase("true") || value.equals("1");
+            }
+        });
         clientVars.putArg(new gArg("vfxenableanimations", "1"){
             public void onChange() {
                 sSettings.vfxenableanimations = value.equalsIgnoreCase("true") || value.equals("1");
@@ -251,7 +263,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
             }
         });
         clientVars.putArg(new gArg("gamemode", "0") {
-            public void onChange() {
+            public void onUpdate() {
                 sSettings.clientGameMode = Integer.parseInt(value);
                 sSettings.clientGameModeTitle = console.ex("cl_setvar GAMETYPE_"+value+"_title");
                 sSettings.clientGameModeText = console.ex("cl_setvar GAMETYPE_"+value+"_text");
@@ -262,6 +274,11 @@ public class eGameLogicShell extends eGameLogicAdapter {
         clientVars.putArg(new gArg("gametheme", "0") {
             public void onChange() {
                 sSettings.clientGameTheme = Integer.parseInt(value);
+            }
+        });
+        clientVars.putArg(new gArg("mapname", "map0") {
+            public void onChange() {
+                sSettings.clientMapName = value;
             }
         });
         clientVars.putArg(new gArg("maploaded", "0") {
@@ -310,6 +327,11 @@ public class eGameLogicShell extends eGameLogicAdapter {
             }
         });
         clientVars.putArg(new gArg("fontui", "None"));
+        clientVars.putArg(new gArg("showinfo", sSettings.showinfo ? "1" : "0"){
+            public void onChange() {
+                sSettings.showinfo = value.equals("1");
+            }
+        });
         clientVars.putArg(new gArg("showfps", "0"){
             public void onChange() {
                 sSettings.showfps = value.equals("1");
@@ -373,9 +395,9 @@ public class eGameLogicShell extends eGameLogicAdapter {
         }
         try {
             int themeCount = sSettings.clientGameThemes.length;
-            floorTextureSourceImages = new BufferedImage[themeCount];  // TODO: parameterize
-            wallTextureSourceImages = new BufferedImage[themeCount];   // ..
-            topTextureSourceImages = new BufferedImage[themeCount];    // ..
+            floorTextureSourceImages = new BufferedImage[themeCount];
+            wallTextureSourceImages = new BufferedImage[themeCount];
+            topTextureSourceImages = new BufferedImage[themeCount];
             floorTextures = new TexturePaint[floorTextureSourceImages.length];
             wallTextures = new TexturePaint[wallTextureSourceImages.length];
             topTextures = new TexturePaint[topTextureSourceImages.length];
@@ -395,7 +417,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
             }
         }
         catch (IOException err) {
-            err.printStackTrace();
+            console.logException(err);
         }
         showFrame();
         gAnimations.init();
@@ -425,7 +447,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 checkPlayerFire();
             updateEntityPositions(gameTimeMillis);
         }
-        sSettings.tickReport = getTickReport();
+        sSettings.tickReport = tickReport;
     }
 
     public gPlayer getUserPlayer() {
@@ -467,26 +489,6 @@ public class eGameLogicShell extends eGameLogicAdapter {
             uiEditorMenus.setupMapMakerWindow();
             console.ex(String.format("cl_execpreview prefabs/%s 0 0 12500 5600", sSettings.clientNewPrefabName));
         }
-//        else {
-//            JMenuBar menubar = new JMenuBar();
-//            frame.setJMenuBar(menubar);
-//            for(String t : new String[]{"Host", "Join", "Settings", "Quit"}) {
-//                uiEditorMenus.createNewMenu(t);
-//            }
-//            uiEditorMenus.addMenuItem("Host", "START");
-//            uiEditorMenus.addMenu("Host", "Map");
-//            uiEditorMenus.addMenuItem("Map", "random");
-//            uiEditorMenus.addMenuItem("Host", "Bots");
-////            uiEditorMenus.addCheckBoxMenuItem("Bots", "0");
-////            uiEditorMenus.addCheckBoxMenuItem("Bots", "1");
-////            uiEditorMenus.addCheckBoxMenuItem("Bots", "2");
-////            uiEditorMenus.addCheckBoxMenuItem("Bots", "3");
-//            uiEditorMenus.addMenuItem("Join", "START");
-//            uiEditorMenus.addMenuItem("Join", "IP");
-////            uiEditorMenus.addMenuItem("IP", "localhost");
-//            uiEditorMenus.addMenuItem("Join", "Port");
-////            uiEditorMenus.addMenuItem("Port", "5555");
-//        }
 
         frame.setVisible(true);
         //add listeners
@@ -507,30 +509,19 @@ public class eGameLogicShell extends eGameLogicAdapter {
     }
 
     private void checkAudio() {
-        if(clientScene.soundClips.size() > 0){
+        if(!clientScene.soundClips.isEmpty()){
             ArrayList<Clip> tr = new ArrayList<>();
             for (Clip c : clientScene.soundClips) {
                 if(!c.isRunning()) {
-//                    System.out.println("REMOVE ACTIVE SOUND CLIP: " + c);
                     tr.add(c);
-//                    c.stop();
-//                    c.flush();
-//                    c.close();
-//                    System.out.println("REMOVED ACTIVE SOUND CLIP: " + c);
-//                    c = null;
-//                    System.out.println("CLIP SET TO NULL");
                 }
             }
             for (Clip c : tr) {
-//                System.out.println("REMOVE ACTIVE SOUND CLIP: " + c);
                 c.stop();
                 c.flush();
                 c.close();
                 c.drain();
                 clientScene.soundClips.remove(c);
-//                System.out.println("REMOVED ACTIVE SOUND CLIP: " + c);
-                c = null;
-//                System.out.println("CLIP SET TO NULL");
             }
         }
     }
@@ -568,13 +559,13 @@ public class eGameLogicShell extends eGameLogicAdapter {
                     updateThingPositionFromVelocity(thingMap.get(id), gWeapons.fromCode(thing.src).bulletVel);
                 }
                 checkBulletSplashes();
-//                //popups
+                //popups
                 thingMap = clientScene.getThingMap("THING_POPUP");
                 for (String id : thingMap.keySet()) {
                     updateThingPositionFromVelocity(thingMap.get(id), sSettings.velocity_popup);
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                console.logException(e);
             }
         }
     }
@@ -648,7 +639,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 }
             }
         }
-        if(grenadeSeeds.size() > 0) {
+        if(!grenadeSeeds.isEmpty()) {
             for(gThing pseed : grenadeSeeds) {
                 gWeapons.createGrenadeExplosion(pseed, clientScene);
             }
@@ -669,17 +660,17 @@ public class eGameLogicShell extends eGameLogicAdapter {
 
     public int[] getMouseCoordinates() {
         return new int[]{
-                MouseInfo.getPointerInfo().getLocation().x - xMain.shellLogic.frame.getLocationOnScreen().x,
-                MouseInfo.getPointerInfo().getLocation().y - xMain.shellLogic.frame.getLocationOnScreen().y
+                MouseInfo.getPointerInfo().getLocation().x - frame.getLocationOnScreen().x,
+                MouseInfo.getPointerInfo().getLocation().y - frame.getLocationOnScreen().y
         };
     }
 
     public int[] getPlaceObjCoords() {
         int[] mc = getMouseCoordinates();
         int[] fabdims = uiEditorMenus.getNewPrefabDims();
-        int pfx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0])+(int) gCamera.coords[0] - fabdims[0]/2,
+        int pfx = eUtils.roundTo(eUtils.unscaleInt(mc[0])+(int) gCamera.coords[0] - fabdims[0]/2,
                 uiEditorMenus.snapToX);
-        int pfy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1])+(int) gCamera.coords[1] - fabdims[1]/2,
+        int pfy = eUtils.roundTo(eUtils.unscaleInt(mc[1])+(int) gCamera.coords[1] - fabdims[1]/2,
                 uiEditorMenus.snapToY);
         return new int[]{pfx, pfy};
     }
@@ -687,7 +678,8 @@ public class eGameLogicShell extends eGameLogicAdapter {
     public synchronized void getUIMenuItemUnderMouse() {
         if(!sSettings.hideMouseUI) {
             int[] mc = getMouseCoordinates();
-            int[] xBounds = new int[]{sSettings.width / 32, sSettings.width / 16};
+            int[] xBounds = new int[]{9 * sSettings.width / 32, 10 * sSettings.width / 32};  // goback button
+
             int[] yBounds = sSettings.borderless
                     ? new int[]{19*sSettings.height/60, 22*sSettings.height/60}
                     : new int[]{21*sSettings.height/60, 24*sSettings.height/60};
@@ -702,8 +694,33 @@ public class eGameLogicShell extends eGameLogicAdapter {
             else
                 uiMenus.gobackSelected = false;
             //menus
-            if (uiMenus.selectedMenu != uiMenus.MENU_CONTROLS) {
+            if(uiMenus.selectedMenu == uiMenus.MENU_MAP) {
                 for (int i = 0; i < uiMenus.menuSelection[uiMenus.selectedMenu].items.length; i++) {
+                    xBounds = new int[]{sSettings.width / 3 - sSettings.width / 8,
+                            sSettings.width / 3 + sSettings.width / 8};
+                    yBounds = new int[]{11 * sSettings.height / 30 + i * sSettings.height / 30,
+                            11 * sSettings.height / 30 + (i + 1) * sSettings.height / 30};
+                    if(i > 15) {
+                        xBounds = new int[]{2 * sSettings.width / 3 - sSettings.width / 8,
+                                2 * sSettings.width / 3 + sSettings.width / 8};
+                        yBounds = new int[]{11 * sSettings.height / 30 + (i - 16) * sSettings.height / 30,
+                                11 * sSettings.height / 30 + (i - 15) * sSettings.height / 30};
+                    }
+                    if (!sSettings.borderless) {
+                        yBounds[0] += 40;
+                        yBounds[1] += 40;
+                    }
+                    if ((mc[0] >= xBounds[0] && mc[0] <= xBounds[1]) && (mc[1] >= yBounds[0] && mc[1] <= yBounds[1])) {
+                        if (uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem != i)
+                            uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem = i;
+                        return;
+                    }
+                }
+            }
+            else if (uiMenus.selectedMenu != uiMenus.MENU_CONTROLS) {
+                for (int i = 0; i < uiMenus.menuSelection[uiMenus.selectedMenu].items.length; i++) {
+                    if(uiMenus.selectedMenu == uiMenus.MENU_MAIN && !sSettings.IS_CLIENT && i == 2)
+                        continue;
                     xBounds = new int[]{sSettings.width / 2 - sSettings.width / 8,
                             sSettings.width / 2 + sSettings.width / 8};
                     yBounds = new int[]{11 * sSettings.height / 30 + i * sSettings.height / 30,
@@ -752,7 +769,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
     }
 
     private void checkPlayerFire() {
-        if(getUserPlayer() != null && iMouse.holdingMouseLeft) {
+        if(getUserPlayer() != null && iInput.mouseInput.holdingMouseLeft) {
             gPlayer player = getUserPlayer();
             int weapint = player.weapon;
             long gametimemillis = sSettings.gameTime;

@@ -1,21 +1,13 @@
 public class eGameLogicAdapter implements eGameLogic {
     private int ticks;
     private long nextsecondnanos;
-    private int tickReport;
-    private eGameSession parentSession;
-
-    public void setParentSession(eGameSession session) {
-        parentSession = session;
-    }
+    protected int tickReport;
+    protected eGameSession parentSession;
 
     public eGameLogicAdapter() {
         ticks = 0;
         nextsecondnanos = 0;
         tickReport = 0;
-    }
-
-    public int getTickReport() {
-        return tickReport;
     }
 
     @Override

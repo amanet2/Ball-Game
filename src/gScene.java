@@ -70,13 +70,18 @@ public class gScene {
             int lowestY = 1000000000;
             String lowestId = "";
             for(String id : combinedMap.keySet()) {
-                if(combinedMap.get(id).coords[1] <= lowestY) {
+                // adjust the Y range here for players vs cubes
+                gThing currThing = combinedMap.get(id);
+                int testCoord = currThing.coords[1];
+                if(currThing.type.equalsIgnoreCase("THING_PLAYER"))
+                    testCoord -= 10;
+                if(testCoord <= lowestY) {
                     sorted = false;
                     lowestId = id;
-                    lowestY = combinedMap.get(id).coords[1];
+                    lowestY = testCoord;
                 }
             }
-            if(lowestId.length() > 0) {
+            if(!lowestId.isEmpty()) {
                 visualQueue.add(combinedMap.get(lowestId));
                 combinedMap.remove(lowestId);
             }
@@ -189,7 +194,6 @@ public class gScene {
             }
         } catch (IOException e) {
             xMain.shellLogic.console.logException(e);
-            e.printStackTrace();
         }
     }
 
@@ -264,7 +268,6 @@ public class gScene {
             }
         } catch (IOException e) {
             xMain.shellLogic.console.logException(e);
-            e.printStackTrace();
         }
     }
 }
