@@ -37,18 +37,15 @@ public class dPanel extends JPanel {
                 ((1.0 / sSettings.gamescale) * (double) sSettings.height)
         );
         g2.translate(-gCamera.coords[0], -gCamera.coords[1]);
-//        synchronized (scene.objectMaps) {
-            drawBlockFloors(g2, scene);
-            drawBlockWallsAndPlayers(g2, scene);
-            drawMapmakerOverlay(g2, scene);
-            drawBulletsAndAnimations(g2, scene);
-            drawWaypoints(g2, scene);
-            drawPopups(g2, scene);
-            drawUserPlayerArrow(g2);
-            drawPlayerNames(g2);
-            if (sSettings.show_mapmaker_ui)
-                drawSelectionBoxes(g2);
-//        }
+        drawBlockFloors(g2, scene);
+        drawBlockWallsAndPlayers(g2, scene);
+        drawMapmakerOverlay(g2, scene);
+        drawBulletsAndAnimations(g2, scene);
+        drawWaypoints(g2, scene);
+        drawPopups(g2, scene);
+        drawUserPlayerArrow(g2);
+        drawPlayerNames(g2);
+        drawSelectionBoxes(g2);
     }
 
     private void drawFrameUI(Graphics2D g2, long gameTimeMillis) {

@@ -32,7 +32,7 @@ public class xCon {
             return "usage: exec <script_id> <optional: args>";
         String scriptId = args[1];
         if(sSettings.serverLoadingFromHDD) { //detect loading from openFile
-            System.out.println("LOADING MAP FROM HDD");
+            debug("LOADING MAP FROM HDD");
             sSettings.serverLoadingFromHDD = false;
             ex("loadingscreen");
             try (BufferedReader br = new BufferedReader(new FileReader(scriptId))) {
@@ -1720,31 +1720,13 @@ public class xCon {
         PrintWriter pw = new PrintWriter(sw);
         e.printStackTrace(pw);
         String sStackTrace = sw.toString(); // stack trace as a string
-        System.out.println(sStackTrace);
+        debug(sStackTrace);
         ex("echo " + sStackTrace.split("\\n")[0]);
     }
 
     private void playerMoveDelegate(int dir) {
         gPlayer p = xMain.shellLogic.getUserPlayer();
         if(p != null) {
-            //snaptap-like
-//            if(dir == 0) {
-//                p.mov1 = 0;
-//                p.mov0 = 1;
-//            }
-//            else if(dir == 1) {
-//                p.mov0 = 0;
-//                p.mov1 = 1;
-//            }
-//            else if(dir == 2) {
-//                p.mov3 = 0;
-//                p.mov2 = 1;
-//            }
-//            else if(dir == 3) {
-//                p.mov2 = 0;
-//                p.mov3 = 1;
-//            }
-            // original
             if(dir == 0)
                 p.mov0 = 1;
             else if(dir == 1)
