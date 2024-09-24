@@ -12,17 +12,17 @@ public class eGameLogicAdapter implements eGameLogic {
 
     @Override
     public void init(){
-
+//        System.out.println(this + "_init " + System.currentTimeMillis());
     }
 
     @Override
     public void input() {
-
+//        System.out.println(this + "_input " + System.currentTimeMillis());
     }
 
     @Override
     public void render() {
-
+//        System.out.println(this + "_render " + System.currentTimeMillis());
     }
 
     @Override
@@ -34,11 +34,12 @@ public class eGameLogicAdapter implements eGameLogic {
             tickReport = ticks;
             ticks = 0;
         }
+//        System.out.println(this + "_update " + System.currentTimeMillis());
     }
 
     @Override
     public void disconnect() {
-        System.out.println("DESTROYING LOGIC: " + this);
+//        System.out.println(this + "_disconnect " + System.currentTimeMillis());
         parentSession.destroy();
     }
 

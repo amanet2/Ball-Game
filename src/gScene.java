@@ -28,6 +28,11 @@ public class gScene {
         soundClips = new ConcurrentLinkedQueue<>();
     }
 
+    public gScene(gScene sceneToCopy) {
+        objectMaps = new ConcurrentHashMap<>(sceneToCopy.objectMaps);
+        soundClips = new ConcurrentLinkedQueue<>(sceneToCopy.soundClips);
+    }
+
     public String[] getThingMapIds(String title) {
         Collection<String> pColl = getThingMap(title).keySet();
         int psize = pColl.size();

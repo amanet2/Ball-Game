@@ -30,6 +30,7 @@ public class dPanel extends JPanel {
         g2.scale(sSettings.zoomLevel, sSettings.zoomLevel);
         g2.translate(-sSettings.width / 2, -sSettings.height / 2);
         gScene scene = xMain.shellLogic.clientScene;
+//        gScene scene = new gScene(xMain.shellLogic.clientScene);
         if(scene == null)
             return;
         g2.scale(

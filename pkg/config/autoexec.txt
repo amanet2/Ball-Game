@@ -1,0 +1,2 @@
+cl_setvar allowzoom 1
+cl_setvar culling 0

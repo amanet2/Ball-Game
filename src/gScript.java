@@ -47,7 +47,6 @@ public class gScript {
         for(String arg : args) {
             argSet.put("$" + argCtr++, arg);
         }
-//        System.out.println("CLIENTPREVIEW SCRIPT CALLED: " + argSet.toString());
         for(String line : lines) {
             String[] lineArgCallTokens = line.trim().split(" ");
             for(int i = 0; i < lineArgCallTokens.length; i++) {
@@ -63,7 +62,6 @@ public class gScript {
             for(String lineArgtoken : lineArgCallTokens) {
                 execStringBuilder.append(" ").append(lineArgtoken);
             }
-//            System.out.println("CLIENTPREVIEW SCRIPT LINE:" + execStringBuilder);
             xMain.shellLogic.console.ex(execStringBuilder.substring(1));
         }
     }
