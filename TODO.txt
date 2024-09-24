@@ -1,2 +1,6 @@
-* FREEZING: major hitches randomly during gameplay
-    -> THEORY: thread-safe data structures holding things up?
+* CONSOLE AS INTERFACE:
+    -> finish replacing the console with new interface-based model
+    -> consoleShell is the old console with all commands
+    -> consoleServer and consoleClient are tailored for those roles
+        -> consoleSimulation too??
+    -> consoleShell should delegate to consoleServer and consoleClient when needed

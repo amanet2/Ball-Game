@@ -45,11 +45,66 @@ public class eConsoleLogicShell extends eConsoleLogicAdapter {
     }
 
     public eConsoleLogicShell() {
+        // SHELL commands should be able to handle playing as host and as a client
+        // the SERVER and CLIENT console commands should be called from here
+        // they will interact with network, scenes, etc.
         commands = new HashMap<>();
         commands.put("activatemenu", new eConsoleCommand(){
             @Override
             public void doCommand(String command) {
                 activateMenu();
+            }
+        });
+        commands.put("addbot", new eConsoleCommand(){
+            @Override
+            public void doCommand(String command) {
+                addbot();
+            }
+        });
+        commands.put("addcom", new eConsoleCommand(){
+            @Override
+            public void doCommand(String command) {
+                addcom();
+            }
+        });
+        commands.put("addcomi", new eConsoleCommand(){
+            @Override
+            public void doCommand(String command) {
+                addcomi();
+            }
+        });
+        commands.put("addcomx", new eConsoleCommand(){
+            @Override
+            public void doCommand(String command) {
+                addcomx();
+            }
+        });
+        commands.put("bind", new eConsoleCommand(){
+            @Override
+            public void doCommand(String command) {
+                bind();
+            }
+            @Override
+            public void undoCommand(String command) {
+                unbind();
+            }
+        });
+        commands.put("changemap", new eConsoleCommand(){
+            @Override
+            public void doCommand(String command) {
+                changemap();
+            }
+        });
+        commands.put("changemaprandom", new eConsoleCommand(){
+            @Override
+            public void doCommand(String command) {
+                changemaprandom();
+            }
+        });
+        commands.put("chat", new eConsoleCommand(){
+            @Override
+            public void doCommand(String command) {
+                chat();
             }
         });
     }
