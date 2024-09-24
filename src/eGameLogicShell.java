@@ -19,6 +19,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
     JFrame frame;
     JLayeredPane contentPane;
     xCon console;
+    eConsoleLogicShell consoleNew;
     gScene serverScene;
     gScene clientScene;
     gScene clientPreviewScene;
@@ -41,6 +42,10 @@ public class eGameLogicShell extends eGameLogicAdapter {
         enteringMessage = false;
     }
 
+    public void doConsoleCommand(String fullCommand) {
+        consoleNew.doCommand(fullCommand);
+    }
+
 
     public eGameLogicShell() {
         super();
@@ -49,7 +54,9 @@ public class eGameLogicShell extends eGameLogicAdapter {
         scriptFactory = new gScriptFactory();
         contentPane = new JLayeredPane();
         console = new xCon();
+        consoleNew = new eConsoleLogicShell();
         scheduledEvents = new gScheduler();
+        doConsoleCommand("activatemenu");
     }
 
     private void initGameObjectsAndScenes() {
