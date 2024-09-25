@@ -42,10 +42,6 @@ public class eGameLogicShell extends eGameLogicAdapter {
         enteringMessage = false;
     }
 
-    public void doConsoleCommand(String fullCommand) {
-        consoleNew.doCommand(fullCommand);
-    }
-
 
     public eGameLogicShell() {
         super();
@@ -56,7 +52,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
         console = new xCon();
         consoleNew = new eConsoleLogicShell();
         scheduledEvents = new gScheduler();
-        doConsoleCommand("activatemenu");
+        consoleNew.REM();
     }
 
     private void initGameObjectsAndScenes() {

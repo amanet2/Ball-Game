@@ -1,118 +1,434 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-
 public class eConsoleLogicShell extends eConsoleLogicAdapter {
-//    ArrayList<String> previousCommands;
-//    ArrayList<String> stringLines;
-//    int prevCommandIndex;
-//    String commandString;
-//    int linesToShowStart;
-//    int linesToShow;
-//    int cursorIndex;
-
-    public void doCommand(String fullCommand) {
-        System.out.println(fullCommand);
-        if(!fullCommand.isEmpty()) {
-            String[] args = fullCommand.trim().split(" ");
-            for(int i = 0; i < args.length; i++) {
-                if(args[i].startsWith("$") && xMain.shellLogic.serverVars.contains(args[i].substring(1)))
-                    args[i] = xMain.shellLogic.serverVars.get(args[i].substring(1));
-                else if(args[i].startsWith("$") && xMain.shellLogic.clientVars.contains(args[i].substring(1)))
-                    args[i] = xMain.shellLogic.clientVars.get(args[i].substring(1));
-            }
-            String command = args[0];
-            if(command.startsWith("-"))
-                command = command.substring(1);
-            eConsoleCommand cd = commands.get(command);
-            if (cd != null) {
-                StringBuilder realcom = new StringBuilder();
-                for(String arg : args) {
-                    realcom.append(" ").append(arg);
-                }
-                String comstring = realcom.substring(1);
-                if(comstring.charAt(0) == '-')
-                    cd.undoCommand(comstring);
-                else
-                    cd.doCommand(comstring);
-//                while (stringLines.size() > 1024) {
-//                    stringLines.remove(0);
-//                }
-//                while (previousCommands.size() > 32) {
-//                    previousCommands.remove(0);
-//                }
-            }
-        }
-    }
-
-    public eConsoleLogicShell() {
-        // SHELL commands should be able to handle playing as host and as a client
-        // the SERVER and CLIENT console commands should be called from here
-        // they will interact with network, scenes, etc.
-        commands = new HashMap<>();
-        commands.put("activatemenu", new eConsoleCommand(){
-            @Override
-            public void doCommand(String command) {
-                activateMenu();
-            }
-        });
-        commands.put("addbot", new eConsoleCommand(){
-            @Override
-            public void doCommand(String command) {
-                addbot();
-            }
-        });
-        commands.put("addcom", new eConsoleCommand(){
-            @Override
-            public void doCommand(String command) {
-                addcom();
-            }
-        });
-        commands.put("addcomi", new eConsoleCommand(){
-            @Override
-            public void doCommand(String command) {
-                addcomi();
-            }
-        });
-        commands.put("addcomx", new eConsoleCommand(){
-            @Override
-            public void doCommand(String command) {
-                addcomx();
-            }
-        });
-        commands.put("bind", new eConsoleCommand(){
-            @Override
-            public void doCommand(String command) {
-                bind();
-            }
-            @Override
-            public void undoCommand(String command) {
-                unbind();
-            }
-        });
-        commands.put("changemap", new eConsoleCommand(){
-            @Override
-            public void doCommand(String command) {
-                changemap();
-            }
-        });
-        commands.put("changemaprandom", new eConsoleCommand(){
-            @Override
-            public void doCommand(String command) {
-                changemaprandom();
-            }
-        });
-        commands.put("chat", new eConsoleCommand(){
-            @Override
-            public void doCommand(String command) {
-                chat();
-            }
-        });
-    }
-
     @Override
-    public void activateMenu() {
-        System.out.println("ACTIVATE MENU");
-//        if(!sSettings.inplay && !sSettings.show_mapmaker_ui)
-//            uiMenus.menuSelection[uiMenus.selectedMenu].items[uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem].doItem();
+    public void activatemenu(){
+        System.out.println("activatemenu");
+    }
+    @Override
+    public void addbot(){
+        System.out.println("addbot");
+    }
+    @Override
+    public void addcom(){
+        System.out.println("addcom");
+    }
+    @Override
+    public void addcomi(){
+        System.out.println("addcomi");
+    }
+    @Override
+    public void addcomx(){
+        System.out.println("addcomx");
+    }
+    @Override
+    public void bind(){
+        System.out.println("bind");
+    }
+    @Override
+    public void changemap(){
+        System.out.println("changemap");
+    }
+    @Override
+    public void changemaprandom(){
+        System.out.println("changemaprandom");
+    }
+    @Override
+    public void chat(){
+        System.out.println("chat");
+    }
+    @Override
+    public void cl_clearthingmappreview(){
+        System.out.println("cl_clearthingmappreview");
+    }
+    @Override
+    public void cl_deleteblock(){
+        System.out.println("cl_deleteblock");
+    }
+    @Override
+    public void cl_deleteitem(){
+        System.out.println("cl_deleteitem");
+    }
+    @Override
+    public void cl_deleteplayer(){
+        System.out.println("cl_deleteplayer");
+    }
+    @Override
+    public void cl_deleteprefab(){
+        System.out.println("cl_deleteprefab");
+    }
+    @Override
+    public void cl_echo(){
+        System.out.println("cl_echo");
+    }
+    @Override
+    public void cl_execpreview(){
+        System.out.println("cl_execpreview");
+    }
+    @Override
+    public void cl_fireweapon(){
+        System.out.println("cl_fireweapon");
+    }
+    @Override
+    public void cl_getres(){
+        System.out.println("cl_getres");
+    }
+    @Override
+    public void cl_load(){
+        System.out.println("cl_load");
+    }
+    @Override
+    public void cl_putcollision(){
+        System.out.println("cl_putcollision");
+    }
+    @Override
+    public void cl_putcube(){
+        System.out.println("cl_putcube");
+    }
+    @Override
+    public void cl_putcubepreview(){
+        System.out.println("cl_putcubepreview");
+    }
+    @Override
+    public void cl_putfloor(){
+        System.out.println("cl_putfloor");
+    }
+    @Override
+    public void cl_putfloorpreview(){
+        System.out.println("cl_putfloorpreview");
+    }
+    @Override
+    public void cl_putitem(){
+        System.out.println("cl_putitem");
+    }
+    @Override
+    public void cl_scenebrightness(){
+        System.out.println("cl_scenebrightness");
+    }
+    @Override
+    public void cl_setthing(){
+        System.out.println("cl_setthing");
+    }
+    @Override
+    public void cl_setvar(){
+        System.out.println("cl_setvar");
+    }
+    @Override
+    public void cl_shake(){
+        System.out.println("cl_shake");
+    }
+    @Override
+    public void cl_spawnanimation(){
+        System.out.println("cl_spawnanimation");
+    }
+    @Override
+    public void cl_spawnplayer(){
+        System.out.println("cl_spawnplayer");
+    }
+    @Override
+    public void cl_spawnpopup(){
+        System.out.println("cl_spawnpopup");
+    }
+    @Override
+    public void clientlist(){
+        System.out.println("clientlist");
+    }
+    @Override
+    public void commandlist(){
+        System.out.println("commandlist");
+    }
+    @Override
+    public void constr(){
+        System.out.println("constr");
+    }
+    @Override
+    public void cvarlist(){
+        System.out.println("cvarlist");
+    }
+    @Override
+    public void damageplayer(){
+        System.out.println("damageplayer");
+    }
+    @Override
+    public void deleteblock(){
+        System.out.println("deleteblock");
+    }
+    @Override
+    public void deleteitem(){
+        System.out.println("deleteitem");
+    }
+    @Override
+    public void deleteplayer(){
+        System.out.println("deleteplayer");
+    }
+    @Override
+    public void deleteprefab(){
+        System.out.println("deleteprefab");
+    }
+    @Override
+    public void disconnect(){
+        System.out.println("disconnect");
+    }
+    @Override
+    public void e_changejoinip(){
+        System.out.println("e_changejoinip");
+    }
+    @Override
+    public void e_changejoinport(){
+        System.out.println("e_changejoinport");
+    }
+    @Override
+    public void e_changeplayername(){
+        System.out.println("e_changeplayername");
+    }
+    @Override
+    public void e_delthing(){
+        System.out.println("e_delthing");
+    }
+    @Override
+    public void e_newmap(){
+        System.out.println("e_newmap");
+    }
+    @Override
+    public void e_openfile(){
+        System.out.println("e_openfile");
+    }
+    @Override
+    public void e_rotthing(){
+        System.out.println("e_rotthing");
+    }
+    @Override
+    public void e_saveas(){
+        System.out.println("e_saveas");
+    }
+    @Override
+    public void e_showlossalert(){
+        System.out.println("e_showlossalert");
+    }
+    @Override
+    public void echo(){
+        System.out.println("echo");
+    }
+    @Override
+    public void exec(){
+        System.out.println("exec");
+    }
+    @Override
+    public void exportprefab(){
+        System.out.println("exportprefab");
+    }
+    @Override
+    public void fireweapon(){
+        System.out.println("fireweapon");
+    }
+    @Override
+    public void foreachclient(){
+        System.out.println("foreachclient");
+    }
+    @Override
+    public void foreachlong(){
+        System.out.println("foreachlong");
+    }
+    @Override
+    public void foreachthing(){
+        System.out.println("foreachthing");
+    }
+    @Override
+    public void gamemode(){
+        System.out.println("gamemode");
+    }
+    @Override
+    public void gametheme(){
+        System.out.println("gametheme");
+    }
+    @Override
+    public void getnewitemid(){
+        System.out.println("getnewitemid");
+    }
+    @Override
+    public void getrand(){
+        System.out.println("getrand");
+    }
+    @Override
+    public void getrandclid(){
+        System.out.println("getrandclid");
+    }
+    @Override
+    public void getrandthing(){
+        System.out.println("getrandthing");
+    }
+    @Override
+    public void getres(){
+        System.out.println("getres");
+    }
+    @Override
+    public void givepoint(){
+        System.out.println("givepoint");
+    }
+    @Override
+    public void givewin(){
+        System.out.println("givewin");
+    }
+    @Override
+    public void gobackui(){
+        System.out.println("gobackui");
+    }
+    @Override
+    public void gte(){
+        System.out.println("gte");
+    }
+    @Override
+    public void hostgame(){
+        System.out.println("hostgame");
+    }
+    @Override
+    public void joingame(){
+        System.out.println("joingame");
+    }
+    @Override
+    public void load(){
+        System.out.println("load");
+    }
+    @Override
+    public void loadingscreen(){
+        System.out.println("loadingscreen");
+    }
+    @Override
+    public void mouseleft(){
+        System.out.println("mouseleft");
+    }
+    @Override
+    public void pause(){
+        System.out.println("pause");
+    }
+    @Override
+    public void pausebots(){
+        System.out.println("pausebots");
+    }
+    @Override
+    public void playerdown(){
+        System.out.println("playerdown");
+    }
+    @Override
+    public void playerleft(){
+        System.out.println("playerleft");
+    }
+    @Override
+    public void playerright(){
+        System.out.println("playerright");
+    }
+    @Override
+    public void playerup(){
+        System.out.println("playerup");
+    }
+    @Override
+    public void playsound(){
+        System.out.println("playsound");
+    }
+    @Override
+    public void putcollision(){
+        System.out.println("putcollision");
+    }
+    @Override
+    public void putcube(){
+        System.out.println("putcube");
+    }
+    @Override
+    public void putfloor(){
+        System.out.println("putfloor");
+    }
+    @Override
+    public void putitem(){
+        System.out.println("putitem");
+    }
+    @Override
+    public void quit(){
+        System.out.println("quit");
+    }
+    @Override
+    public void respawnnetplayer(){
+        System.out.println("respawnnetplayer");
+    }
+    @Override
+    public void say(){
+        System.out.println("say");
+    }
+    @Override
+    public void scheduleevent(){
+        System.out.println("scheduleevent");
+    }
+    @Override
+    public void selectdown(){
+        System.out.println("selectdown");
+    }
+    @Override
+    public void selectleft(){
+        System.out.println("selectleft");
+    }
+    @Override
+    public void selectright(){
+        System.out.println("selectright");
+    }
+    @Override
+    public void selectup(){
+        System.out.println("selectup");
+    }
+    @Override
+    public void setnplayer(){
+        System.out.println("setnplayer");
+    }
+    @Override
+    public void setnstate(){
+        System.out.println("setnstate");
+    }
+    @Override
+    public void setthing(){
+        System.out.println("setthing");
+    }
+    @Override
+    public void setvar(){
+        System.out.println("setvar");
+    }
+    @Override
+    public void showscore(){
+        System.out.println("showscore");
+    }
+    @Override
+    public void spawnplayer(){
+        System.out.println("spawnplayer");
+    }
+    @Override
+    public void spawnpopup(){
+        System.out.println("spawnpopup");
+    }
+    @Override
+    public void startserver(){
+        System.out.println("startserver");
+    }
+    @Override
+    public void sumint(){
+        System.out.println("sumint");
+    }
+    @Override
+    public void sumlong(){
+        System.out.println("sumlong");
+    }
+    @Override
+    public void svarlist(){
+        System.out.println("svarlist");
+    }
+    @Override
+    public void testres(){
+        System.out.println("testres");
+    }
+    @Override
+    public void testresn(){
+        System.out.println("testresn");
+    }
+    @Override
+    public void unbind(){
+        System.out.println("unbind");
+    }
+    @Override
+    public void zoom(){
+        System.out.println("zoom");
     }
 }

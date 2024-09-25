@@ -1,220 +1,111 @@
 public interface eConsoleLogic {
-    void disconnect();
-    
-    void sumlong();
-    
-    void getres();
-    
-    void cl_putitem();
-    
-    void activateMenu();
-    
-    void deleteitem();
-    
-    void echo();
-
-    void cl_putcollision();
-
-    void putcollision();
-
-    void gamemode();
-
-    void changemap();
-
-    void cl_deleteprefab();
-
-    void bind();
-
-    void e_changeplayername();
-
-    void e_newmap();
-
-    void gte();
-
-    void setnplayer();
-
-    void putfloor();
-
-    void cl_putfloor();
-
-    void sumint();
-
-    void clientlist();
-
-    void cl_putcube();
-
-    void showscore();
-
-    void e_openfile();
-
-    void scheduleevent();
-
-    void putcube();
-
-    void svarlist();
-
-    void cl_putcubepreview();
-
-    void foreachclient();
-
-    void cl_load();
-
-    void playerup();
-
-    void changemaprandom();
-
-    void spawnpopup();
-
-    void cl_getres();
-
-    void setthing();
-
-    void constr();
-
-    void e_delthing();
-
-    void selectleft();
-
-    void givewin();
-
-    void loadingscreen();
-
-    void putitem();
-
-    void cl_deleteitem();
-
-    void joingame();
-
-    void cl_shake();
-
-    void cl_scenebrightness();
-
-    void cl_spawnpopup();
-
-    void playsound();
-
-    void addcom();
-
-    void chat();
-
-    void quit();
-
     void REM();
-
-    void exportprefab();
-
-    void selectright();
-
-    void hostgame();
-
-    void cl_echo();
-
-    void e_showlossalert();
-
-    void getnewitemid();
-
-    void setvar();
-
-    void deleteblock();
-
-    void cl_clearthingmappreview();
-
-    void cl_spawnanimation();
-
-    void gobackui();
-
-    void e_changejoinip();
-
-    void selectup();
-
-    void commandlist();
-
-    void foreachlong();
-
-    void e_saveas();
-
-    void playerleft();
-
-    void cl_deleteplayer();
-
-    void givepoint();
-
-    void addcomx();
-
-    void startserver();
-
-    void cl_deleteblock();
-
-    void pause();
-
+    void activatemenu();
     void addbot();
-
-    void cvarlist();
-
-    void unbind();
-
-    void cl_setthing();
-
+    void addcom();
     void addcomi();
-
-    void exec();
-
-    void getrandthing();
-
-    void spawnplayer();
-
-    void selectdown();
-
-    void cl_fireweapon();
-
-    void mouseleft();
-
-    void testresn();
-
-    void load();
-
-    void getrandclid();
-
-    void gametheme();
-
-    void cl_spawnplayer();
-
-    void playerright();
-
-    void respawnnetplayer();
-
-    void deleteprefab();
-
-    void setnstate();
-
-    void foreachthing();
-
-    void getrand();
-
-    void say();
-
-    void zoom();
-
-    void e_changejoinport();
-
-    void e_rotthing();
-
-    void fireweapon();
-
-    void playerdown();
-
-    void cl_putfloorpreview();
-
-    void cl_setvar();
-
-    void pausebots();
-
-    void testres();
-
-    void deleteplayer();
-
-    void damageplayer();
-
+    void addcomx();
+    void bind();
+    void changemap();
+    void changemaprandom();
+    void chat();
+    void cl_clearthingmappreview();
+    void cl_deleteblock();
+    void cl_deleteitem();
+    void cl_deleteplayer();
+    void cl_deleteprefab();
+    void cl_echo();
     void cl_execpreview();
-
+    void cl_fireweapon();
+    void cl_getres();
+    void cl_load();
+    void cl_putcollision();
+    void cl_putcube();
+    void cl_putcubepreview();
+    void cl_putfloor();
+    void cl_putfloorpreview();
+    void cl_putitem();
+    void cl_scenebrightness();
+    void cl_setthing();
+    void cl_setvar();
+    void cl_shake();
+    void cl_spawnanimation();
+    void cl_spawnplayer();
+    void cl_spawnpopup();
+    void clientlist();
+    void commandlist();
+    void constr();
+    void cvarlist();
+    void damageplayer();
+    void deleteblock();
+    void deleteitem();
+    void deleteplayer();
+    void deleteprefab();
+    void disconnect();
+    void e_changejoinip();
+    void e_changejoinport();
+    void e_changeplayername();
+    void e_delthing();
+    void e_newmap();
+    void e_openfile();
+    void e_rotthing();
+    void e_saveas();
+    void e_showlossalert();
+    void echo();
+    void exec();
+    void exportprefab();
+    void fireweapon();
+    void foreachclient();
+    void foreachlong();
+    void foreachthing();
+    void gamemode();
+    void gametheme();
+    void getnewitemid();
+    void getrand();
+    void getrandclid();
+    void getrandthing();
+    void getres();
+    void givepoint();
+    void givewin();
+    void gobackui();
+    void gte();
+    void hostgame();
+    void joingame();
+    void load();
+    void loadingscreen();
+    void mouseleft();
+    void pause();
+    void pausebots();
+    void playerdown();
+    void playerleft();
+    void playerright();
+    void playerup();
+    void playsound();
+    void putcollision();
+    void putcube();
+    void putfloor();
+    void putitem();
+    void quit();
+    void respawnnetplayer();
+    void say();
+    void scheduleevent();
+    void selectdown();
+    void selectleft();
+    void selectright();
+    void selectup();
+    void setnplayer();
+    void setnstate();
+    void setthing();
+    void setvar();
+    void showscore();
+    void spawnplayer();
+    void spawnpopup();
+    void startserver();
+    void sumint();
+    void sumlong();
+    void svarlist();
+    void testres();
+    void testresn();
+    void unbind();
+    void zoom();
 }
