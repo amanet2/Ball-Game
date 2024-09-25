@@ -1,7 +1,11 @@
 public class eConsoleLogicShell extends eConsoleLogicAdapter {
     @Override
     public void activatemenu(){
-        System.out.println("activatemenu");
+        if(!sSettings.inplay && !sSettings.show_mapmaker_ui) {
+            xMain.shellLogic.console.ex("playsound sounds/bfg2.wav");
+            uiMenus.menuSelection[uiMenus.selectedMenu].items[
+                    uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem].doItem();
+        }
     }
     @Override
     public void addbot(){

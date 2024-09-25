@@ -81,11 +81,7 @@ public class xCon {
 
         commands.put("activatemenu", new gDoable() {
             public String doCommand(String fullCommand) {
-                if(!sSettings.inplay && !sSettings.show_mapmaker_ui) {
-                    ex("playsound sounds/bfg2.wav");
-                    uiMenus.menuSelection[uiMenus.selectedMenu].items[
-                            uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem].doItem();
-                }
+                xMain.shellLogic.consoleNew.activatemenu();
                 return "1";
             }
         });

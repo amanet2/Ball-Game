@@ -53,6 +53,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
         consoleNew = new eConsoleLogicShell();
         scheduledEvents = new gScheduler();
         consoleNew.REM();
+        console.ex("REM");
     }
 
     private void initGameObjectsAndScenes() {

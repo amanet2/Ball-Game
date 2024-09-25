@@ -1,9 +1,7 @@
 public class eConsoleLogicAdapter implements eConsoleLogic {
     @Override
     public void REM(){
-        //this enables script comments
-        //does nothing by design
-        System.out.println("REM");
+        //use for commenting lines in scripts
     }
     @Override
     public void activatemenu(){}
