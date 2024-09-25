@@ -4,3 +4,5 @@
     -> consoleServer and consoleClient are tailored for those roles
         -> consoleSimulation too??
     -> consoleShell should delegate to consoleServer and consoleClient when needed
+* xCon class is still valuable as an intake for user input
+    -> SEE EXAMPLE: activatemenu() called in xCon
