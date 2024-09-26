@@ -462,7 +462,7 @@ public class uiMenus {
                         new uiMenuItem("Get List") {
                             public void doItem() {
                                 try {
-                                    URL availableIps = new URL("http://127.0.0.1:8000/avail");
+                                    URL availableIps = new URL("http://24.12.189.179:8000/avail");
                                     BufferedReader res = new BufferedReader(new InputStreamReader(availableIps.openStream()));
                                     String resp = res.readLine(); //you get the IP as a String
                                     System.out.println("RESPONSE FROM FASTAPI SERVER: " + resp);

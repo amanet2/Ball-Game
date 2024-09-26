@@ -433,6 +433,20 @@ public class xCon {
                     xMain.shellLogic.clientVars.put("maploaded", "0");
                     xMain.shellLogic.clientNetThread.disconnect();
                     ex("cl_load");
+                    try {
+                        URL whatismyip = new URL("http://checkip.amazonaws.com");
+                        BufferedReader in = new BufferedReader(new InputStreamReader(whatismyip.openStream()));
+                        String ip = in.readLine(); //you get the IP as a String
+                        System.out.println("MY PUBLIC IP: " + ip);
+                        URL delmyip = new URL("http://24.12.189.179:8000/del?q="+ip);
+                        BufferedReader reg = new BufferedReader(new InputStreamReader(delmyip.openStream()));
+                        String regp = reg.readLine(); //you get the IP as a String
+                        System.out.println("RESPONSE FROM FASTAPI SERVER: " + regp);
+                    }
+                    catch(Exception err) {
+                        err.printStackTrace();
+                        System.out.println("COULD NOT ADD SERVER TO FASTAPI SERVER BROWSER");
+                    }
                     xMain.shellLogic.serverNetThread.disconnect();
                     xMain.shellLogic.serverSimulationThread.disconnect();
                 }
@@ -1573,9 +1587,9 @@ public class xCon {
                     BufferedReader in = new BufferedReader(new InputStreamReader(whatismyip.openStream()));
                     String ip = in.readLine(); //you get the IP as a String
                     System.out.println("MY PUBLIC IP: " + ip);
-                    URL addmyip = new URL("http://127.0.0.1:8000/add?q="+ip);
+                    URL addmyip = new URL("http://24.12.189.179:8000/add?q="+ip);
                     BufferedReader reg = new BufferedReader(new InputStreamReader(addmyip.openStream()));
-                    String regp = in.readLine(); //you get the IP as a String
+                    String regp = reg.readLine(); //you get the IP as a String
                     System.out.println("RESPONSE FROM FASTAPI SERVER: " + regp);
                 }
                 catch(Exception err) {
