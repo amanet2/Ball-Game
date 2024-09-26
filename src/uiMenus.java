@@ -498,7 +498,15 @@ public class uiMenus {
                                 }
                             }
                         },
-                        new uiMenuItem("null"),
+                        new uiMenuItem("null"){
+                            public void doItem() {
+                                if(!this.text.equalsIgnoreCase("null")) {
+                                    xMain.shellLogic.clientVars.put("joinip", this.text);
+                                    xMain.shellLogic.console.ex("joingame;pause");
+                                    selectedMenu = MENU_MAIN;
+                                }
+                            }
+                        },
                         new uiMenuItem("null"),
                         new uiMenuItem("null"),
                         new uiMenuItem("null"),
