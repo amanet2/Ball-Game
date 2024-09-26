@@ -1,4 +1,7 @@
 import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.Arrays;
 
 public class uiMenus {
@@ -22,6 +25,7 @@ public class uiMenus {
     static final int MENU_BOTS = 16;
     static final int MENU_POWER = 17;
     static final int MENU_TIME = 18;
+    static final int MENU_SERVER_BROWSER = 19;
 
     static int selectedMenu = MENU_MAIN;
 
@@ -37,6 +41,11 @@ public class uiMenus {
                         new uiMenuItem("Join Game") {
                             public void doItem(){
                                 selectedMenu = MENU_JOINGAME;
+                            }
+                        },
+                        new uiMenuItem("Server Browser") {
+                            public void doItem(){
+                                selectedMenu = MENU_SERVER_BROWSER;
                             }
                         },
                         new uiMenuItem("Disconnect") {
@@ -407,43 +416,99 @@ public class uiMenus {
                 });
             }
         },
-        new uiMenu("Time", new uiMenuItem[]{
-                new uiMenuItem(eUtils.getTimeString((long) 60000)){
-                    public void doItem() {
-                        sSettings.serverTimeLimit = 60000;
-                        menuSelection[MENU_NEWGAME].refresh();
-                        selectedMenu = MENU_NEWGAME;
+        new uiMenu(
+                "Time", new uiMenuItem[]{
+                    new uiMenuItem(eUtils.getTimeString((long) 60000)){
+                        public void doItem() {
+                            sSettings.serverTimeLimit = 60000;
+                            menuSelection[MENU_NEWGAME].refresh();
+                            selectedMenu = MENU_NEWGAME;
+                        }
+                    },
+                    new uiMenuItem(eUtils.getTimeString((long) 120000)){
+                        public void doItem() {
+                            sSettings.serverTimeLimit = 120000;
+                            menuSelection[MENU_NEWGAME].refresh();
+                            selectedMenu = MENU_NEWGAME;
+                        }
+                    },
+                    new uiMenuItem(eUtils.getTimeString((long) 180000)){
+                        public void doItem() {
+                            sSettings.serverTimeLimit = 180000;
+                            menuSelection[MENU_NEWGAME].refresh();
+                            selectedMenu = MENU_NEWGAME;
+                        }
+                    },
+                    new uiMenuItem(eUtils.getTimeString((long) 240000)){
+                        public void doItem() {
+                            sSettings.serverTimeLimit = 240000;
+                            menuSelection[MENU_NEWGAME].refresh();
+                            selectedMenu = MENU_NEWGAME;
+                        }
+                    },
+                    new uiMenuItem(eUtils.getTimeString((long) 300000)){
+                        public void doItem() {
+                            sSettings.serverTimeLimit = 300000;
+                            menuSelection[MENU_NEWGAME].refresh();
+                            selectedMenu = MENU_NEWGAME;
+                        }
                     }
+            },
+            MENU_NEWGAME
+        ),
+        new uiMenu(
+                "Server Browser",
+                new uiMenuItem[]{
+                        new uiMenuItem("Get List") {
+                            public void doItem() {
+                                try {
+                                    URL availableIps = new URL("http://127.0.0.1:8000/avail");
+                                    BufferedReader res = new BufferedReader(new InputStreamReader(availableIps.openStream()));
+                                    String resp = res.readLine(); //you get the IP as a String
+                                    System.out.println("RESPONSE FROM FASTAPI SERVER: " + resp);
+                                    String[] resp_servers = resp.replace("[","").replace("]","").replace("\"", "").split(",");
+                                    String[] disp_servers = new String[]{
+                                            "null",
+                                            "null",
+                                            "null",
+                                            "null",
+                                            "null",
+                                            "null",
+                                            "null",
+                                            "null",
+                                    };
+                                    for(int i = 0; i < resp_servers.length; i++) {
+                                        disp_servers[i] = resp_servers[i];
+                                    }
+                                    uiMenus.menuSelection[uiMenus.MENU_SERVER_BROWSER].setMenuItemTexts(new String[]{
+                                            "Get List",
+                                            disp_servers[0],
+                                            disp_servers[1],
+                                            disp_servers[2],
+                                            disp_servers[3],
+                                            disp_servers[4],
+                                            disp_servers[5],
+                                            disp_servers[6],
+                                            disp_servers[7]
+                                    });
+                                }
+                                catch(Exception err) {
+                                    err.printStackTrace();
+                                    System.out.println("COULD NOT ADD SERVER TO FASTAPI SERVER BROWSER");
+                                }
+                            }
+                        },
+                        new uiMenuItem("null"),
+                        new uiMenuItem("null"),
+                        new uiMenuItem("null"),
+                        new uiMenuItem("null"),
+                        new uiMenuItem("null"),
+                        new uiMenuItem("null"),
+                        new uiMenuItem("null"),
+                        new uiMenuItem("null")
                 },
-                new uiMenuItem(eUtils.getTimeString((long) 120000)){
-                    public void doItem() {
-                        sSettings.serverTimeLimit = 120000;
-                        menuSelection[MENU_NEWGAME].refresh();
-                        selectedMenu = MENU_NEWGAME;
-                    }
-                },
-                new uiMenuItem(eUtils.getTimeString((long) 180000)){
-                    public void doItem() {
-                        sSettings.serverTimeLimit = 180000;
-                        menuSelection[MENU_NEWGAME].refresh();
-                        selectedMenu = MENU_NEWGAME;
-                    }
-                },
-                new uiMenuItem(eUtils.getTimeString((long) 240000)){
-                    public void doItem() {
-                        sSettings.serverTimeLimit = 240000;
-                        menuSelection[MENU_NEWGAME].refresh();
-                        selectedMenu = MENU_NEWGAME;
-                    }
-                },
-                new uiMenuItem(eUtils.getTimeString((long) 300000)){
-                    public void doItem() {
-                        sSettings.serverTimeLimit = 300000;
-                        menuSelection[MENU_NEWGAME].refresh();
-                        selectedMenu = MENU_NEWGAME;
-                    }
-                }
-        }, MENU_NEWGAME)
+                MENU_MAIN
+        ),
     };
 
     private static uiMenuItem[] getBotMenuItems() {

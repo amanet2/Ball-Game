@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.io.*;
+import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -1567,6 +1568,20 @@ public class xCon {
         });
         commands.put("startserver", new gDoable() {
             public String doCommand(String fullCommand) {
+                try {
+                    URL whatismyip = new URL("http://checkip.amazonaws.com");
+                    BufferedReader in = new BufferedReader(new InputStreamReader(whatismyip.openStream()));
+                    String ip = in.readLine(); //you get the IP as a String
+                    System.out.println("MY PUBLIC IP: " + ip);
+                    URL addmyip = new URL("http://127.0.0.1:8000/add?q="+ip);
+                    BufferedReader reg = new BufferedReader(new InputStreamReader(addmyip.openStream()));
+                    String regp = in.readLine(); //you get the IP as a String
+                    System.out.println("RESPONSE FROM FASTAPI SERVER: " + regp);
+                }
+                catch(Exception err) {
+                    err.printStackTrace();
+                    System.out.println("COULD NOT ADD SERVER TO FASTAPI SERVER BROWSER");
+                }
                 xMain.shellLogic.serverSimulationThread = new eGameLogicSimulation();
                 new eGameSession(xMain.shellLogic.serverSimulationThread, sSettings.ratesimulation);
                 xMain.shellLogic.serverNetThread = new eGameLogicServer();

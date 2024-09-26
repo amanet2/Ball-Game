@@ -722,7 +722,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
             }
             else if (uiMenus.selectedMenu != uiMenus.MENU_CONTROLS) {
                 for (int i = 0; i < uiMenus.menuSelection[uiMenus.selectedMenu].items.length; i++) {
-                    if(uiMenus.selectedMenu == uiMenus.MENU_MAIN && !sSettings.IS_CLIENT && i == 2)
+                    if(uiMenus.selectedMenu == uiMenus.MENU_MAIN && !sSettings.IS_CLIENT && i == 3) //grey out disconnect
                         continue;
                     xBounds = new int[]{sSettings.width / 2 - sSettings.width / 8,
                             sSettings.width / 2 + sSettings.width / 8};
