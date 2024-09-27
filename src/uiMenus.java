@@ -478,7 +478,8 @@ public class uiMenus {
                                             "null",
                                     };
                                     for(int i = 0; i < resp_servers.length; i++) {
-                                        disp_servers[i] = resp_servers[i];
+                                        if(!resp_servers[i].isEmpty())
+                                            disp_servers[i] = resp_servers[i];
                                     }
                                     uiMenus.menuSelection[uiMenus.MENU_SERVER_BROWSER].setMenuItemTexts(new String[]{
                                             "Get List",
