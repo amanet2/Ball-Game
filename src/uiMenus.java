@@ -3,6 +3,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class uiMenus {
     static boolean gobackSelected = false;
@@ -28,6 +29,9 @@ public class uiMenus {
     static final int MENU_SERVER_BROWSER = 19;
 
     static int selectedMenu = MENU_MAIN;
+
+    private static nState serverBrowserState;
+    private static HashMap<String, String> serverBrowserNamesToAddressTable;
 
     static final uiMenu[] menuSelection = new uiMenu[]{
         new uiMenu(
@@ -466,7 +470,15 @@ public class uiMenus {
                                     BufferedReader res = new BufferedReader(new InputStreamReader(availableIps.openStream()));
                                     String resp = res.readLine(); //you get the IP as a String
                                     System.out.println("RESPONSE FROM FASTAPI SERVER: " + resp);
-                                    String[] resp_servers = resp.replace("[","").replace("]","").replace("\"", "").split(",");
+                                    serverBrowserState = new nState(resp.replace(":","="));
+                                    serverBrowserNamesToAddressTable = new HashMap<>();
+                                    String[] resp_servers = new String[serverBrowserState.keys().size()];
+                                    int ctr = 0;
+                                    for(String k : serverBrowserState.keys()) {
+                                        resp_servers[ctr] = serverBrowserState.get(k).replace("\"", "");
+                                        serverBrowserNamesToAddressTable.put(resp_servers[ctr], k.replace("\"", ""));
+                                        ctr++;
+                                    }
                                     String[] disp_servers = new String[]{
                                             "null",
                                             "null",
@@ -495,26 +507,82 @@ public class uiMenus {
                                 }
                                 catch(Exception err) {
                                     err.printStackTrace();
-                                    System.out.println("COULD NOT ADD SERVER TO FASTAPI SERVER BROWSER");
+                                    System.out.println("COULD NOT GET SERVER LIST");
                                 }
                             }
                         },
                         new uiMenuItem("null"){
                             public void doItem() {
                                 if(!this.text.equalsIgnoreCase("null")) {
-                                    xMain.shellLogic.clientVars.put("joinip", this.text);
+                                    xMain.shellLogic.clientVars.put("joinip", serverBrowserNamesToAddressTable.get(this.text));
                                     xMain.shellLogic.console.ex("joingame;pause");
                                     selectedMenu = MENU_MAIN;
                                 }
                             }
                         },
-                        new uiMenuItem("null"),
-                        new uiMenuItem("null"),
-                        new uiMenuItem("null"),
-                        new uiMenuItem("null"),
-                        new uiMenuItem("null"),
-                        new uiMenuItem("null"),
-                        new uiMenuItem("null")
+                        new uiMenuItem("null"){
+                            public void doItem() {
+                                if(!this.text.equalsIgnoreCase("null")) {
+                                    xMain.shellLogic.clientVars.put("joinip", serverBrowserNamesToAddressTable.get(this.text));
+                                    xMain.shellLogic.console.ex("joingame;pause");
+                                    selectedMenu = MENU_MAIN;
+                                }
+                            }
+                        },
+                        new uiMenuItem("null"){
+                            public void doItem() {
+                                if(!this.text.equalsIgnoreCase("null")) {
+                                    xMain.shellLogic.clientVars.put("joinip", serverBrowserNamesToAddressTable.get(this.text));
+                                    xMain.shellLogic.console.ex("joingame;pause");
+                                    selectedMenu = MENU_MAIN;
+                                }
+                            }
+                        },
+                        new uiMenuItem("null"){
+                            public void doItem() {
+                                if(!this.text.equalsIgnoreCase("null")) {
+                                    xMain.shellLogic.clientVars.put("joinip", serverBrowserNamesToAddressTable.get(this.text));
+                                    xMain.shellLogic.console.ex("joingame;pause");
+                                    selectedMenu = MENU_MAIN;
+                                }
+                            }
+                        },
+                        new uiMenuItem("null"){
+                            public void doItem() {
+                                if(!this.text.equalsIgnoreCase("null")) {
+                                    xMain.shellLogic.clientVars.put("joinip", serverBrowserNamesToAddressTable.get(this.text));
+                                    xMain.shellLogic.console.ex("joingame;pause");
+                                    selectedMenu = MENU_MAIN;
+                                }
+                            }
+                        },
+                        new uiMenuItem("null"){
+                            public void doItem() {
+                                if(!this.text.equalsIgnoreCase("null")) {
+                                    xMain.shellLogic.clientVars.put("joinip", serverBrowserNamesToAddressTable.get(this.text));
+                                    xMain.shellLogic.console.ex("joingame;pause");
+                                    selectedMenu = MENU_MAIN;
+                                }
+                            }
+                        },
+                        new uiMenuItem("null"){
+                            public void doItem() {
+                                if(!this.text.equalsIgnoreCase("null")) {
+                                    xMain.shellLogic.clientVars.put("joinip", serverBrowserNamesToAddressTable.get(this.text));
+                                    xMain.shellLogic.console.ex("joingame;pause");
+                                    selectedMenu = MENU_MAIN;
+                                }
+                            }
+                        },
+                        new uiMenuItem("null"){
+                            public void doItem() {
+                                if(!this.text.equalsIgnoreCase("null")) {
+                                    xMain.shellLogic.clientVars.put("joinip", serverBrowserNamesToAddressTable.get(this.text));
+                                    xMain.shellLogic.console.ex("joingame;pause");
+                                    selectedMenu = MENU_MAIN;
+                                }
+                            }
+                        },
                 },
                 MENU_MAIN
         ),
