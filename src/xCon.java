@@ -1587,9 +1587,9 @@ public class xCon {
                     BufferedReader in = new BufferedReader(new InputStreamReader(whatismyip.openStream()));
                     String ip = in.readLine(); //you get the IP as a String
                     System.out.println("MY PUBLIC IP: " + ip);
-                    URL delmyip = new URL("https://ballbrowser-0-842704188107.us-central1.run.app/del?ip="+ip);
-                    BufferedReader delres = new BufferedReader(new InputStreamReader(delmyip.openStream()));
-                    String delress = delres.readLine(); //you get the IP as a String
+//                    URL delmyip = new URL("https://ballbrowser-0-842704188107.us-central1.run.app/del?ip="+ip);
+//                    BufferedReader delres = new BufferedReader(new InputStreamReader(delmyip.openStream()));
+//                    String delress = delres.readLine(); //you get the IP as a String
                     URL addmyip = new URL("https://ballbrowser-0-842704188107.us-central1.run.app/add?ip="+ip);
                     BufferedReader addres = new BufferedReader(new InputStreamReader(addmyip.openStream()));
                     String address = addres.readLine(); //you get the IP as a String
