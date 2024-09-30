@@ -1,2 +1,3 @@
-* FREEZING: major hitches randomly during gameplay
-    -> THEORY: thread-safe data structures holding things up?
+* SERVER BROWSER
+    -> Have server thread check in every 30 seconds to update player count
+    -> use scheduledEvents when starting the server/newgame (whichever is more sensible)
