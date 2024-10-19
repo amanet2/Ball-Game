@@ -232,7 +232,7 @@ public class uiMenus {
                 new uiMenuItem[]{
                         new uiMenuItem("-Start-"){
                             public void doItem() {
-                                xMain.shellLogic.console.ex("joingame;pause");
+                                xMain.shellLogic.console.ex(String.format("joingame %s;pause", xMain.shellLogic.console.ex("cl_setvar joinip")));
                                 selectedMenu = MENU_MAIN;
                             }
                         },
