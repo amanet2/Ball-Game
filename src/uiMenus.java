@@ -514,8 +514,7 @@ public class uiMenus {
                         new uiMenuItem("null"){
                             public void doItem() {
                                 if(!this.text.equalsIgnoreCase("null")) {
-                                    xMain.shellLogic.clientVars.put("joinip", serverBrowserNamesToAddressTable.get(this.text));
-                                    xMain.shellLogic.console.ex("joingame;pause");
+                                    xMain.shellLogic.console.ex(String.format("joingame %s;pause", serverBrowserNamesToAddressTable.get(this.text)));
                                     selectedMenu = MENU_MAIN;
                                 }
                             }
@@ -523,8 +522,7 @@ public class uiMenus {
                         new uiMenuItem("null"){
                             public void doItem() {
                                 if(!this.text.equalsIgnoreCase("null")) {
-                                    xMain.shellLogic.clientVars.put("joinip", serverBrowserNamesToAddressTable.get(this.text));
-                                    xMain.shellLogic.console.ex("joingame;pause");
+                                    xMain.shellLogic.console.ex(String.format("joingame %s;pause", serverBrowserNamesToAddressTable.get(this.text)));
                                     selectedMenu = MENU_MAIN;
                                 }
                             }
@@ -532,8 +530,7 @@ public class uiMenus {
                         new uiMenuItem("null"){
                             public void doItem() {
                                 if(!this.text.equalsIgnoreCase("null")) {
-                                    xMain.shellLogic.clientVars.put("joinip", serverBrowserNamesToAddressTable.get(this.text));
-                                    xMain.shellLogic.console.ex("joingame;pause");
+                                    xMain.shellLogic.console.ex(String.format("joingame %s;pause", serverBrowserNamesToAddressTable.get(this.text)));
                                     selectedMenu = MENU_MAIN;
                                 }
                             }
@@ -541,8 +538,7 @@ public class uiMenus {
                         new uiMenuItem("null"){
                             public void doItem() {
                                 if(!this.text.equalsIgnoreCase("null")) {
-                                    xMain.shellLogic.clientVars.put("joinip", serverBrowserNamesToAddressTable.get(this.text));
-                                    xMain.shellLogic.console.ex("joingame;pause");
+                                    xMain.shellLogic.console.ex(String.format("joingame %s;pause", serverBrowserNamesToAddressTable.get(this.text)));
                                     selectedMenu = MENU_MAIN;
                                 }
                             }
@@ -550,8 +546,7 @@ public class uiMenus {
                         new uiMenuItem("null"){
                             public void doItem() {
                                 if(!this.text.equalsIgnoreCase("null")) {
-                                    xMain.shellLogic.clientVars.put("joinip", serverBrowserNamesToAddressTable.get(this.text));
-                                    xMain.shellLogic.console.ex("joingame;pause");
+                                    xMain.shellLogic.console.ex(String.format("joingame %s;pause", serverBrowserNamesToAddressTable.get(this.text)));
                                     selectedMenu = MENU_MAIN;
                                 }
                             }
@@ -559,8 +554,7 @@ public class uiMenus {
                         new uiMenuItem("null"){
                             public void doItem() {
                                 if(!this.text.equalsIgnoreCase("null")) {
-                                    xMain.shellLogic.clientVars.put("joinip", serverBrowserNamesToAddressTable.get(this.text));
-                                    xMain.shellLogic.console.ex("joingame;pause");
+                                    xMain.shellLogic.console.ex(String.format("joingame %s;pause", serverBrowserNamesToAddressTable.get(this.text)));
                                     selectedMenu = MENU_MAIN;
                                 }
                             }
@@ -568,8 +562,7 @@ public class uiMenus {
                         new uiMenuItem("null"){
                             public void doItem() {
                                 if(!this.text.equalsIgnoreCase("null")) {
-                                    xMain.shellLogic.clientVars.put("joinip", serverBrowserNamesToAddressTable.get(this.text));
-                                    xMain.shellLogic.console.ex("joingame;pause");
+                                    xMain.shellLogic.console.ex(String.format("joingame %s;pause", serverBrowserNamesToAddressTable.get(this.text)));
                                     selectedMenu = MENU_MAIN;
                                 }
                             }
@@ -577,8 +570,7 @@ public class uiMenus {
                         new uiMenuItem("null"){
                             public void doItem() {
                                 if(!this.text.equalsIgnoreCase("null")) {
-                                    xMain.shellLogic.clientVars.put("joinip", serverBrowserNamesToAddressTable.get(this.text));
-                                    xMain.shellLogic.console.ex("joingame;pause");
+                                    xMain.shellLogic.console.ex(String.format("joingame %s;pause", serverBrowserNamesToAddressTable.get(this.text)));
                                     selectedMenu = MENU_MAIN;
                                 }
                             }

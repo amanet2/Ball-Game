@@ -10,6 +10,7 @@ public class eGameLogicClient extends eGameLogicAdapter {
     private boolean cmdReceived;
     public String clientStateSnapshot; //hold snapshot of clientStateMap
     private int failure_count = 0;
+    public String gameIP = "localhost";
 
     public eGameLogicClient() {
         super();
@@ -133,7 +134,7 @@ public class eGameLogicClient extends eGameLogicAdapter {
             if(sSettings.IS_SERVER)
                 IPAddress = InetAddress.getByName("127.0.0.1");
             else
-                IPAddress = InetAddress.getByName(xMain.shellLogic.console.ex("cl_setvar joinip"));
+                IPAddress = InetAddress.getByName(xMain.shellLogic.clientNetThread.gameIP);
             String sendDataString = getNetVars().toString().replace(", ", ",");
             byte[] clientSendData = sendDataString.getBytes();
             DatagramPacket sendPacket = new DatagramPacket(clientSendData, clientSendData.length, IPAddress,

@@ -891,7 +891,12 @@ public class xCon {
         });
         commands.put("joingame", new gDoable() {
             public String doCommand(String fullCommand) {
+                String[] toks = fullCommand.split(" ");
+                String joinip = "localhost";
+                if(toks.length > 1)
+                    joinip = toks[1];
                 xMain.shellLogic.clientNetThread = new eGameLogicClient();
+                xMain.shellLogic.clientNetThread.gameIP = joinip;
                 new eGameSession(xMain.shellLogic.clientNetThread, sSettings.rateclient);
                 sSettings.IS_CLIENT = true;
                 return "joined game";
