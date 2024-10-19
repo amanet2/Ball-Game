@@ -13,7 +13,7 @@ cl_setvar framerates 30,60,120,240,360,480,540,1000
 REM screen height
 cl_setvar height 720
 REM default net address
-cl_setvar joinip 24.12.189.179
+cl_setvar joinip localhost
 REM default net port
 cl_setvar joinport 5555
 REM player color
