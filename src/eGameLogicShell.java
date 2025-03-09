@@ -149,9 +149,22 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 sSettings.respawnEnabled = value.equalsIgnoreCase("true") || value.equals("1");
             }
         });
+        serverVars.putArg(new gArg("servername", "ballgame") {
+            public void onChange() {
+                sSettings.serverName = value;
+            }
+        });
         serverVars.loadFromFile(sSettings.CONFIG_FILE_LOCATION_SERVER);
         serverVars.loadFromLaunchArgs(xMain.launchArgs);
 
+
+        /*
+        *
+        *
+        * CLIENT VARS BELOW
+        *
+        *
+        * */
         //init client vars
         clientVars.putArg(new gArg("width", "1920") {
             public void onChange() {

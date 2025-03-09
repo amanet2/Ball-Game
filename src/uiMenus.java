@@ -30,8 +30,7 @@ public class uiMenus {
 
     static int selectedMenu = MENU_MAIN;
 
-    private static nState serverBrowserState;
-    private static HashMap<String, String> serverBrowserNamesToAddressTable;
+    private static HashMap<String, String> serverBrowserMenuLineToGuidMap;
 
     static final uiMenu[] menuSelection = new uiMenu[]{
         new uiMenu(
@@ -470,15 +469,9 @@ public class uiMenus {
                                     BufferedReader res = new BufferedReader(new InputStreamReader(availableIps.openStream()));
                                     String resp = res.readLine(); //you get the IP as a String
                                     System.out.println("RESPONSE FROM FASTAPI SERVER: " + resp);
-                                    serverBrowserState = new nState(resp.replace(":","="));
-                                    serverBrowserNamesToAddressTable = new HashMap<>();
-                                    String[] resp_servers = new String[serverBrowserState.keys().size()];
-                                    int ctr = 0;
-                                    for(String k : serverBrowserState.keys()) {
-                                        resp_servers[ctr] = serverBrowserState.get(k).replace("\"", "");
-                                        serverBrowserNamesToAddressTable.put(resp_servers[ctr], k.replace("\"", ""));
-                                        ctr++;
-                                    }
+
+                                    String[] serverToks = resp.split("}");
+                                    serverBrowserMenuLineToGuidMap = new HashMap<>();
                                     String[] disp_servers = new String[]{
                                             "null",
                                             "null",
@@ -489,10 +482,24 @@ public class uiMenus {
                                             "null",
                                             "null",
                                     };
-                                    for(int i = 0; i < resp_servers.length; i++) {
-                                        if(!resp_servers[i].isEmpty())
-                                            disp_servers[i] = resp_servers[i];
+
+                                    // BIG PARSE HERE
+                                    for (int ctr = 0; ctr < serverToks.length; ctr++) {
+                                        String tok = serverToks[ctr];
+                                        if(tok.startsWith("{"))
+                                            tok = tok.replaceFirst("\\{", "");
+                                        if(tok.startsWith(","))
+                                            tok = tok.replaceFirst(",", "");
+                                        tok += "}";
+
+                                        String[] serverGuidAndContents = tok.split(":", 2);
+                                        nState serverState = new nState(serverGuidAndContents[1].replace(":", "=").replace("\"", ""));
+                                        disp_servers[ctr] = String.format("%s (%s/%s)", serverState.get("name"), serverState.get("players"), serverState.get("playerlimit"));
+                                        serverBrowserMenuLineToGuidMap.put(Integer.toString(ctr), serverGuidAndContents[0]);
                                     }
+                                    System.out.println(serverBrowserMenuLineToGuidMap);
+                                    // END BIG PARSE
+
                                     uiMenus.menuSelection[uiMenus.MENU_SERVER_BROWSER].setMenuItemTexts(new String[]{
                                             "Get List",
                                             disp_servers[0],
@@ -514,7 +521,7 @@ public class uiMenus {
                         new uiMenuItem("null"){
                             public void doItem() {
                                 if(!this.text.equalsIgnoreCase("null")) {
-                                    xMain.shellLogic.console.ex(String.format("joingame %s;pause", serverBrowserNamesToAddressTable.get(this.text)));
+//                                    xMain.shellLogic.console.ex(String.format("joingame %s;pause", serverBrowserNamesToAddressTable.get(this.text)));
                                     selectedMenu = MENU_MAIN;
                                 }
                             }
@@ -522,7 +529,7 @@ public class uiMenus {
                         new uiMenuItem("null"){
                             public void doItem() {
                                 if(!this.text.equalsIgnoreCase("null")) {
-                                    xMain.shellLogic.console.ex(String.format("joingame %s;pause", serverBrowserNamesToAddressTable.get(this.text)));
+//                                    xMain.shellLogic.console.ex(String.format("joingame %s;pause", serverBrowserNamesToAddressTable.get(this.text)));
                                     selectedMenu = MENU_MAIN;
                                 }
                             }
@@ -530,7 +537,7 @@ public class uiMenus {
                         new uiMenuItem("null"){
                             public void doItem() {
                                 if(!this.text.equalsIgnoreCase("null")) {
-                                    xMain.shellLogic.console.ex(String.format("joingame %s;pause", serverBrowserNamesToAddressTable.get(this.text)));
+//                                    xMain.shellLogic.console.ex(String.format("joingame %s;pause", serverBrowserNamesToAddressTable.get(this.text)));
                                     selectedMenu = MENU_MAIN;
                                 }
                             }
@@ -538,7 +545,7 @@ public class uiMenus {
                         new uiMenuItem("null"){
                             public void doItem() {
                                 if(!this.text.equalsIgnoreCase("null")) {
-                                    xMain.shellLogic.console.ex(String.format("joingame %s;pause", serverBrowserNamesToAddressTable.get(this.text)));
+//                                    xMain.shellLogic.console.ex(String.format("joingame %s;pause", serverBrowserNamesToAddressTable.get(this.text)));
                                     selectedMenu = MENU_MAIN;
                                 }
                             }
@@ -546,7 +553,7 @@ public class uiMenus {
                         new uiMenuItem("null"){
                             public void doItem() {
                                 if(!this.text.equalsIgnoreCase("null")) {
-                                    xMain.shellLogic.console.ex(String.format("joingame %s;pause", serverBrowserNamesToAddressTable.get(this.text)));
+//                                    xMain.shellLogic.console.ex(String.format("joingame %s;pause", serverBrowserNamesToAddressTable.get(this.text)));
                                     selectedMenu = MENU_MAIN;
                                 }
                             }
@@ -554,7 +561,7 @@ public class uiMenus {
                         new uiMenuItem("null"){
                             public void doItem() {
                                 if(!this.text.equalsIgnoreCase("null")) {
-                                    xMain.shellLogic.console.ex(String.format("joingame %s;pause", serverBrowserNamesToAddressTable.get(this.text)));
+//                                    xMain.shellLogic.console.ex(String.format("joingame %s;pause", serverBrowserNamesToAddressTable.get(this.text)));
                                     selectedMenu = MENU_MAIN;
                                 }
                             }
@@ -562,7 +569,7 @@ public class uiMenus {
                         new uiMenuItem("null"){
                             public void doItem() {
                                 if(!this.text.equalsIgnoreCase("null")) {
-                                    xMain.shellLogic.console.ex(String.format("joingame %s;pause", serverBrowserNamesToAddressTable.get(this.text)));
+//                                    xMain.shellLogic.console.ex(String.format("joingame %s;pause", serverBrowserNamesToAddressTable.get(this.text)));
                                     selectedMenu = MENU_MAIN;
                                 }
                             }
@@ -570,7 +577,7 @@ public class uiMenus {
                         new uiMenuItem("null"){
                             public void doItem() {
                                 if(!this.text.equalsIgnoreCase("null")) {
-                                    xMain.shellLogic.console.ex(String.format("joingame %s;pause", serverBrowserNamesToAddressTable.get(this.text)));
+//                                    xMain.shellLogic.console.ex(String.format("joingame %s;pause", serverBrowserNamesToAddressTable.get(this.text)));
                                     selectedMenu = MENU_MAIN;
                                 }
                             }

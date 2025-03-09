@@ -60,6 +60,7 @@ public class sSettings {
 	static int serverMaxHP = 500;
 	static int serverVelocityPlayerBase = 16;
 	static boolean respawnEnabled = true;
+	static String serverName = "ballgame";
 	static int botThinkTimeDelay = 150;
 	static int botShootRange = 1200;
 	static int botCount = 0;

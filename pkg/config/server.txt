@@ -12,3 +12,5 @@ REM number of votes to skip map (say 'skip' in chat)
 setvar voteskiplimit 2
 REM time between game end and next map loads
 setvar intermissiondelay 10000
+REM server name
+servar servername ballgame
