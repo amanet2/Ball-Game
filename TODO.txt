@@ -1,6 +1,4 @@
+* config/client.txt gets cleared out randomly
 * SERVER BROWSER
     -> Have server thread check in every 30 seconds to update player count
     -> use scheduledEvents when starting the server/newgame (whichever is more sensible)
-* IP SAFETY
-    -> ensure IP addresses used to join games aren't saved anywhere
-    -> "joinip" argument should not be used to join games unless from the join by ip menu

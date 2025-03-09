@@ -545,12 +545,12 @@ public class uiMenus {
                                                 serverBrowserMenuLineToGuidMap.get("1"));
                                         URL availableIps = new URL(getString);
                                         BufferedReader res = new BufferedReader(new InputStreamReader(availableIps.openStream()));
-                                        String resp = res.readLine(); //you get the IP as a String
+                                        String resp = res.readLine().replace("\"", ""); //you get the IP as a String
                                         System.out.println("RESPONSE FROM FASTAPI SERVER: " + resp);
+                                        xMain.shellLogic.console.ex(String.format("joingame %s;pause", resp));
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
-//                                    xMain.shellLogic.console.ex(String.format("joingame %s;pause", serverBrowserNamesToAddressTable.get(this.text)));
                                     selectedMenu = MENU_MAIN;
                                 }
                             }
@@ -563,12 +563,12 @@ public class uiMenus {
                                                 serverBrowserMenuLineToGuidMap.get("2"));
                                         URL availableIps = new URL(getString);
                                         BufferedReader res = new BufferedReader(new InputStreamReader(availableIps.openStream()));
-                                        String resp = res.readLine(); //you get the IP as a String
+                                        String resp = res.readLine().replace("\"", ""); //you get the IP as a String
                                         System.out.println("RESPONSE FROM FASTAPI SERVER: " + resp);
+                                        xMain.shellLogic.console.ex(String.format("joingame %s;pause", resp));
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
-//                                    xMain.shellLogic.console.ex(String.format("joingame %s;pause", serverBrowserNamesToAddressTable.get(this.text)));
                                     selectedMenu = MENU_MAIN;
                                 }
                             }
@@ -581,12 +581,12 @@ public class uiMenus {
                                                 serverBrowserMenuLineToGuidMap.get("3"));
                                         URL availableIps = new URL(getString);
                                         BufferedReader res = new BufferedReader(new InputStreamReader(availableIps.openStream()));
-                                        String resp = res.readLine(); //you get the IP as a String
+                                        String resp = res.readLine().replace("\"", ""); //you get the IP as a String
                                         System.out.println("RESPONSE FROM FASTAPI SERVER: " + resp);
+                                        xMain.shellLogic.console.ex(String.format("joingame %s;pause", resp));
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
-//                                    xMain.shellLogic.console.ex(String.format("joingame %s;pause", serverBrowserNamesToAddressTable.get(this.text)));
                                     selectedMenu = MENU_MAIN;
                                 }
                             }
@@ -599,12 +599,12 @@ public class uiMenus {
                                                 serverBrowserMenuLineToGuidMap.get("4"));
                                         URL availableIps = new URL(getString);
                                         BufferedReader res = new BufferedReader(new InputStreamReader(availableIps.openStream()));
-                                        String resp = res.readLine(); //you get the IP as a String
+                                        String resp = res.readLine().replace("\"", ""); //you get the IP as a String
                                         System.out.println("RESPONSE FROM FASTAPI SERVER: " + resp);
+                                        xMain.shellLogic.console.ex(String.format("joingame %s;pause", resp));
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
-//                                    xMain.shellLogic.console.ex(String.format("joingame %s;pause", serverBrowserNamesToAddressTable.get(this.text)));
                                     selectedMenu = MENU_MAIN;
                                 }
                             }
@@ -617,12 +617,12 @@ public class uiMenus {
                                                 serverBrowserMenuLineToGuidMap.get("5"));
                                         URL availableIps = new URL(getString);
                                         BufferedReader res = new BufferedReader(new InputStreamReader(availableIps.openStream()));
-                                        String resp = res.readLine(); //you get the IP as a String
+                                        String resp = res.readLine().replace("\"", ""); //you get the IP as a String
                                         System.out.println("RESPONSE FROM FASTAPI SERVER: " + resp);
+                                        xMain.shellLogic.console.ex(String.format("joingame %s;pause", resp));
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
-//                                    xMain.shellLogic.console.ex(String.format("joingame %s;pause", serverBrowserNamesToAddressTable.get(this.text)));
                                     selectedMenu = MENU_MAIN;
                                 }
                             }
@@ -635,12 +635,12 @@ public class uiMenus {
                                                 serverBrowserMenuLineToGuidMap.get("6"));
                                         URL availableIps = new URL(getString);
                                         BufferedReader res = new BufferedReader(new InputStreamReader(availableIps.openStream()));
-                                        String resp = res.readLine(); //you get the IP as a String
+                                        String resp = res.readLine().replace("\"", ""); //you get the IP as a String
                                         System.out.println("RESPONSE FROM FASTAPI SERVER: " + resp);
+                                        xMain.shellLogic.console.ex(String.format("joingame %s;pause", resp));
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
-//                                    xMain.shellLogic.console.ex(String.format("joingame %s;pause", serverBrowserNamesToAddressTable.get(this.text)));
                                     selectedMenu = MENU_MAIN;
                                 }
                             }
@@ -653,12 +653,12 @@ public class uiMenus {
                                                 serverBrowserMenuLineToGuidMap.get("7"));
                                         URL availableIps = new URL(getString);
                                         BufferedReader res = new BufferedReader(new InputStreamReader(availableIps.openStream()));
-                                        String resp = res.readLine(); //you get the IP as a String
+                                        String resp = res.readLine().replace("\"", ""); //you get the IP as a String
                                         System.out.println("RESPONSE FROM FASTAPI SERVER: " + resp);
+                                        xMain.shellLogic.console.ex(String.format("joingame %s;pause", resp));
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
-//                                    xMain.shellLogic.console.ex(String.format("joingame %s;pause", serverBrowserNamesToAddressTable.get(this.text)));
                                     selectedMenu = MENU_MAIN;
                                 }
                             }
