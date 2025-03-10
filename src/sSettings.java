@@ -16,6 +16,7 @@ public class sSettings {
 	static int[] framerates = {30, 60, 75, 120, 240, 360, 540, 1000};
 	public static String[] object_titles;
 	public static String[] prefab_titles;
+	public static String serverBrowserBase = "https://ballbrowser-0-100078463474.us-central1.run.app/";
 
 	// vfx
 	static int gamescale = 2160;
