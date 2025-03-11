@@ -520,153 +520,70 @@ public class uiMenus {
                         },
                         new uiMenuItem("null"){
                             public void doItem() {
-                                if(!this.text.equalsIgnoreCase("null")) {
-                                    try {
-                                        String getString = String.format("https://ballbrowser-0-842704188107.us-central1.run.app/getip?guid=%s",
-                                                serverBrowserMenuLineToGuidMap.get("0").replace("\"", ""));
-                                        System.out.println(getString);
-                                        URL availableIps = new URL(getString);
-                                        BufferedReader res = new BufferedReader(new InputStreamReader(availableIps.openStream()));
-                                        String resp = res.readLine().replace("\"", ""); //you get the IP as a String
-                                        System.out.println("RESPONSE FROM FASTAPI SERVER: " + resp);
-                                        xMain.shellLogic.console.ex(String.format("joingame %s;pause", resp));
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-                                    selectedMenu = MENU_MAIN;
-                                }
+                                if(!this.text.equalsIgnoreCase("null"))
+                                    serverBrowserJoinGameDelegate("0");
                             }
                         },
                         new uiMenuItem("null"){
                             public void doItem() {
-                                if(!this.text.equalsIgnoreCase("null")) {
-                                    try {
-                                        String getString = String.format("https://ballbrowser-0-842704188107.us-central1.run.app/getip?guid=%s",
-                                                serverBrowserMenuLineToGuidMap.get("1"));
-                                        URL availableIps = new URL(getString);
-                                        BufferedReader res = new BufferedReader(new InputStreamReader(availableIps.openStream()));
-                                        String resp = res.readLine().replace("\"", ""); //you get the IP as a String
-                                        System.out.println("RESPONSE FROM FASTAPI SERVER: " + resp);
-                                        xMain.shellLogic.console.ex(String.format("joingame %s;pause", resp));
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-                                    selectedMenu = MENU_MAIN;
-                                }
+                                if(!this.text.equalsIgnoreCase("null"))
+                                    serverBrowserJoinGameDelegate("1");
                             }
                         },
                         new uiMenuItem("null"){
                             public void doItem() {
-                                if(!this.text.equalsIgnoreCase("null")) {
-                                    try {
-                                        String getString = String.format("https://ballbrowser-0-842704188107.us-central1.run.app/getip?guid=%s",
-                                                serverBrowserMenuLineToGuidMap.get("2"));
-                                        URL availableIps = new URL(getString);
-                                        BufferedReader res = new BufferedReader(new InputStreamReader(availableIps.openStream()));
-                                        String resp = res.readLine().replace("\"", ""); //you get the IP as a String
-                                        System.out.println("RESPONSE FROM FASTAPI SERVER: " + resp);
-                                        xMain.shellLogic.console.ex(String.format("joingame %s;pause", resp));
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-                                    selectedMenu = MENU_MAIN;
-                                }
+                                if(!this.text.equalsIgnoreCase("null"))
+                                    serverBrowserJoinGameDelegate("2");
                             }
                         },
                         new uiMenuItem("null"){
                             public void doItem() {
-                                if(!this.text.equalsIgnoreCase("null")) {
-                                    try {
-                                        String getString = String.format("https://ballbrowser-0-842704188107.us-central1.run.app/getip?guid=%s",
-                                                serverBrowserMenuLineToGuidMap.get("3"));
-                                        URL availableIps = new URL(getString);
-                                        BufferedReader res = new BufferedReader(new InputStreamReader(availableIps.openStream()));
-                                        String resp = res.readLine().replace("\"", ""); //you get the IP as a String
-                                        System.out.println("RESPONSE FROM FASTAPI SERVER: " + resp);
-                                        xMain.shellLogic.console.ex(String.format("joingame %s;pause", resp));
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-                                    selectedMenu = MENU_MAIN;
-                                }
+                                if(!this.text.equalsIgnoreCase("null"))
+                                    serverBrowserJoinGameDelegate("3");
                             }
                         },
                         new uiMenuItem("null"){
                             public void doItem() {
-                                if(!this.text.equalsIgnoreCase("null")) {
-                                    try {
-                                        String getString = String.format("https://ballbrowser-0-842704188107.us-central1.run.app/getip?guid=%s",
-                                                serverBrowserMenuLineToGuidMap.get("4"));
-                                        URL availableIps = new URL(getString);
-                                        BufferedReader res = new BufferedReader(new InputStreamReader(availableIps.openStream()));
-                                        String resp = res.readLine().replace("\"", ""); //you get the IP as a String
-                                        System.out.println("RESPONSE FROM FASTAPI SERVER: " + resp);
-                                        xMain.shellLogic.console.ex(String.format("joingame %s;pause", resp));
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-                                    selectedMenu = MENU_MAIN;
-                                }
+                                if(!this.text.equalsIgnoreCase("null"))
+                                    serverBrowserJoinGameDelegate("4");
                             }
                         },
                         new uiMenuItem("null"){
                             public void doItem() {
-                                if(!this.text.equalsIgnoreCase("null")) {
-                                    try {
-                                        String getString = String.format("https://ballbrowser-0-842704188107.us-central1.run.app/getip?guid=%s",
-                                                serverBrowserMenuLineToGuidMap.get("5"));
-                                        URL availableIps = new URL(getString);
-                                        BufferedReader res = new BufferedReader(new InputStreamReader(availableIps.openStream()));
-                                        String resp = res.readLine().replace("\"", ""); //you get the IP as a String
-                                        System.out.println("RESPONSE FROM FASTAPI SERVER: " + resp);
-                                        xMain.shellLogic.console.ex(String.format("joingame %s;pause", resp));
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-                                    selectedMenu = MENU_MAIN;
-                                }
+                                if(!this.text.equalsIgnoreCase("null"))
+                                    serverBrowserJoinGameDelegate("5");
                             }
                         },
                         new uiMenuItem("null"){
                             public void doItem() {
-                                if(!this.text.equalsIgnoreCase("null")) {
-                                    try {
-                                        String getString = String.format("https://ballbrowser-0-842704188107.us-central1.run.app/getip?guid=%s",
-                                                serverBrowserMenuLineToGuidMap.get("6"));
-                                        URL availableIps = new URL(getString);
-                                        BufferedReader res = new BufferedReader(new InputStreamReader(availableIps.openStream()));
-                                        String resp = res.readLine().replace("\"", ""); //you get the IP as a String
-                                        System.out.println("RESPONSE FROM FASTAPI SERVER: " + resp);
-                                        xMain.shellLogic.console.ex(String.format("joingame %s;pause", resp));
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-                                    selectedMenu = MENU_MAIN;
-                                }
+                                if(!this.text.equalsIgnoreCase("null"))
+                                    serverBrowserJoinGameDelegate("6");
                             }
                         },
                         new uiMenuItem("null"){
                             public void doItem() {
-                                if(!this.text.equalsIgnoreCase("null")) {
-                                    try {
-                                        String getString = String.format("https://ballbrowser-0-842704188107.us-central1.run.app/getip?guid=%s",
-                                                serverBrowserMenuLineToGuidMap.get("7"));
-                                        URL availableIps = new URL(getString);
-                                        BufferedReader res = new BufferedReader(new InputStreamReader(availableIps.openStream()));
-                                        String resp = res.readLine().replace("\"", ""); //you get the IP as a String
-                                        System.out.println("RESPONSE FROM FASTAPI SERVER: " + resp);
-                                        xMain.shellLogic.console.ex(String.format("joingame %s;pause", resp));
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-                                    selectedMenu = MENU_MAIN;
-                                }
+                                if(!this.text.equalsIgnoreCase("null"))
+                                    serverBrowserJoinGameDelegate("7");
                             }
                         },
                 },
                 MENU_MAIN
         ),
     };
+
+    private static void serverBrowserJoinGameDelegate(String menuIndex) {
+        try {
+            String getString = String.format("https://ballbrowser-0-842704188107.us-central1.run.app/getip?guid=%s",
+                    serverBrowserMenuLineToGuidMap.get(menuIndex).replace("\"", ""));
+            URL availableIps = new URL(getString);
+            BufferedReader res = new BufferedReader(new InputStreamReader(availableIps.openStream()));
+            String resp = res.readLine().replace("\"", ""); //you get the IP as a String
+            xMain.shellLogic.console.ex(String.format("joingame %s;pause", resp));
+            selectedMenu = MENU_MAIN;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     private static uiMenuItem[] getBotMenuItems() {
         uiMenuItem[] menuItems = new uiMenuItem[sSettings.botCountMax + 1];
