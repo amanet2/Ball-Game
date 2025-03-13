@@ -465,7 +465,7 @@ public class uiMenus {
                         new uiMenuItem("Get List") {
                             public void doItem() {
                                 try {
-                                    URL availableIps = new URL("https://ballbrowser-0-842704188107.us-central1.run.app/list");
+                                    URL availableIps = new URL(sSettings.serverBrowserBase + "/list");
                                     BufferedReader res = new BufferedReader(new InputStreamReader(availableIps.openStream()));
                                     String resp = res.readLine(); //you get the IP as a String
                                     System.out.println("RESPONSE FROM FASTAPI SERVER: " + resp);
@@ -573,7 +573,7 @@ public class uiMenus {
 
     private static void serverBrowserJoinGameDelegate(String menuIndex) {
         try {
-            String getString = String.format("https://ballbrowser-0-842704188107.us-central1.run.app/getip?guid=%s",
+            String getString = String.format(sSettings.serverBrowserBase + "/getip?guid=%s",
                     serverBrowserMenuLineToGuidMap.get(menuIndex).replace("\"", ""));
             URL availableIps = new URL(getString);
             BufferedReader res = new BufferedReader(new InputStreamReader(availableIps.openStream()));

@@ -1,7 +1,6 @@
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.*;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -217,6 +216,16 @@ public class eGameLogicServer extends eGameLogicAdapter {
         clientNetCmdBatchMap.remove(id);
         gScoreboard.scoresMap.remove(id);
         xMain.shellLogic.console.ex("deleteplayer " + id);
+        try {
+            URL updatemyip = new URL(String.format(sSettings.serverBrowserBase + "/updatemyplayercount?players=%d",
+                    masterStateMap.keys().size()
+            ));
+            BufferedReader res = new BufferedReader(new InputStreamReader(updatemyip.openStream()));
+            String resl = res.readLine(); //you get the IP as a String
+            System.out.println("RESPONSE FROM FASTAPI SERVER: " + resl);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void sendMapAndRespawn(String id) {
@@ -226,6 +235,16 @@ public class eGameLogicServer extends eGameLogicAdapter {
     }
 
     public void handleJoin(String id) {
+        try {
+            URL updatemyip = new URL(String.format(sSettings.serverBrowserBase + "/updatemyplayercount?players=%d",
+                    masterStateMap.keys().size() + 1
+            ));
+            BufferedReader res = new BufferedReader(new InputStreamReader(updatemyip.openStream()));
+            String resl = res.readLine(); //you get the IP as a String
+            System.out.println("RESPONSE FROM FASTAPI SERVER: " + resl);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         if(!id.startsWith("bot"))
             masterStateMap.put(id, new nStateBallGame());
         else {

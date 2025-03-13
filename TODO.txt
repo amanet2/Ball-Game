@@ -2,3 +2,4 @@
 * SERVER BROWSER
     -> Have server thread check in every 30 seconds to update player count
     -> use scheduledEvents when starting the server/newgame (whichever is more sensible)
+    -> update playercount on player join and disconnect

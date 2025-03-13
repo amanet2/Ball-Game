@@ -434,7 +434,7 @@ public class xCon {
                     xMain.shellLogic.clientNetThread.disconnect();
                     ex("cl_load");
                     try {
-                        URL delmyip = new URL(sSettings.serverBrowserBase + "delme");
+                        URL delmyip = new URL(sSettings.serverBrowserBase + "/delme");
                         BufferedReader reg = new BufferedReader(new InputStreamReader(delmyip.openStream()));
                         String regp = reg.readLine(); //you get the IP as a String
                         System.out.println("RESPONSE FROM FASTAPI SERVER: " + regp);
@@ -1584,10 +1584,12 @@ public class xCon {
         commands.put("startserver", new gDoable() {
             public String doCommand(String fullCommand) {
                 try {
-                    URL delmyip = new URL(sSettings.serverBrowserBase + "delme");
+                    URL delmyip = new URL(sSettings.serverBrowserBase + "/delme");
                     BufferedReader delres = new BufferedReader(new InputStreamReader(delmyip.openStream()));
                     String delresl = delres.readLine(); //you get the IP as a String
-                    URL addmyip = new URL(String.format(sSettings.serverBrowserBase + "addme?name=%s", sSettings.serverName));
+                    URL addmyip = new URL(String.format(sSettings.serverBrowserBase + "/addme?name=%s",
+                            sSettings.serverName
+                    ));
                     BufferedReader addres = new BufferedReader(new InputStreamReader(addmyip.openStream()));
                     String addresl = addres.readLine(); //you get the IP as a String
                     System.out.println("RESPONSE FROM FASTAPI SERVER: " + addresl);
