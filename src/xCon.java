@@ -212,6 +212,25 @@ public class xCon {
                             }
                         });
                     }
+                    //check in to api every 30 seconds
+                    for (long t = starttime + 1000; t <= starttime + sSettings.serverTimeLimit; t += 15000) {
+                        long lastT = t;
+                        xMain.shellLogic.serverNetThread.scheduledEvents.put(Long.toString(t), new gDoable() {
+                            public void doCommand() {
+                                try {
+                                    URL updatemyip = new URL(String.format(sSettings.serverBrowserBase + "/updatemyplayercount?players=%d",
+                                            new nStateMap(xMain.shellLogic.serverNetThread.masterStateSnapshot).keys().size()
+                                    ));
+                                    BufferedReader res = new BufferedReader(new InputStreamReader(updatemyip.openStream()));
+                                    String resl = res.readLine(); //you get the IP as a String
+                                    System.out.println("RESPONSE FROM FASTAPI SERVER: " + resl);
+                                }
+                                catch(Exception err) {
+                                    err.printStackTrace();
+                                }
+                            }
+                        });
+                    }
                     xMain.shellLogic.serverNetThread.scheduledEvents.put(Long.toString(starttime + sSettings.serverTimeLimit), new gDoable() {
                         public void doCommand() {
                             //select winner and run postgame script
