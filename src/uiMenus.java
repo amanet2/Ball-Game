@@ -493,6 +493,8 @@ public class uiMenus {
                                         tok += "}";
 
                                         String[] serverGuidAndContents = tok.split(":", 2);
+                                        if(serverGuidAndContents.length < 2)
+                                            continue;
                                         nState serverState = new nState(serverGuidAndContents[1].replace(":", "=").replace("\"", ""));
                                         disp_servers[ctr] = String.format("%s (%s/%s)", serverState.get("name"), serverState.get("players"), serverState.get("playerlimit"));
                                         serverBrowserMenuLineToGuidMap.put(Integer.toString(ctr), serverGuidAndContents[0]);
