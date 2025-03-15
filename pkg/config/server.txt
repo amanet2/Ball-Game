@@ -13,4 +13,4 @@ setvar voteskiplimit 2
 REM time between game end and next map loads
 setvar intermissiondelay 10000
 REM server name
-servar servername ballgame
+setvar servername ballgame

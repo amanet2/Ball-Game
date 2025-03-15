@@ -48,6 +48,7 @@ public class sSettings {
 	static int rateclient = 30; //client net rate to request update from server
 	static int rateShell = 1000; //desktop window rate like input, visual update
 	static int serverNetCmdBatchSize = 5;
+	static int serverCheckinInterval = 15000;
 
 	// server
 	static int serverTimeLimit = 180000;

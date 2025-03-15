@@ -212,9 +212,8 @@ public class xCon {
                             }
                         });
                     }
-                    //check in to api every 30 seconds
-                    for (long t = starttime + 1000; t <= starttime + sSettings.serverTimeLimit; t += 15000) {
-                        long lastT = t;
+                    //check in to api every 15 seconds
+                    for (long t = starttime + 1000; t <= starttime + sSettings.serverTimeLimit; t += sSettings.serverCheckinInterval) {
                         xMain.shellLogic.serverNetThread.scheduledEvents.put(Long.toString(t), new gDoable() {
                             public void doCommand() {
                                 try {
