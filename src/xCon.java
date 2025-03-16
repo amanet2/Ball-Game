@@ -1770,7 +1770,6 @@ public class xCon {
         e.printStackTrace(pw);
         String sStackTrace = sw.toString(); // stack trace as a string
         debug(sStackTrace);
-        ex("echo " + sStackTrace.split("\\n")[0]);
     }
 
     private void playerMoveDelegate(int dir) {
@@ -1952,6 +1951,7 @@ public class xCon {
         if(sSettings.clientDebug) {
             log(s);
             System.out.println(s);
+            ex("echo " + s.split("\\n")[0]);
         }
     }
 
