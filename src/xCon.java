@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.io.*;
 import java.net.*;
+import java.net.http.*;
 import java.nio.charset.StandardCharsets;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -217,13 +218,23 @@ public class xCon {
                     for (long t = starttime + 1000; t <= starttime + sSettings.serverTimeLimit; t += sSettings.serverCheckinInterval) {
                         xMain.shellLogic.serverNetThread.scheduledEvents.put(Long.toString(t), new gDoable() {
                             public void doCommand() {
-                                try {
-                                    URL updatemyip = new URL(String.format(sSettings.serverBrowserBase + "/updatemyplayercount?players=%d",
-                                            new nStateMap(xMain.shellLogic.serverNetThread.masterStateSnapshot).keys().size()
-                                    ));
-                                    BufferedReader res = new BufferedReader(new InputStreamReader(updatemyip.openStream()));
-                                    String resl = res.readLine(); //you get the IP as a String
-                                    System.out.println("RESPONSE FROM FASTAPI SERVER: " + resl);
+                                try (HttpClient client = HttpClient.newHttpClient()) {
+                                    HttpRequest request = HttpRequest.newBuilder()
+                                            .uri(URI.create(String.format(sSettings.serverBrowserBase + "/updatemyplayercount?players=%d",
+                                                    new nStateMap(xMain.shellLogic.serverNetThread.masterStateSnapshot).keys().size()
+                                            )))
+                                            .GET()
+                                            .build();
+                                    HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+                                    System.out.println("RESPONSE FROM FASTAPI SERVER: " + response);
+
+
+//                                    URI updateme = new URI(String.format(sSettings.serverBrowserBase + "/updatemyplayercount?players=%d",
+//                                            new nStateMap(xMain.shellLogic.serverNetThread.masterStateSnapshot).keys().size()
+//                                    ));
+//                                    BufferedReader res = new BufferedReader(new InputStreamReader(updateme.toURL().openStream()));
+//                                    String resl = res.readLine(); //you get the IP as a String
+//                                    System.out.println("RESPONSE FROM FASTAPI SERVER: " + resl);
                                 }
                                 catch(Exception err) {
                                     err.printStackTrace();
@@ -1769,8 +1780,10 @@ public class xCon {
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
         e.printStackTrace(pw);
+        e.printStackTrace();
         String sStackTrace = sw.toString(); // stack trace as a string
         debug(sStackTrace);
+        ex("echo " + sStackTrace.split("\\n")[0]);
     }
 
     private void playerMoveDelegate(int dir) {
@@ -1952,7 +1965,6 @@ public class xCon {
         if(sSettings.clientDebug) {
             log(s);
             System.out.println(s);
-            ex("echo " + s.split("\\n")[0]);
         }
     }
 

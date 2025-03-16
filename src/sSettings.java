@@ -116,7 +116,7 @@ public class sSettings {
     static boolean showscale = false;
 	static int screenMessageFadeTime = 10000;
 	static String[] clientGameThemes = {"forest"};
-	static boolean powerSave = true;
+	static boolean powerSave = false;
 	static boolean culling = true;
 	static boolean allowZoom = false;
 }
