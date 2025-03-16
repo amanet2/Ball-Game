@@ -213,6 +213,7 @@ public class xCon {
                         });
                     }
                     //check in to api every 15 seconds
+                    //TODO: this causes the server to crash on WINDOWS ONLY
                     for (long t = starttime + 1000; t <= starttime + sSettings.serverTimeLimit; t += sSettings.serverCheckinInterval) {
                         xMain.shellLogic.serverNetThread.scheduledEvents.put(Long.toString(t), new gDoable() {
                             public void doCommand() {
