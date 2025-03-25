@@ -11,9 +11,9 @@ pkg_dir=$home_dir/pkg
 java_dir=$home_dir/runtime
 echo_c_script=$home_dir/debug/echo_c_mac.sh
 echo_c_find_str="/ballmaster_mac"
-echo_c_replace_str="/pkg && ../runtime/jdk-18.jdk/Contents/Home/bin/java -Dsun.java2d.uiScale=1.0 -Dsun.java2d.opengl=true -jar BALL_GAME.jar "
+echo_c_replace_str="/pkg && ../runtime/jdk-23.0.2.jdk/Contents/Home/bin/java -Dsun.java2d.uiScale=1.0 -Dsun.java2d.opengl=true -jar BALL_GAME.jar "
 echo_c_find_str_editor="/ballmaster_mac_editor"
-echo_c_replace_str_editor="/pkg && ../runtime/jdk-18.jdk/Contents/Home/bin/java -Dsun.java2d.uiScale=1.0 -Dsun.java2d.opengl=true -jar BALL_GAME.jar showmapmakerui 1 "
+echo_c_replace_str_editor="/pkg && ../runtime/jdk-23.0.2.jdk/Contents/Home/bin/java -Dsun.java2d.uiScale=1.0 -Dsun.java2d.opengl=true -jar BALL_GAME.jar showmapmakerui 1 "
 gcc_exe=gcc
 game_c=$tmp_dir/ballmaster_mac.c
 game_editor_c=$tmp_dir/ballmaster_mac_editor.c

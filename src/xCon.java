@@ -214,27 +214,22 @@ public class xCon {
                         });
                     }
                     //check in to api every 15 seconds
-                    //TODO: this causes the server to crash on WINDOWS ONLY
+                    //TODO: this causes the server to crash above 240hz
                     for (long t = starttime + 1000; t <= starttime + sSettings.serverTimeLimit; t += sSettings.serverCheckinInterval) {
                         xMain.shellLogic.serverNetThread.scheduledEvents.put(Long.toString(t), new gDoable() {
                             public void doCommand() {
                                 try (HttpClient client = HttpClient.newHttpClient()) {
                                     HttpRequest request = HttpRequest.newBuilder()
-                                            .uri(URI.create(String.format(sSettings.serverBrowserBase + "/updatemyplayercount?players=%d",
-                                                    new nStateMap(xMain.shellLogic.serverNetThread.masterStateSnapshot).keys().size()
+                                            .uri(URI.create(String.format(sSettings.serverBrowserBase + "/updateme?name=%s&players=%d&playerlimit=%d",
+                                                    sSettings.serverName,
+                                                    new nStateMap(xMain.shellLogic.serverNetThread.masterStateSnapshot).keys().size(),
+                                                    16
                                             )))
+                                            .version(HttpClient.Version.HTTP_1_1)
                                             .GET()
                                             .build();
                                     HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-                                    System.out.println("RESPONSE FROM FASTAPI SERVER: " + response);
-
-
-//                                    URI updateme = new URI(String.format(sSettings.serverBrowserBase + "/updatemyplayercount?players=%d",
-//                                            new nStateMap(xMain.shellLogic.serverNetThread.masterStateSnapshot).keys().size()
-//                                    ));
-//                                    BufferedReader res = new BufferedReader(new InputStreamReader(updateme.toURL().openStream()));
-//                                    String resl = res.readLine(); //you get the IP as a String
-//                                    System.out.println("RESPONSE FROM FASTAPI SERVER: " + resl);
+                                    System.out.println("RESPONSE FROM SERVER: " + response);
                                 }
                                 catch(Exception err) {
                                     err.printStackTrace();
@@ -1613,21 +1608,6 @@ public class xCon {
         });
         commands.put("startserver", new gDoable() {
             public String doCommand(String fullCommand) {
-                try {
-                    URL delmyip = new URL(sSettings.serverBrowserBase + "/delme");
-                    BufferedReader delres = new BufferedReader(new InputStreamReader(delmyip.openStream()));
-                    String delresl = delres.readLine(); //you get the IP as a String
-                    URL addmyip = new URL(String.format(sSettings.serverBrowserBase + "/addme?name=%s",
-                            sSettings.serverName
-                    ));
-                    BufferedReader addres = new BufferedReader(new InputStreamReader(addmyip.openStream()));
-                    String addresl = addres.readLine(); //you get the IP as a String
-                    System.out.println("RESPONSE FROM FASTAPI SERVER: " + addresl);
-                }
-                catch(Exception err) {
-                    err.printStackTrace();
-                    System.out.println("COULD NOT ADD SERVER TO FASTAPI SERVER BROWSER");
-                }
                 xMain.shellLogic.serverSimulationThread = new eGameLogicSimulation();
                 new eGameSession(xMain.shellLogic.serverSimulationThread, sSettings.ratesimulation);
                 xMain.shellLogic.serverNetThread = new eGameLogicServer();

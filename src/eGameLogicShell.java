@@ -211,7 +211,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
             public void onChange() {
                 sSettings.show_mapmaker_ui = Integer.parseInt(value) > 0;
                 if(sSettings.show_mapmaker_ui) {
-                    sSettings.culling = false;
+                    sSettings.culling = false;  // TODO: find out if mapmaker can handle culling while zoomed out
                     sSettings.allowZoom = true;
                 }
             }
