@@ -17,8 +17,8 @@ public class sSettings {
 	public static String[] object_titles;
 	public static String[] prefab_titles;
 //	public static String serverBrowserBase = "http://localhost:8000"; // LOCAL
-//	public static String serverBrowserBase = "https://ballbrowser-0-100078463474.us-central1.run.app"; // PROD
-	public static String serverBrowserBase = "https://ballbrowser-0-842704188107.us-central1.run.app"; // DEV
+	public static String serverBrowserBase = "https://ballbrowser-0-100078463474.us-central1.run.app"; // PROD
+//	public static String serverBrowserBase = "https://ballbrowser-0-842704188107.us-central1.run.app"; // DEV
 
 	// vfx
 	static int gamescale = 2160;

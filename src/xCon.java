@@ -458,16 +458,16 @@ public class xCon {
                     xMain.shellLogic.clientVars.put("maploaded", "0");
                     xMain.shellLogic.clientNetThread.disconnect();
                     ex("cl_load");
-                    try {
-                        URL delmyip = new URL(sSettings.serverBrowserBase + "/delme");
-                        BufferedReader reg = new BufferedReader(new InputStreamReader(delmyip.openStream()));
-                        String regp = reg.readLine(); //you get the IP as a String
-                        System.out.println("RESPONSE FROM FASTAPI SERVER: " + regp);
-                    }
-                    catch(Exception err) {
-                        err.printStackTrace();
-                        System.out.println("COULD NOT DELETE SERVER FROM FASTAPI SERVER BROWSER");
-                    }
+//                    try {
+//                        URL delmyip = new URL(sSettings.serverBrowserBase + "/delme");
+//                        BufferedReader reg = new BufferedReader(new InputStreamReader(delmyip.openStream()));
+//                        String regp = reg.readLine(); //you get the IP as a String
+//                        System.out.println("RESPONSE FROM FASTAPI SERVER: " + regp);
+//                    }
+//                    catch(Exception err) {
+//                        err.printStackTrace();
+//                        System.out.println("COULD NOT DELETE SERVER FROM FASTAPI SERVER BROWSER");
+//                    }
                     xMain.shellLogic.serverNetThread.disconnect();
                     xMain.shellLogic.serverSimulationThread.disconnect();
                 }
