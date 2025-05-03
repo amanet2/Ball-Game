@@ -372,14 +372,19 @@ public class uiMenus {
         new uiMenu(
                 "Credits",
                 new uiMenuItem[] {
-                        new uiMenuItem("Ballmaster est. 2021"),
+                        new uiMenuItem("BALLMASTER"),
+                        new uiMenuItem(""),
                         new uiMenuItem("Created by stallionusa (stallionusa.itch.io)"),
                         new uiMenuItem("Programming by stallionusa (stallionusa.itch.io)"),
                         new uiMenuItem("VFX by drummyfish (opengameart.org)"),
                         new uiMenuItem("VFX by Master484 (opengameart.org)"),
                         new uiMenuItem("VFX by stallionusa (stallionusa.itch.io)"),
                         new uiMenuItem("SFX by Kevin Fowler (hitrison.itch.io)"),
-                        new uiMenuItem("SFX by mixkit.io")
+                        new uiMenuItem("SFX by mixkit.io"),
+                        new uiMenuItem(""),
+                        new uiMenuItem(""),
+                        new uiMenuItem(""),
+                        new uiMenuItem("©2021 Anthony Manetti. All Rights Reserved.")
                 },
                 MENU_MAIN
         ),
