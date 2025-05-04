@@ -458,16 +458,6 @@ public class xCon {
                     xMain.shellLogic.clientVars.put("maploaded", "0");
                     xMain.shellLogic.clientNetThread.disconnect();
                     ex("cl_load");
-//                    try {
-//                        URL delmyip = new URL(sSettings.serverBrowserBase + "/delme");
-//                        BufferedReader reg = new BufferedReader(new InputStreamReader(delmyip.openStream()));
-//                        String regp = reg.readLine(); //you get the IP as a String
-//                        System.out.println("RESPONSE FROM FASTAPI SERVER: " + regp);
-//                    }
-//                    catch(Exception err) {
-//                        err.printStackTrace();
-//                        System.out.println("COULD NOT DELETE SERVER FROM FASTAPI SERVER BROWSER");
-//                    }
                     xMain.shellLogic.serverNetThread.disconnect();
                     xMain.shellLogic.serverSimulationThread.disconnect();
                 }
@@ -918,9 +908,10 @@ public class xCon {
                     joinip = toks[1];
                 xMain.shellLogic.clientNetThread = new eGameLogicClient();
                 xMain.shellLogic.clientNetThread.gameIP = joinip;
+//                System.out.println("CONNECTING TO SERVER: " + joinip);
                 new eGameSession(xMain.shellLogic.clientNetThread, sSettings.rateclient);
                 sSettings.IS_CLIENT = true;
-                return "joined game";
+                return "CONNECTED TO SERVER";
             }
         });
         commands.put("load", new gDoable() {

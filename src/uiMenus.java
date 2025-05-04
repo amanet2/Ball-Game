@@ -1,7 +1,8 @@
 import java.awt.event.KeyEvent;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -459,12 +460,15 @@ public class uiMenus {
                 new uiMenuItem[]{
                         new uiMenuItem("Get List") {
                             public void doItem() {
-                                try {
-                                    URL availableIps = new URL(sSettings.serverBrowserBase + "/list");
-                                    BufferedReader res = new BufferedReader(new InputStreamReader(availableIps.openStream()));
-                                    String resp = res.readLine(); //you get the IP as a String
+                                try (HttpClient client = HttpClient.newHttpClient()) {
+                                    HttpRequest request = HttpRequest.newBuilder()
+                                            .uri(URI.create(sSettings.serverBrowserBase + "/list"))
+                                            .version(HttpClient.Version.HTTP_1_1)
+                                            .GET()
+                                            .build();
+                                    HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+                                    String resp = response.body();
                                     System.out.println("RESPONSE FROM FASTAPI SERVER: " + resp);
-
                                     String[] serverToks = resp.split("}");
                                     serverBrowserMenuLineToGuidMap = new HashMap<>();
                                     String[] disp_servers = new String[]{
@@ -569,16 +573,20 @@ public class uiMenus {
     };
 
     private static void serverBrowserJoinGameDelegate(String menuIndex) {
-        try {
-            String getString = String.format(sSettings.serverBrowserBase + "/getip?guid=%s",
-                    serverBrowserMenuLineToGuidMap.get(menuIndex).replace("\"", ""));
-            URL availableIps = new URL(getString);
-            BufferedReader res = new BufferedReader(new InputStreamReader(availableIps.openStream()));
-            String resp = res.readLine().replace("\"", ""); //you get the IP as a String
-            xMain.shellLogic.console.ex(String.format("joingame %s;pause", resp));
+        try (HttpClient client = HttpClient.newHttpClient()) {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(String.format(sSettings.serverBrowserBase + "/getip?guid=%s",
+                            serverBrowserMenuLineToGuidMap.get(menuIndex).replace("\"", ""))))
+                    .version(HttpClient.Version.HTTP_1_1)
+                    .GET()
+                    .build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            String gotIp = response.body();
+            xMain.shellLogic.console.ex(String.format("joingame %s;pause", gotIp));
             selectedMenu = MENU_MAIN;
-        } catch (Exception e) {
-            e.printStackTrace();
+        }
+        catch(Exception err) {
+            err.printStackTrace();
         }
     }
 
