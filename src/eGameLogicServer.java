@@ -277,11 +277,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
         }
     }
 
-    private void readData(String receiveDataString) {
-        if(receiveDataString.length() < 1)
-            return;
-        //load received string into state object
-        nState receivedState = new nState(receiveDataString);
+    private void readData(nState receivedState) {
         String stateId = receivedState.get("id");
         //check if masterState contains
         if(!masterStateMap.contains(stateId)) {
@@ -448,18 +444,29 @@ public class eGameLogicServer extends eGameLogicAdapter {
                 InetAddress addr = receivePacket.getAddress();
                 int port = receivePacket.getPort();
                 //read data of packet
-                readData(receiveDataString); //and respond too
-                //get player id of client
-                nState clientState = new nState(receiveDataString);
-                String clientId = clientState.get("id");
-                String sendDataString = createSendDataString(clientId);
-                byte[] sendData = sendDataString.getBytes();
-                serverSocket.send(new DatagramPacket(sendData, sendData.length, addr, port));
-                xMain.shellLogic.console.debug("SERVER_STATE_" + clientId + " [" + masterStateSnapshot + "]");
-                xMain.shellLogic.console.debug("SERVER_SEND_" + clientId + " [" + sendDataString.length() + "]: " + sendDataString);
-                if(sendDataString.length() > sSettings.sndbytesserver_warn)
-                    xMain.shellLogic.console.debug("*WARNING* PACKET LENGTH EXCEED " + sSettings.sndbytesserver_warn + " BYTES: "
-                            + "SERVER_SEND_" + clientId + " [" + sendDataString.length() + "]: " + sendDataString);
+                boolean doRespond = false;
+                if(!receiveDataString.isEmpty()) {
+                    //load received string into state object
+                    nState receivedState = new nState(receiveDataString);
+                    String stateId = receivedState.get("id");
+                    if(!sSettings.IS_HOSTING_OFFLINE || stateId.startsWith("bot") || stateId.equals(sSettings.uuid)) {
+                        readData(receivedState); //and respond too
+                        doRespond = true;
+                    }
+                }
+                if(doRespond) {
+                    //get player id of client
+                    nState clientState = new nState(receiveDataString);
+                    String clientId = clientState.get("id");
+                    String sendDataString = createSendDataString(clientId);
+                    byte[] sendData = sendDataString.getBytes();
+                    serverSocket.send(new DatagramPacket(sendData, sendData.length, addr, port));
+                    xMain.shellLogic.console.debug("SERVER_STATE_" + clientId + " [" + masterStateSnapshot + "]");
+                    xMain.shellLogic.console.debug("SERVER_SEND_" + clientId + " [" + sendDataString.length() + "]: " + sendDataString);
+                    if (sendDataString.length() > sSettings.sndbytesserver_warn)
+                        xMain.shellLogic.console.debug("*WARNING* PACKET LENGTH EXCEED " + sSettings.sndbytesserver_warn + " BYTES: "
+                                + "SERVER_SEND_" + clientId + " [" + sendDataString.length() + "]: " + sendDataString);
+                }
             }
             catch (Exception e) {
                 xMain.shellLogic.console.logException(e);
