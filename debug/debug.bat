@@ -1,7 +1,7 @@
 set call_dir=%cd%
 set home_dir=C:\Code\Ball-Game
-set java_exec=%home_dir%\runtime\jdk-23\bin\java
-set java_args=-Dsun.java2d.uiScale=1.0 -Dsun.java2d.opengl=true
+set java_exec=%home_dir%\runtime\jdk-23.0.2\bin\java
+set java_args=-Dsun.java2d.uiScale=1.0 -Dsun.java2d.opengl=true -Dcom.sun.jndi.ldap.object.disableEndpointIdentification=true
 set pkg_dir=%home_dir%\pkg
 set jar_path=%pkg_dir%\BALL_GAME.jar
 

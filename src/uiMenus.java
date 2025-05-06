@@ -1,5 +1,10 @@
 import java.awt.event.KeyEvent;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class uiMenus {
     static boolean gobackSelected = false;
@@ -22,8 +27,11 @@ public class uiMenus {
     static final int MENU_BOTS = 16;
     static final int MENU_POWER = 17;
     static final int MENU_TIME = 18;
+    static final int MENU_SERVER_BROWSER = 19;
 
     static int selectedMenu = MENU_MAIN;
+
+    private static HashMap<String, String> serverBrowserMenuLineToGuidMap;
 
     static final uiMenu[] menuSelection = new uiMenu[]{
         new uiMenu(
@@ -37,6 +45,11 @@ public class uiMenus {
                         new uiMenuItem("Join Game") {
                             public void doItem(){
                                 selectedMenu = MENU_JOINGAME;
+                            }
+                        },
+                        new uiMenuItem("Server Browser") {
+                            public void doItem(){
+                                selectedMenu = MENU_SERVER_BROWSER;
                             }
                         },
                         new uiMenuItem("Disconnect") {
@@ -219,7 +232,7 @@ public class uiMenus {
                 new uiMenuItem[]{
                         new uiMenuItem("-Start-"){
                             public void doItem() {
-                                xMain.shellLogic.console.ex("joingame;pause");
+                                xMain.shellLogic.console.ex(String.format("joingame %s;pause", xMain.shellLogic.console.ex("cl_setvar joinip")));
                                 selectedMenu = MENU_MAIN;
                             }
                         },
@@ -360,14 +373,9 @@ public class uiMenus {
         new uiMenu(
                 "Credits",
                 new uiMenuItem[] {
-                        new uiMenuItem("Ballmaster est. 2021"),
-                        new uiMenuItem("Created by stallionusa (stallionusa.itch.io)"),
-                        new uiMenuItem("Programming by stallionusa (stallionusa.itch.io)"),
-                        new uiMenuItem("VFX by drummyfish (opengameart.org)"),
-                        new uiMenuItem("VFX by Master484 (opengameart.org)"),
-                        new uiMenuItem("VFX by stallionusa (stallionusa.itch.io)"),
-                        new uiMenuItem("SFX by Kevin Fowler (hitrison.itch.io)"),
-                        new uiMenuItem("SFX by mixkit.io")
+                        new uiMenuItem(""),
+                        new uiMenuItem("BALLMASTER ©2021 Anthony Manetti. All Rights Reserved."),
+                        new uiMenuItem("")
                 },
                 MENU_MAIN
         ),
@@ -407,44 +415,180 @@ public class uiMenus {
                 });
             }
         },
-        new uiMenu("Time", new uiMenuItem[]{
-                new uiMenuItem(eUtils.getTimeString((long) 60000)){
-                    public void doItem() {
-                        sSettings.serverTimeLimit = 60000;
-                        menuSelection[MENU_NEWGAME].refresh();
-                        selectedMenu = MENU_NEWGAME;
+        new uiMenu(
+                "Time", new uiMenuItem[]{
+                    new uiMenuItem(eUtils.getTimeString((long) 60000)){
+                        public void doItem() {
+                            sSettings.serverTimeLimit = 60000;
+                            menuSelection[MENU_NEWGAME].refresh();
+                            selectedMenu = MENU_NEWGAME;
+                        }
+                    },
+                    new uiMenuItem(eUtils.getTimeString((long) 120000)){
+                        public void doItem() {
+                            sSettings.serverTimeLimit = 120000;
+                            menuSelection[MENU_NEWGAME].refresh();
+                            selectedMenu = MENU_NEWGAME;
+                        }
+                    },
+                    new uiMenuItem(eUtils.getTimeString((long) 180000)){
+                        public void doItem() {
+                            sSettings.serverTimeLimit = 180000;
+                            menuSelection[MENU_NEWGAME].refresh();
+                            selectedMenu = MENU_NEWGAME;
+                        }
+                    },
+                    new uiMenuItem(eUtils.getTimeString((long) 240000)){
+                        public void doItem() {
+                            sSettings.serverTimeLimit = 240000;
+                            menuSelection[MENU_NEWGAME].refresh();
+                            selectedMenu = MENU_NEWGAME;
+                        }
+                    },
+                    new uiMenuItem(eUtils.getTimeString((long) 300000)){
+                        public void doItem() {
+                            sSettings.serverTimeLimit = 300000;
+                            menuSelection[MENU_NEWGAME].refresh();
+                            selectedMenu = MENU_NEWGAME;
+                        }
                     }
+            },
+            MENU_NEWGAME
+        ),
+        new uiMenu(
+                "Server Browser",
+                new uiMenuItem[]{
+                        new uiMenuItem("Get List") {
+                            public void doItem() {
+                                try (HttpClient client = HttpClient.newHttpClient()) {
+                                    HttpRequest request = HttpRequest.newBuilder()
+                                            .uri(URI.create(sSettings.serverBrowserBase + "/list"))
+                                            .version(HttpClient.Version.HTTP_1_1)
+                                            .GET()
+                                            .build();
+                                    HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+                                    String resp = response.body();
+                                    System.out.println("RESPONSE FROM FASTAPI SERVER: " + resp);
+                                    String[] serverToks = resp.split("}");
+                                    serverBrowserMenuLineToGuidMap = new HashMap<>();
+                                    String[] disp_servers = new String[]{
+                                            "null",
+                                            "null",
+                                            "null",
+                                            "null",
+                                            "null",
+                                            "null",
+                                            "null",
+                                            "null",
+                                    };
+
+                                    // BIG PARSE HERE
+                                    for (int ctr = 0; ctr < serverToks.length; ctr++) {
+                                        String tok = serverToks[ctr];
+                                        if(tok.startsWith("{"))
+                                            tok = tok.replaceFirst("\\{", "");
+                                        if(tok.startsWith(","))
+                                            tok = tok.replaceFirst(",", "");
+                                        tok += "}";
+
+                                        String[] serverGuidAndContents = tok.split(":", 2);
+                                        if(serverGuidAndContents.length < 2)
+                                            continue;
+                                        nState serverState = new nState(serverGuidAndContents[1].replace(":", "=").replace("\"", ""));
+                                        disp_servers[ctr] = String.format("%s (%s/%s)", serverState.get("name"), serverState.get("players"), serverState.get("playerlimit"));
+                                        serverBrowserMenuLineToGuidMap.put(Integer.toString(ctr), serverGuidAndContents[0]);
+                                    }
+                                    System.out.println(serverBrowserMenuLineToGuidMap);
+                                    // END BIG PARSE
+
+                                    uiMenus.menuSelection[uiMenus.MENU_SERVER_BROWSER].setMenuItemTexts(new String[]{
+                                            "Get List",
+                                            disp_servers[0],
+                                            disp_servers[1],
+                                            disp_servers[2],
+                                            disp_servers[3],
+                                            disp_servers[4],
+                                            disp_servers[5],
+                                            disp_servers[6],
+                                            disp_servers[7]
+                                    });
+                                }
+                                catch(Exception err) {
+                                    err.printStackTrace();
+                                    System.out.println("COULD NOT GET SERVER LIST");
+                                }
+                            }
+                        },
+                        new uiMenuItem("null"){
+                            public void doItem() {
+                                if(!this.text.equalsIgnoreCase("null"))
+                                    serverBrowserJoinGameDelegate("0");
+                            }
+                        },
+                        new uiMenuItem("null"){
+                            public void doItem() {
+                                if(!this.text.equalsIgnoreCase("null"))
+                                    serverBrowserJoinGameDelegate("1");
+                            }
+                        },
+                        new uiMenuItem("null"){
+                            public void doItem() {
+                                if(!this.text.equalsIgnoreCase("null"))
+                                    serverBrowserJoinGameDelegate("2");
+                            }
+                        },
+                        new uiMenuItem("null"){
+                            public void doItem() {
+                                if(!this.text.equalsIgnoreCase("null"))
+                                    serverBrowserJoinGameDelegate("3");
+                            }
+                        },
+                        new uiMenuItem("null"){
+                            public void doItem() {
+                                if(!this.text.equalsIgnoreCase("null"))
+                                    serverBrowserJoinGameDelegate("4");
+                            }
+                        },
+                        new uiMenuItem("null"){
+                            public void doItem() {
+                                if(!this.text.equalsIgnoreCase("null"))
+                                    serverBrowserJoinGameDelegate("5");
+                            }
+                        },
+                        new uiMenuItem("null"){
+                            public void doItem() {
+                                if(!this.text.equalsIgnoreCase("null"))
+                                    serverBrowserJoinGameDelegate("6");
+                            }
+                        },
+                        new uiMenuItem("null"){
+                            public void doItem() {
+                                if(!this.text.equalsIgnoreCase("null"))
+                                    serverBrowserJoinGameDelegate("7");
+                            }
+                        },
                 },
-                new uiMenuItem(eUtils.getTimeString((long) 120000)){
-                    public void doItem() {
-                        sSettings.serverTimeLimit = 120000;
-                        menuSelection[MENU_NEWGAME].refresh();
-                        selectedMenu = MENU_NEWGAME;
-                    }
-                },
-                new uiMenuItem(eUtils.getTimeString((long) 180000)){
-                    public void doItem() {
-                        sSettings.serverTimeLimit = 180000;
-                        menuSelection[MENU_NEWGAME].refresh();
-                        selectedMenu = MENU_NEWGAME;
-                    }
-                },
-                new uiMenuItem(eUtils.getTimeString((long) 240000)){
-                    public void doItem() {
-                        sSettings.serverTimeLimit = 240000;
-                        menuSelection[MENU_NEWGAME].refresh();
-                        selectedMenu = MENU_NEWGAME;
-                    }
-                },
-                new uiMenuItem(eUtils.getTimeString((long) 300000)){
-                    public void doItem() {
-                        sSettings.serverTimeLimit = 300000;
-                        menuSelection[MENU_NEWGAME].refresh();
-                        selectedMenu = MENU_NEWGAME;
-                    }
-                }
-        }, MENU_NEWGAME)
+                MENU_MAIN
+        ),
     };
+
+    private static void serverBrowserJoinGameDelegate(String menuIndex) {
+        try (HttpClient client = HttpClient.newHttpClient()) {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(String.format(sSettings.serverBrowserBase + "/getip?guid=%s",
+                            serverBrowserMenuLineToGuidMap.get(menuIndex).replace("\"", ""))))
+                    .version(HttpClient.Version.HTTP_1_1)
+                    .GET()
+                    .build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            String gotIp = response.body();
+            xMain.shellLogic.console.ex(String.format("joingame %s;pause", gotIp));
+            selectedMenu = MENU_MAIN;
+        }
+        catch(Exception err) {
+            err.printStackTrace();
+        }
+    }
 
     private static uiMenuItem[] getBotMenuItems() {
         uiMenuItem[] menuItems = new uiMenuItem[sSettings.botCountMax + 1];

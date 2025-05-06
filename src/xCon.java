@@ -1,5 +1,7 @@
 import java.awt.*;
 import java.io.*;
+import java.net.*;
+import java.net.http.*;
 import java.nio.charset.StandardCharsets;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -208,6 +210,30 @@ public class xCon {
                             public void doCommand() {
                                 if (sSettings.serverTimeLimit > 0)
                                     sSettings.serverTimeLeft =  Math.max(0, (starttime + sSettings.serverTimeLimit) - lastT);
+                            }
+                        });
+                    }
+                    //check in to api every 15 seconds
+                    //TODO: this causes the server to crash above 240hz
+                    for (long t = starttime + 1000; t <= starttime + sSettings.serverTimeLimit; t += sSettings.serverCheckinInterval) {
+                        xMain.shellLogic.serverNetThread.scheduledEvents.put(Long.toString(t), new gDoable() {
+                            public void doCommand() {
+                                try (HttpClient client = HttpClient.newHttpClient()) {
+                                    HttpRequest request = HttpRequest.newBuilder()
+                                            .uri(URI.create(String.format(sSettings.serverBrowserBase + "/updateme?name=%s&players=%d&playerlimit=%d",
+                                                    sSettings.serverName,
+                                                    new nStateMap(xMain.shellLogic.serverNetThread.masterStateSnapshot).keys().size(),
+                                                    16
+                                            )))
+                                            .version(HttpClient.Version.HTTP_1_1)
+                                            .GET()
+                                            .build();
+                                    HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+                                    System.out.println("RESPONSE FROM SERVER: " + response);
+                                }
+                                catch(Exception err) {
+                                    err.printStackTrace();
+                                }
                             }
                         });
                     }
@@ -876,10 +902,16 @@ public class xCon {
         });
         commands.put("joingame", new gDoable() {
             public String doCommand(String fullCommand) {
+                String[] toks = fullCommand.split(" ");
+                String joinip = "localhost";
+                if(toks.length > 1)
+                    joinip = toks[1];
                 xMain.shellLogic.clientNetThread = new eGameLogicClient();
+                xMain.shellLogic.clientNetThread.gameIP = joinip;
+//                System.out.println("CONNECTING TO SERVER: " + joinip);
                 new eGameSession(xMain.shellLogic.clientNetThread, sSettings.rateclient);
                 sSettings.IS_CLIENT = true;
-                return "joined game";
+                return "CONNECTED TO SERVER";
             }
         });
         commands.put("load", new gDoable() {
@@ -1719,6 +1751,7 @@ public class xCon {
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
         e.printStackTrace(pw);
+        e.printStackTrace();
         String sStackTrace = sw.toString(); // stack trace as a string
         debug(sStackTrace);
         ex("echo " + sStackTrace.split("\\n")[0]);

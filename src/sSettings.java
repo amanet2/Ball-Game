@@ -16,6 +16,9 @@ public class sSettings {
 	static int[] framerates = {30, 60, 75, 120, 240, 360, 540, 1000};
 	public static String[] object_titles;
 	public static String[] prefab_titles;
+//	public static String serverBrowserBase = "http://localhost:8000"; // LOCAL
+	public static String serverBrowserBase = "https://ballbrowser-0-100078463474.us-central1.run.app"; // PROD
+//	public static String serverBrowserBase = "https://ballbrowser-0-842704188107.us-central1.run.app"; // DEV
 
 	// vfx
 	static int gamescale = 2160;
@@ -46,6 +49,7 @@ public class sSettings {
 	static int rateclient = 30; //client net rate to request update from server
 	static int rateShell = 1000; //desktop window rate like input, visual update
 	static int serverNetCmdBatchSize = 5;
+	static int serverCheckinInterval = 15000;
 
 	// server
 	static int serverTimeLimit = 180000;
@@ -60,6 +64,7 @@ public class sSettings {
 	static int serverMaxHP = 500;
 	static int serverVelocityPlayerBase = 16;
 	static boolean respawnEnabled = true;
+	static String serverName = "ballgame";
 	static int botThinkTimeDelay = 150;
 	static int botShootRange = 1200;
 	static int botCount = 0;
@@ -112,7 +117,7 @@ public class sSettings {
     static boolean showscale = false;
 	static int screenMessageFadeTime = 10000;
 	static String[] clientGameThemes = {"forest"};
-	static boolean powerSave = true;
+	static boolean powerSave = false;
 	static boolean culling = true;
 	static boolean allowZoom = false;
 }

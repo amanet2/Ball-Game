@@ -149,9 +149,22 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 sSettings.respawnEnabled = value.equalsIgnoreCase("true") || value.equals("1");
             }
         });
+        serverVars.putArg(new gArg("servername", "ballgame") {
+            public void onChange() {
+                sSettings.serverName = value;
+            }
+        });
         serverVars.loadFromFile(sSettings.CONFIG_FILE_LOCATION_SERVER);
         serverVars.loadFromLaunchArgs(xMain.launchArgs);
 
+
+        /*
+        *
+        *
+        * CLIENT VARS BELOW
+        *
+        *
+        * */
         //init client vars
         clientVars.putArg(new gArg("width", "1920") {
             public void onChange() {
@@ -198,7 +211,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
             public void onChange() {
                 sSettings.show_mapmaker_ui = Integer.parseInt(value) > 0;
                 if(sSettings.show_mapmaker_ui) {
-                    sSettings.culling = false;
+                    sSettings.culling = false;  // TODO: find out if mapmaker can handle culling while zoomed out
                     sSettings.allowZoom = true;
                 }
             }
@@ -722,7 +735,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
             }
             else if (uiMenus.selectedMenu != uiMenus.MENU_CONTROLS) {
                 for (int i = 0; i < uiMenus.menuSelection[uiMenus.selectedMenu].items.length; i++) {
-                    if(uiMenus.selectedMenu == uiMenus.MENU_MAIN && !sSettings.IS_CLIENT && i == 2)
+                    if(uiMenus.selectedMenu == uiMenus.MENU_MAIN && !sSettings.IS_CLIENT && i == 3) //grey out disconnect
                         continue;
                     xBounds = new int[]{sSettings.width / 2 - sSettings.width / 8,
                             sSettings.width / 2 + sSettings.width / 8};

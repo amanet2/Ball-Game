@@ -2,7 +2,7 @@ set home_dir=C:\Code\Ball-Game
 set manifest_path=%home_dir%\debug\MANIFEST.MF
 set tmp_dir=%home_dir%\tmp
 set java_src=%home_dir%\src\*.java
-set java_bin=%home_dir%\runtime\jdk-23\bin
+set java_bin=%home_dir%\runtime\jdk-23.0.2\bin
 set jar_path=%home_dir%\pkg\BALL_GAME.jar
 
 REM clean up any existing files
