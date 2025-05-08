@@ -34,11 +34,18 @@ $gcc_exe -o $game_editor_exe $game_editor_c
 
 # copy files to output dir
 mkdir $out_dir
-for FOLDER in $java_dir $pkg_dir; do cp -r $FOLDER $out_dir; done # TODO: this corrupts java somehow
+for FOLDER in $java_dir $pkg_dir; do cp -r $FOLDER $out_dir; done # this corrupts java somehow
 for FILE in $readme_path $game_exe $game_editor_exe; do cp $FILE $out_dir; done
 
+# avoid stupid ass yOuR dAmGd message
+xattr -d com.apple.quarantine $out_dir/runtime/jdk-23.0.2.jdk
+
 # zip up finished output
-zip -qqr $out_zip $out_dir
+# MACS FUCKING SUCK
+cd $out_dir
+cd ..
+zip -qqr $out_zip pkg_ballmaster_mac
+cd $(dirname "$0")
 
 # clean up temp files
 for FOLDER in $out_dir $tmp_dir; do rm -rf $FOLDER; done
