@@ -123,7 +123,9 @@ public class uiEditorMenus {
             createNewMenu(t);
         }
         JMenuItem newtopmap = addMenuItem("File", "New");
+        JMenuItem newTopmapOffline = addMenuItem("File", "New (offline)");
         JMenuItem open = addMenuItem("File", "Open");
+        JMenuItem openOffline = addMenuItem("File", "Open (offline)");
         JMenuItem saveas = addMenuItem("File", "Save As...");
         JMenuItem saveprefab = addMenuItem("File", "Save As Prefab...");
         saveas.setEnabled(false);
@@ -168,6 +170,26 @@ public class uiEditorMenus {
             }
         });
 
+        newTopmapOffline.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if(!sSettings.clientMapLoaded || xMain.shellLogic.console.ex("e_showlossalert").equals("0"))
+                    delegate();
+                saveas.setEnabled(true);
+                saveprefab.setEnabled(true);
+            }
+
+            private void delegate() {
+                if(!sSettings.IS_SERVER) {
+                    sSettings.IS_HOSTING_OFFLINE = true;
+                    xMain.shellLogic.console.ex("startserver");
+                    xMain.shellLogic.console.ex("load");
+                    xMain.shellLogic.console.ex("joingame localhost " + sSettings.serverListenPort);
+                }
+                else
+                    xMain.shellLogic.console.ex("e_newmap");
+            }
+        });
+
         join.addActionListener(e -> {
             xMain.shellLogic.console.ex("joingame");
             newtopmap.setEnabled(false);
@@ -183,6 +205,13 @@ public class uiEditorMenus {
         playerName.addActionListener(e -> xMain.shellLogic.console.ex("e_changeplayername"));
 
         open.addActionListener(e -> {
+            xMain.shellLogic.console.ex("e_openfile");
+            saveas.setEnabled(true);
+            saveprefab.setEnabled(true);
+        });
+
+        openOffline.addActionListener(e -> {
+            sSettings.IS_HOSTING_OFFLINE = true;
             xMain.shellLogic.console.ex("e_openfile");
             saveas.setEnabled(true);
             saveprefab.setEnabled(true);
