@@ -11,6 +11,7 @@ public class sSettings {
 	public static boolean show_mapmaker_ui = false;
 	static boolean IS_SERVER = false;
 	static boolean IS_CLIENT = false;
+	static boolean IS_HOSTING_OFFLINE = false;
 	static String[] colorSelection = {"blue", "green", "orange", "pink", "purple", "red", "teal", "yellow"};
 	static String[] resolutions = {"640x480", "800x600", "1024x768", "1280x720", "1600x900", "1920x1080", "2560x1440", "3840x2160"};
 	static int[] framerates = {30, 60, 75, 120, 240, 360, 540, 1000};

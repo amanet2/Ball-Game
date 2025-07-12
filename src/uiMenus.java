@@ -195,6 +195,14 @@ public class uiMenus {
                 new uiMenuItem[]{
                         new uiMenuItem("-Start-"){
                             public void doItem() {
+                                sSettings.IS_HOSTING_OFFLINE = false;
+                                xMain.shellLogic.console.ex("hostgame");
+                                selectedMenu = MENU_MAIN;
+                            }
+                        },
+                        new uiMenuItem("-Start (offline)-"){
+                            public void doItem() {
+                                sSettings.IS_HOSTING_OFFLINE = true;
                                 xMain.shellLogic.console.ex("hostgame");
                                 selectedMenu = MENU_MAIN;
                             }
@@ -220,6 +228,7 @@ public class uiMenus {
             public void refresh() {
                 setMenuItemTexts(new String[]{
                         "-Start-",
+                        "-Start (offline)-",
                         String.format("Bots [%d]", sSettings.botCount),
                         String.format("Map [%s]", eManager.mapSelectionIndex < 0 ? "random"
                                 : eManager.mapsFileSelection[eManager.mapSelectionIndex]),

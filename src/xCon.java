@@ -209,33 +209,34 @@ public class xCon {
                         xMain.shellLogic.serverNetThread.scheduledEvents.put(Long.toString(t), new gDoable() {
                             public void doCommand() {
                                 if (sSettings.serverTimeLimit > 0)
-                                    sSettings.serverTimeLeft =  Math.max(0, (starttime + sSettings.serverTimeLimit) - lastT);
+                                    sSettings.serverTimeLeft = Math.max(0, (starttime + sSettings.serverTimeLimit) - lastT);
                             }
                         });
                     }
                     //check in to api every 15 seconds
                     //TODO: this causes the server to crash above 240hz
-                    for (long t = starttime + 1000; t <= starttime + sSettings.serverTimeLimit; t += sSettings.serverCheckinInterval) {
-                        xMain.shellLogic.serverNetThread.scheduledEvents.put(Long.toString(t), new gDoable() {
-                            public void doCommand() {
-                                try (HttpClient client = HttpClient.newHttpClient()) {
-                                    HttpRequest request = HttpRequest.newBuilder()
-                                            .uri(URI.create(String.format(sSettings.serverBrowserBase + "/updateme?name=%s&players=%d&playerlimit=%d",
-                                                    sSettings.serverName,
-                                                    new nStateMap(xMain.shellLogic.serverNetThread.masterStateSnapshot).keys().size(),
-                                                    16
-                                            )))
-                                            .version(HttpClient.Version.HTTP_1_1)
-                                            .GET()
-                                            .build();
-                                    HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-                                    System.out.println("RESPONSE FROM SERVER: " + response);
+                    if(!sSettings.IS_HOSTING_OFFLINE) {
+                        for (long t = starttime + 1000; t <= starttime + sSettings.serverTimeLimit; t += sSettings.serverCheckinInterval) {
+                            xMain.shellLogic.serverNetThread.scheduledEvents.put(Long.toString(t), new gDoable() {
+                                public void doCommand() {
+                                    try (HttpClient client = HttpClient.newHttpClient()) {
+                                        HttpRequest request = HttpRequest.newBuilder()
+                                                .uri(URI.create(String.format(sSettings.serverBrowserBase + "/updateme?name=%s&players=%d&playerlimit=%d",
+                                                        sSettings.serverName,
+                                                        new nStateMap(xMain.shellLogic.serverNetThread.masterStateSnapshot).keys().size(),
+                                                        16
+                                                )))
+                                                .version(HttpClient.Version.HTTP_1_1)
+                                                .GET()
+                                                .build();
+                                        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+                                        System.out.println("RESPONSE FROM SERVER: " + response);
+                                    } catch (Exception err) {
+                                        err.printStackTrace();
+                                    }
                                 }
-                                catch(Exception err) {
-                                    err.printStackTrace();
-                                }
-                            }
-                        });
+                            });
+                        }
                     }
                     xMain.shellLogic.serverNetThread.scheduledEvents.put(Long.toString(starttime + sSettings.serverTimeLimit), new gDoable() {
                         public void doCommand() {
