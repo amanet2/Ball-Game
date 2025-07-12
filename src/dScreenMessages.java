@@ -295,7 +295,7 @@ public class dScreenMessages {
                     xMain.shellLogic.frame.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             }
             else {
-                if(uiMenus.selectedMenu == uiMenus.MENU_MAIN && !sSettings.IS_CLIENT && ctr == 2)
+                if(uiMenus.selectedMenu == uiMenus.MENU_MAIN && !sSettings.IS_CLIENT && ctr == 3) //grey out disconnect
                     g.setColor(Color.GRAY);
                 dFonts.drawCenteredString(g, i.text, alignX,12*sSettings.height/30+ctr*sSettings.height/30);
                 dFonts.setFontColor(g, "clrf_normal");

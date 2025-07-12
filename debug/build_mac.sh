@@ -2,7 +2,7 @@ home_dir=~/Code/Ball-Game
 manifest_path=$home_dir/debug/MANIFEST.MF
 tmp_dir=$home_dir/tmp
 java_src=$home_dir/src/
-java_bin=$home_dir/runtime/jdk-18.jdk/Contents/Home/bin
+java_bin=$home_dir/runtime/jdk-23.0.2.jdk/Contents/Home/bin
 jar_path=$home_dir/pkg/BALL_GAME.jar
 
 # clean up existing files

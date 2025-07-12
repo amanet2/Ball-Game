@@ -1,2 +1,0 @@
-* FREEZING: major hitches randomly during gameplay
-    -> THEORY: thread-safe data structures holding things up?
